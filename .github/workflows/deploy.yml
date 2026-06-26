@@ -29,27 +29,22 @@ jobs:
           node-version: '20'
 
       - name: Validate control schemas
-        working-directory: modelverifier.ai
         run: npm run validate
 
       - name: Audit framework mappings
-        working-directory: modelverifier.ai
         run: npm run audit:mappings
 
       - name: Check source freshness
-        working-directory: modelverifier.ai
         run: npm run check:freshness
         continue-on-error: ${{ github.event_name == 'pull_request' }}
 
       - name: Build (integration bundle + copy into public/)
-        working-directory: modelverifier.ai
         run: npm run build
         env:
           COMMIT_SHA: ${{ github.sha }}
           BUILD_DATE: ${{ github.event.head_commit.timestamp }}
 
       - name: Sign release manifest
-        working-directory: modelverifier.ai
         run: npm run sign:release-manifest
         env:
           MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
@@ -59,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: modelverifier-site
-          path: modelverifier.ai/public/
+          path: public/
           retention-days: 7
 
   deploy-production:
@@ -83,7 +78,6 @@ jobs:
           node-version: '20'
 
       - name: Build (integration bundle + copy into public/)
-        working-directory: modelverifier.ai
         run: npm run build
         env:
           COMMIT_SHA: ${{ github.sha }}
@@ -91,7 +85,6 @@ jobs:
           NODE_ENV: production
 
       - name: Sign release manifest (production)
-        working-directory: modelverifier.ai
         run: npm run sign:release-manifest
         env:
           MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
@@ -103,7 +96,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: modelverifier-ai
-          directory: modelverifier.ai/public
+          directory: public
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-preview:
@@ -126,7 +119,6 @@ jobs:
           node-version: '20'
 
       - name: Build (integration bundle + copy into public/)
-        working-directory: modelverifier.ai
         run: npm run build
         env:
           COMMIT_SHA: ${{ github.sha }}
@@ -139,6 +131,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: modelverifier-ai
-          directory: modelverifier.ai/public
+          directory: public
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.head_ref }}
