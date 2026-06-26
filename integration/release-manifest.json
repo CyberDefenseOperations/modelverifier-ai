@@ -1,0 +1,20 @@
+{
+  "manifest_version": "1.0.0",
+  "domain": "model",
+  "dataset_version": "1.0.0",
+  "generated_at": "2026-06-26T21:37:51.336Z",
+  "artifacts": [
+    {
+      "filename": "model-controls-full.json",
+      "url": "https://modelverifier.ai/integration/model-controls-full.json",
+      "content_hash": "sha256:b25c223b10e7d254fe992733544c3cd3d9ba8c0b2a2c39bfb90184bf022d7175",
+      "content_length_hint": 1112992,
+      "encoding": "utf-8",
+      "media_type": "application/json"
+    }
+  ],
+  "signing_note": "Production releases are signed with the Apeiris release key. Verify the signature at https://modelverifier.ai/integration/release-manifest.json.sig using the public key published at https://modelverifier.ai/.well-known/apeiris-release.pub",
+  "warnings": [
+    "OA-06: no iso_42001 framework mapping"
+  ]
+}

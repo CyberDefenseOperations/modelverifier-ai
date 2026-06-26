@@ -1,0 +1,62 @@
+Creative Commons Attribution-NonCommercial 4.0 International
+
+modelverifier.ai — AI Model & System Assurance Control Matrix
+Copyright 2026 Apeiris
+
+This work is licensed under the Creative Commons Attribution-NonCommercial
+4.0 International License (CC BY-NC 4.0).
+
+You are free to:
+  Share — copy and redistribute the material in any medium or format
+  Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+  Attribution — You must give appropriate credit, provide a link to the
+    license, and indicate if changes were made. You may do so in any
+    reasonable manner, but not in any way that suggests the licensor
+    endorses you or your use.
+
+    Cite as: "AI Model & System Assurance Control Matrix, Apeiris
+    (modelverifier.ai), version 1.0.0."
+
+  NonCommercial — You may not use the material for commercial purposes.
+    Commercial use — including embedding the matrix in commercial products,
+    SaaS platforms, or professional services — requires a RiskOne commercial
+    license. Contact licensing@apeiris.io.
+
+No additional restrictions — You may not apply legal terms or technological
+measures that legally restrict others from doing anything the license permits.
+
+Full license text: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+---
+
+THIRD-PARTY LICENSES AND LICENSE COMPATIBILITY NOTES:
+
+This matrix contains mappings to and rationale about the following
+third-party frameworks. The following notes apply:
+
+OWASP AISVS v1.0 (CC BY-SA 4.0):
+  Requirement text is NOT reproduced in this corpus. Mappings reference
+  AISVS by requirement_id (e.g., C1.1) and independently authored rationale
+  only. No CC BY-SA 4.0 content is incorporated as a derivative work.
+
+OWASP LLM Top 10 2025 (CC BY-SA 4.0):
+  Referenced by entry identifier (e.g., LLM03:2025) and independently
+  authored rationale only. No requirement text reproduced.
+
+CSA AI Controls Matrix v1.0.3 (CC BY-SA 4.0):
+  Referenced by control identifier (e.g., MG-01) and independently authored
+  rationale only. No requirement text reproduced.
+
+MITRE ATLAS v5.6.0 (Apache 2.0):
+  Technique identifiers (AML.T####) and technique names are referenced.
+  Apache 2.0 is compatible with CC BY-NC 4.0 for reference use.
+
+NIST AI RMF, EU AI Act, SR 26-2 (public domain / government publications):
+  Referenced by identifier and independently authored rationale.
+  No verbatim reproduction of requirement text.
+
+ISO/IEC 42001:2023 (proprietary, paid):
+  Referenced by clause identifier only. No requirement text is reproduced.
+  Implementers must obtain the standard from ISO directly.

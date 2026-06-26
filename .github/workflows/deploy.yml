@@ -1,0 +1,153 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-build:
+    name: Validate, Audit, and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate control schemas
+        working-directory: modelverifier.ai
+        run: npm run validate
+
+      - name: Audit framework mappings
+        working-directory: modelverifier.ai
+        run: npm run audit:mappings
+
+      - name: Check source freshness
+        working-directory: modelverifier.ai
+        run: npm run check:freshness
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+
+      - name: Build integration bundle
+        working-directory: modelverifier.ai
+        run: npm run build:integration
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+
+      - name: Sign release manifest
+        working-directory: modelverifier.ai
+        run: npm run sign:release-manifest
+        env:
+          MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
+          MANIFEST_REF_DATE: ${{ github.event.head_commit.timestamp }}
+
+      - name: Copy integration into public for deployment
+        run: cp -r modelverifier.ai/integration modelverifier.ai/public/integration
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: modelverifier-site
+          path: modelverifier.ai/public/
+          retention-days: 7
+
+  deploy-production:
+    name: Deploy to Cloudflare Pages (Production)
+    runs-on: ubuntu-latest
+    needs: validate-and-build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://modelverifier.ai
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build integration bundle (production)
+        working-directory: modelverifier.ai
+        run: npm run build:integration
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+          NODE_ENV: production
+
+      - name: Sign release manifest (production)
+        working-directory: modelverifier.ai
+        run: npm run sign:release-manifest
+        env:
+          MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
+          MANIFEST_REF_DATE: ${{ github.event.head_commit.timestamp }}
+
+      - name: Copy integration into public for deployment
+        run: cp -r modelverifier.ai/integration modelverifier.ai/public/integration
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: modelverifier-ai
+          directory: modelverifier.ai/public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-preview:
+    name: Deploy Preview (Pull Request)
+    runs-on: ubuntu-latest
+    needs: validate-and-build
+    if: github.event_name == 'pull_request'
+    environment:
+      name: preview
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build integration bundle (preview)
+        working-directory: modelverifier.ai
+        run: npm run build:integration
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          BUILD_DATE: ${{ github.event.pull_request.updated_at }}
+          NODE_ENV: preview
+
+      - name: Copy integration into public for deployment
+        run: cp -r modelverifier.ai/integration modelverifier.ai/public/integration
+
+      - name: Publish preview to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: modelverifier-ai
+          directory: modelverifier.ai/public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}

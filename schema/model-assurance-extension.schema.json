@@ -1,0 +1,654 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.apeiris.io/model-assurance/v1/model-assurance-extension.schema.json",
+  "title": "Model Assurance Extension Schema",
+  "description": "Domain-specific extension for the Apeiris AI Model & System Assurance Control Matrix (modelverifier.ai). Adds model-assurance fields to the vocabulary established by control-core.schema.json. The extension does NOT re-declare core fields — it adds the two model-specific root-level objects (monitoring_schema, capability_risk) and refines inherited fields via model-controls.schema.json's combined schema. Consumed by model-controls.schema.json via explicit property composition rather than allOf (required because control-core.schema.json uses additionalProperties: false at the root, which is incompatible with additive allOf extension in JSON Schema draft-07). Alignment note: core uses 'name' (not 'title'), 'plain' (not 'description'), 'frameworks[]' array (not 'mappings' object), 'tiers[]' for profile membership, 'status_fields' nested object, 'implementation' block, and 'maturity' object.",
+  "type": "object",
+  "definitions": {
+    "model_lens_set": {
+      "description": "Model-assurance persona lens key set. The five canonical lens keys for this domain are: engineering, evaluation, red_team, grc, mlops. These override the generic key vocabulary from control-core.schema.json for this domain. The core's lenses object accepts any key matching ^[a-z][a-z0-9_]{0,63}$; model-controls.schema.json adds a required constraint for exactly these five keys.",
+      "required_keys": ["engineering", "evaluation", "red_team", "grc", "mlops"],
+      "key_definitions": {
+        "engineering": "ML engineers, system architects, and platform engineers who build and maintain the model system. Focuses on implementation, tooling, dependency management, artifact provenance, and CI/CD pipeline integrity.",
+        "evaluation": "Independent model evaluators, validators, and benchmark designers who assess model fitness, safety, and behavioral conformance. Distinct from the development team — independence is a design requirement, not a preference.",
+        "red_team": "Adversarial testers who probe failure modes, attack surfaces, dangerous capability elicitation, policy bypass, and harmful output generation. Includes both structured elicitation and unstructured creative attacks.",
+        "grc": "Governance, risk, and compliance officers who map controls to regulatory obligations, satisfy auditor expectations, interpret legal exposure, and communicate posture to board-level stakeholders.",
+        "mlops": "ML operations engineers who manage the deployment pipeline, production monitoring, retraining triggers, rollback procedures, and coordination with SecOps (SIEM/SOAR) for model-behavioral incidents. Note: MLOps owns behavior-state changes; securitycontrols.ai Security domain owns runtime enforcement, attack detection, and tool/action authorization."
+      }
+    },
+    "metric_object": {
+      "type": "object",
+      "description": "A single structured monitoring metric. Each metric is independently evaluated by the Apeiris Model Verifier against a threshold over a defined window. Designed to be machine-executable rather than log-centric. Actions and fallback encode the full response protocol so the verifier can drive automated remediation.",
+      "required": ["metric_id", "metric_type", "measure", "population", "comparison", "severity"],
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "type": "string",
+          "description": "Unique identifier within this control's monitoring_schema. Lowercase, hyphenated.",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,62}[a-z0-9]$"
+        },
+        "metric_type": {
+          "type": "string",
+          "description": "performance: accuracy, F1, BLEU, NDCG, task-specific metrics. drift: distribution shift, PSI, Jensen-Shannon divergence, covariate shift. fairness: demographic parity, equalized odds, calibration gap, disparate impact ratio. safety: refusal rate, policy violation rate, dangerous output rate, hallucination rate. cost: token cost, inference latency, query rate, resource utilization.",
+          "enum": ["performance", "drift", "fairness", "safety", "cost"]
+        },
+        "measure": {
+          "type": "string",
+          "description": "The specific measurement expression. Use canonical ML metric names: 'f1-score', 'accuracy', 'precision', 'recall', 'auc-roc', 'bleu', 'rouge-l', 'ndcg', 'jensen-shannon-divergence', 'population-stability-index', 'demographic-parity-difference', 'equalized-odds-difference', 'refusal-rate', 'p95-latency-ms', 'cost-per-1k-tokens'.",
+          "minLength": 2
+        },
+        "population": {
+          "type": "string",
+          "description": "Dataset or inference population this metric is evaluated over. E.g. 'all-production-scored-cases', 'approved-loan-applications-last-30d', 'us-region-api-requests'.",
+          "minLength": 2
+        },
+        "segments": {
+          "type": "array",
+          "description": "Population slices for disaggregated metric evaluation. Required for fairness metrics. E.g. ['region', 'customer-segment', 'age-band', 'protected-class-proxy']. For protected attributes: ensure TG-06 controlled-use governance is in place before disaggregating on sensitive dimensions.",
+          "items": { "type": "string" }
+        },
+        "baseline_ref": {
+          "type": "string",
+          "description": "Identifier for the baseline measurement against which this metric is compared. E.g. an eval-run ID, release tag, checkpoint hash, or ISO 8601 date. Must be reproducible and immutable.",
+          "minLength": 2
+        },
+        "comparison": {
+          "type": "object",
+          "description": "Threshold and evaluation mode. The comparison evaluates to true (alert/action condition) when the metric value meets the operator-value relationship.",
+          "required": ["operator", "value", "window", "evaluation_mode"],
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "type": "string",
+              "enum": [
+                "lt",
+                "lte",
+                "gt",
+                "gte",
+                "eq",
+                "neq",
+                "decrease-greater-than",
+                "increase-greater-than",
+                "outside-range",
+                "exceeds-absolute-difference"
+              ],
+              "description": "lt/lte/gt/gte/eq/neq: direct comparison. decrease-greater-than: metric has dropped by more than value (relative to baseline). increase-greater-than: metric has risen by more than value. outside-range: metric is outside [value.min, value.max]. exceeds-absolute-difference: absolute delta from baseline exceeds value."
+            },
+            "value": {
+              "description": "Threshold. Number for scalar comparisons. Object {min, max} for outside-range. String for categorical comparisons.",
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                {
+                  "type": "object",
+                  "required": ["min", "max"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "min": { "type": "number" },
+                    "max": { "type": "number" }
+                  }
+                }
+              ]
+            },
+            "window": {
+              "type": "string",
+              "description": "Evaluation time window. ISO 8601 duration or descriptive label. Statistical drift metrics (Jensen-Shannon, PSI) require a minimum window for validity — do not use 'per-request' for these.",
+              "examples": ["P1D", "P7D", "P30D", "rolling-24h", "rolling-7d", "batch-monthly", "per-release", "event-triggered"]
+            },
+            "evaluation_mode": {
+              "type": "string",
+              "enum": ["real-time", "batch"],
+              "description": "real-time: evaluated on each inference or continuously on a rolling window. batch: evaluated on a scheduled batch or event-triggered snapshot."
+            }
+          }
+        },
+        "minimum_sample_size": {
+          "type": "integer",
+          "description": "Minimum number of inferences or data points for a statistically valid evaluation. Prevents spurious alerts from small samples. Required for drift and fairness metrics.",
+          "minimum": 1
+        },
+        "confidence_level": {
+          "type": "number",
+          "description": "Required statistical confidence level, 0.0–1.0. E.g. 0.95 for 95% confidence. Especially important for fairness metrics where small segment sample sizes can produce unstable estimates.",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "warning", "critical"],
+          "description": "info: logged, no required action. warning: investigation required, owner notified. critical: mandatory actions triggered, may include model suspension."
+        },
+        "actions": {
+          "type": "array",
+          "description": "Ordered response actions when the comparison threshold is breached. For third-party or hosted APIs, 'trigger-retraining-pipeline' is not available — use provider-agnostic actions instead.",
+          "items": {
+            "type": "string",
+            "examples": [
+              "alert-model-owner",
+              "alert-mlops-team",
+              "increase-human-review-rate",
+              "engage-incident-response",
+              "suspend-model",
+              "activate-fallback-model",
+              "restrict-to-supervised-mode",
+              "disable-capability",
+              "escalate-to-secops",
+              "open-incident-ticket",
+              "trigger-retraining-pipeline",
+              "notify-affected-parties",
+              "accept-documented-exception",
+              "switch-provider",
+              "rollback-to-previous-version"
+            ]
+          }
+        },
+        "fallback": {
+          "type": "string",
+          "description": "Fallback state or system when the model is suspended or degraded. E.g. 'previous-approved-version', 'rules-based-fallback', 'provider-switch:vendor-b', 'human-review-queue', 'deny-by-default'. Must be operationally available — not just a policy commitment."
+        },
+        "evidence_retention": {
+          "type": "string",
+          "description": "Minimum retention period for metric evaluation results and supporting inference data. ISO 8601 duration or regulatory label. E.g. 'P7Y' (SR 26-2 expectation), 'P3Y', 'P1Y', 'P90D', 'indefinite'."
+        }
+      }
+    },
+    "monitoring_schema": {
+      "type": "object",
+      "description": "Structured monitoring specification. Replaces the log-centric detection_schema from the security domain. At least one metric is required. sampling_rate and window_context are required to support statistically valid drift and fairness metrics — omitting them makes the specification unexecutable for statistical methods like Jensen-Shannon divergence or PSI.",
+      "required": ["metrics", "sampling_rate", "window_context"],
+      "additionalProperties": false,
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "description": "One or more structured metric definitions evaluated independently.",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/metric_object" }
+        },
+        "sampling_rate": {
+          "type": "string",
+          "description": "'all' = every inference included. Fraction, ratio, or stratified sampling for large-scale deployments. The rate must be sufficient to achieve the minimum_sample_size required by each metric within the configured window.",
+          "examples": ["all", "10%", "1:100", "stratified:1000/day", "systematic:every-100th"]
+        },
+        "window_context": {
+          "type": "string",
+          "description": "Default evaluation window applied to metrics that do not specify their own comparison.window. ISO 8601 duration or descriptive label. Statistical drift metrics require at minimum P7D in most production contexts.",
+          "examples": ["P7D", "P30D", "rolling-24h", "rolling-7d", "batch-monthly", "per-release"]
+        }
+      }
+    },
+    "capability_risk": {
+      "type": "object",
+      "description": "Multidimensional capability risk object. capability_level is the summary classification used by profile triggers; the other fields provide the dimensional evidence for how that level was determined. Separates five distinct risk drivers that must not be conflated: model capability, use-case consequence, agent autonomy, deployment scale, and irreversibility. capability_level is derived from these dimensions for display but stored explicitly because derivation rules may change across RSP/FSF versions.",
+      "required": ["capability_level"],
+      "additionalProperties": false,
+      "properties": {
+        "capability_domains": {
+          "type": "array",
+          "description": "Functional domains where the model has demonstrated or potentially concerning capability above the general-purpose baseline. Empty array means no elevated capability domain identified during EV-03 assessment.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "cyber",
+              "bio",
+              "chemical",
+              "nuclear-radiological",
+              "autonomous-ai-rd",
+              "persuasion-manipulation",
+              "self-proliferation",
+              "code-generation",
+              "reasoning",
+              "tool-use",
+              "multimodal",
+              "long-horizon-planning",
+              "knowledge-synthesis",
+              "social-engineering"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "capability_level": {
+          "type": "string",
+          "enum": ["none", "low", "elevated", "frontier"],
+          "description": "none: capability indistinguishable from widely available models; no elevated domains. low: above baseline but no threshold crossings that require enhanced evaluation. elevated: capability thresholds requiring enhanced evaluation and access controls — maps approximately to Anthropic ASL-2 or equivalent RSP/FSF level. frontier: state-of-the-art with potential for serious harm at scale — maps approximately to Anthropic ASL-3+ or equivalent. See frontier_framework_refs for citations."
+        },
+        "frontier_framework_refs": {
+          "type": "array",
+          "description": "Frontier safety framework versions against which capability_level was assessed. Cite specific versions — frameworks update on different cadences.",
+          "items": {
+            "type": "object",
+            "required": ["framework", "version", "assessed_on"],
+            "additionalProperties": false,
+            "properties": {
+              "framework": {
+                "type": "string",
+                "examples": ["Anthropic RSP", "Google DeepMind FSF", "OpenAI Preparedness Framework"]
+              },
+              "version": {
+                "type": "string",
+                "examples": ["v3.3", "v3.1", "v2"]
+              },
+              "assessed_on": {
+                "type": "string",
+                "format": "date"
+              },
+              "asl_level": {
+                "type": "string",
+                "description": "ASL or equivalent level designation from the framework.",
+                "examples": ["ASL-1", "ASL-2", "ASL-3", "ASL-4"]
+              }
+            }
+          }
+        },
+        "access_mode": {
+          "type": "string",
+          "enum": ["api", "embedded", "on-device", "agentic", "open-weight", "restricted-research"],
+          "description": "How the model is accessed in this deployment. agentic: model is granted tools, credentials, or the ability to take external actions — this access mode multiplies risk across all other dimensions."
+        },
+        "autonomy": {
+          "type": "string",
+          "enum": ["none", "supervised", "semi-autonomous", "autonomous"],
+          "description": "none: model produces outputs reviewed by a human before any action is taken. supervised: human has meaningful ability to intervene (time, information, authority, competence). semi-autonomous: human oversight present but limited in time or effective authority. autonomous: model takes actions without human review — triggers OA profile controls."
+        },
+        "external_reach": {
+          "type": "boolean",
+          "description": "Whether the model can reach external systems, networks, APIs, or the internet during inference. Combined with autonomy: autonomous and capability_level: elevated or higher, this is a critical risk multiplier."
+        },
+        "irreversibility": {
+          "type": "string",
+          "enum": ["reversible", "partially-reversible", "irreversible"],
+          "description": "reversible: all model-influenced actions can be undone with no lasting harm. partially-reversible: some actions persist (e.g., external messages sent) but core system state is recoverable. irreversible: model outputs or consequential actions cannot be recalled, corrected, or compensated."
+        },
+        "data_sensitivity": {
+          "type": "string",
+          "enum": ["public", "internal", "confidential", "restricted", "secret"],
+          "description": "Highest data sensitivity classification that the model processes in this deployment context."
+        },
+        "deployment_scale": {
+          "type": "string",
+          "enum": ["individual", "team", "enterprise", "public"],
+          "description": "Breadth of deployment. public: accessible to users outside the deploying organization — materially increases exposure surface and affected party count."
+        },
+        "affected_party_impact": {
+          "type": "string",
+          "enum": ["low", "moderate", "high", "critical"],
+          "description": "Potential severity of harm to individuals or groups affected by model outputs or decisions. high/critical triggers the high-impact-decision profile regardless of other trigger conditions. critical implies potential for irreversible serious harm (wrongful deprivation of liberty, denial of life-saving treatment, etc.)."
+        }
+      }
+    },
+    "obligation_object": {
+      "type": "object",
+      "description": "An executable regulatory or standards obligation. Conforms to applicability.schema.json. Provides a machine-evaluable applicability predicate the Apeiris runtime uses to determine whether the obligation applies to a specific assurance_target without requiring legal re-interpretation at runtime. Replaces the flat regulatory_scope string from prior schema generations. Critical design constraint: normative_force and legal_status must accurately reflect the source instrument — supervisory guidance (SR 26-2, OCC 2026-13) is NOT binding law and must not be classified as such.",
+      "required": [
+        "authority",
+        "instrument",
+        "provision",
+        "jurisdiction",
+        "normative_force",
+        "legal_status",
+        "source_ref",
+        "reviewed_on"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "type": "string",
+          "description": "Issuing body. E.g. 'European Union', 'Federal Reserve System', 'OCC', 'ISO/IEC JTC 1/SC 42', 'OWASP'."
+        },
+        "instrument": {
+          "type": "string",
+          "description": "Full instrument name. E.g. 'Regulation (EU) 2024/1689', 'SR 26-2', 'ISO/IEC 42001:2023', 'OCC Bulletin 2026-13'."
+        },
+        "provision": {
+          "type": "string",
+          "description": "Specific provision. E.g. 'Article 9', 'Section 3.2', 'Clause 6.1.2', 'Annex IV paragraph 2(b)', 'S-3.1'."
+        },
+        "jurisdiction": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "examples": [["eu"], ["us"], ["us-banking"], ["global"], ["eu", "uk"]]
+        },
+        "sector": {
+          "type": "array",
+          "items": { "type": "string" },
+          "examples": [["cross-sector"], ["banking", "financial-services"], ["healthcare"]]
+        },
+        "actor_roles": {
+          "type": "array",
+          "description": "Roles to which this obligation attaches. EU AI Act-aligned. A mapping to Art-9 may apply only to 'provider' — not to all actors using a model.",
+          "items": {
+            "type": "string",
+            "enum": ["provider", "deployer", "importer", "distributor", "user", "operator", "developer", "authorised-representative"]
+          }
+        },
+        "subject_types": {
+          "type": "array",
+          "items": { "type": "string" },
+          "examples": [["ai_system"], ["gpai_model"], ["high-risk-ai-system"], ["model"]]
+        },
+        "classification": {
+          "type": "array",
+          "description": "Risk classification scope, e.g. ['high-risk-annex-iii'] for Art-9 obligations.",
+          "items": { "type": "string" }
+        },
+        "normative_force": {
+          "type": "string",
+          "enum": ["binding-law", "regulation", "supervisory-guidance", "voluntary-standard", "certification-standard", "industry-framework", "best-practice"],
+          "description": "CRITICAL: 'supervisory-guidance' means noncompliance alone will not result in supervisory criticism absent unsafe practice. Never set OCC Bulletin 2026-13 or SR 26-2 to 'binding-law'."
+        },
+        "legal_status": {
+          "type": "string",
+          "enum": ["enacted", "pending-adoption", "proposed", "withdrawn", "not-applicable"],
+          "description": "enacted: currently in force. pending-adoption: approved by legislature but awaiting final publication. proposed: under development. EU AI Act high-risk provisions are 'enacted' but have future effective dates."
+        },
+        "effective_from": {
+          "type": "string",
+          "format": "date",
+          "description": "Date obligation becomes enforceable. May be future-dated. For EU AI Act standalone high-risk: 2027-12-02 (Parliament-approved, Council adoption pending as of 2026-06-26)."
+        },
+        "effective_until": {
+          "type": "string",
+          "format": "date"
+        },
+        "applicability": {
+          "type": "object",
+          "description": "Boolean predicate evaluated against the assurance_target at runtime. all: all must be true. any: at least one must be true. none: exclusion conditions.",
+          "additionalProperties": false,
+          "properties": {
+            "all": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/applicability_condition" }
+            },
+            "any": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/applicability_condition" }
+            },
+            "none": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/applicability_condition" }
+            }
+          }
+        },
+        "mapping_fit": {
+          "type": "string",
+          "enum": ["direct", "partial", "adjacent", "supporting"]
+        },
+        "source_ref": {
+          "type": "string",
+          "description": "ID matching the framework entry in framework-mapping-catalog.json."
+        },
+        "reviewed_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Caveats, pending legal developments, or interpretive notes on this obligation."
+        }
+      }
+    },
+    "applicability_condition": {
+      "type": "object",
+      "description": "A single boolean predicate evaluated against the assurance_target at runtime. Shared definition used in obligation.applicability and profile trigger_conditions.",
+      "required": ["field", "op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "JSONPath-style reference into the assurance_target or capability_risk object. E.g. 'capability_risk.capability_level', 'assurance_target.eu_ai_act_classification', 'assurance_target.asset_threshold_usd'."
+        },
+        "op": {
+          "type": "string",
+          "enum": ["eq", "neq", "in", "not-in", "contains", "contains-any", "contains-all", "gte", "lte", "gt", "lt", "exists", "eq-true", "eq-false"],
+          "description": "Comparison operator. contains: target field (array) contains the value. contains-any: target field (array) contains any element of value (array). gte/lte/gt/lt: numeric comparison."
+        },
+        "value": {
+          "description": "Comparison value. String, number, boolean, or array depending on the operator."
+        }
+      }
+    },
+    "assurance_target": {
+      "type": "object",
+      "description": "The composite object that Apeiris verifies. A model cannot be risk-classified independently of how it is deployed and used. The same model may be low-risk in internal summarization and high-risk in employment screening. assurance_target binds the model artifact to its use case, deployment context, and the affected parties, enabling correct profile assignment and obligation applicability evaluation.",
+      "required": ["use_case_id", "use_case"],
+      "additionalProperties": false,
+      "properties": {
+        "use_case_id": {
+          "type": "string",
+          "description": "Unique identifier for this use case instance in the organizational model inventory. Stable across model versions for the same use case."
+        },
+        "use_case": {
+          "type": "string",
+          "description": "Human-readable description of the intended use case and business outcome.",
+          "minLength": 10
+        },
+        "model_ids": {
+          "type": "array",
+          "description": "Model identifiers from the model registry. Supports ensembles and compound systems.",
+          "items": { "type": "string" }
+        },
+        "model_version": {
+          "type": "string",
+          "description": "Deployed model version, checkpoint, or commit hash."
+        },
+        "model_paradigm": {
+          "type": "string",
+          "enum": ["supervised", "unsupervised", "semi-supervised", "reinforcement-learning", "generative", "time-series", "tabular", "multimodal", "hybrid", "rules-ensemble"],
+          "description": "Primary ML paradigm. Used by general-predictive-ml and generative-ai profile triggers."
+        },
+        "provider": {
+          "type": "string"
+        },
+        "provider_type": {
+          "type": "string",
+          "enum": ["first-party", "third-party", "open-weight", "open-source", "hybrid"],
+          "description": "third-party and open-weight trigger the hosted-api profile and supply-chain controls."
+        },
+        "training_regime": {
+          "type": "array",
+          "description": "Training approaches applied. Presence of online-learning, rlhf, or continual-learning triggers the continuously-learning profile.",
+          "items": {
+            "type": "string",
+            "enum": ["supervised-learning", "unsupervised-learning", "rlhf", "online-learning", "continual-learning", "adaptive-fine-tuning", "prompt-tuning", "retrieval-augmented", "distillation", "pre-trained-frozen"]
+          }
+        },
+        "output_modalities": {
+          "type": "array",
+          "description": "Output types produced. Presence of any generative modality triggers the generative-ai profile.",
+          "items": {
+            "type": "string",
+            "enum": ["text", "code", "image", "audio", "video", "structured-data", "embeddings", "decision", "action"]
+          }
+        },
+        "data_sources": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "retrieval_sources": {
+          "type": "array",
+          "description": "RAG corpus or retrieval index identifiers used at inference time. Prompt changes and RAG corpus changes are material changes subject to CR-03.",
+          "items": { "type": "string" }
+        },
+        "prompt_system_config_ref": {
+          "type": "string",
+          "description": "Reference to the versioned system prompt configuration. Prompt changes are material changes."
+        },
+        "tool_integrations": {
+          "type": "array",
+          "description": "External tools, APIs, or systems the model can invoke. Non-empty list contributes to autonomy and capability_risk.access_mode: agentic assessment.",
+          "items": { "type": "string" }
+        },
+        "deployment_environment": {
+          "type": "string",
+          "enum": ["production", "staging", "sandbox", "research", "pilot"]
+        },
+        "human_oversight_mode": {
+          "type": "string",
+          "enum": ["full", "meaningful", "limited", "none"],
+          "description": "meaningful: human has time, information, authority, competence, and a genuine ability to override — not merely nominal presence. OA-02 evaluates oversight adequacy, not just presence."
+        },
+        "end_users": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "affected_parties": {
+          "type": "array",
+          "description": "Individuals or groups whose interests are materially affected by model outputs, even without direct interaction (e.g., loan applicants, job candidates).",
+          "items": { "type": "string" }
+        },
+        "jurisdiction": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "industry": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "eu_ai_act_classification": {
+          "type": "string",
+          "enum": [
+            "prohibited",
+            "high-risk-annex-iii",
+            "high-risk-product-embedded",
+            "gpai",
+            "gpai-systemic-risk",
+            "minimal-risk",
+            "excluded",
+            "not-yet-determined"
+          ],
+          "description": "EU AI Act risk classification. Derived from use case, jurisdiction, actor role, and effective dates — not an intrinsic model property. not-yet-determined is the correct initial value."
+        },
+        "decision_domain": {
+          "type": "array",
+          "description": "Consequential decision domains. Presence of any domain triggers the high-impact-decision profile.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "credit", "hiring", "healthcare", "benefits", "education",
+              "law-enforcement", "housing", "insurance", "judicial",
+              "immigration", "government-services", "critical-infrastructure",
+              "financial-markets", "other-consequential"
+            ]
+          }
+        },
+        "regulated_entity": {
+          "type": "boolean",
+          "description": "Whether the deploying organization is a supervised financial institution subject to SR 26-2 or equivalent model risk guidance."
+        },
+        "asset_threshold_usd": {
+          "type": "number",
+          "description": "Total assets in USD. SR 26-2 heightened expectations apply to institutions with $30B+ in assets (30,000,000,000)."
+        }
+      }
+    },
+    "mapping_object": {
+      "type": "object",
+      "description": "A defensible, directional framework mapping conforming to mapping.schema.json, extended with the 7 model-assurance split status fields. The 7 status fields are nested within the mapping object (not at the control root) because each framework mapping may have a different source_status, mapping_confidence, and legal_status. For example, a mapping to NIST RMF (voluntary, current source) may have source_status: 'authoritative' while a mapping to EU AI Act (pending enforcement date) has legal_status: 'enacted' but an effective_from in the future.",
+      "required": ["framework", "requirement_id", "fit", "direction", "rationale", "source_version", "reviewed_on"],
+      "additionalProperties": false,
+      "properties": {
+        "framework": {
+          "type": "string",
+          "description": "Framework key from framework-mapping-catalog.json.",
+          "enum": ["nist_rmf", "iso_42001", "eu_ai_act", "sr262", "aisvs", "llm10", "aicm", "mitre"]
+        },
+        "requirement_id": {
+          "type": "string",
+          "description": "Requirement identifier within the framework. Must match the pattern for the framework in framework-mapping-catalog.json."
+        },
+        "fit": {
+          "type": "string",
+          "enum": ["direct", "partial", "adjacent", "supporting", "none"],
+          "description": "direct: fully satisfies under stated applicability. partial: satisfies meaningful portion; uncovered_portion required. adjacent: thematically related but different obligation. supporting: contributes evidence alongside other controls. none: no substantive mapping exists; rationale must explain the gap (used for ATLAS when no technique applies)."
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["control-supports-requirement", "requirement-subsumes-control", "bidirectional", "tangential"]
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Human-authored explanation of why this mapping holds. Must state the claim, the evidence, and any conditions. Minimum 30 characters. The claim must not imply 'implement this control and you comply' — the correct claim is 'this control supports satisfaction of the requirement under the stated applicability conditions'.",
+          "minLength": 30
+        },
+        "uncovered_portion": {
+          "type": "string",
+          "description": "Required when fit is 'partial'. Describes what the framework requirement covers that this control does not."
+        },
+        "source_locator": {
+          "type": "object",
+          "description": "Required for fit: 'direct'. Precise location in the source document.",
+          "additionalProperties": false,
+          "properties": {
+            "section": { "type": "string" },
+            "clause": { "type": "string" },
+            "page": { "type": "integer", "minimum": 1 },
+            "url": { "type": "string", "format": "uri" }
+          }
+        },
+        "source_version": { "type": "string" },
+        "source_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "reviewed_on": { "type": "string", "format": "date" },
+        "reviewer_type": {
+          "type": "string",
+          "enum": ["human", "automated", "human-reviewed-automated"],
+          "default": "human"
+        },
+        "source_status": {
+          "type": "string",
+          "enum": ["authoritative", "draft", "proposed", "deprecated", "withdrawn"],
+          "description": "Recency and authority of the source document at time of this mapping. authoritative: current, active source. deprecated: newer version exists. withdrawn: no longer valid."
+        },
+        "mapping_confidence": {
+          "type": "string",
+          "enum": ["verified", "high", "medium", "low", "speculative"],
+          "description": "Confidence that this mapping accurately reflects the requirement. verified: confirmed by SME with source locator. speculative: untested inference requiring review."
+        },
+        "legal_status": {
+          "type": "string",
+          "enum": ["binding", "guidance", "voluntary", "pending", "not-applicable"],
+          "description": "Legal force of the mapped obligation in the deployment jurisdiction. binding: statute or binding regulation. guidance: supervisory or interpretive guidance (SR 26-2, OCC 2026-13 are always 'guidance'). voluntary: no legal compulsion."
+        },
+        "control_readiness": {
+          "type": "string",
+          "enum": ["not-started", "in-design", "in-review", "approved", "published"],
+          "description": "Editorial readiness of this control record for the mapped requirement."
+        },
+        "implementation_maturity": {
+          "type": "string",
+          "enum": ["none", "initial", "developing", "defined", "managed", "optimizing"],
+          "description": "Typical implementation maturity of this control-requirement pair in deploying organizations."
+        },
+        "assurance_result": {
+          "type": "string",
+          "enum": ["not-assessed", "pass", "pass-with-findings", "fail", "not-applicable"],
+          "description": "Most recent assurance result for this control against this requirement. not-applicable: this mapping applies to a profile the current deployment does not belong to."
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": ["no-evidence", "partial", "sufficient", "verified", "expired"],
+          "description": "Currency and completeness of supporting evidence. verified: reviewed by a qualified reviewer. expired: exists but validity period has lapsed."
+        }
+      }
+    }
+  },
+  "properties": {
+    "monitoring_schema": {
+      "description": "Structured monitoring specification for this control. Required for controls in BH and CA layers. Recommended for EV and DT controls with production monitoring implications. Not applicable to pure governance or documentation controls (LI-04, OA-01 etc.) — omit rather than include an empty object.",
+      "$ref": "#/definitions/monitoring_schema"
+    },
+    "capability_risk": {
+      "description": "Multidimensional capability risk assessment. Required on every model-assurance control record to enable profile trigger evaluation. The assurance_target.capability_risk is the deployment-specific instance; this field on a control record documents the capability risk context in which the control's requirements apply.",
+      "$ref": "#/definitions/capability_risk"
+    },
+    "assurance_target": {
+      "description": "Optional binding to a specific assurance target instance. Used when a control record is instantiated for a specific deployment rather than expressed generically in the matrix. When present, enables runtime evaluation of obligations[] applicability predicates.",
+      "$ref": "#/definitions/assurance_target"
+    }
+  },
+  "model_assurance_field_notes": {
+    "$comment": "Fields from control-core.schema.json that have model-assurance-specific semantics: (1) 'tiers[]': model-assurance profile IDs (general-predictive-ml, generative-ai, hosted-api, continuously-learning, high-impact-decision, us-regulated-banking, eu-high-risk, frontier-capability). (2) 'frameworks[]': model-assurance uses 8 keys (nist_rmf, iso_42001, eu_ai_act, sr262, aisvs, llm10, aicm, mitre) with requirement_id patterns defined in framework-mapping-catalog.json; each frameworks[] item conforms to this extension's mapping_object definition which adds the 7 split status fields. (3) 'obligations[]': each item conforms to this extension's obligation_object definition. (4) 'status_fields': the core provides 7 split status fields as a nested object; the model-assurance-specific enum values for each field are documented in the mapping_object definition above, which adds them per-mapping for granular tracking. (5) 'lenses': the five canonical keys are engineering, evaluation, red_team, grc, mlops — enforced by model-controls.schema.json's required constraint on the lenses object."
+  }
+}

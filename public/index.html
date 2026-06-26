@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>modelverifier.ai — AI Model &amp; System Assurance Control Matrix</title>
+  <meta name="description" content="54 machine-readable model assurance controls across 6 layers. Citation-backed, profile-aware, obligation-linked. Feeds the Apeiris Model Assurance Verifier.">
+  <link rel="canonical" href="https://modelverifier.ai/">
+  <meta property="og:title" content="AI Model &amp; System Assurance Control Matrix">
+  <meta property="og:description" content="54 controls · 6 layers · 8 frameworks · 8 profiles. Zero runtime deps.">
+  <meta property="og:url" content="https://modelverifier.ai/">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0d0f12;
+      --surface:     #161a20;
+      --surface2:    #1e242d;
+      --border:      #252b33;
+      --border2:     #2e3744;
+      --text:        #e2e8f0;
+      --text2:       #c4cdd8;
+      --muted:       #8b9ab0;
+      --accent:      #3b82f6;
+      --accent-dim:  #1d4ed8;
+      --accent-glow: rgba(59,130,246,0.14);
+      --warn:        #f59e0b;
+      --success:     #10b981;
+      --danger:      #ef4444;
+      --sidebar-w:   230px;
+
+      --li: #6366f1;  --li-bg: rgba(99,102,241,0.12);  --li-br: rgba(99,102,241,0.3);
+      --tg: #8b5cf6;  --tg-bg: rgba(139,92,246,0.12); --tg-br: rgba(139,92,246,0.3);
+      --ev: #10b981;  --ev-bg: rgba(16,185,129,0.12);  --ev-br: rgba(16,185,129,0.3);
+      --oa: #f59e0b;  --oa-bg: rgba(245,158,11,0.12);  --oa-br: rgba(245,158,11,0.3);
+      --bh: #ef4444;  --bh-bg: rgba(239,68,68,0.12);   --bh-br: rgba(239,68,68,0.3);
+      --cr: #06b6d4;  --cr-bg: rgba(6,182,212,0.12);   --cr-br: rgba(6,182,212,0.3);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,15,18,0.93);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      height: 50px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .wordmark {
+      font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+    }
+    .wordmark-dot { color: var(--accent); }
+    .wordmark-sub {
+      font-size: 0.67rem; font-weight: 600; color: var(--muted);
+      padding: 2px 7px; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+    }
+    .header-sep { flex: 1; }
+    .header-link {
+      font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.15s;
+    }
+    .header-link:hover { color: var(--text); }
+    .api-btn {
+      font-size: 0.72rem; font-weight: 600; padding: 4px 11px; border-radius: 6px;
+      background: var(--accent-glow); color: var(--accent);
+      border: 1px solid rgba(59,130,246,0.35); text-decoration: none;
+      transition: background 0.15s; flex-shrink: 0;
+    }
+    .api-btn:hover { background: rgba(59,130,246,0.24); }
+
+    /* ── Layout ── */
+    .app { display: flex; height: calc(100vh - 50px); overflow: hidden; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 14px 12px;
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 6px; }
+    .filter-label {
+      font-size: 0.67rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted);
+    }
+    .search-wrap { position: relative; }
+    .search-input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 7px; padding: 7px 10px 7px 30px;
+      font-size: 0.82rem; outline: none; transition: border-color 0.15s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--muted); }
+    .search-icon {
+      position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font-size: 0.78rem; pointer-events: none;
+    }
+    .search-clear {
+      display: none; position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 0.75rem; padding: 2px 4px;
+    }
+    .search-clear.visible { display: block; }
+
+    .chip-group { display: flex; flex-wrap: wrap; gap: 4px; }
+    .chip {
+      cursor: pointer; font-size: 0.7rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 999px;
+      border: 1px solid var(--border2); background: transparent;
+      color: var(--muted); transition: all 0.15s; white-space: nowrap;
+      line-height: 1.4;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--text); }
+    .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .chip[data-layer="LI"].active { background: var(--li); border-color: var(--li); }
+    .chip[data-layer="TG"].active { background: var(--tg); border-color: var(--tg); }
+    .chip[data-layer="EV"].active { background: var(--ev); border-color: var(--ev); }
+    .chip[data-layer="OA"].active { background: var(--oa); border-color: var(--oa); }
+    .chip[data-layer="BH"].active { background: var(--bh); border-color: var(--bh); }
+    .chip[data-layer="CR"].active { background: var(--cr); border-color: var(--cr); }
+
+    .filter-select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border2);
+      color: var(--text); border-radius: 7px; padding: 7px 9px; font-size: 0.8rem;
+      outline: none; cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b9ab0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+    .filter-select:focus { border-color: var(--accent); }
+
+    .sidebar-divider { height: 1px; background: var(--border); }
+
+    .result-count {
+      font-size: 0.75rem; color: var(--muted); text-align: center; padding-top: 4px;
+    }
+    .result-count strong { color: var(--text); }
+
+    /* ── Main panel ── */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      display: flex; flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stat-item {
+      flex: 1; padding: 10px 12px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: 0.62rem; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* ── Control list ── */
+    .control-list { flex: 1; overflow-y: auto; }
+
+    .layer-section {}
+    .layer-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 16px 8px;
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(13,15,18,0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .layer-badge {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .layer-badge.LI { background: var(--li-bg); color: var(--li); border: 1px solid var(--li-br); }
+    .layer-badge.TG { background: var(--tg-bg); color: var(--tg); border: 1px solid var(--tg-br); }
+    .layer-badge.EV { background: var(--ev-bg); color: var(--ev); border: 1px solid var(--ev-br); }
+    .layer-badge.OA { background: var(--oa-bg); color: var(--oa); border: 1px solid var(--oa-br); }
+    .layer-badge.BH { background: var(--bh-bg); color: var(--bh); border: 1px solid var(--bh-br); }
+    .layer-badge.CR { background: var(--cr-bg); color: var(--cr); border: 1px solid var(--cr-br); }
+
+    .layer-header-name { font-size: 0.82rem; font-weight: 600; color: var(--text2); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .layer-header-count { font-size: 0.72rem; color: var(--muted); flex-shrink: 0; }
+    .plane-pill { font-size: 0.62rem; font-weight: 600; padding: 1px 6px; border-radius: 999px; flex-shrink: 0; }
+    .plane-control  { background: rgba(99,102,241,0.1); color: var(--li); }
+    .plane-data     { background: rgba(139,92,246,0.1); color: var(--tg); }
+    .plane-lifecycle{ background: rgba(6,182,212,0.1);  color: var(--cr); }
+    .plane-both     { background: rgba(16,185,129,0.1); color: var(--ev); }
+
+    .control-card {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background 0.1s;
+    }
+    .control-card:hover { background: var(--surface); }
+    .control-card.active { background: var(--surface2); border-left: 3px solid var(--accent); padding-left: 13px; }
+    .control-card.active:hover { background: var(--surface2); }
+
+    .ctrl-id-col { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 52px; }
+    .ctrl-id {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.72rem; font-weight: 700;
+      padding: 3px 6px; border-radius: 4px;
+      width: 100%; text-align: center;
+    }
+    .ctrl-id.LI { background: var(--li-bg); color: var(--li); }
+    .ctrl-id.TG { background: var(--tg-bg); color: var(--tg); }
+    .ctrl-id.EV { background: var(--ev-bg); color: var(--ev); }
+    .ctrl-id.OA { background: var(--oa-bg); color: var(--oa); }
+    .ctrl-id.BH { background: var(--bh-bg); color: var(--bh); }
+    .ctrl-id.CR { background: var(--cr-bg); color: var(--cr); }
+    .ctrl-star { font-size: 0.68rem; color: var(--warn); line-height: 1; }
+
+    .ctrl-body { flex: 1; min-width: 0; }
+    .ctrl-name { font-size: 0.85rem; font-weight: 600; line-height: 1.3; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ctrl-plain { font-size: 0.76rem; color: var(--muted); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    .ctrl-right { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; padding-top: 1px; }
+    .cap-badge {
+      font-size: 0.62rem; font-weight: 700; padding: 2px 6px; border-radius: 999px; white-space: nowrap;
+    }
+    .cap-badge.frontier { background: rgba(239,68,68,0.14); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+    .cap-badge.elevated { background: rgba(245,158,11,0.14); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+    .cap-badge.low      { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+    .cap-badge.none     { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+    .maturity-dots { display: flex; gap: 2px; }
+    .maturity-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); }
+    .maturity-dot.filled { background: var(--accent); }
+
+    /* ── Empty / loading states ── */
+    .empty-state { padding: 48px 20px; text-align: center; color: var(--muted); }
+    .empty-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .empty-text { font-size: 0.85rem; }
+
+    /* ── Detail drawer ── */
+    .overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.45);
+    }
+    .overlay.open { display: block; }
+
+    .drawer {
+      position: fixed; top: 50px; right: 0; bottom: 0;
+      width: min(660px, calc(100vw - 48px));
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+      z-index: 201; overflow: hidden;
+    }
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-hd {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .drawer-hd-main { flex: 1; min-width: 0; }
+    .drawer-badges { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 5px; }
+    .drawer-layer-id {
+      font-family: 'SF Mono', monospace; font-size: 0.78rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .drawer-canonical { font-family: monospace; font-size: 0.68rem; color: var(--muted); }
+    .drawer-name { font-size: 1rem; font-weight: 700; line-height: 1.3; margin-bottom: 5px; }
+    .drawer-plain { font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
+    .drawer-close {
+      flex-shrink: 0; margin-top: 2px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); border-radius: 6px; padding: 4px 10px;
+      cursor: pointer; font-size: 0.78rem; transition: all 0.15s; line-height: 1.4;
+    }
+    .drawer-close:hover { border-color: var(--accent); color: var(--text); }
+
+    /* Tabs */
+    .tabs {
+      display: flex; border-bottom: 1px solid var(--border);
+      flex-shrink: 0; overflow-x: auto; padding: 0 4px;
+    }
+    .tabs::-webkit-scrollbar { height: 0; }
+    .tab-btn {
+      padding: 9px 12px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      color: var(--muted); border-bottom: 2px solid transparent;
+      transition: all 0.15s; white-space: nowrap;
+      background: none; border-top: none; border-left: none; border-right: none;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .tab-body { flex: 1; overflow-y: auto; }
+    .tab-panel { display: none; padding: 16px; }
+    .tab-panel.active { display: block; }
+
+    /* Detail building blocks */
+    .d-section { margin-bottom: 18px; }
+    .d-title {
+      font-size: 0.67rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px;
+    }
+    .d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .d-kv { display: flex; flex-direction: column; gap: 2px; }
+    .d-k { font-size: 0.67rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .d-v { font-size: 0.82rem; font-weight: 500; }
+    .d-text { font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
+
+    .mat-bar { display: flex; align-items: center; gap: 8px; }
+    .mat-steps { display: flex; gap: 3px; }
+    .mat-step { width: 26px; height: 5px; border-radius: 3px; background: var(--border2); }
+    .mat-step.filled { background: var(--accent); }
+    .mat-label { font-size: 0.78rem; font-weight: 600; }
+    .mat-target { font-size: 0.75rem; color: var(--muted); }
+
+    .profile-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    .profile-chip {
+      font-size: 0.7rem; font-weight: 500; padding: 3px 9px; border-radius: 999px;
+      border: 1px solid var(--border); cursor: default;
+    }
+    .profile-chip.required { background: var(--accent-glow); border-color: rgba(59,130,246,0.4); color: var(--accent); }
+    .profile-chip.recommended { background: var(--surface2); color: var(--muted); }
+
+    .obl-list { display: flex; flex-direction: column; gap: 7px; }
+    .obl-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 9px 11px; }
+    .obl-top { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-bottom: 4px; }
+    .obl-prov { font-family: monospace; font-size: 0.72rem; font-weight: 700; color: var(--li); }
+    .obl-force {
+      font-size: 0.62rem; font-weight: 700; padding: 2px 6px; border-radius: 4px;
+    }
+    .obl-force.binding-law { background: rgba(239,68,68,0.14); color: var(--danger); }
+    .obl-force.supervisory-guidance { background: rgba(245,158,11,0.12); color: var(--warn); }
+    .obl-force.voluntary { background: var(--surface); color: var(--muted); }
+    .obl-force.voluntary-standard { background: var(--surface); color: var(--muted); }
+    .obl-meta { font-size: 0.74rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .check-list { display: flex; flex-direction: column; gap: 5px; }
+    .check-item {
+      display: flex; gap: 7px; align-items: flex-start;
+      padding: 7px 9px; border-radius: 6px;
+      background: var(--surface2); font-size: 0.79rem; line-height: 1.4;
+    }
+    .check-icon { flex-shrink: 0; padding-top: 1px; }
+    .check-text { flex: 1; color: var(--text2); }
+    .ref-tag {
+      font-family: monospace; font-size: 0.67rem; color: var(--accent);
+      background: var(--accent-glow); padding: 1px 4px; border-radius: 3px;
+    }
+
+    .source-list { display: flex; flex-direction: column; gap: 6px; }
+    .source-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 9px 10px; border-radius: 7px;
+      background: var(--surface2); border: 1px solid var(--border);
+    }
+    .source-item.flagship { background: var(--accent-glow); border-color: rgba(59,130,246,0.35); }
+    .source-star { color: var(--accent); font-size: 0.78rem; flex-shrink: 0; padding-top: 1px; }
+    .source-body { flex: 1; min-width: 0; }
+    .source-title { font-size: 0.82rem; font-weight: 600; margin-bottom: 2px; }
+    .source-id { font-family: monospace; font-size: 0.7rem; color: var(--muted); }
+    .source-meta { font-size: 0.72rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; margin-top: 3px; }
+    .force-chip {
+      font-size: 0.62rem; font-weight: 600; padding: 1px 5px; border-radius: 3px;
+    }
+    .force-binding-law { background: rgba(239,68,68,0.12); color: var(--danger); }
+    .force-guidance    { background: rgba(245,158,11,0.12); color: var(--warn); }
+    .force-voluntary, .force-voluntary-standard { background: var(--surface); color: var(--muted); }
+    .force-informative { background: var(--surface); color: var(--muted); }
+
+    .fw-table { width: 100%; border-collapse: collapse; font-size: 0.77rem; }
+    .fw-table th {
+      text-align: left; padding: 5px 8px; color: var(--muted); font-weight: 600;
+      border-bottom: 1px solid var(--border); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .fw-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .fw-table tr:last-child td { border-bottom: none; }
+    .fw-key { font-family: monospace; font-size: 0.73rem; font-weight: 600; }
+    .fw-req { font-family: monospace; font-size: 0.73rem; color: var(--accent); }
+    .fit-pill {
+      font-size: 0.62rem; font-weight: 600; padding: 1px 5px; border-radius: 3px;
+    }
+    .fit-direct   { background: rgba(16,185,129,0.14); color: var(--success); }
+    .fit-partial   { background: rgba(245,158,11,0.14); color: var(--warn); }
+    .fit-adjacent  { background: var(--surface2); color: var(--muted); }
+
+    .lens-grid { display: flex; flex-direction: column; gap: 10px; }
+    .lens-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; padding: 10px 12px; }
+    .lens-name { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin-bottom: 5px; }
+    .lens-text { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag {
+      font-size: 0.7rem; padding: 2px 8px; border-radius: 999px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .sidebar { display: none; }
+      .drawer { width: 100vw; }
+      .d-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 400px) {
+      .header-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="/">modelverifier<span class="wordmark-dot">.</span>ai <span class="wordmark-sub">Apeiris</span></a>
+  <div class="header-sep"></div>
+  <a class="header-link" href="/integration/model-controls-full.json" target="_blank">JSON</a>
+  <a class="header-link" href="https://apeiris.io" target="_blank" style="margin-left:12px">apeiris.io</a>
+  <a class="api-btn" href="/integration/model-controls-full.json" target="_blank" style="margin-left:10px">↓ controls.json</a>
+</header>
+
+<div class="app">
+  <!-- Sidebar filters -->
+  <aside class="sidebar" id="sidebar">
+    <div class="filter-group">
+      <div class="filter-label">Search</div>
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input class="search-input" id="searchInput" type="search" placeholder="ID, name, keyword…" autocomplete="off" spellcheck="false">
+        <button class="search-clear" id="searchClear" title="Clear search">✕</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Layer</div>
+      <div class="chip-group" id="layerFilter">
+        <button class="chip active" data-layer="ALL">All</button>
+        <button class="chip" data-layer="LI">LI</button>
+        <button class="chip" data-layer="TG">TG</button>
+        <button class="chip" data-layer="EV">EV</button>
+        <button class="chip" data-layer="OA">OA</button>
+        <button class="chip" data-layer="BH">BH</button>
+        <button class="chip" data-layer="CR">CR</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Profile</div>
+      <select class="filter-select" id="profileFilter">
+        <option value="">All profiles</option>
+        <option value="general-predictive-ml">General Predictive ML</option>
+        <option value="generative-ai">Generative AI</option>
+        <option value="hosted-api">Hosted API</option>
+        <option value="continuously-learning">Continuously Learning</option>
+        <option value="high-impact-decision">High-Impact Decision</option>
+        <option value="us-regulated-banking">US Banking (SR 26-2)</option>
+        <option value="eu-high-risk">EU High-Risk AI</option>
+        <option value="frontier-capability">Frontier Capability</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Capability Tier</div>
+      <div class="chip-group" id="capFilter">
+        <button class="chip active" data-cap="ALL">All</button>
+        <button class="chip" data-cap="frontier">Frontier</button>
+        <button class="chip" data-cap="elevated">Elevated</button>
+        <button class="chip" data-cap="low">Standard</button>
+        <button class="chip" data-cap="none">Universal</button>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="filter-group">
+      <div class="chip-group">
+        <button class="chip" id="baselineToggle">★ Baseline only (15)</button>
+      </div>
+    </div>
+
+    <div class="result-count" id="resultCount"><strong>54</strong> controls</div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-num" id="statControls">54</div><div class="stat-label">Controls</div></div>
+      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Layers</div></div>
+      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Profiles</div></div>
+      <div class="stat-item"><div class="stat-num">15</div><div class="stat-label">Baseline</div></div>
+      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Frameworks</div></div>
+    </div>
+    <div class="control-list" id="controlList">
+      <div class="empty-state"><div class="empty-icon">⋯</div><div class="empty-text">Loading controls…</div></div>
+    </div>
+  </main>
+</div>
+
+<!-- Detail drawer -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Control detail">
+  <div class="drawer-hd">
+    <div class="drawer-hd-main">
+      <div class="drawer-badges" id="drawerBadges"></div>
+      <div class="drawer-name" id="drawerName"></div>
+      <div class="drawer-plain" id="drawerPlain"></div>
+    </div>
+    <button class="drawer-close" id="drawerClose" aria-label="Close detail panel">✕ Close</button>
+  </div>
+  <div class="tabs" id="tabBar" role="tablist">
+    <button class="tab-btn active" data-tab="overview" role="tab">Overview</button>
+    <button class="tab-btn" data-tab="impl" role="tab">Implementation</button>
+    <button class="tab-btn" data-tab="validation" role="tab">Validation</button>
+    <button class="tab-btn" data-tab="lenses" role="tab">Lenses</button>
+    <button class="tab-btn" data-tab="frameworks" role="tab">Frameworks</button>
+    <button class="tab-btn" data-tab="sources" role="tab">Sources</button>
+  </div>
+  <div class="tab-body">
+    <div class="tab-panel active" id="tab-overview" role="tabpanel"></div>
+    <div class="tab-panel" id="tab-impl" role="tabpanel"></div>
+    <div class="tab-panel" id="tab-validation" role="tabpanel"></div>
+    <div class="tab-panel" id="tab-lenses" role="tabpanel"></div>
+    <div class="tab-panel" id="tab-frameworks" role="tabpanel"></div>
+    <div class="tab-panel" id="tab-sources" role="tabpanel"></div>
+  </div>
+</div>
+
+<script>
+// ── Config ─────────────────────────────────────────────────────────────────────
+const DATA_URL = '/integration/model-controls-full.json';
+
+const LAYER_META = {
+  LI: { name: 'AI Asset, Lineage & Applicability',       plane: 'control'   },
+  TG: { name: 'Training & Data Governance',              plane: 'data'      },
+  EV: { name: 'Evaluation, Validation & Release',        plane: 'both'      },
+  OA: { name: 'Governance, Accountability & Oversight',  plane: 'control'   },
+  BH: { name: 'Deployment & Runtime Assurance',          plane: 'data'      },
+  CR: { name: 'Continuous Risk, Incident & Evidence',    plane: 'lifecycle' },
+};
+
+const LAYER_ORDER = ['LI', 'TG', 'EV', 'OA', 'BH', 'CR'];
+const MATURITY    = ['none','initial','developing','defined','managed','optimizing'];
+
+const LENS_LABELS = {
+  engineering: 'Engineering',
+  evaluation:  'Evaluation',
+  red_team:    'Red Team',
+  grc:         'GRC',
+  mlops:       'MLOps',
+};
+
+const FW_NAMES = {
+  nist_rmf:  'NIST AI RMF 1.0',
+  iso_42001: 'ISO/IEC 42001:2023',
+  eu_ai_act: 'EU AI Act',
+  sr262:     'SR 26-2',
+  aisvs:     'OWASP AISVS v1.0',
+  llm10:     'OWASP LLM Top 10',
+  aicm:      'CSA AICM v1.0.3',
+  mitre:     'MITRE ATLAS v5.6',
+};
+
+// ── State ──────────────────────────────────────────────────────────────────────
+let controls    = [];
+let baselineSet = new Set();
+let profileMap  = {}; // profile_id → { required: Set, recommended: Set }
+let activeId    = null;
+
+const filters = { search: '', layer: 'ALL', profile: '', cap: 'ALL', baseline: false };
+
+// ── Utils ──────────────────────────────────────────────────────────────────────
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
+  ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+
+function matStep(level) {
+  const i = MATURITY.indexOf(level);
+  return i < 0 ? 0 : Math.round(i / (MATURITY.length - 1) * 5);
+}
+
+function matBar(current, target) {
+  const steps = Array.from({length:5}, (_,i) =>
+    `<div class="mat-step${i < matStep(current) ? ' filled' : ''}"></div>`).join('');
+  const tgtHtml = target && target !== current
+    ? `<span class="mat-target">→ ${esc(target)}</span>` : '';
+  return `<div class="mat-bar">
+    <div class="mat-steps">${steps}</div>
+    <span class="mat-label">${esc(current ?? 'none')}</span>${tgtHtml}
+  </div>`;
+}
+
+function matDots(level, n=5) {
+  const filled = matStep(level);
+  return Array.from({length:n}, (_,i) =>
+    `<div class="maturity-dot${i < filled ? ' filled' : ''}"></div>`).join('');
+}
+
+function fmtCheckText(raw) {
+  const s = esc(typeof raw === 'string' ? raw : JSON.stringify(raw));
+  return s
+    .replace(/\[ref:([^\]]+)\]/g, '<span class="ref-tag">[ref:$1]</span>')
+    .replace(/\[unverified\]/g, '<span style="color:var(--warn);font-size:.68rem">[unverified]</span>');
+}
+
+function capLabel(lvl) {
+  return lvl === 'none' ? 'univ.' : (lvl || 'n/a');
+}
+
+// ── Load ───────────────────────────────────────────────────────────────────────
+async function load() {
+  try {
+    const r = await fetch(DATA_URL);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const json = await r.json();
+    const ds = json.dataset;
+
+    controls    = ds.controls ?? [];
+    baselineSet = new Set(ds.meta.baseline_controls ?? []);
+
+    for (const p of (ds.profiles ?? [])) {
+      profileMap[p.profile_id] = {
+        required:    new Set(p.required_controls ?? []),
+        recommended: new Set(p.recommended_controls ?? []),
+      };
+    }
+
+    document.getElementById('statControls').textContent = controls.length;
+    render();
+  } catch (e) {
+    document.getElementById('controlList').innerHTML =
+      `<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">Failed to load: ${esc(e.message)}</div></div>`;
+  }
+}
+
+// ── Filter ─────────────────────────────────────────────────────────────────────
+function filtered() {
+  const q = filters.search.toLowerCase().trim();
+  const pe = filters.profile ? profileMap[filters.profile] : null;
+
+  return controls.filter(c => {
+    if (filters.layer !== 'ALL' && c.layer !== filters.layer) return false;
+    if (filters.cap !== 'ALL') {
+      const lv = c.capability_risk?.capability_level ?? 'none';
+      if (lv !== filters.cap) return false;
+    }
+    if (filters.baseline && !baselineSet.has(c.id)) return false;
+    if (pe && !pe.required.has(c.id) && !pe.recommended.has(c.id)) return false;
+    if (q) {
+      const hay = [c.id, c.name, c.plain ?? '', c.threat?.desc ?? '', c.layer].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+// ── Render list ────────────────────────────────────────────────────────────────
+function render() {
+  const vis = filtered();
+  document.getElementById('resultCount').innerHTML = `<strong>${vis.length}</strong> controls`;
+
+  if (!vis.length) {
+    document.getElementById('controlList').innerHTML =
+      `<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">No controls match your filters.</div></div>`;
+    return;
+  }
+
+  const byLayer = {};
+  for (const c of vis) { (byLayer[c.layer] ??= []).push(c); }
+
+  let html = '';
+  for (const layer of LAYER_ORDER) {
+    const group = byLayer[layer];
+    if (!group?.length) continue;
+    const lm = LAYER_META[layer] ?? {};
+
+    html += `<div class="layer-section">
+      <div class="layer-header">
+        <span class="layer-badge ${layer}">${layer}</span>
+        <span class="layer-header-name">${esc(lm.name)}</span>
+        <span class="plane-pill plane-${lm.plane}">${lm.plane}</span>
+        <span class="layer-header-count">${group.length}</span>
+      </div>`;
+
+    for (const c of group) { html += cardHtml(c); }
+    html += `</div>`;
+  }
+
+  const list = document.getElementById('controlList');
+  list.innerHTML = html;
+
+  list.querySelectorAll('.control-card').forEach(el =>
+    el.addEventListener('click', () => openDrawer(el.dataset.id)));
+
+  if (activeId) {
+    list.querySelectorAll('.control-card').forEach(el => {
+      if (el.dataset.id === activeId) el.classList.add('active');
+    });
+  }
+}
+
+function cardHtml(c) {
+  const isBase = baselineSet.has(c.id);
+  const cap    = c.capability_risk?.capability_level ?? 'none';
+  const mat    = c.maturity?.current ?? 'none';
+  const dots   = matDots(mat);
+
+  return `<div class="control-card" data-id="${esc(c.id)}">
+    <div class="ctrl-id-col">
+      <div class="ctrl-id ${c.layer}">${esc(c.id)}</div>
+      ${isBase ? `<div class="ctrl-star" title="Baseline control">★</div>` : ''}
+    </div>
+    <div class="ctrl-body">
+      <div class="ctrl-name">${esc(c.name)}</div>
+      <div class="ctrl-plain">${esc(c.plain ?? '')}</div>
+    </div>
+    <div class="ctrl-right">
+      <div class="cap-badge ${cap}">${capLabel(cap)}</div>
+      <div class="maturity-dots">${dots}</div>
+    </div>
+  </div>`;
+}
+
+// ── Drawer ─────────────────────────────────────────────────────────────────────
+function openDrawer(id) {
+  const c = controls.find(x => x.id === id);
+  if (!c) return;
+  activeId = id;
+
+  document.querySelectorAll('.control-card').forEach(el =>
+    el.classList.toggle('active', el.dataset.id === id));
+
+  // Header
+  const isBase = baselineSet.has(c.id);
+  const cap    = c.capability_risk?.capability_level ?? 'none';
+  const lm     = LAYER_META[c.layer] ?? {};
+
+  document.getElementById('drawerBadges').innerHTML = `
+    <span class="drawer-layer-id ${c.layer}">${esc(c.id)}</span>
+    ${isBase ? `<span class="ctrl-star" title="Baseline control">★ Baseline</span>` : ''}
+    <span class="cap-badge ${cap}" style="font-size:.68rem">${capLabel(cap)}</span>
+    <span class="plane-pill plane-${lm.plane}">${lm.plane}</span>
+    ${c.canonical_id ? `<span class="drawer-canonical">${esc(c.canonical_id)}</span>` : ''}
+  `;
+  document.getElementById('drawerName').textContent  = c.name;
+  document.getElementById('drawerPlain').textContent = c.plain ?? '';
+
+  setTab('overview');
+  fillOverview(c);
+  fillImpl(c);
+  fillValidation(c);
+  fillLenses(c);
+  fillFrameworks(c);
+  fillSources(c);
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer').focus();
+}
+
+function closeDrawer() {
+  activeId = null;
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  document.querySelectorAll('.control-card').forEach(el => el.classList.remove('active'));
+}
+
+function setTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `tab-${tabId}`));
+}
+
+// ── Tab: Overview ──────────────────────────────────────────────────────────────
+function fillOverview(c) {
+  const mat = c.maturity ?? {};
+  const cap = c.capability_risk ?? {};
+  const obligs = c.obligations ?? [];
+
+  // Profile membership
+  let profileHtml = '';
+  for (const [pid, pd] of Object.entries(profileMap)) {
+    const isReq  = pd.required.has(c.id);
+    const isRec  = pd.recommended.has(c.id);
+    if (!isReq && !isRec) continue;
+    const cls = isReq ? 'required' : 'recommended';
+    const lbl = pid.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    profileHtml += `<span class="profile-chip ${cls}" title="${isReq ? 'Required' : 'Recommended'}">${esc(lbl)}</span>`;
+  }
+
+  let html = `
+  <div class="d-section">
+    <div class="d-title">Maturity</div>
+    ${matBar(mat.current, mat.target)}
+    ${mat.notes ? `<div class="d-text" style="margin-top:6px;font-size:.76rem">${esc(mat.notes)}</div>` : ''}
+  </div>`;
+
+  if (profileHtml) {
+    html += `<div class="d-section">
+      <div class="d-title">Profile Membership</div>
+      <div class="profile-chips">${profileHtml}</div>
+    </div>`;
+  }
+
+  html += `<div class="d-section">
+    <div class="d-title">Capability Risk</div>
+    <div class="d-grid">
+      <div class="d-kv"><div class="d-k">Level</div><div class="d-v"><span class="cap-badge ${cap.capability_level ?? 'none'}" style="display:inline">${esc(cap.capability_level ?? 'none')}</span></div></div>
+      <div class="d-kv"><div class="d-k">Autonomy</div><div class="d-v">${esc(cap.autonomy ?? '—')}</div></div>
+      <div class="d-kv"><div class="d-k">Access</div><div class="d-v">${esc(cap.access_mode ?? '—')}</div></div>
+      <div class="d-kv"><div class="d-k">Irreversibility</div><div class="d-v">${esc(cap.irreversibility ?? '—')}</div></div>
+      <div class="d-kv"><div class="d-k">Scale</div><div class="d-v">${esc(cap.deployment_scale ?? '—')}</div></div>
+      <div class="d-kv"><div class="d-k">Impact</div><div class="d-v">${esc(cap.affected_party_impact ?? '—')}</div></div>
+    </div>
+  </div>`;
+
+  if (c.threat?.desc) {
+    html += `<div class="d-section">
+      <div class="d-title">Threat Context</div>
+      <div class="d-text">${esc(c.threat.desc)}</div>
+      ${c.threat.tags?.length ? `<div class="tag-cloud" style="margin-top:8px">${c.threat.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+    </div>`;
+  }
+
+  if (obligs.length) {
+    html += `<div class="d-section">
+      <div class="d-title">Obligations (${obligs.length})</div>
+      <div class="obl-list">`;
+    for (const o of obligs) {
+      const forceClass = (o.normative_force ?? '').replace(/[^a-z-]/g, '');
+      html += `<div class="obl-item">
+        <div class="obl-top">
+          <span class="obl-prov">${esc(o.provision ?? '')}</span>
+          <span class="obl-force ${forceClass}">${esc(o.normative_force ?? '')}</span>
+        </div>
+        <div class="obl-meta">
+          ${o.instrument ? `<span>${esc(o.instrument)}</span>` : ''}
+          ${o.effective_from ? `<span>From ${esc(o.effective_from)}</span>` : ''}
+          ${o.jurisdiction?.length ? `<span>${o.jurisdiction.map(j => esc(j)).join(', ')}</span>` : ''}
+          ${o.mapping_fit ? `<span class="fit-pill fit-${esc(o.mapping_fit)}">${esc(o.mapping_fit)}</span>` : ''}
+        </div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  if (c.cross_domain && Object.keys(c.cross_domain).length) {
+    html += `<div class="d-section">
+      <div class="d-title">Cross-Domain Links</div>
+      ${Object.entries(c.cross_domain).map(([k, v]) =>
+        `<div class="d-kv" style="margin-bottom:5px">
+          <div class="d-k">${esc(k)}</div>
+          <div class="d-v" style="font-family:monospace;font-size:.75rem;color:var(--accent)">${Array.isArray(v) ? v.map(x => esc(String(x))).join(', ') : esc(String(v))}</div>
+        </div>`
+      ).join('')}
+    </div>`;
+  }
+
+  document.getElementById('tab-overview').innerHTML = html;
+}
+
+// ── Tab: Implementation ────────────────────────────────────────────────────────
+function fillImpl(c) {
+  const impl = c.implementation ?? {};
+  let html = '';
+
+  if (impl.pattern) {
+    html += `<div class="d-section">
+      <div class="d-title">Pattern</div>
+      <div class="d-text">${esc(impl.pattern)}</div>
+    </div>`;
+  }
+
+  const steps = impl.steps ?? [];
+  if (steps.length) {
+    html += `<div class="d-section">
+      <div class="d-title">Steps (${steps.length})</div>
+      <div class="check-list">`;
+    steps.forEach((s, i) => {
+      const text = typeof s === 'string' ? s : (s.step ?? s.description ?? JSON.stringify(s));
+      html += `<div class="check-item">
+        <span class="check-icon" style="color:var(--accent);min-width:18px;font-size:.78rem">${i+1}.</span>
+        <div class="check-text">${esc(text)}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  const aps = impl.anti_patterns ?? [];
+  if (aps.length) {
+    html += `<div class="d-section">
+      <div class="d-title">Anti-Patterns</div>
+      <div class="check-list">`;
+    for (const ap of aps) {
+      html += `<div class="check-item" style="border-left:2px solid var(--danger)">
+        <span class="check-icon" style="color:var(--danger)">✕</span>
+        <div class="check-text">${esc(typeof ap === 'string' ? ap : JSON.stringify(ap))}</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  if (!html) html = `<div class="empty-state"><div class="empty-text" style="padding:24px 0">No implementation detail.</div></div>`;
+  document.getElementById('tab-impl').innerHTML = html;
+}
+
+// ── Tab: Validation ────────────────────────────────────────────────────────────
+function fillValidation(c) {
+  const val = c.validation ?? {};
+  let html = '';
+
+  const dcs = Array.isArray(val.design_check) ? val.design_check : [];
+  if (dcs.length) {
+    html += `<div class="d-section">
+      <div class="d-title">Design Checks (${dcs.length})</div>
+      <div class="check-list">`;
+    for (const dc of dcs) {
+      html += `<div class="check-item">
+        <span class="check-icon" style="color:var(--success)">✓</span>
+        <div class="check-text">${fmtCheckText(dc)}</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  const rts = Array.isArray(val.runtime_test) ? val.runtime_test : [];
+  if (rts.length) {
+    html += `<div class="d-section">
+      <div class="d-title">Runtime Tests (${rts.length})</div>
+      <div class="check-list">`;
+    for (const rt of rts) {
+      const text = typeof rt === 'string' ? rt : (rt.test ?? JSON.stringify(rt));
+      html += `<div class="check-item" style="border-left:2px solid var(--ev)">
+        <span class="check-icon" style="color:var(--ev)">▶</span>
+        <div class="check-text">${fmtCheckText(text)}</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  const evid = Array.isArray(val.evidence) ? val.evidence : [];
+  if (evid.length) {
+    html += `<div class="d-section">
+      <div class="d-title">Evidence Artifacts (${evid.length})</div>
+      <div class="check-list">`;
+    for (const ev of evid) {
+      html += `<div class="check-item" style="border-left:2px solid var(--oa)">
+        <span class="check-icon" style="color:var(--oa)">📁</span>
+        <div class="check-text">${fmtCheckText(ev)}</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  if (!html) html = `<div class="empty-state"><div class="empty-text" style="padding:24px 0">No validation detail.</div></div>`;
+  document.getElementById('tab-validation').innerHTML = html;
+}
+
+// ── Tab: Lenses ────────────────────────────────────────────────────────────────
+function fillLenses(c) {
+  const lenses = c.lenses ?? {};
+  const keys   = ['engineering', 'evaluation', 'red_team', 'grc', 'mlops'];
+  const available = keys.filter(k => lenses[k]);
+
+  if (!available.length) {
+    document.getElementById('tab-lenses').innerHTML = `<div class="empty-state"><div class="empty-text" style="padding:24px 0">No lens data.</div></div>`;
+    return;
+  }
+
+  const html = `<div class="lens-grid">${available.map(k => {
+    const val = lenses[k];
+    const text = typeof val === 'string' ? val : (val?.detail ?? val?.summary ?? JSON.stringify(val));
+    return `<div class="lens-card">
+      <div class="lens-name">${esc(LENS_LABELS[k] ?? k)}</div>
+      <div class="lens-text">${esc(text)}</div>
+    </div>`;
+  }).join('')}</div>`;
+
+  document.getElementById('tab-lenses').innerHTML = html;
+}
+
+// ── Tab: Frameworks ────────────────────────────────────────────────────────────
+function fillFrameworks(c) {
+  const fws = c.frameworks ?? [];
+  // Handle both array and legacy dict formats
+  const arr = Array.isArray(fws)
+    ? fws
+    : Object.entries(fws).map(([k, v]) => ({ framework: k, ...v }));
+
+  if (!arr.length) {
+    document.getElementById('tab-frameworks').innerHTML = `<div class="empty-state"><div class="empty-text" style="padding:24px 0">No framework mappings.</div></div>`;
+    return;
+  }
+
+  let html = `<table class="fw-table">
+    <thead><tr>
+      <th>Framework</th>
+      <th>Requirement</th>
+      <th>Fit</th>
+      <th>Rationale</th>
+    </tr></thead><tbody>`;
+
+  for (const fw of arr) {
+    if (!fw || typeof fw !== 'object') continue;
+    const fk    = fw.framework ?? '—';
+    const name  = FW_NAMES[fk] ?? fk;
+    const req   = fw.requirement_id ?? fw.ref ?? '—';
+    const fit   = fw.fit ?? 'direct';
+    const rat   = typeof fw.rationale === 'string'
+      ? fw.rationale.substring(0, 160) + (fw.rationale.length > 160 ? '…' : '')
+      : '';
+
+    html += `<tr>
+      <td><span class="fw-key" title="${esc(name)}">${esc(fk)}</span></td>
+      <td><span class="fw-req">${esc(req)}</span></td>
+      <td><span class="fit-pill fit-${esc(fit)}">${esc(fit)}</span></td>
+      <td style="color:var(--text2);max-width:200px">${esc(rat)}</td>
+    </tr>`;
+
+    if (fw.uncovered_portion) {
+      html += `<tr><td colspan="4" style="padding:0 8px 7px;font-size:.72rem;color:var(--muted)">
+        ↳ Uncovered: ${esc(fw.uncovered_portion.substring(0,200))}
+      </td></tr>`;
+    }
+  }
+
+  html += `</tbody></table>`;
+  document.getElementById('tab-frameworks').innerHTML = html;
+}
+
+// ── Tab: Sources ───────────────────────────────────────────────────────────────
+function fillSources(c) {
+  const srcs = c.sources ?? [];
+  if (!srcs.length) {
+    document.getElementById('tab-sources').innerHTML = `<div class="empty-state"><div class="empty-text" style="padding:24px 0">No sources.</div></div>`;
+    return;
+  }
+
+  const html = `<div class="source-list">${srcs.map(s => {
+    if (!s || typeof s !== 'object') return '';
+    const fl = s.flagship === true;
+    const forceClass = 'force-' + (s.normative_force ?? 'voluntary').replace(/[^a-z-]/g, '');
+    return `<div class="source-item${fl ? ' flagship' : ''}">
+      ${fl ? `<div class="source-star" title="Flagship source">★</div>` : ''}
+      <div class="source-body">
+        <div class="source-title">${esc(s.title ?? s.id)}</div>
+        <div class="source-id">${esc(s.id)}</div>
+        <div class="source-meta">
+          ${s.authority ? `<span>${esc(s.authority)}</span>` : ''}
+          ${s.version ? `<span>v${esc(s.version)}</span>` : ''}
+          ${s.normative_force ? `<span class="force-chip ${forceClass}">${esc(s.normative_force)}</span>` : ''}
+          ${s.published_on ? `<span>${esc(s.published_on)}</span>` : ''}
+          ${s.license ? `<span style="color:var(--warn)">${esc(s.license)}</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+
+  document.getElementById('tab-sources').innerHTML = html;
+}
+
+// ── Events ─────────────────────────────────────────────────────────────────────
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+document.getElementById('overlay').addEventListener('click', closeDrawer);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && activeId) closeDrawer();
+});
+
+document.getElementById('tabBar').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (btn) setTab(btn.dataset.tab);
+});
+
+// Layer filter
+document.getElementById('layerFilter').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  filters.layer = chip.dataset.layer;
+  document.querySelectorAll('#layerFilter .chip').forEach(ch =>
+    ch.classList.toggle('active', ch.dataset.layer === filters.layer));
+  render();
+});
+
+// Cap filter
+document.getElementById('capFilter').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  filters.cap = chip.dataset.cap;
+  document.querySelectorAll('#capFilter .chip').forEach(ch =>
+    ch.classList.toggle('active', ch.dataset.cap === filters.cap));
+  render();
+});
+
+// Profile filter
+document.getElementById('profileFilter').addEventListener('change', e => {
+  filters.profile = e.target.value;
+  render();
+});
+
+// Search
+let debounce;
+document.getElementById('searchInput').addEventListener('input', e => {
+  filters.search = e.target.value;
+  document.getElementById('searchClear').classList.toggle('visible', !!filters.search);
+  clearTimeout(debounce);
+  debounce = setTimeout(render, 180);
+});
+document.getElementById('searchClear').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  filters.search = '';
+  render();
+});
+
+// Baseline toggle
+document.getElementById('baselineToggle').addEventListener('click', function() {
+  filters.baseline = !filters.baseline;
+  this.classList.toggle('active', filters.baseline);
+  render();
+});
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+load();
+</script>
+</body>
+</html>

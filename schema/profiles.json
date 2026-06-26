@@ -1,0 +1,519 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.apeiris.io/model-assurance/v1/profiles.json",
+  "title": "Model Assurance Profiles",
+  "description": "Eight deployment profiles for the AI Model & System Assurance Control Matrix. Profiles allow the 54-control matrix to be filtered and prioritized based on deployment context without burdening non-applicable deployments. A deployment may belong to multiple profiles simultaneously (e.g., a continuously-learning generative AI that is also an EU high-risk system). The build pipeline evaluates trigger_conditions against the assurance_target to determine profile membership. required_controls are mandatory for any deployment in the profile; recommended_controls elevate the expected implementation maturity but are not pass/fail gates.",
+  "version": "1.0.0",
+  "generated_on": "2026-06-26",
+  "profile_evaluation_semantics": {
+    "trigger_logic": "A profile is active when ALL conditions in trigger_conditions.all (if present) are true AND at least one condition in trigger_conditions.any (if present) is true AND no conditions in trigger_conditions.none (if present) are true.",
+    "required_controls_semantics": "Controls listed as required must achieve assurance_result: 'pass' or 'pass-with-findings' for the deployment to be considered in-profile compliance. A 'fail' result on any required control is a compliance gap.",
+    "recommended_controls_semantics": "Controls listed as recommended should be evaluated. A 'not-assessed' result is acceptable but flagged; 'fail' results are findings, not compliance gaps.",
+    "baseline_interaction": "The 15-control baseline applies to all deployments regardless of profile. Profile required_controls are additive — they extend the baseline, never replace it.",
+    "precedence": "When a control is required by the baseline and also appears in recommended_controls of a profile, the baseline requirement takes precedence."
+  },
+  "profiles": [
+    {
+      "profile_id": "general-predictive-ml",
+      "name": "General Predictive ML",
+      "description": "Traditional supervised, unsupervised, or semi-supervised ML models used in analytical or decision-support contexts. Includes classification, regression, clustering, time-series forecasting, and tabular models. Excludes models with elevated capability levels, generative outputs, or continuously-learning regimes (which trigger additional profiles). This profile establishes the minimum viable control set for conventional enterprise ML deployments — the baseline for all other profiles.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "assurance_target.model_paradigm",
+            "op": "in",
+            "value": ["supervised", "unsupervised", "semi-supervised", "time-series", "tabular"]
+          }
+        ],
+        "none": [
+          {
+            "field": "capability_risk.capability_level",
+            "op": "in",
+            "value": ["elevated", "frontier"]
+          },
+          {
+            "field": "assurance_target.model_paradigm",
+            "op": "eq",
+            "value": "generative"
+          }
+        ]
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "TG-01",
+        "EV-01",
+        "OA-01",
+        "CR-01"
+      ],
+      "recommended_controls": [
+        "LI-06",
+        "TG-05",
+        "EV-06",
+        "EV-07",
+        "EV-09",
+        "OA-07",
+        "BH-03",
+        "BH-05",
+        "CR-02"
+      ],
+      "not_applicable_controls": [
+        "EV-03",
+        "EV-04"
+      ],
+      "not_applicable_rationale": "Dangerous capability assessment (EV-03) and adversarial red-team testing (EV-04) are not required for low-capability conventional ML models with no elevated capability domains. Including them would burden standard enterprise deployments with disproportionate effort.",
+      "notes": "This profile is the default when no other profile trigger is matched. All 15 baseline controls are expected; this profile's required_controls list adds the minimum beyond the baseline applicable to conventional ML."
+    },
+    {
+      "profile_id": "generative-ai",
+      "name": "Generative AI",
+      "description": "Models that generate novel outputs including text, code, images, audio, video, or structured content. Includes large language models (LLMs), diffusion models, multimodal generators, code generation models, and any model where the primary output modality is generative. Generative AI introduces unique risks: hallucination, misinformation amplification, synthetic content provenance, prompt manipulation, and supply-chain exposure through pretrained foundation models. This profile activates a materially larger required control set reflecting those risks.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "assurance_target.model_paradigm",
+            "op": "eq",
+            "value": "generative"
+          },
+          {
+            "field": "assurance_target.output_modalities",
+            "op": "contains-any",
+            "value": ["text", "image", "audio", "video", "code"]
+          }
+        ]
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "LI-06",
+        "TG-01",
+        "TG-05",
+        "EV-01",
+        "EV-02",
+        "EV-06",
+        "EV-07",
+        "OA-01",
+        "BH-03",
+        "BH-05",
+        "BH-09"
+      ],
+      "recommended_controls": [
+        "LI-06",
+        "TG-04",
+        "EV-04",
+        "EV-09",
+        "OA-02",
+        "OA-07",
+        "BH-04",
+        "CR-01",
+        "CR-02"
+      ],
+      "profile_specific_notes": {
+        "EV-02": "Safety and fitness evaluation must include hallucination rate, factual accuracy on held-out benchmarks, policy-adherence testing, and refusal-behavior evaluation. 'Helpful, harmless, honest' framing is insufficient without quantified metrics.",
+        "BH-09": "Synthetic content provenance and disclosure controls are required for all externally visible generative outputs. Reference C2PA and NIST AI 100-4 guidance on technical approaches but note neither mandates a specific watermarking mechanism.",
+        "TG-05": "Benchmark contamination, semantic duplicates, temporal leakage, retrieval leakage, and evaluation overfitting must be explicitly addressed — not just train/test split."
+      }
+    },
+    {
+      "profile_id": "hosted-api",
+      "name": "Hosted API / Third-Party Model",
+      "description": "Deployments where the model is accessed via an external API rather than operated directly — including commercial LLM APIs, foundation model providers, and third-party ML service vendors. Also applies to internal model-as-a-service deployments serving multiple internal consumers. Key risks: supply-chain exposure, undisclosed provider-side model updates, provider availability dependency, rate limits and unbounded consumption, and loss of reproducibility when provider changes model behavior without notice.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "capability_risk.access_mode",
+            "op": "eq",
+            "value": "api"
+          },
+          {
+            "field": "assurance_target.provider_type",
+            "op": "in",
+            "value": ["third-party", "open-weight"]
+          }
+        ]
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "LI-06",
+        "BH-03",
+        "BH-05",
+        "BH-10",
+        "CR-01",
+        "OA-01"
+      ],
+      "recommended_controls": [
+        "TG-05",
+        "EV-01",
+        "EV-07",
+        "EV-09",
+        "OA-07",
+        "CR-02",
+        "CR-04"
+      ],
+      "profile_specific_notes": {
+        "LI-06": "For hosted APIs, rollback means maintaining the ability to switch to a prior provider version, an alternative provider, or a degraded fallback mode. The deployer must negotiate version pinning or change notification SLAs with the provider.",
+        "BH-10": "Provider change monitoring is essential — model behavior at the same API endpoint may change without version bump. Establish behavioral regression tests that run against the provider API on a scheduled basis.",
+        "EV-01": "Pre-release evaluation must still occur even if the model weights are not accessible. Behavioral evaluation using the API is sufficient — but document the evaluation scope limitation explicitly.",
+        "retraining_caveat": "For third-party APIs, retraining is not an available response action. Fallback actions must be provider-agnostic: switch provider, activate fallback model, restrict use, or increase human review."
+      }
+    },
+    {
+      "profile_id": "continuously-learning",
+      "name": "Continuously Learning System",
+      "description": "Models that update their parameters or decision behavior from production data, human feedback, or reinforcement signals during deployment. Includes online learning systems, models with RLHF pipelines, continual learning systems, and adaptive fine-tuning pipelines. The defining risk is that production data becomes training data — meaning data poisoning, feedback manipulation, reward hacking, and self-reinforcing errors are live threats, not pre-deployment threats. Standard one-time pre-release evaluation is insufficient for continuously-learning systems.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "assurance_target.training_regime",
+            "op": "contains-any",
+            "value": ["online-learning", "rlhf", "continual-learning", "adaptive-fine-tuning"]
+          }
+        ]
+      },
+      "required_controls": [
+        "TG-01",
+        "TG-04",
+        "TG-05",
+        "EV-01",
+        "EV-06",
+        "EV-07",
+        "CR-01",
+        "CR-02",
+        "CR-03",
+        "BH-05",
+        "BH-08"
+      ],
+      "recommended_controls": [
+        "LI-06",
+        "BH-03",
+        "OA-07",
+        "CR-04",
+        "TG-06"
+      ],
+      "profile_specific_notes": {
+        "EV-01": "Pre-release evaluation gates must apply not only to initial release but to every material behavioral update triggered by the learning pipeline. Define what constitutes a 'material change' that requires re-evaluation.",
+        "TG-04": "Feedback poisoning, reward model manipulation, labeler quality degradation, and self-reinforcing error amplification are active production threats — not just pre-training concerns. TG-04 controls must extend to the production feedback pipeline.",
+        "BH-08": "Feedback loop integrity controls — monitoring for feedback poisoning, labeler drift, reward hacking, and self-reinforcing error patterns — are required for all continuously-learning systems.",
+        "CR-03": "Material change determination is especially critical: when does a learning update constitute a material behavioral change requiring formal re-evaluation? This threshold must be documented and operationalized."
+      }
+    },
+    {
+      "profile_id": "high-impact-decision",
+      "name": "High-Impact Automated Decision",
+      "description": "Model deployments that influence or make consequential decisions affecting individuals' access to services, opportunities, or rights. Includes credit decisioning, employment screening, healthcare triage or diagnosis, benefits eligibility, housing applications, educational admissions, insurance underwriting, judicial risk assessment, and similar high-stakes domains. The distinguishing factor is that model errors impose significant, often irreversible harm on affected individuals. Human oversight must be meaningful — not nominal — and affected parties must have access to notice, explanation, and contestability mechanisms.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "capability_risk.affected_party_impact",
+            "op": "in",
+            "value": ["high", "critical"]
+          },
+          {
+            "field": "assurance_target.decision_domain",
+            "op": "contains-any",
+            "value": ["credit", "hiring", "healthcare", "benefits", "education", "law-enforcement", "housing", "insurance", "judicial", "immigration", "government-services"]
+          },
+          {
+            "field": "capability_risk.irreversibility",
+            "op": "eq",
+            "value": "irreversible"
+          }
+        ]
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "LI-06",
+        "EV-01",
+        "EV-05",
+        "EV-06",
+        "EV-09",
+        "OA-01",
+        "OA-02",
+        "OA-07",
+        "OA-08",
+        "CR-01",
+        "CR-02"
+      ],
+      "recommended_controls": [
+        "TG-01",
+        "TG-03",
+        "TG-06",
+        "EV-07",
+        "BH-03",
+        "BH-05",
+        "CR-04"
+      ],
+      "profile_specific_notes": {
+        "OA-02": "Human oversight adequacy evaluation must assess whether the human reviewer has time, information, authority, competence, and a genuine ability to override — not merely whether a human is nominally present in the process.",
+        "EV-05": "Fairness evaluation must document: which populations, which protected attributes (where legally permitted), which fairness metric(s) selected and why, what legal basis exists for using protected attributes in testing, what thresholds are acceptable, and what trade-offs between fairness metrics were deliberately chosen.",
+        "OA-08": "Notice, explanation support, human review, and contestability must be implemented as operational capabilities, not policy commitments. Affected parties must have a genuine, accessible path to challenge decisions.",
+        "TG-06": "Protected attribute handling: while DT controls generally require minimization of sensitive data, fairness evaluation in high-impact contexts may require controlled access to protected attributes. TG-06 must address this tension explicitly — controlled use for auditing and bias testing, with strict access governance.",
+        "capability_risk_note": "affected_party_impact: 'critical' indicates potential for irreversible serious harm to individuals (e.g., denial of life-saving treatment, wrongful incarceration). These deployments require the most rigorous evaluation, oversight, and contestability controls."
+      }
+    },
+    {
+      "profile_id": "us-regulated-banking",
+      "name": "US Regulated Banking / Financial Institution",
+      "description": "Model deployments at US supervised financial institutions subject to SR 26-2 (Federal Reserve) and OCC Bulletin 2026-13 (interagency). SR 26-2 supersedes SR 11-7 and SR 21-8. Applies to all supervised institutions with heightened expectations for those with $30B+ in consolidated assets. Both SR 26-2 and OCC 2026-13 are supervisory guidance, not binding law — noncompliance alone does not trigger supervisory action, but patterns of unsafe practice do. Controls in this profile align to SR 26-2's model risk management framework: independent validation, ongoing monitoring, governance, and outcomes analysis.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "all": [
+          {
+            "field": "assurance_target.jurisdiction",
+            "op": "contains",
+            "value": "us"
+          },
+          {
+            "field": "assurance_target.regulated_entity",
+            "op": "eq-true"
+          }
+        ],
+        "any": [
+          {
+            "field": "assurance_target.industry",
+            "op": "contains-any",
+            "value": ["banking", "financial-services", "insurance", "investment-management"]
+          }
+        ]
+      },
+      "heightened_trigger": {
+        "description": "Controls marked as 'heightened' apply at elevated stringency when the institution has $30B+ in assets (SR 26-2 heightened expectations).",
+        "condition": {
+          "field": "assurance_target.asset_threshold_usd",
+          "op": "gte",
+          "value": 30000000000
+        }
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "LI-05",
+        "TG-01",
+        "EV-01",
+        "EV-06",
+        "EV-08",
+        "EV-09",
+        "OA-01",
+        "OA-03",
+        "CR-01",
+        "CR-02"
+      ],
+      "recommended_controls": [
+        "LI-06",
+        "BH-03",
+        "BH-05",
+        "EV-07",
+        "OA-07",
+        "CR-03",
+        "CR-05"
+      ],
+      "profile_specific_notes": {
+        "EV-08": "Independent validation is a cornerstone of SR 26-2. The validator must be organizationally independent from the model development team. For AI/ML models, independent validation must address conceptual soundness of the model approach, data inputs and processing, outputs and their use, and monitoring design.",
+        "OA-03": "AI governance committee with model risk oversight is an SR 26-2 expectation for material models, particularly at larger institutions.",
+        "LI-05": "Model inventory and tiering documentation (materiality classification) is required by SR 26-2. Models must be classified by materiality to determine validation depth and ongoing monitoring requirements.",
+        "legal_status_reminder": "All SR 26-2 and OCC 2026-13 mappings must carry legal_status: 'guidance'. These are supervisory guidance documents — not binding law. Represent this accurately in all obligations and mapping records."
+      }
+    },
+    {
+      "profile_id": "eu-high-risk",
+      "name": "EU AI Act High-Risk System (Annex III)",
+      "description": "Model deployments classified as high-risk AI systems under EU AI Act Annex III, or systems embedded in regulated products that become high-risk under Annex I. Annex III covers: biometric identification and categorization, management of critical infrastructure, education and vocational training, employment and HR decisions, access to essential services (credit, insurance, social benefits), law enforcement, immigration and asylum, administration of justice and democratic processes. EU AI Act high-risk requirements for standalone Annex III systems become enforceable Dec 2, 2027; product-embedded systems Aug 2, 2028. Controls in this profile align to the mandatory technical requirements (Art-9 through Art-17).",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "assurance_target.eu_ai_act_classification",
+            "op": "in",
+            "value": ["high-risk-annex-iii", "high-risk-product-embedded"]
+          }
+        ],
+        "all": [
+          {
+            "field": "assurance_target.jurisdiction",
+            "op": "contains",
+            "value": "eu"
+          }
+        ]
+      },
+      "enforcement_gating": {
+        "description": "This profile's obligations are legally enforceable only after the applicable effective date. During the transitional period, controls should be treated as best-practice requirements preparatory to enforcement.",
+        "standalone_effective": "2027-12-02",
+        "product_embedded_effective": "2028-08-02"
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "LI-06",
+        "LI-07",
+        "TG-01",
+        "TG-03",
+        "TG-06",
+        "EV-01",
+        "EV-05",
+        "EV-06",
+        "EV-09",
+        "OA-01",
+        "OA-02",
+        "OA-07",
+        "OA-08",
+        "BH-05",
+        "CR-01",
+        "CR-02"
+      ],
+      "recommended_controls": [
+        "TG-05",
+        "EV-07",
+        "BH-03",
+        "BH-04",
+        "CR-04"
+      ],
+      "eu_ai_act_mapping": {
+        "LI-04": "Art-11 (Technical documentation), Annex-IV",
+        "LI-06": "Art-12 (Record-keeping and logging)",
+        "TG-01": "Art-10 (Data governance)",
+        "TG-03": "Art-10(5) (Data with special categories)",
+        "TG-06": "Art-10(5) (Sensitive data necessary for bias correction)",
+        "EV-01": "Art-9 (Risk management system)",
+        "EV-05": "Art-10(2)(f) (Bias examination and correction)",
+        "EV-09": "Art-9(2)(a) (Risk identification and analysis)",
+        "OA-02": "Art-14 (Human oversight)",
+        "OA-08": "Art-13 (Transparency and information provision)",
+        "BH-05": "Art-12 (Logging obligations)"
+      },
+      "profile_specific_notes": {
+        "classification_prerequisite": "The eu_ai_act_classification in assurance_target must be formally determined before this profile is activated. Classification depends on intended purpose, deployment context, actor role, and product category — it is not an intrinsic model property.",
+        "actor_role_scoping": "Many Art-9 through Art-17 requirements apply to providers (organizations that develop or place AI systems on the market) differently from deployers. The obligation object actor_roles field must reflect this distinction.",
+        "gpai_note": "GPAI model obligations (Art-51+) are a separate regime applying to providers of general-purpose AI models. If the deployment also involves a GPAI model, the gpai-systemic-risk profile conditions may additionally apply."
+      }
+    },
+    {
+      "profile_id": "frontier-capability",
+      "name": "Frontier Capability Model",
+      "description": "Model deployments at or near the state of the art in capability, where the model has demonstrated or potentially has capability thresholds that could enable serious harm at scale — including dangerous capabilities in cyber, biological, chemical, nuclear-radiological, persuasion/manipulation, or autonomous AI R&D domains. Corresponds to Anthropic RSP ASL-3+ levels, Google DeepMind FSF equivalent, or other frontier safety frameworks. This profile requires the full 15-control baseline plus the most demanding evaluation, governance, and assurance controls in the matrix. No control is categorically excluded for frontier models.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "capability_risk.capability_level",
+            "op": "eq",
+            "value": "frontier"
+          },
+          {
+            "field": "capability_risk.capability_domains",
+            "op": "contains-any",
+            "value": ["cyber", "bio", "chemical", "nuclear-radiological", "autonomous-ai-rd", "self-proliferation"]
+          }
+        ]
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "LI-06",
+        "LI-08",
+        "TG-01",
+        "TG-04",
+        "TG-05",
+        "TG-07",
+        "EV-01",
+        "EV-03",
+        "EV-04",
+        "EV-06",
+        "EV-07",
+        "EV-09",
+        "OA-01",
+        "OA-03",
+        "OA-04",
+        "OA-07",
+        "BH-03",
+        "BH-04",
+        "BH-05",
+        "CR-01",
+        "CR-02",
+        "CR-03"
+      ],
+      "recommended_controls": [
+        "LI-02",
+        "LI-03",
+        "LI-05",
+        "LI-07",
+        "LI-09",
+        "LI-10",
+        "TG-02",
+        "TG-03",
+        "TG-06",
+        "TG-08",
+        "EV-02",
+        "EV-05",
+        "EV-08",
+        "EV-10",
+        "OA-02",
+        "OA-05",
+        "OA-06",
+        "OA-08",
+        "BH-01",
+        "BH-02",
+        "BH-06",
+        "BH-07",
+        "BH-08",
+        "BH-09",
+        "BH-10",
+        "CR-04",
+        "CR-05",
+        "CR-06",
+        "CR-07",
+        "CR-08"
+      ],
+      "profile_specific_notes": {
+        "EV-03": "Dangerous capability assessment (EV-03) is required — not optional — for frontier models. The assessment must cover all relevant capability domains including cyber offense, biological design, chemical synthesis, persuasion at scale, autonomous AI R&D, and self-proliferation. No ATLAS technique ID directly maps to capability-threshold crossing — document this as a frontier assurance gap in MITRE mappings.",
+        "EV-04": "Adversarial red-team testing (EV-04) must include structured elicitation attempts for all dangerous capability domains identified in EV-03. Red team must be independent and include domain experts (biosecurity, cybersecurity, nuclear safety as applicable).",
+        "capability_level_derivation": "capability_level: 'frontier' triggers this profile. The other capability_risk fields (capability_domains, autonomy, external_reach, irreversibility) provide specificity for determining which controls are most critical within the profile.",
+        "frontier_framework_references": [
+          "Anthropic Responsible Scaling Policy v3.3 (effective 2026-05-26)",
+          "Google DeepMind Frontier Safety Framework v3.1 (published 2026-04-17)",
+          "OpenAI Preparedness Framework v2 and Frontier Governance Framework (May 2026)"
+        ],
+        "no_control_exclusions": "Unlike the general-predictive-ml profile which excludes EV-03 and EV-04, the frontier-capability profile has no excluded controls. All 54 controls should be assessed; recommended_controls lists those not elevated to required beyond the baseline.",
+        "material_change_gate": "For frontier models, any model update, fine-tuning, prompt change, capability addition, or tool integration must be evaluated through the material change determination process (CR-03) before deployment. The default posture is to treat all changes as material and require re-evaluation unless EV-03 demonstrates the update does not cross additional capability thresholds."
+      }
+    }
+  ],
+  "profile_matrix": {
+    "description": "Cross-reference matrix showing which controls are required (R), recommended (REC), or not applicable (N/A) by profile. Controls not listed are not addressed by a profile and default to baseline applicability. This is generated from the profile definitions above — the source of truth is the profiles array.",
+    "baseline_controls": ["LI-01", "LI-04", "LI-06", "TG-01", "TG-05", "EV-01", "EV-06", "EV-07", "EV-09", "OA-01", "OA-07", "BH-03", "BH-05", "CR-01", "CR-02"],
+    "profile_ids": [
+      "general-predictive-ml",
+      "generative-ai",
+      "hosted-api",
+      "continuously-learning",
+      "high-impact-decision",
+      "us-regulated-banking",
+      "eu-high-risk",
+      "frontier-capability"
+    ],
+    "notable_intersections": [
+      {
+        "profiles": ["eu-high-risk", "high-impact-decision"],
+        "note": "Many EU Annex III use cases are also high-impact decision contexts (credit, hiring, healthcare, law enforcement). Both profiles will be simultaneously active for most EU regulated deployments."
+      },
+      {
+        "profiles": ["generative-ai", "frontier-capability"],
+        "note": "Frontier generative models trigger both profiles. frontier-capability required_controls supersede generative-ai required_controls where they conflict; both recommended sets apply."
+      },
+      {
+        "profiles": ["continuously-learning", "generative-ai"],
+        "note": "RLHF-trained LLMs trigger both profiles. The feedback loop integrity controls (BH-08, TG-04) from continuously-learning are additive to the generative-ai control set."
+      },
+      {
+        "profiles": ["hosted-api", "generative-ai"],
+        "note": "Third-party LLM APIs trigger both profiles. Provider change monitoring (BH-10) and pre-evaluation via API (EV-01 adaptation) are key considerations."
+      }
+    ]
+  }
+}
