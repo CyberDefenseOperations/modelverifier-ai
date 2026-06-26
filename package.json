@@ -21,6 +21,7 @@
     "check:freshness":          "node scripts/check-freshness.mjs",
     "test:coverage":            "node scripts/test-coverage.mjs",
     "build:integration":        "node build-integration.mjs",
+    "build":                    "node build-integration.mjs && cp -r integration public/integration",
     "sign:release-manifest":    "node scripts/sign-release-manifest.mjs",
 
     "validate": "npm run validate:schema && npm run validate:namespaces && npm run validate:sources && npm run validate:source-versions && npm run validate:licenses",
