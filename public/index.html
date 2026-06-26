@@ -417,11 +417,184 @@
       background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
     }
 
-    /* Responsive */
+    /* ── Tooltip popovers ── */
+    .has-tip { position: relative; }
+    .has-tip::after {
+      content: attr(data-tip);
+      position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+      background: #1a2030; border: 1px solid var(--border2);
+      color: var(--text2); font-size: 0.72rem; font-weight: 400;
+      padding: 8px 11px; border-radius: 7px;
+      min-width: 160px; max-width: 240px; white-space: normal; text-align: left;
+      pointer-events: none; opacity: 0; z-index: 999;
+      line-height: 1.5; letter-spacing: 0;
+      transition: opacity 0.15s; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+    .has-tip::before {
+      content: ''; position: absolute; bottom: calc(100% + 3px); left: 50%; transform: translateX(-50%);
+      border: 5px solid transparent; border-top-color: var(--border2);
+      pointer-events: none; opacity: 0; z-index: 999; transition: opacity 0.15s;
+    }
+    .has-tip:hover::after, .has-tip:focus::after { opacity: 1; }
+    .has-tip:hover::before, .has-tip:focus::before { opacity: 1; }
+    .has-tip.tip-left::after { left: 0; transform: none; }
+    .has-tip.tip-left::before { left: 14px; transform: none; }
+
+    .filter-label-row {
+      display: flex; align-items: center; gap: 5px;
+    }
+    .tip-icon {
+      font-size: 0.68rem; color: var(--muted); cursor: default;
+      font-style: normal;
+    }
+
+    /* ── Assess mode ── */
+    .assess-toggle {
+      font-size: 0.72rem; font-weight: 600; padding: 4px 11px; border-radius: 6px;
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border2); cursor: pointer; transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .assess-toggle:hover { color: var(--text); border-color: var(--accent); }
+    body.assess-mode .assess-toggle {
+      background: rgba(16,185,129,0.1); color: var(--success);
+      border-color: rgba(16,185,129,0.4);
+    }
+
+    .export-btn {
+      font-size: 0.72rem; font-weight: 600; padding: 4px 11px; border-radius: 6px;
+      background: rgba(16,185,129,0.1); color: var(--success);
+      border: 1px solid rgba(16,185,129,0.3); cursor: pointer;
+      transition: all 0.15s; display: none; gap: 4px; align-items: center;
+      text-decoration: none;
+    }
+    body.assess-mode .export-btn { display: inline-flex; }
+    .export-btn:hover { background: rgba(16,185,129,0.2); }
+
+    .assess-row {
+      display: none; align-items: center; gap: 8px; flex-wrap: wrap;
+      padding: 7px 0 0; border-top: 1px solid var(--border); margin-top: 6px;
+      font-size: 0.73rem;
+    }
+    body.assess-mode .assess-row { display: flex; }
+
+    .assess-baseline { color: var(--muted); }
+    .assess-baseline strong { color: var(--text2); }
+
+    .assess-select {
+      background: var(--bg); border: 1px solid var(--border2);
+      color: var(--muted); border-radius: 5px; padding: 2px 5px; font-size: 0.7rem;
+      cursor: pointer; outline: none; transition: border-color 0.15s;
+    }
+    .assess-select:focus { border-color: var(--accent); }
+    .assess-select.rated { border-color: rgba(16,185,129,0.4); color: var(--success); }
+
+    .assess-gap {
+      font-size: 0.67rem; padding: 1px 6px; border-radius: 3px; flex-shrink: 0;
+    }
+    .gap-ahead      { background: rgba(16,185,129,0.12); color: var(--success); }
+    .gap-at-target  { background: rgba(59,130,246,0.12); color: var(--accent); }
+    .gap-one        { background: rgba(245,158,11,0.12); color: var(--warn); }
+    .gap-behind     { background: rgba(239,68,68,0.12); color: var(--danger); }
+
+    .stat-item.assess-stat { background: rgba(16,185,129,0.05); }
+    #statAssessed { color: var(--success); }
+
+    /* ── Maturity guide modal ── */
+    .mat-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.55);
+      align-items: flex-start; justify-content: center; padding-top: 60px;
+    }
+    .mat-modal-overlay.open { display: flex; }
+    .mat-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; width: min(660px, calc(100vw - 32px));
+      max-height: calc(100vh - 100px); display: flex; flex-direction: column;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    }
+    .mat-modal-hd {
+      padding: 16px 20px 14px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .mat-modal-title { font-size: 0.95rem; font-weight: 700; }
+    .mat-modal-close {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); border-radius: 6px; padding: 4px 10px;
+      cursor: pointer; font-size: 0.78rem;
+    }
+    .mat-modal-close:hover { color: var(--text); border-color: var(--accent); }
+    .mat-modal-body { overflow-y: auto; padding: 20px; }
+
+    .mat-level-row {
+      display: grid; grid-template-columns: 90px 1fr 1fr;
+      gap: 12px; padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mat-level-row:last-child { border-bottom: none; }
+    .mat-level-badge {
+      font-family: 'SF Mono', monospace; font-size: 0.75rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 5px; align-self: flex-start; text-align: center;
+    }
+    .mlb-none       { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+    .mlb-initial    { background: rgba(239,68,68,0.1); color: var(--danger); border: 1px solid rgba(239,68,68,0.25); }
+    .mlb-developing { background: rgba(245,158,11,0.1); color: var(--warn); border: 1px solid rgba(245,158,11,0.25); }
+    .mlb-defined    { background: rgba(59,130,246,0.1); color: var(--accent); border: 1px solid rgba(59,130,246,0.25); }
+    .mlb-managed    { background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid rgba(16,185,129,0.25); }
+    .mlb-optimizing { background: rgba(99,102,241,0.1); color: var(--li); border: 1px solid rgba(99,102,241,0.25); }
+    .mat-level-desc { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
+    .mat-level-how { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .mat-level-how strong { color: var(--accent); font-weight: 600; }
+
+    .mat-modal-intro {
+      font-size: 0.82rem; color: var(--text2); line-height: 1.6; margin-bottom: 18px;
+      padding: 12px 14px; background: var(--surface2); border-radius: 7px;
+      border: 1px solid var(--border);
+    }
+    .mat-modal-col-hd {
+      display: grid; grid-template-columns: 90px 1fr 1fr;
+      gap: 12px; padding: 0 0 8px;
+      font-size: 0.64rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--muted);
+      border-bottom: 1px solid var(--border); margin-bottom: 4px;
+    }
+
+    .sidebar-footer { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+    .sidebar-guide-btn {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 0.72rem; padding: 4px 0; text-align: left;
+      transition: color 0.15s;
+    }
+    .sidebar-guide-btn:hover { color: var(--accent); }
+
+    /* ── Assess overview section in drawer ── */
+    .assess-drawer-section {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 7px; padding: 12px 14px; margin-bottom: 18px;
+    }
+    .assess-drawer-title {
+      font-size: 0.67rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--success); margin-bottom: 10px;
+    }
+    .assess-drawer-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .assess-drawer-select {
+      background: var(--bg); border: 1px solid rgba(16,185,129,0.3);
+      color: var(--success); border-radius: 5px; padding: 4px 8px; font-size: 0.78rem;
+      cursor: pointer; outline: none;
+    }
+    .assess-drawer-select:focus { border-color: var(--success); }
+    .assess-notes {
+      font-size: 0.79rem; color: var(--text2); line-height: 1.5;
+      margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
     @media (max-width: 600px) {
       .sidebar { display: none; }
       .drawer { width: 100vw; }
       .d-grid { grid-template-columns: 1fr; }
+      .mat-level-row { grid-template-columns: 1fr; }
+      .mat-modal-col-hd { display: none; }
     }
     @media (max-width: 400px) {
       .header-link { display: none; }
@@ -433,16 +606,20 @@
 <header>
   <a class="wordmark" href="/">modelverifier<span class="wordmark-dot">.</span>ai <span class="wordmark-sub">Apeiris</span></a>
   <div class="header-sep"></div>
-  <a class="header-link" href="/integration/model-controls-full.json" target="_blank">JSON</a>
+  <a class="header-link" href="/integrate.html">Integrate</a>
   <a class="header-link" href="https://apeiris.io" target="_blank" style="margin-left:12px">apeiris.io</a>
-  <a class="api-btn" href="/integration/model-controls-full.json" target="_blank" style="margin-left:10px">↓ controls.json</a>
+  <button class="assess-toggle" id="assessToggle" title="Switch to self-assessment mode">⊕ Assess</button>
+  <button class="export-btn" id="exportBtn" title="Export your assessment as JSON">↓ Export</button>
+  <a class="api-btn" href="/integration/model-controls-full.json" target="_blank" style="margin-left:4px">↓ JSON</a>
 </header>
 
 <div class="app">
   <!-- Sidebar filters -->
   <aside class="sidebar" id="sidebar">
     <div class="filter-group">
-      <div class="filter-label">Search</div>
+      <div class="filter-label-row">
+        <span class="filter-label">Search</span>
+      </div>
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
         <input class="search-input" id="searchInput" type="search" placeholder="ID, name, keyword…" autocomplete="off" spellcheck="false">
@@ -451,41 +628,50 @@
     </div>
 
     <div class="filter-group">
-      <div class="filter-label">Layer</div>
+      <div class="filter-label-row">
+        <span class="filter-label">Layer</span>
+        <span class="tip-icon has-tip" data-tip="Six assurance layers spanning the full model lifecycle — from provenance through continuous risk management.">ⓘ</span>
+      </div>
       <div class="chip-group" id="layerFilter">
-        <button class="chip active" data-layer="ALL">All</button>
-        <button class="chip" data-layer="LI">LI</button>
-        <button class="chip" data-layer="TG">TG</button>
-        <button class="chip" data-layer="EV">EV</button>
-        <button class="chip" data-layer="OA">OA</button>
-        <button class="chip" data-layer="BH">BH</button>
-        <button class="chip" data-layer="CR">CR</button>
+        <button class="chip active has-tip tip-left" data-layer="ALL" data-tip="Show all 54 controls across every layer.">All</button>
+        <button class="chip has-tip tip-left" data-layer="LI" data-tip="AI Asset, Lineage &amp; Applicability — identity, versioning, provenance, supply chain. 10 controls.">LI</button>
+        <button class="chip has-tip tip-left" data-layer="TG" data-tip="Training &amp; Data Governance — dataset quality, poisoning prevention, consent, test/train separation. 8 controls.">TG</button>
+        <button class="chip has-tip tip-left" data-layer="EV" data-tip="Evaluation, Validation &amp; Release — pre-release gates, red-teaming, regression testing. 10 controls.">EV</button>
+        <button class="chip has-tip tip-left" data-layer="OA" data-tip="Governance, Accountability &amp; Oversight — human-in-the-loop, use-case classification, ownership. 8 controls.">OA</button>
+        <button class="chip has-tip tip-left" data-layer="BH" data-tip="Deployment &amp; Runtime Assurance — production monitoring, drift detection, behavioral boundaries. 10 controls.">BH</button>
+        <button class="chip has-tip tip-left" data-layer="CR" data-tip="Continuous Risk, Incident &amp; Evidence — periodic re-evaluation, incident response, audit trails. 8 controls.">CR</button>
       </div>
     </div>
 
     <div class="filter-group">
-      <div class="filter-label">Profile</div>
+      <div class="filter-label-row">
+        <span class="filter-label">Profile</span>
+        <span class="tip-icon has-tip" data-tip="Profiles define which controls are required or recommended based on your deployment type. Additive to the baseline.">ⓘ</span>
+      </div>
       <select class="filter-select" id="profileFilter">
         <option value="">All profiles</option>
         <option value="general-predictive-ml">General Predictive ML</option>
         <option value="generative-ai">Generative AI</option>
-        <option value="hosted-api">Hosted API</option>
+        <option value="hosted-api">Hosted / Third-Party API</option>
         <option value="continuously-learning">Continuously Learning</option>
         <option value="high-impact-decision">High-Impact Decision</option>
         <option value="us-regulated-banking">US Banking (SR 26-2)</option>
-        <option value="eu-high-risk">EU High-Risk AI</option>
+        <option value="eu-high-risk">EU High-Risk (AI Act)</option>
         <option value="frontier-capability">Frontier Capability</option>
       </select>
     </div>
 
     <div class="filter-group">
-      <div class="filter-label">Capability Tier</div>
+      <div class="filter-label-row">
+        <span class="filter-label">Capability Tier</span>
+        <span class="tip-icon has-tip" data-tip="Risk tier derived from the model's capability level and deployment context, not just the model itself.">ⓘ</span>
+      </div>
       <div class="chip-group" id="capFilter">
-        <button class="chip active" data-cap="ALL">All</button>
-        <button class="chip" data-cap="frontier">Frontier</button>
-        <button class="chip" data-cap="elevated">Elevated</button>
-        <button class="chip" data-cap="low">Standard</button>
-        <button class="chip" data-cap="none">Universal</button>
+        <button class="chip active has-tip tip-left" data-cap="ALL" data-tip="Show controls regardless of capability requirement.">All</button>
+        <button class="chip has-tip tip-left" data-cap="frontier" data-tip="Potential for serious harm at scale. ~Anthropic ASL-3+. Requires the most rigorous evaluation controls.">Frontier</button>
+        <button class="chip has-tip tip-left" data-cap="elevated" data-tip="Enhanced capabilities requiring additional evaluation. ~Anthropic ASL-2. Broader evaluation gates apply.">Elevated</button>
+        <button class="chip has-tip tip-left" data-cap="low" data-tip="Above-baseline capability without threshold-crossing risk. Standard governance controls apply.">Standard</button>
+        <button class="chip has-tip tip-left" data-cap="none" data-tip="Universal controls — apply to every AI deployment regardless of capability level.">Universal</button>
       </div>
     </div>
 
@@ -493,11 +679,16 @@
 
     <div class="filter-group">
       <div class="chip-group">
-        <button class="chip" id="baselineToggle">★ Baseline only (15)</button>
+        <button class="chip has-tip tip-left" id="baselineToggle" data-tip="The 15 controls that apply to every deployment, regardless of profile or capability tier. The minimum viable assurance posture.">★ Baseline only (15)</button>
       </div>
     </div>
 
     <div class="result-count" id="resultCount"><strong>54</strong> controls</div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-divider"></div>
+      <button class="sidebar-guide-btn" id="matGuideBtn">⊞ Maturity level guide</button>
+    </div>
   </aside>
 
   <!-- Main content -->
@@ -507,7 +698,10 @@
       <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Layers</div></div>
       <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Profiles</div></div>
       <div class="stat-item"><div class="stat-num">15</div><div class="stat-label">Baseline</div></div>
-      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Frameworks</div></div>
+      <div class="stat-item assess-stat has-tip" data-tip="Controls you have self-assessed in Assess mode. Click ⊕ Assess to start." style="cursor:pointer" id="assessStatItem">
+        <div class="stat-num" id="statAssessed">0</div>
+        <div class="stat-label">Assessed</div>
+      </div>
     </div>
     <div class="control-list" id="controlList">
       <div class="empty-state"><div class="empty-icon">⋯</div><div class="empty-text">Loading controls…</div></div>
@@ -541,6 +735,59 @@
     <div class="tab-panel" id="tab-lenses" role="tabpanel"></div>
     <div class="tab-panel" id="tab-frameworks" role="tabpanel"></div>
     <div class="tab-panel" id="tab-sources" role="tabpanel"></div>
+  </div>
+</div>
+
+<!-- Maturity Guide Modal -->
+<div class="mat-modal-overlay" id="matModal" role="dialog" aria-modal="true" aria-label="Maturity Level Guide">
+  <div class="mat-modal">
+    <div class="mat-modal-hd">
+      <div class="mat-modal-title">Maturity Level Guide</div>
+      <button class="mat-modal-close" id="matModalClose">✕ Close</button>
+    </div>
+    <div class="mat-modal-body">
+      <div class="mat-modal-intro">
+        Maturity measures how systematically a control is implemented across your organization.
+        <strong>Current</strong> reflects where the industry broadly sits today — most organizations are at <em>initial</em>.
+        <strong>Target</strong> is the level a control should reach to provide meaningful assurance.
+        Use Assess mode to record where your org actually is.
+      </div>
+      <div class="mat-modal-col-hd">
+        <div>Level</div>
+        <div>What it means</div>
+        <div>How to advance</div>
+      </div>
+      <div class="mat-level-row">
+        <div><span class="mat-level-badge mlb-none">none</span></div>
+        <div class="mat-level-desc">Control doesn't exist. No process, tooling, or owner. The risk is entirely unmanaged.</div>
+        <div class="mat-level-how">Assign an owner. Write down what the control is supposed to do. Any documentation is progress.</div>
+      </div>
+      <div class="mat-level-row">
+        <div><span class="mat-level-badge mlb-initial">initial</span></div>
+        <div class="mat-level-desc">Ad hoc and manual. Someone does it sometimes, but it's undocumented and inconsistently applied. Relies on individual knowledge.</div>
+        <div class="mat-level-how"><strong>→ developing:</strong> Document the process. Build a repeatable checklist. Apply it to every model, not just the ones you're worried about.</div>
+      </div>
+      <div class="mat-level-row">
+        <div><span class="mat-level-badge mlb-developing">developing</span></div>
+        <div class="mat-level-desc">A recognized practice. Partially implemented — some models covered, some not. Coverage gaps are known but not yet closed.</div>
+        <div class="mat-level-how"><strong>→ defined:</strong> Automate the check. Wire it into the build or deployment pipeline as a blocking gate, not an advisory. 100% coverage.</div>
+      </div>
+      <div class="mat-level-row">
+        <div><span class="mat-level-badge mlb-defined">defined</span></div>
+        <div class="mat-level-desc">Documented, automated, enforced. The control runs on every model as a mandatory pipeline gate. Failure blocks release.</div>
+        <div class="mat-level-how"><strong>→ managed:</strong> Instrument outcomes. Add metrics: pass rate, time-to-remediation, false-positive rate. Set alert thresholds and respond to deviations.</div>
+      </div>
+      <div class="mat-level-row">
+        <div><span class="mat-level-badge mlb-managed">managed</span></div>
+        <div class="mat-level-desc">Quantitatively tracked. You measure the control's outcomes and alert on deviation. Response to failures is fast and consistent.</div>
+        <div class="mat-level-how"><strong>→ optimizing:</strong> Close the feedback loop. Metrics drive changes to thresholds, processes, and tooling. Continuous improvement is built in.</div>
+      </div>
+      <div class="mat-level-row">
+        <div><span class="mat-level-badge mlb-optimizing">optimizing</span></div>
+        <div class="mat-level-desc">Continuous improvement. Outcomes data drives automated process changes. The control evolves as the threat landscape and requirements change.</div>
+        <div class="mat-level-how">Maintain and evolve. Share learnings. Review when framework requirements, model types, or threat models change significantly.</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -584,8 +831,61 @@ let controls    = [];
 let baselineSet = new Set();
 let profileMap  = {}; // profile_id → { required: Set, recommended: Set }
 let activeId    = null;
+let assessMode  = false;
+let assessState = {}; // id → maturity level string
 
 const filters = { search: '', layer: 'ALL', profile: '', cap: 'ALL', baseline: false };
+
+const LS_KEY = 'mvai_assess_v1';
+function loadAssessState() {
+  try { assessState = JSON.parse(localStorage.getItem(LS_KEY) ?? '{}'); } catch { assessState = {}; }
+  updateAssessCount();
+}
+function saveAssessState() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(assessState)); } catch {}
+  updateAssessCount();
+}
+function updateAssessCount() {
+  const n = Object.values(assessState).filter(v => v && v !== '').length;
+  document.getElementById('statAssessed').textContent = n;
+}
+function setAssessRating(id, level) {
+  if (level) assessState[id] = level; else delete assessState[id];
+  saveAssessState();
+  // update the card in place
+  const sel = document.querySelector(`[data-assess-id="${id}"]`);
+  if (sel) {
+    sel.className = 'assess-select' + (level ? ' rated' : '');
+    const gapEl = sel.nextElementSibling;
+    if (gapEl && gapEl.classList.contains('assess-gap')) gapEl.remove();
+    if (level) {
+      const ctrl = controls.find(c => c.id === id);
+      const gapNode = document.createElement('span');
+      gapNode.className = 'assess-gap ' + assessGapClass(level, ctrl?.maturity?.target ?? level);
+      gapNode.textContent = assessGapLabel(level, ctrl?.maturity?.target ?? level);
+      sel.after(gapNode);
+    }
+  }
+  // refresh drawer assess section if open
+  if (activeId === id) refreshDrawerAssess(id);
+}
+
+function assessGapClass(self, target) {
+  const si = MATURITY.indexOf(self), ti = MATURITY.indexOf(target);
+  if (si < 0 || ti < 0) return '';
+  if (si > ti) return 'gap-ahead';
+  if (si === ti) return 'gap-at-target';
+  if (ti - si === 1) return 'gap-one';
+  return 'gap-behind';
+}
+function assessGapLabel(self, target) {
+  const si = MATURITY.indexOf(self), ti = MATURITY.indexOf(target);
+  if (si < 0 || ti < 0) return '';
+  const diff = ti - si;
+  if (diff < 0) return '↑ Ahead of target';
+  if (diff === 0) return '✓ At target';
+  return `${diff} level${diff > 1 ? 's' : ''} to target`;
+}
 
 // ── Utils ──────────────────────────────────────────────────────────────────────
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
@@ -706,8 +1006,20 @@ function render() {
   const list = document.getElementById('controlList');
   list.innerHTML = html;
 
-  list.querySelectorAll('.control-card').forEach(el =>
-    el.addEventListener('click', () => openDrawer(el.dataset.id)));
+  list.querySelectorAll('.control-card').forEach(el => {
+    el.addEventListener('click', ev => {
+      if (ev.target.closest('.assess-row')) return;
+      openDrawer(el.dataset.id);
+    });
+  });
+
+  list.querySelectorAll('[data-assess-id]').forEach(sel => {
+    sel.addEventListener('click', e => e.stopPropagation());
+    sel.addEventListener('change', e => {
+      e.stopPropagation();
+      setAssessRating(sel.dataset.assessId, sel.value);
+    });
+  });
 
   if (activeId) {
     list.querySelectorAll('.control-card').forEach(el => {
@@ -717,10 +1029,25 @@ function render() {
 }
 
 function cardHtml(c) {
-  const isBase = baselineSet.has(c.id);
-  const cap    = c.capability_risk?.capability_level ?? 'none';
-  const mat    = c.maturity?.current ?? 'none';
-  const dots   = matDots(mat);
+  const isBase  = baselineSet.has(c.id);
+  const cap     = c.capability_risk?.capability_level ?? 'none';
+  const mat     = c.maturity?.current ?? 'none';
+  const target  = c.maturity?.target ?? mat;
+  const dots    = matDots(mat);
+  const self    = assessState[c.id] ?? '';
+  const gapCls  = self ? assessGapClass(self, target) : '';
+  const gapLbl  = self ? assessGapLabel(self, target) : '';
+
+  const assessRow = `<div class="assess-row">
+    <span class="assess-baseline">Industry: <strong>${esc(mat)}</strong></span>
+    <span style="color:var(--border2)">│</span>
+    <span style="color:var(--muted);font-size:.67rem">Yours:</span>
+    <select class="assess-select${self ? ' rated' : ''}" data-assess-id="${esc(c.id)}">
+      <option value="">— rate —</option>
+      ${MATURITY.map(l => `<option value="${l}"${self===l?' selected':''}>${l}</option>`).join('')}
+    </select>
+    ${self ? `<span class="assess-gap ${gapCls}">${esc(gapLbl)}</span>` : ''}
+  </div>`;
 
   return `<div class="control-card" data-id="${esc(c.id)}">
     <div class="ctrl-id-col">
@@ -730,6 +1057,7 @@ function cardHtml(c) {
     <div class="ctrl-body">
       <div class="ctrl-name">${esc(c.name)}</div>
       <div class="ctrl-plain">${esc(c.plain ?? '')}</div>
+      ${assessRow}
     </div>
     <div class="ctrl-right">
       <div class="cap-badge ${cap}">${capLabel(cap)}</div>
@@ -883,7 +1211,56 @@ function fillOverview(c) {
     </div>`;
   }
 
-  document.getElementById('tab-overview').innerHTML = html;
+  // Assess section (injected at top when assess mode is on)
+  if (assessMode) {
+    const selfVal = assessState[c.id] ?? '';
+    const target  = c.maturity?.target ?? c.maturity?.current ?? 'none';
+    const notes   = c.maturity?.notes ?? '';
+    const gapLbl  = selfVal ? assessGapLabel(selfVal, target) : '';
+    const gapCls  = selfVal ? assessGapClass(selfVal, target) : '';
+    const assessSection = `<div class="assess-drawer-section" id="assessDrawerSection">
+      <div class="assess-drawer-title">⊕ Your Assessment</div>
+      <div class="assess-drawer-row">
+        <span style="font-size:.78rem;color:var(--muted)">Your level:</span>
+        <select class="assess-drawer-select" id="assessDrawerSelect">
+          <option value="">— not rated —</option>
+          ${MATURITY.map(l => `<option value="${l}"${selfVal===l?' selected':''}>${l}</option>`).join('')}
+        </select>
+        <span style="font-size:.76rem;color:var(--muted)">Industry: <strong style="color:var(--text2)">${esc(c.maturity?.current ?? 'none')}</strong></span>
+        <span style="font-size:.76rem;color:var(--muted)">Target: <strong style="color:var(--accent)">${esc(target)}</strong></span>
+        ${selfVal ? `<span class="assess-gap ${gapCls}">${esc(gapLbl)}</span>` : ''}
+      </div>
+      ${notes ? `<div class="assess-notes">${esc(notes)}</div>` : ''}
+    </div>`;
+    document.getElementById('tab-overview').innerHTML = assessSection + html;
+    document.getElementById('assessDrawerSelect').addEventListener('change', e => {
+      setAssessRating(c.id, e.target.value);
+    });
+  } else {
+    document.getElementById('tab-overview').innerHTML = html;
+  }
+}
+
+function refreshDrawerAssess(id) {
+  const section = document.getElementById('assessDrawerSection');
+  if (!section) return;
+  const c = controls.find(x => x.id === id);
+  if (!c) return;
+  const selfVal = assessState[id] ?? '';
+  const target  = c.maturity?.target ?? c.maturity?.current ?? 'none';
+  const gapLbl  = selfVal ? assessGapLabel(selfVal, target) : '';
+  const gapCls  = selfVal ? assessGapClass(selfVal, target) : '';
+  const sel = document.getElementById('assessDrawerSelect');
+  if (sel) sel.value = selfVal;
+  // update gap chip
+  const existing = section.querySelector('.assess-gap');
+  if (existing) existing.remove();
+  if (selfVal) {
+    const span = document.createElement('span');
+    span.className = `assess-gap ${gapCls}`;
+    span.textContent = gapLbl;
+    section.querySelector('.assess-drawer-row').appendChild(span);
+  }
 }
 
 // ── Tab: Implementation ────────────────────────────────────────────────────────
@@ -1147,7 +1524,94 @@ document.getElementById('baselineToggle').addEventListener('click', function() {
   render();
 });
 
+// ── Assess mode ────────────────────────────────────────────────────────────────
+document.getElementById('assessToggle').addEventListener('click', () => {
+  assessMode = !assessMode;
+  document.body.classList.toggle('assess-mode', assessMode);
+  document.getElementById('assessToggle').textContent = assessMode ? '✕ Exit Assess' : '⊕ Assess';
+  if (assessMode && Object.keys(assessState).length === 0) {
+    // First time: subtle hint
+    document.getElementById('assessToggle').title = 'Click a control\'s "— rate —" dropdown to self-assess';
+  }
+  render();
+});
+
+document.getElementById('assessStatItem').addEventListener('click', () => {
+  if (!assessMode) {
+    assessMode = true;
+    document.body.classList.add('assess-mode');
+    document.getElementById('assessToggle').textContent = '✕ Exit Assess';
+    render();
+  }
+});
+
+// ── Export ─────────────────────────────────────────────────────────────────────
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const rated = controls.filter(c => assessState[c.id]);
+  if (!rated.length) {
+    alert('No controls rated yet. Use the "— rate —" dropdown on any control card to start your assessment.');
+    return;
+  }
+  const now = new Date().toISOString();
+  const payload = {
+    schema:       'apeiris://model/assessment/v1',
+    generated_at: now,
+    profile_filter: filters.profile || null,
+    summary: {
+      total_controls: controls.length,
+      assessed:       rated.length,
+      pct_complete:   Math.round(rated.length / controls.length * 100),
+      controls_at_target: rated.filter(c => {
+        const si = MATURITY.indexOf(assessState[c.id]);
+        const ti = MATURITY.indexOf(c.maturity?.target ?? c.maturity?.current ?? 'none');
+        return si >= ti;
+      }).length,
+    },
+    controls: controls.map(c => {
+      const selfVal = assessState[c.id] ?? null;
+      const target  = c.maturity?.target ?? c.maturity?.current ?? 'none';
+      const si = selfVal ? MATURITY.indexOf(selfVal) : -1;
+      const ti = MATURITY.indexOf(target);
+      return {
+        id:                c.id,
+        layer:             c.layer,
+        name:              c.name,
+        industry_baseline: c.maturity?.current ?? 'none',
+        target,
+        self_assessed:     selfVal,
+        gap_to_target:     selfVal ? (ti - si) : null,
+        advance_note:      selfVal && ti > si ? (c.maturity?.notes ?? null) : null,
+      };
+    }),
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `modelverifier-assessment-${now.slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// ── Maturity guide modal ────────────────────────────────────────────────────────
+function openMatModal() { document.getElementById('matModal').classList.add('open'); }
+function closeMatModal() { document.getElementById('matModal').classList.remove('open'); }
+
+document.getElementById('matGuideBtn').addEventListener('click', openMatModal);
+document.getElementById('matModalClose').addEventListener('click', closeMatModal);
+document.getElementById('matModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('matModal')) closeMatModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeMatModal();
+    if (activeId) closeDrawer();
+  }
+});
+
 // ── Init ───────────────────────────────────────────────────────────────────────
+loadAssessState();
 load();
 </script>
 </body>
