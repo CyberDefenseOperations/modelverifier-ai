@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integration Guide — modelverifier.ai</title>
+  <meta name="description" content="Use the AI Model Assurance Control Matrix in your own tools. CORS-enabled JSON API, framework query recipes, profile filtering, and cross-domain navigation.">
+  <link rel="canonical" href="https://modelverifier.ai/integrate.html">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0d0f12;
+      --surface:     #161a20;
+      --surface2:    #1e242d;
+      --border:      #252b33;
+      --border2:     #2e3744;
+      --text:        #e2e8f0;
+      --text2:       #c4cdd8;
+      --muted:       #8b9ab0;
+      --accent:      #3b82f6;
+      --accent-dim:  #1d4ed8;
+      --accent-glow: rgba(59,130,246,0.14);
+      --warn:        #f59e0b;
+      --success:     #10b981;
+      --danger:      #ef4444;
+      --li: #6366f1; --tg: #8b5cf6; --ev: #10b981;
+      --oa: #f59e0b; --bh: #ef4444; --cr: #06b6d4;
+    }
+
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      font-size: 15px; line-height: 1.6; min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,15,18,0.93); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 50px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .wordmark {
+      font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .wordmark-dot { color: var(--accent); }
+    .wordmark-sub {
+      font-size: 0.67rem; font-weight: 600; color: var(--muted);
+      padding: 2px 7px; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+    }
+    .header-sep { flex: 1; }
+    .header-link {
+      font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.15s;
+    }
+    .header-link:hover { color: var(--text); }
+    .header-link.active { color: var(--accent); }
+
+    .page-wrap { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    h1 {
+      font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.2; margin-bottom: 12px;
+    }
+    .page-lead {
+      font-size: 1rem; color: var(--text2); line-height: 1.6; max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    .endpoint-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px 22px; margin-bottom: 40px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .endpoint-url {
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--accent); flex: 1; min-width: 0; word-break: break-all;
+    }
+    .endpoint-meta { font-size: 0.78rem; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+    .endpoint-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+    }
+    .tag-cors  { background: rgba(16,185,129,0.12); color: var(--success); }
+    .tag-json  { background: rgba(59,130,246,0.12); color: var(--accent); }
+    .tag-ccby  { background: rgba(245,158,11,0.1);  color: var(--warn); }
+    .copy-btn {
+      font-size: 0.72rem; font-weight: 600; padding: 5px 13px; border-radius: 6px;
+      background: var(--accent-glow); color: var(--accent);
+      border: 1px solid rgba(59,130,246,0.35); cursor: pointer;
+      transition: background 0.15s; flex-shrink: 0;
+    }
+    .copy-btn:hover { background: rgba(59,130,246,0.24); }
+
+    h2 {
+      font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 14px; margin-top: 44px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    h2 .section-num {
+      font-family: monospace; font-size: 0.7rem; font-weight: 700;
+      color: var(--muted); border: 1px solid var(--border);
+      padding: 2px 7px; border-radius: 4px;
+    }
+
+    p { color: var(--text2); line-height: 1.65; margin-bottom: 14px; }
+    p code, li code {
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.82em;
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: 1px 5px; border-radius: 3px; color: var(--accent);
+    }
+
+    pre {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 18px; overflow-x: auto;
+      margin-bottom: 20px; position: relative;
+    }
+    pre code {
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.82rem;
+      color: var(--text2); background: none; border: none; padding: 0;
+      line-height: 1.7;
+    }
+    .pre-label {
+      position: absolute; top: 10px; right: 12px;
+      font-size: 0.62rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .hlc { color: var(--muted); }          /* comment */
+    .hlk { color: var(--success); }        /* keyword / string */
+    .hlv { color: var(--accent); }         /* value / number */
+    .hlp { color: var(--warn); }           /* property */
+    .hlf { color: #c084fc; }              /* function */
+
+    .dataset-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.83rem; }
+    .dataset-table th {
+      text-align: left; padding: 6px 10px; color: var(--muted); font-weight: 700;
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+    .dataset-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .dataset-table tr:last-child td { border-bottom: none; }
+    .dataset-table td:first-child { font-family: monospace; font-size: 0.8rem; color: var(--accent); }
+    .dataset-table td:last-child { color: var(--text2); }
+
+    .layer-table td:nth-child(2) { font-family: monospace; font-size: 0.78rem; }
+
+    .layer-pill {
+      font-family: monospace; font-size: 0.72rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 4px; display: inline-block;
+    }
+    .lp-LI { background: rgba(99,102,241,0.12); color: var(--li); }
+    .lp-TG { background: rgba(139,92,246,0.12); color: var(--tg); }
+    .lp-EV { background: rgba(16,185,129,0.12); color: var(--ev); }
+    .lp-OA { background: rgba(245,158,11,0.12); color: var(--oa); }
+    .lp-BH { background: rgba(239,68,68,0.12);  color: var(--bh); }
+    .lp-CR { background: rgba(6,182,212,0.12);  color: var(--cr); }
+
+    .fw-table td:nth-child(1) { font-family: monospace; font-size: 0.78rem; color: var(--accent); }
+    .fw-table td:nth-child(3) { color: var(--text2); font-size: 0.78rem; }
+    .fw-force {
+      font-size: 0.65rem; font-weight: 700; padding: 1px 6px; border-radius: 3px;
+    }
+    .fw-binding  { background: rgba(239,68,68,0.1); color: var(--danger); }
+    .fw-guidance { background: rgba(245,158,11,0.1); color: var(--warn); }
+    .fw-voluntary{ background: var(--surface2); color: var(--muted); }
+
+    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .profile-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+    }
+    .profile-id { font-family: monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; }
+    .profile-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+    .profile-trigger { font-size: 0.76rem; color: var(--text2); }
+
+    .apeiris-uri-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 18px; margin-bottom: 20px;
+      font-family: monospace; font-size: 0.82rem; color: var(--text2); line-height: 2;
+    }
+    .apeiris-uri-box span { color: var(--accent); }
+
+    .notice {
+      background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 7px; padding: 12px 14px; margin-bottom: 20px;
+      font-size: 0.82rem; color: var(--text2); line-height: 1.5;
+    }
+    .notice strong { color: var(--warn); }
+
+    .section-divider { height: 1px; background: var(--border); margin: 44px 0; }
+
+    .toc {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 20px; margin-bottom: 40px;
+    }
+    .toc-title { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 10px; }
+    .toc ol { padding-left: 18px; }
+    .toc li { margin-bottom: 5px; }
+    .toc a { color: var(--text2); text-decoration: none; font-size: 0.83rem; }
+    .toc a:hover { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      .profile-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="/">modelverifier<span class="wordmark-dot">.</span>ai <span class="wordmark-sub">Apeiris</span></a>
+  <div class="header-sep"></div>
+  <a class="header-link" href="/">Matrix</a>
+  <a class="header-link active" href="/integrate.html" style="margin-left:12px">Integrate</a>
+  <a class="header-link" href="https://apeiris.io" target="_blank" style="margin-left:12px">apeiris.io</a>
+</header>
+
+<div class="page-wrap">
+
+  <h1>Integration Guide</h1>
+  <p class="page-lead">
+    The AI Model &amp; System Assurance Control Matrix is available as a
+    CORS-enabled JSON API — fetch from any origin, no key required.
+    54 controls, 8 framework mappings, 8 deployment profiles, machine-readable
+    obligation objects, and structured implementation guidance.
+  </p>
+
+  <div class="endpoint-card">
+    <div>
+      <div class="endpoint-meta" style="margin-bottom:8px">
+        <span class="endpoint-tag tag-cors">CORS: *</span>
+        <span class="endpoint-tag tag-json">JSON</span>
+        <span class="endpoint-tag tag-ccby">CC BY-NC 4.0</span>
+      </div>
+      <div class="endpoint-url" id="endpointUrl">https://modelverifier.ai/integration/model-controls-full.json</div>
+    </div>
+    <button class="copy-btn" id="copyEndpoint">Copy URL</button>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#s1">Quick start</a></li>
+      <li><a href="#s2">Dataset shape</a></li>
+      <li><a href="#s3">Layers</a></li>
+      <li><a href="#s4">Filtering by profile</a></li>
+      <li><a href="#s5">Framework queries</a></li>
+      <li><a href="#s6">Maturity &amp; self-assessment</a></li>
+      <li><a href="#s7">Cross-domain navigation (apeiris://)</a></li>
+      <li><a href="#s8">Mapping to other Apeiris verifiers</a></li>
+      <li><a href="#s9">Release manifest verification</a></li>
+      <li><a href="#s10">License</a></li>
+    </ol>
+  </div>
+
+  <!-- §1 Quick start -->
+  <h2 id="s1"><span class="section-num">01</span> Quick start</h2>
+  <p>One fetch — no API key, no SDK, no rate limit.</p>
+
+  <pre><code><span class="hlc">// Browser or Node 18+</span>
+<span class="hlk">const</span> { dataset } = <span class="hlk">await</span> fetch(
+  <span class="hlk">'https://modelverifier.ai/integration/model-controls-full.json'</span>
+).<span class="hlf">then</span>(r => r.<span class="hlf">json</span>());
+
+dataset.meta.control_count    <span class="hlc">// 54</span>
+dataset.meta.version          <span class="hlc">// "1.0.0"</span>
+dataset.controls.length       <span class="hlc">// 54</span>
+dataset.profiles.length       <span class="hlc">// 8</span></code></pre>
+
+  <pre><code><span class="hlc"># curl</span>
+curl https://modelverifier.ai/integration/model-controls-full.json \
+  | jq '.dataset.meta'</code></pre>
+
+  <div class="section-divider"></div>
+
+  <!-- §2 Dataset shape -->
+  <h2 id="s2"><span class="section-num">02</span> Dataset shape</h2>
+  <p>Everything is under <code>dataset</code>. The top-level keys:</p>
+
+  <table class="dataset-table">
+    <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>meta</td><td>object</td><td>Build metadata: version, hash, counts, generated timestamp</td></tr>
+      <tr><td>controls[]</td><td>array</td><td>54 control records sorted LI→CR then by number</td></tr>
+      <tr><td>references[]</td><td>array</td><td>Deduplicated source documents cited by controls</td></tr>
+      <tr><td>layers[]</td><td>array</td><td>6 layer definitions with control ID lists</td></tr>
+      <tr><td>planes[]</td><td>array</td><td>4 assurance plane definitions</td></tr>
+      <tr><td>profiles[]</td><td>array</td><td>8 deployment profiles with required/recommended control IDs</td></tr>
+      <tr><td>patterns[]</td><td>array</td><td>Implementation pattern summaries per control</td></tr>
+      <tr><td>framework_coverage[]</td><td>array</td><td>Per-framework mapping statistics</td></tr>
+      <tr><td>capability_coverage[]</td><td>array</td><td>Controls indexed by capability level and domain</td></tr>
+      <tr><td>lifecycle[]</td><td>array</td><td>Ordered 6-stage model assurance lifecycle</td></tr>
+    </tbody>
+  </table>
+
+  <p>Each control has a stable <code>id</code> (<code>LI-01</code> through <code>CR-08</code>) that is never reused. The <code>canonical_id</code> is the globally unique cross-domain identifier: <code>apeiris://model/controls/LI-01</code>.</p>
+
+  <div class="section-divider"></div>
+
+  <!-- §3 Layers -->
+  <h2 id="s3"><span class="section-num">03</span> Layers</h2>
+  <p>Six layers span the full assurance lifecycle from asset identification through continuous risk management.</p>
+
+  <table class="dataset-table layer-table">
+    <thead><tr><th>Layer</th><th>Prefix</th><th>Name</th><th>Plane</th><th>Controls</th></tr></thead>
+    <tbody>
+      <tr><td><span class="layer-pill lp-LI">LI</span></td><td>LI-01 – LI-10</td><td>AI Asset, Lineage &amp; Applicability</td><td>control</td><td>10</td></tr>
+      <tr><td><span class="layer-pill lp-TG">TG</span></td><td>TG-01 – TG-08</td><td>Training &amp; Data Governance</td><td>data</td><td>8</td></tr>
+      <tr><td><span class="layer-pill lp-EV">EV</span></td><td>EV-01 – EV-10</td><td>Evaluation, Validation &amp; Release</td><td>both</td><td>10</td></tr>
+      <tr><td><span class="layer-pill lp-OA">OA</span></td><td>OA-01 – OA-08</td><td>Governance, Accountability &amp; Oversight</td><td>control</td><td>8</td></tr>
+      <tr><td><span class="layer-pill lp-BH">BH</span></td><td>BH-01 – BH-10</td><td>Deployment &amp; Runtime Assurance</td><td>data</td><td>10</td></tr>
+      <tr><td><span class="layer-pill lp-CR">CR</span></td><td>CR-01 – CR-08</td><td>Continuous Risk, Incident &amp; Evidence</td><td>lifecycle</td><td>8</td></tr>
+    </tbody>
+  </table>
+
+  <pre><code><span class="hlc">// All controls in a specific layer</span>
+dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="hlk">'EV'</span>)</code></pre>
+
+  <div class="section-divider"></div>
+
+  <!-- §4 Profiles -->
+  <h2 id="s4"><span class="section-num">04</span> Filtering by profile</h2>
+  <p>
+    Eight profiles define which controls are required or recommended based on
+    your deployment type. Profiles are additive to the 15-control baseline —
+    all baseline controls apply regardless of profile.
+  </p>
+
+  <div class="profile-grid">
+    <div class="profile-card"><div class="profile-id">general-predictive-ml</div><div class="profile-name">General Predictive ML</div><div class="profile-trigger">Supervised/unsupervised ML, no elevated capability</div></div>
+    <div class="profile-card"><div class="profile-id">generative-ai</div><div class="profile-name">Generative AI</div><div class="profile-trigger">Generative paradigm or text/image/code output</div></div>
+    <div class="profile-card"><div class="profile-id">hosted-api</div><div class="profile-name">Hosted / Third-Party API</div><div class="profile-trigger">Third-party API access or open-weight provider</div></div>
+    <div class="profile-card"><div class="profile-id">continuously-learning</div><div class="profile-name">Continuously Learning</div><div class="profile-trigger">RLHF, online-learning, continual-learning</div></div>
+    <div class="profile-card"><div class="profile-id">high-impact-decision</div><div class="profile-name">High-Impact Decision</div><div class="profile-trigger">Credit, hiring, healthcare, judicial decisions</div></div>
+    <div class="profile-card"><div class="profile-id">us-regulated-banking</div><div class="profile-name">US Banking (SR 26-2)</div><div class="profile-trigger">US supervised financial institution, $30B+ assets</div></div>
+    <div class="profile-card"><div class="profile-id">eu-high-risk</div><div class="profile-name">EU High-Risk AI</div><div class="profile-trigger">EU AI Act Annex III or product-embedded classification</div></div>
+    <div class="profile-card"><div class="profile-id">frontier-capability</div><div class="profile-name">Frontier Capability</div><div class="profile-trigger">capability_level: "frontier" or dangerous domains</div></div>
+  </div>
+
+  <pre><code><span class="hlc">// Get all required controls for a profile + the baseline</span>
+<span class="hlk">function</span> <span class="hlf">requiredControls</span>(dataset, profileId) {
+  <span class="hlk">const</span> profile = dataset.profiles.<span class="hlf">find</span>(p => p.profile_id === profileId);
+  <span class="hlk">const</span> ids = <span class="hlk">new</span> <span class="hlf">Set</span>([
+    ...dataset.meta.baseline_controls,
+    ...(profile?.required_controls ?? []),
+  ]);
+  <span class="hlk">return</span> dataset.controls.<span class="hlf">filter</span>(c => ids.<span class="hlf">has</span>(c.id));
+}
+
+<span class="hlk">const</span> euRequired = <span class="hlf">requiredControls</span>(dataset, <span class="hlk">'eu-high-risk'</span>);
+<span class="hlc">// Returns baseline (15) + EU High-Risk required controls</span></code></pre>
+
+  <pre><code><span class="hlc">// Controls required OR recommended for a profile</span>
+<span class="hlk">function</span> <span class="hlf">applicableControls</span>(dataset, profileId) {
+  <span class="hlk">const</span> profile = dataset.profiles.<span class="hlf">find</span>(p => p.profile_id === profileId);
+  <span class="hlk">const</span> req = <span class="hlk">new</span> <span class="hlf">Set</span>(profile?.required_controls ?? []);
+  <span class="hlk">const</span> rec = <span class="hlk">new</span> <span class="hlf">Set</span>(profile?.recommended_controls ?? []);
+  <span class="hlk">const</span> base = <span class="hlk">new</span> <span class="hlf">Set</span>(dataset.meta.baseline_controls);
+  <span class="hlk">return</span> dataset.controls.<span class="hlf">map</span>(c => ({
+    ...c,
+    applicability: base.<span class="hlf">has</span>(c.id) ? <span class="hlk">'baseline'</span>
+      : req.<span class="hlf">has</span>(c.id)  ? <span class="hlk">'required'</span>
+      : rec.<span class="hlf">has</span>(c.id)  ? <span class="hlk">'recommended'</span>
+      : <span class="hlk">'not-applicable'</span>
+  })).<span class="hlf">filter</span>(c => c.applicability !== <span class="hlk">'not-applicable'</span>);
+}</code></pre>
+
+  <div class="section-divider"></div>
+
+  <!-- §5 Framework queries -->
+  <h2 id="s5"><span class="section-num">05</span> Framework queries</h2>
+  <p>Eight frameworks are mapped per control. Each mapping object includes the requirement ID, fit rating, rationale, and source locator.</p>
+
+  <table class="dataset-table fw-table">
+    <thead><tr><th>Key</th><th>Force</th><th>Framework</th></tr></thead>
+    <tbody>
+      <tr><td>nist_rmf</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI Risk Management Framework 1.0</td></tr>
+      <tr><td>iso_42001</td><td><span class="fw-force fw-voluntary">standard</span></td><td>ISO/IEC 42001:2023 AI Management Systems</td></tr>
+      <tr><td>eu_ai_act</td><td><span class="fw-force fw-binding">binding (EU)</span></td><td>EU AI Act — Regulation 2024/1689</td></tr>
+      <tr><td>sr262</td><td><span class="fw-force fw-guidance">guidance</span></td><td>Fed SR 26-2 — Model Risk Management ($30B+ assets)</td></tr>
+      <tr><td>aisvs</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Security Verification Standard v1.0</td></tr>
+      <tr><td>llm10</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP LLM Top 10 2025 v2.0</td></tr>
+      <tr><td>aicm</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>CSA AI Controls Matrix v1.0.3</td></tr>
+      <tr><td>mitre</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>MITRE ATLAS v5.6.0</td></tr>
+    </tbody>
+  </table>
+
+  <pre><code><span class="hlc">// Controls with direct EU AI Act Art. 9 mapping</span>
+dataset.controls.<span class="hlf">filter</span>(c =>
+  c.frameworks?.some(f =>
+    f.framework === <span class="hlk">'eu_ai_act'</span> &&
+    f.requirement_id === <span class="hlk">'Art-9'</span> &&
+    f.fit === <span class="hlk">'direct'</span>
+  )
+);</code></pre>
+
+  <pre><code><span class="hlc">// Summarize coverage per framework</span>
+<span class="hlk">const</span> coverage = {};
+<span class="hlk">for</span> (<span class="hlk">const</span> c <span class="hlk">of</span> dataset.controls) {
+  <span class="hlk">for</span> (<span class="hlk">const</span> fw <span class="hlk">of</span> (c.frameworks ?? [])) {
+    coverage[fw.framework] ??= { direct: 0, partial: 0, adjacent: 0 };
+    coverage[fw.framework][fw.fit] = (coverage[fw.framework][fw.fit] ?? 0) + 1;
+  }
+}
+<span class="hlc">// coverage.nist_rmf → { direct: 28, partial: 14, adjacent: 5 }</span></code></pre>
+
+  <pre><code><span class="hlc">// Build a gap report for SR 26-2 compliance</span>
+<span class="hlk">const</span> sr262Controls = dataset.controls.<span class="hlf">filter</span>(c =>
+  c.frameworks?.some(f => f.framework === <span class="hlk">'sr262'</span>)
+).<span class="hlf">map</span>(c => ({
+  id:    c.id,
+  name:  c.name,
+  mappings: c.frameworks
+    .<span class="hlf">filter</span>(f => f.framework === <span class="hlk">'sr262'</span>)
+    .<span class="hlf">map</span>(f => ({ req: f.requirement_id, fit: f.fit, rationale: f.rationale }))
+}));</code></pre>
+
+  <div class="section-divider"></div>
+
+  <!-- §6 Maturity -->
+  <h2 id="s6"><span class="section-num">06</span> Maturity &amp; self-assessment</h2>
+
+  <p>
+    Every control has a <code>maturity</code> object with <code>current</code> (industry baseline today),
+    <code>target</code> (the level needed for meaningful assurance), and <code>notes</code>
+    (the specific steps required to advance).
+  </p>
+
+  <table class="dataset-table">
+    <thead><tr><th>Level</th><th>Meaning</th><th>Advance to next by…</th></tr></thead>
+    <tbody>
+      <tr><td>none</td><td>Control doesn't exist</td><td>Assign an owner, document intent</td></tr>
+      <tr><td>initial</td><td>Ad hoc, manual, inconsistent</td><td>Document and repeat the process</td></tr>
+      <tr><td>developing</td><td>Emerging practice, partial coverage</td><td>Complete coverage, standardize</td></tr>
+      <tr><td>defined</td><td>Automated, enforced as a pipeline gate</td><td>Add metrics and alert thresholds</td></tr>
+      <tr><td>managed</td><td>Quantitatively tracked, alerts on deviation</td><td>Close the feedback loop</td></tr>
+      <tr><td>optimizing</td><td>Continuous improvement from metrics</td><td>Maintain and evolve</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Use the <a href="/" style="color:var(--accent)">matrix UI's Assess mode</a> (⊕ Assess in the header)
+    to self-rate each control and export a JSON assessment. Or query the maturity data directly:
+  </p>
+
+  <pre><code><span class="hlc">// Find controls where your org might be at initial but target is defined+</span>
+<span class="hlk">const</span> MATURITY = [<span class="hlk">'none'</span>,<span class="hlk">'initial'</span>,<span class="hlk">'developing'</span>,<span class="hlk">'defined'</span>,<span class="hlk">'managed'</span>,<span class="hlk">'optimizing'</span>];
+
+dataset.controls
+  .<span class="hlf">filter</span>(c => MATURITY.<span class="hlf">indexOf</span>(c.maturity?.target) >= MATURITY.<span class="hlf">indexOf</span>(<span class="hlk">'defined'</span>))
+  .<span class="hlf">map</span>(c => ({
+    id:     c.id,
+    name:   c.name,
+    target: c.maturity.target,
+    steps:  c.maturity.notes,
+  }));</code></pre>
+
+  <pre><code><span class="hlc">// Assessment export schema (from UI export)</span>
+{
+  <span class="hlp">"schema"</span>:       <span class="hlk">"apeiris://model/assessment/v1"</span>,
+  <span class="hlp">"generated_at"</span>: <span class="hlk">"2026-06-26T..."</span>,
+  <span class="hlp">"summary"</span>: {
+    <span class="hlp">"total_controls"</span>:     <span class="hlv">54</span>,
+    <span class="hlp">"assessed"</span>:           <span class="hlv">42</span>,
+    <span class="hlp">"pct_complete"</span>:       <span class="hlv">78</span>,
+    <span class="hlp">"controls_at_target"</span>: <span class="hlv">8</span>
+  },
+  <span class="hlp">"controls"</span>: [{
+    <span class="hlp">"id"</span>:                <span class="hlk">"LI-01"</span>,
+    <span class="hlp">"industry_baseline"</span>: <span class="hlk">"initial"</span>,
+    <span class="hlp">"target"</span>:            <span class="hlk">"defined"</span>,
+    <span class="hlp">"self_assessed"</span>:     <span class="hlk">"developing"</span>,
+    <span class="hlp">"gap_to_target"</span>:     <span class="hlv">1</span>,
+    <span class="hlp">"advance_note"</span>:      <span class="hlk">"Achieving 'defined' requires integrating hash..."</span>
+  }]
+}</code></pre>
+
+  <div class="section-divider"></div>
+
+  <!-- §7 Cross-domain -->
+  <h2 id="s7"><span class="section-num">07</span> Cross-domain navigation</h2>
+
+  <p>
+    Controls reference related controls in other Apeiris domains via
+    <code>cross_domain.references[]</code> using stable <code>apeiris://</code> URIs.
+    These URIs are permanent and never reused.
+  </p>
+
+  <div class="apeiris-uri-box">
+    <span>apeiris://model/controls/LI-01</span>      → this domain (modelverifier.ai)<br>
+    <span>apeiris://security/controls/IA-02</span>   → securitycontrols.ai<br>
+    <span>apeiris://privacy/controls/DP-03</span>    → (future privacy domain)<br>
+    <span>apeiris://compliance/controls/RF-01</span> → (future compliance domain)
+  </div>
+
+  <pre><code><span class="hlc">// Resolve an apeiris:// URI to find the domain</span>
+<span class="hlk">function</span> <span class="hlf">parseApeiriUri</span>(uri) {
+  <span class="hlk">const</span> m = uri.<span class="hlf">match</span>(<span class="hlk">/^apeiris:\/\/([^/]+)\/controls\/([A-Z]{2}-\d{2})$/</span>);
+  <span class="hlk">if</span> (!m) <span class="hlk">return null</span>;
+  <span class="hlk">return</span> { domain: m[1], id: m[2] };
+}
+
+<span class="hlc">// Cross-domain links for a control</span>
+<span class="hlk">const</span> li01 = dataset.controls.<span class="hlf">find</span>(c => c.id === <span class="hlk">'LI-01'</span>);
+<span class="hlk">const</span> refs = li01.cross_domain?.references ?? [];
+refs.<span class="hlf">forEach</span>(uri => {
+  <span class="hlk">const</span> loc = <span class="hlf">parseApeiriUri</span>(uri);
+  console.<span class="hlf">log</span>(`Related: ${loc?.id} in ${loc?.domain}`);
+});</code></pre>
+
+  <div class="notice">
+    <strong>Namespace registry</strong> — The global prefix registry lives in
+    <code>apeiris-control-core/namespace-registry.json</code>.
+    <code>model</code> domain owns prefixes LI, TG, EV, OA, BH, CR.
+    <code>security</code> domain owns IA, EC, PT, GV, RT, AS.
+    Short IDs are display-only; canonical IDs are the durable reference.
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- §8 Mapping to other Apeiris verifiers -->
+  <h2 id="s8"><span class="section-num">08</span> Mapping to other Apeiris verifiers</h2>
+
+  <p>
+    Apeiris verifiers have explicit ownership boundaries to avoid duplicate controls.
+    This matrix owns model-specific concerns. Related concerns live in other verifiers:
+  </p>
+
+  <table class="dataset-table">
+    <thead><tr><th>Concern</th><th>Owner</th><th>This matrix's role</th></tr></thead>
+    <tbody>
+      <tr><td>Model artifact integrity, runtime isolation, prompt injection enforcement</td><td><a href="https://securitycontrols.ai" style="color:var(--accent)">securitycontrols.ai</a></td><td>Evaluation — measuring resistance, not enforcement</td></tr>
+      <tr><td>Lawful data use, retention, data-subject rights</td><td>Privacy verifier (future)</td><td>Data governance — training data quality and consent</td></tr>
+      <tr><td>Obligation interpretation, legal applicability</td><td>Compliance verifier (future)</td><td>Framework mapping — what the control addresses</td></tr>
+      <tr><td>Delegated authority, tool actions, workflow enforcement</td><td>Agentic Control verifier (future)</td><td>Behavioral boundary evaluation and measurement</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    The shared evidence architecture uses <code>apeiris://</code> URIs so one verifier's
+    evidence artifacts can be consumed by another without re-running the same control.
+  </p>
+
+  <div class="section-divider"></div>
+
+  <!-- §9 Release manifest -->
+  <h2 id="s9"><span class="section-num">09</span> Release manifest verification</h2>
+
+  <pre><code><span class="hlc">// Verify dataset integrity</span>
+<span class="hlk">const</span> manifest = <span class="hlk">await</span> fetch(
+  <span class="hlk">'https://modelverifier.ai/integration/release-manifest.json'</span>
+).<span class="hlf">then</span>(r => r.<span class="hlf">json</span>());
+
+<span class="hlc">// Compare against dataset.meta.content_hash</span>
+<span class="hlk">const</span> storedHash    = manifest.artifacts[<span class="hlv">0</span>].content_hash;
+<span class="hlk">const</span> datasetHash   = dataset.meta.content_hash;
+console.<span class="hlf">log</span>(<span class="hlk">'Hash match:'</span>, storedHash === datasetHash);</code></pre>
+
+  <p>
+    The manifest is signed on every build. The <code>content_hash</code> covers the
+    full <code>dataset</code> object before the meta timestamp is applied —
+    it will match even if you fetch at a different time.
+  </p>
+
+  <div class="section-divider"></div>
+
+  <!-- §10 License -->
+  <h2 id="s10"><span class="section-num">10</span> License</h2>
+
+  <p>
+    <strong>CC BY-NC 4.0</strong> — non-commercial use, attribution required.
+    Commercial licensing: <a href="https://apeiris.io" style="color:var(--accent)">apeiris.io</a>.
+  </p>
+
+  <div class="notice">
+    <strong>AISVS note:</strong> OWASP AISVS content is distributed under CC BY-SA 4.0.
+    AISVS requirement IDs are used as locators only; requirement text is paraphrased,
+    never reproduced verbatim. The matrix's CC BY-NC 4.0 license applies to the control
+    content, not to AISVS text.
+  </div>
+
+</div>
+
+<script>
+document.getElementById('copyEndpoint').addEventListener('click', function() {
+  const url = document.getElementById('endpointUrl').textContent;
+  navigator.clipboard.writeText(url).then(() => {
+    this.textContent = '✓ Copied';
+    setTimeout(() => { this.textContent = 'Copy URL'; }, 1800);
+  }).catch(() => {
+    this.textContent = 'Copy URL';
+  });
+});
+</script>
+</body>
+</html>
