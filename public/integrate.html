@@ -206,8 +206,71 @@
     .toc a { color: var(--text2); text-decoration: none; font-size: 0.83rem; }
     .toc a:hover { color: var(--accent); }
 
+    .thesis-box {
+      background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.25);
+      border-radius: 10px; padding: 20px 22px; margin-bottom: 36px;
+    }
+    .thesis-label {
+      font-size: 0.64rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px;
+    }
+    .thesis-text { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+    .thesis-text strong { color: var(--text); }
+    .thesis-text em { color: var(--accent); font-style: normal; }
+    .thesis-divider { height: 1px; background: rgba(59,130,246,0.2); margin: 14px 0; }
+    .thesis-pre {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 7px; padding: 14px 16px; overflow-x: auto;
+      margin-top: 14px;
+    }
+    .thesis-pre code { font-family: 'SF Mono', monospace; font-size: 0.78rem; line-height: 1.7; }
+
+    .version-stale {
+      font-size: 0.65rem; font-weight: 700; padding: 1px 6px; border-radius: 3px;
+      background: rgba(245,158,11,0.12); color: var(--warn); margin-left: 6px;
+    }
+    .version-new {
+      font-size: 0.65rem; font-weight: 700; padding: 1px 6px; border-radius: 3px;
+      background: rgba(16,185,129,0.1); color: var(--success); margin-left: 4px;
+    }
+    .fw-planned { opacity: 0.55; font-style: italic; }
+
+    .profile-card.planned { opacity: 0.6; border-style: dashed; }
+    .profile-label-planned {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); margin-top: 4px;
+    }
+
+    .scope-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;
+    }
+    .scope-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px;
+    }
+    .scope-card-title {
+      font-size: 0.67rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; margin-bottom: 8px;
+    }
+    .scope-card-title.owns { color: var(--success); }
+    .scope-card-title.refers { color: var(--muted); }
+    .scope-list { list-style: none; }
+    .scope-list li {
+      font-size: 0.78rem; color: var(--text2); padding: 3px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .scope-list li:last-child { border-bottom: none; }
+
+    .warn-box {
+      background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.3);
+      border-radius: 7px; padding: 12px 14px; margin-bottom: 18px;
+      font-size: 0.82rem; color: var(--text2); line-height: 1.5;
+    }
+    .warn-box strong { color: var(--warn); }
+
     @media (max-width: 640px) {
       .profile-grid { grid-template-columns: 1fr; }
+      .scope-grid { grid-template-columns: 1fr; }
       h1 { font-size: 1.35rem; }
     }
   </style>
@@ -232,6 +295,38 @@
     obligation objects, and structured implementation guidance.
   </p>
 
+  <div class="thesis-box">
+    <div class="thesis-label">What this is</div>
+    <div class="thesis-text">
+      This matrix verifies whether a specific <strong>AI system in a specific use case</strong>,
+      under a specific obligation set, has enough structured evidence to be trusted.
+      It is not a model inventory checklist and not a runtime interceptor.
+      It documents <em>what must be evaluated, by which test, with what evidence, at what confidence, for which actor.</em>
+    </div>
+    <div class="thesis-divider"></div>
+    <div class="thesis-text">
+      <strong>The governed object is the assurance target</strong> — not just the model artifact.
+      The same base model can be low-risk in an internal summarization tool and high-risk in employment screening.
+      Classification, obligations, and required controls are all derived from assurance target properties,
+      not fixed model attributes.
+    </div>
+    <pre class="thesis-pre"><code><span class="hlc">// Assurance target — the object this matrix verifies</span>
+{
+  <span class="hlp">"use_case"</span>:              <span class="hlk">"employment-screening"</span>,
+  <span class="hlp">"actor_role"</span>:            <span class="hlk">"deployer"</span>,
+  <span class="hlp">"model_provider"</span>:        <span class="hlk">"openai"</span>,
+  <span class="hlp">"model_version"</span>:         <span class="hlk">"gpt-4o-2024-11-20"</span>,
+  <span class="hlp">"prompt_hash"</span>:           <span class="hlk">"sha256:..."</span>,
+  <span class="hlp">"rag_corpus_ids"</span>:        [<span class="hlk">"resume-corpus-v3"</span>],
+  <span class="hlp">"tool_manifest_ids"</span>:     [<span class="hlk">"ats-api-v2"</span>],
+  <span class="hlp">"deployment_context"</span>:    <span class="hlk">"production-us-east"</span>,
+  <span class="hlp">"jurisdiction"</span>:          [<span class="hlk">"us"</span>, <span class="hlk">"eu"</span>],
+  <span class="hlp">"affected_party_impact"</span>: <span class="hlk">"material"</span>,
+  <span class="hlp">"autonomy_tier"</span>:         <span class="hlk">"human-in-loop"</span>,
+  <span class="hlp">"materiality_tier"</span>:      <span class="hlk">"high-impact-decision"</span>
+}</code></pre>
+  </div>
+
   <div class="endpoint-card">
     <div>
       <div class="endpoint-meta" style="margin-bottom:8px">
@@ -248,13 +343,13 @@
     <div class="toc-title">Contents</div>
     <ol>
       <li><a href="#s1">Quick start</a></li>
-      <li><a href="#s2">Dataset shape</a></li>
+      <li><a href="#s2">Dataset shape &amp; build warnings</a></li>
       <li><a href="#s3">Layers</a></li>
       <li><a href="#s4">Filtering by profile</a></li>
       <li><a href="#s5">Framework queries</a></li>
       <li><a href="#s6">Maturity &amp; self-assessment</a></li>
       <li><a href="#s7">Cross-domain navigation (apeiris://)</a></li>
-      <li><a href="#s8">Mapping to other Apeiris verifiers</a></li>
+      <li><a href="#s8">Scope boundaries — what this covers and doesn't</a></li>
       <li><a href="#s9">Release manifest verification</a></li>
       <li><a href="#s10">License</a></li>
     </ol>
@@ -281,7 +376,7 @@ curl https://modelverifier.ai/integration/model-controls-full.json \
   <div class="section-divider"></div>
 
   <!-- §2 Dataset shape -->
-  <h2 id="s2"><span class="section-num">02</span> Dataset shape</h2>
+  <h2 id="s2"><span class="section-num">02</span> Dataset shape &amp; build warnings</h2>
   <p>Everything is under <code>dataset</code>. The top-level keys:</p>
 
   <table class="dataset-table">
@@ -301,6 +396,15 @@ curl https://modelverifier.ai/integration/model-controls-full.json \
   </table>
 
   <p>Each control has a stable <code>id</code> (<code>LI-01</code> through <code>CR-08</code>) that is never reused. The <code>canonical_id</code> is the globally unique cross-domain identifier: <code>apeiris://model/controls/LI-01</code>.</p>
+
+  <div class="warn-box">
+    <strong>Build warnings:</strong> The current dataset sets <code>dataset.meta.has_warnings: true</code>
+    with <code>warning_count: 1</code> but does not yet emit a structured <code>warnings[]</code> array.
+    API consumers should check <code>has_warnings</code> and treat it as a signal to consult the
+    <a href="/integration/release-manifest.json" style="color:var(--warn)">release manifest</a> for details.
+    A typed <code>warnings[]</code> block (severity, object_path, message, remediation, blocks_release)
+    is on the v1.1 data schema roadmap.
+  </div>
 
   <div class="section-divider"></div>
 
@@ -336,12 +440,22 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
   <div class="profile-grid">
     <div class="profile-card"><div class="profile-id">general-predictive-ml</div><div class="profile-name">General Predictive ML</div><div class="profile-trigger">Supervised/unsupervised ML, no elevated capability</div></div>
     <div class="profile-card"><div class="profile-id">generative-ai</div><div class="profile-name">Generative AI</div><div class="profile-trigger">Generative paradigm or text/image/code output</div></div>
-    <div class="profile-card"><div class="profile-id">hosted-api</div><div class="profile-name">Hosted / Third-Party API</div><div class="profile-trigger">Third-party API access or open-weight provider</div></div>
-    <div class="profile-card"><div class="profile-id">continuously-learning</div><div class="profile-name">Continuously Learning</div><div class="profile-trigger">RLHF, online-learning, continual-learning</div></div>
-    <div class="profile-card"><div class="profile-id">high-impact-decision</div><div class="profile-name">High-Impact Decision</div><div class="profile-trigger">Credit, hiring, healthcare, judicial decisions</div></div>
-    <div class="profile-card"><div class="profile-id">us-regulated-banking</div><div class="profile-name">US Banking (SR 26-2)</div><div class="profile-trigger">US supervised financial institution, $30B+ assets</div></div>
-    <div class="profile-card"><div class="profile-id">eu-high-risk</div><div class="profile-name">EU High-Risk AI</div><div class="profile-trigger">EU AI Act Annex III or product-embedded classification</div></div>
-    <div class="profile-card"><div class="profile-id">frontier-capability</div><div class="profile-name">Frontier Capability</div><div class="profile-trigger">capability_level: "frontier" or dangerous domains</div></div>
+    <div class="profile-card"><div class="profile-id">hosted-api</div><div class="profile-name">Hosted / Third-Party API</div><div class="profile-trigger">Third-party model or open-weight provider; black-box assurance pattern applies</div></div>
+    <div class="profile-card"><div class="profile-id">continuously-learning</div><div class="profile-name">Continuously Learning</div><div class="profile-trigger">RLHF, online-learning, continual-learning — separate lifecycle from static models</div></div>
+    <div class="profile-card"><div class="profile-id">high-impact-decision</div><div class="profile-name">High-Impact Decision</div><div class="profile-trigger">Credit, hiring, healthcare, judicial — materially affects individuals</div></div>
+    <div class="profile-card"><div class="profile-id">us-regulated-banking</div><div class="profile-name">US Regulated Banking / Financial Institution</div><div class="profile-trigger">Supervised banking organizations; heightened expectations scaled by size, complexity, and model risk profile</div></div>
+    <div class="profile-card"><div class="profile-id">eu-high-risk</div><div class="profile-name">EU High-Risk AI System</div><div class="profile-trigger">EU AI Act Annex III or product-embedded (Ch. III/IV obligations; deployer and provider duties differ)</div></div>
+    <div class="profile-card"><div class="profile-id">frontier-capability</div><div class="profile-name">Frontier Capability</div><div class="profile-trigger">capability_level: "frontier" or dangerous domains — ~ASL-3+ evaluation requirements</div></div>
+    <div class="profile-card planned"><div class="profile-id">gpai-provider</div><div class="profile-name">GPAI Model Provider</div><div class="profile-trigger">EU AI Act Ch. V — providers of general-purpose AI models; transparency and copyright documentation obligations</div><div class="profile-label-planned">planned — v1.1</div></div>
+    <div class="profile-card planned"><div class="profile-id">gpai-systemic-risk</div><div class="profile-name">GPAI with Systemic Risk</div><div class="profile-trigger">EU AI Act Ch. VI — GPAI models with systemic risk; adversarial testing, incident reporting, cybersecurity protection, systemic-risk assessment</div><div class="profile-label-planned">planned — v1.1</div></div>
+  </div>
+
+  <div class="notice">
+    <strong>GPAI profiles:</strong> EU AI Act Chapter V and VI impose distinct obligations on <em>providers</em> of
+    general-purpose AI models that are separate from, and additive to, high-risk system obligations.
+    A frontier model provider, a downstream enterprise deployer, and an orchestrated-service provider
+    do not have the same duties. The current <code>frontier-capability</code> and <code>eu-high-risk</code>
+    profiles do not capture GPAI-specific provider obligations. GPAI profiles are mapped and planned for v1.1.
   </div>
 
   <pre><code><span class="hlc">// Get all required controls for a profile + the baseline</span>
@@ -376,21 +490,37 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
 
   <!-- §5 Framework queries -->
   <h2 id="s5"><span class="section-num">05</span> Framework queries</h2>
-  <p>Eight frameworks are mapped per control. Each mapping object includes the requirement ID, fit rating, rationale, and source locator.</p>
+  <p>Eight frameworks are currently mapped per control. Each mapping object includes the requirement ID, fit rating, rationale, and source locator. Two additional framework keys are planned for v1.1.</p>
 
   <table class="dataset-table fw-table">
     <thead><tr><th>Key</th><th>Force</th><th>Framework</th></tr></thead>
     <tbody>
-      <tr><td>nist_rmf</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI Risk Management Framework 1.0</td></tr>
+      <tr><td>nist_rmf</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI Risk Management Framework 1.0 + AI 600-1 GenAI Profile</td></tr>
       <tr><td>iso_42001</td><td><span class="fw-force fw-voluntary">standard</span></td><td>ISO/IEC 42001:2023 AI Management Systems</td></tr>
-      <tr><td>eu_ai_act</td><td><span class="fw-force fw-binding">binding (EU)</span></td><td>EU AI Act — Regulation 2024/1689</td></tr>
-      <tr><td>sr262</td><td><span class="fw-force fw-guidance">guidance</span></td><td>Fed SR 26-2 — Model Risk Management ($30B+ assets)</td></tr>
+      <tr><td>eu_ai_act</td><td><span class="fw-force fw-binding">binding (EU)</span></td><td>EU AI Act — Regulation 2024/1689 (Ch. III–VI; GPAI obligations in v1.1)</td></tr>
+      <tr><td>sr262</td><td><span class="fw-force fw-guidance">guidance</span></td><td>Fed SR 26-2 — Supervisory Guidance on Model Risk Management</td></tr>
       <tr><td>aisvs</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Security Verification Standard v1.0</td></tr>
       <tr><td>llm10</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP LLM Top 10 2025 v2.0</td></tr>
-      <tr><td>aicm</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>CSA AI Controls Matrix v1.0.3</td></tr>
+      <tr><td>aicm</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>CSA AI Controls Matrix v1.0.3 <span class="version-stale">⚠ v1.1 released 2026-06-22</span></td></tr>
       <tr><td>mitre</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>MITRE ATLAS v5.6.0</td></tr>
+      <tr class="fw-planned"><td>nist_ai_600_1 <span style="font-size:.65rem;color:var(--muted)">(v1.1)</span></td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI 600-1 GenAI Profile — confabulation, IP, CBRN, info integrity, compute</td></tr>
+      <tr class="fw-planned"><td>owasp_aitg <span style="font-size:.65rem;color:var(--muted)">(v1.1)</span></td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Testing Guide v1 — repeatable trustworthiness testing across EV/BH/CR</td></tr>
     </tbody>
   </table>
+
+  <div class="notice">
+    <strong>AICM v1.1 (June 22, 2026):</strong> CSA released AICM v1.1 with 247 control objectives across 18 domains,
+    plus EU AI Act mapping, AI-CAIQ, and STAR for AI materials. Current controls map against v1.0.3.
+    The v1.1 update is planned for the next source review cycle. Consumers should treat AICM mappings
+    as valid against v1.0.3 and check for v1.1 ID changes before relying on AICM control IDs downstream.<br><br>
+    <strong>NIST AI 600-1:</strong> Currently implied through <code>nist_rmf</code> citations. The GenAI Profile
+    has distinct coverage (confabulation, CBRN uplift, IP, compute) that doesn't map cleanly to base RMF subcategories.
+    It will be split into a separate <code>nist_ai_600_1</code> key in v1.1, primarily affecting EV and BH layer controls.<br><br>
+    <strong>SR 26-2 scope:</strong> This is supervisory guidance, not binding law. It does not set enforceable
+    standards or prescriptive requirements; non-compliance will not result in supervisory criticism on its own.
+    It applies to supervised banking organizations; heightened expectations apply based on organization size,
+    complexity, and model risk profile — not a hard $30B asset threshold.
+  </div>
 
   <pre><code><span class="hlc">// Controls with direct EU AI Act Art. 9 mapping</span>
 dataset.controls.<span class="hlf">filter</span>(c =>
@@ -525,23 +655,55 @@ refs.<span class="hlf">forEach</span>(uri => {
 
   <div class="section-divider"></div>
 
-  <!-- §8 Mapping to other Apeiris verifiers -->
-  <h2 id="s8"><span class="section-num">08</span> Mapping to other Apeiris verifiers</h2>
+  <!-- §8 Scope -->
+  <h2 id="s8"><span class="section-num">08</span> Scope boundaries — what this covers and doesn't</h2>
 
   <p>
-    Apeiris verifiers have explicit ownership boundaries to avoid duplicate controls.
-    This matrix owns model-specific concerns. Related concerns live in other verifiers:
+    This matrix is a <strong>knowledge domain and evidence framework</strong>, not a runtime interceptor.
+    It documents what must be evaluated, by which method, with what evidence — it does not execute the evaluation.
+    The Apeiris platform executes against these controls; the controls define what counts as evidence.
   </p>
 
-  <table class="dataset-table">
-    <thead><tr><th>Concern</th><th>Owner</th><th>This matrix's role</th></tr></thead>
-    <tbody>
-      <tr><td>Model artifact integrity, runtime isolation, prompt injection enforcement</td><td><a href="https://securitycontrols.ai" style="color:var(--accent)">securitycontrols.ai</a></td><td>Evaluation — measuring resistance, not enforcement</td></tr>
-      <tr><td>Lawful data use, retention, data-subject rights</td><td>Privacy verifier (future)</td><td>Data governance — training data quality and consent</td></tr>
-      <tr><td>Obligation interpretation, legal applicability</td><td>Compliance verifier (future)</td><td>Framework mapping — what the control addresses</td></tr>
-      <tr><td>Delegated authority, tool actions, workflow enforcement</td><td>Agentic Control verifier (future)</td><td>Behavioral boundary evaluation and measurement</td></tr>
-    </tbody>
-  </table>
+  <div class="scope-grid">
+    <div class="scope-card">
+      <div class="scope-card-title owns">This matrix owns</div>
+      <ul class="scope-list">
+        <li>Model/system fitness, evaluation, and validation</li>
+        <li>Pre-release evaluation gates and regression testing</li>
+        <li>Behavioral measurement inside workflows (tool-call quality, output grounding)</li>
+        <li>Training data governance and poisoning prevention</li>
+        <li>Production monitoring, drift detection, behavioral boundaries</li>
+        <li>Incident response and corrective action</li>
+        <li>Framework mapping — what each control supports</li>
+        <li>Evidence production — what artifacts count as proof</li>
+        <li>Maturity — where industry is and what it takes to advance</li>
+      </ul>
+    </div>
+    <div class="scope-card">
+      <div class="scope-card-title refers">Other Apeiris verifiers own</div>
+      <ul class="scope-list">
+        <li><strong style="color:var(--accent)">securitycontrols.ai</strong> — artifact integrity, runtime isolation, prompt-injection enforcement, output filtering, vulnerability response</li>
+        <li><strong style="color:var(--muted)">Privacy verifier</strong> — lawful data use, retention, data-subject rights, minimization</li>
+        <li><strong style="color:var(--muted)">Compliance verifier</strong> — obligation interpretation, legal applicability, jurisdiction</li>
+        <li><strong style="color:var(--muted)">Agentic Control</strong> — delegated authority, tool authorization, workflow enforcement</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="notice">
+    <strong>Why this distinction matters for integration:</strong> If you find a concern not covered here,
+    it is likely owned by an adjacent verifier. For example: "does the model resist prompt injection?" —
+    <em>securitycontrols.ai</em> owns the enforcement; <em>this matrix</em> owns the measurement of
+    injection resistance (EV-04). The evidence from both verifiers flows into the same assurance target
+    via <code>apeiris://</code> URIs, so they compose without duplication.
+  </div>
+
+  <p>
+    <strong>What this matrix does not do:</strong> It does not intercept model outputs in real time,
+    run a Z3 theorem prover, host an adversarial red-teaming pipeline, or enforce access controls.
+    Those are Apeiris platform capabilities. The controls document what those capabilities must verify
+    and what evidence they must produce — that is the contract between the matrix and the platform.
+  </p>
 
   <p>
     The shared evidence architecture uses <code>apeiris://</code> URIs so one verifier's

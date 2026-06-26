@@ -559,6 +559,22 @@
       border-bottom: 1px solid var(--border); margin-bottom: 4px;
     }
 
+    .scope-banner {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 16px;
+      background: rgba(59,130,246,0.06); border-bottom: 1px solid rgba(59,130,246,0.2);
+      font-size: 0.76rem; color: var(--muted); flex-shrink: 0;
+    }
+    .scope-banner.hidden { display: none; }
+    .scope-banner-text { flex: 1; line-height: 1.5; }
+    .scope-banner-text strong { color: var(--text2); }
+    .scope-banner-text a { color: var(--accent); }
+    .scope-banner-close {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 0.72rem; padding: 2px 4px; flex-shrink: 0;
+    }
+    .scope-banner-close:hover { color: var(--text); }
+
     .sidebar-footer { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
     .sidebar-guide-btn {
       background: none; border: none; color: var(--muted); cursor: pointer;
@@ -655,8 +671,8 @@
         <option value="hosted-api">Hosted / Third-Party API</option>
         <option value="continuously-learning">Continuously Learning</option>
         <option value="high-impact-decision">High-Impact Decision</option>
-        <option value="us-regulated-banking">US Banking (SR 26-2)</option>
-        <option value="eu-high-risk">EU High-Risk (AI Act)</option>
+        <option value="us-regulated-banking">US Regulated Banking / Financial Institution</option>
+        <option value="eu-high-risk">EU High-Risk AI System (AI Act)</option>
         <option value="frontier-capability">Frontier Capability</option>
       </select>
     </div>
@@ -702,6 +718,14 @@
         <div class="stat-num" id="statAssessed">0</div>
         <div class="stat-label">Assessed</div>
       </div>
+    </div>
+    <div class="scope-banner" id="scopeBanner">
+      <span class="scope-banner-text">
+        This matrix defines <strong>what must be evaluated</strong> and <strong>what evidence counts</strong> — it doesn't execute the evaluation.
+        Adjacent concerns: <a href="https://securitycontrols.ai" target="_blank">securitycontrols.ai</a> (enforcement), privacy, compliance, agentic control.
+        <a href="/integrate.html#s8">Full scope →</a>
+      </span>
+      <button class="scope-banner-close" id="scopeBannerClose" title="Dismiss">✕</button>
     </div>
     <div class="control-list" id="controlList">
       <div class="empty-state"><div class="empty-icon">⋯</div><div class="empty-text">Loading controls…</div></div>
@@ -1609,6 +1633,16 @@ document.addEventListener('keydown', e => {
     if (activeId) closeDrawer();
   }
 });
+
+// ── Scope banner ────────────────────────────────────────────────────────────────
+(function() {
+  const dismissed = localStorage.getItem('mvai_scope_banner_dismissed');
+  if (dismissed) document.getElementById('scopeBanner').classList.add('hidden');
+  document.getElementById('scopeBannerClose').addEventListener('click', () => {
+    document.getElementById('scopeBanner').classList.add('hidden');
+    localStorage.setItem('mvai_scope_banner_dismissed', '1');
+  });
+})();
 
 // ── Init ───────────────────────────────────────────────────────────────────────
 loadAssessState();
