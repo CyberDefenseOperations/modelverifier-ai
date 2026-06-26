@@ -1,0 +1,815 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+  "title": "Model Controls Schema — AI Model & System Assurance Control Matrix",
+  "description": "Full domain schema for modelverifier.ai — the AI Model & System Assurance Control Matrix. This is the schema validate.mjs uses to validate all 54 control records across 6 layers (LI, TG, EV, OA, BH, CR). Composition approach: rather than allOf with control-core.schema.json (which uses additionalProperties: false at root, making additive allOf extension invalid in JSON Schema draft-07), this schema explicitly declares the union of core fields + model-assurance extension fields. Core field definitions are reproduced from control-core.schema.json v1 with their original constraints preserved. Model-assurance extension fields (monitoring_schema, capability_risk, assurance_target) are added. All field semantics are governed by the source schema $id where applicable.",
+  "type": "object",
+  "required": [
+    "id",
+    "layer",
+    "plane",
+    "name",
+    "plain",
+    "threat",
+    "sources",
+    "implementation",
+    "validation",
+    "lenses",
+    "maturity",
+    "coverage_note",
+    "capability_risk"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema URI. Set to https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json in all model-assurance control files."
+    },
+    "id": {
+      "type": "string",
+      "description": "Control identifier. Layer prefix must be one of: LI, TG, EV, OA, BH, CR. Two-digit zero-padded sequence number. Format: {LAYER}-{NN}. Examples: LI-01, EV-07, CR-02. Identifiers are stable and never reused.",
+      "pattern": "^(LI|TG|EV|OA|BH|CR)-[0-9]{2}$"
+    },
+    "layer": {
+      "type": "string",
+      "description": "Layer code. Must match the prefix in id exactly.",
+      "enum": ["LI", "TG", "EV", "OA", "BH", "CR"]
+    },
+    "plane": {
+      "type": "string",
+      "description": "Assigned plane. LI=control, TG=data, EV=both, OA=control, BH=data, CR=lifecycle.",
+      "enum": ["control", "data", "lifecycle", "both"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Short, scannable control name in title case, maximum 80 characters. Names the mechanism being established, not the threat.",
+      "minLength": 4,
+      "maxLength": 80
+    },
+    "plain": {
+      "type": "string",
+      "description": "One-sentence plain-language summary for a non-specialist audience. Must not assume ML or security domain knowledge. Maximum 200 characters.",
+      "minLength": 20,
+      "maxLength": 200
+    },
+    "threat": {
+      "type": "object",
+      "description": "The threat or risk this control addresses.",
+      "required": ["tags", "desc"],
+      "additionalProperties": false,
+      "properties": {
+        "tags": {
+          "type": "array",
+          "description": "Machine-indexable threat classification tags. Model-assurance canonical tags: supply-chain-compromise, training-data-poisoning, model-drift, capability-elicitation, inference-exfiltration, prompt-injection, data-exfiltration, model-extraction, undisclosed-model-change, feedback-poisoning, evaluation-contamination, governance-gap, accountability-gap, regulatory-noncompliance, harmful-output, synthetic-content-misuse, unauthorized-deployment, missing-rollback, stale-evidence.",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{1,63}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "desc": {
+          "type": "string",
+          "description": "2-5 sentence narrative: adversarial action or failure mode, mechanism by which it occurs, consequence if control is absent. Include MITRE ATLAS technique IDs (AML.T####) where directly applicable. Do not force ATLAS IDs when none apply.",
+          "minLength": 40
+        }
+      }
+    },
+    "standard": {
+      "type": "array",
+      "description": "Normative standard clauses this control was purpose-built to implement. Distinct from frameworks[]. Use both when applicable.",
+      "items": {
+        "type": "object",
+        "required": ["id", "section"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": ["nist_rmf", "iso_42001", "eu_ai_act", "sr262", "aisvs", "llm10", "aicm", "mitre"],
+            "description": "Framework key from framework-mapping-catalog.json."
+          },
+          "section": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 512
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "description": "Authoritative sources. At least one required. Each item must carry authority, source_type, version, artifact_hash, license, and status. Exactly one source should carry flagship: true. Conforms to source.schema.json.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "authority", "source_type", "normative_force", "version", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{1,31}$"
+          },
+          "title": { "type": "string" },
+          "authority": { "type": "string" },
+          "source_type": {
+            "type": "string",
+            "enum": ["binding-law", "regulation", "supervisory-guidance", "voluntary-standard", "certification-standard", "industry-framework", "threat-knowledge-base", "academic-research", "vendor-framework", "product-documentation", "apeiris-thesis"]
+          },
+          "normative_force": {
+            "type": "string",
+            "enum": ["binding-law", "guidance", "voluntary", "informative"]
+          },
+          "version": { "type": "string" },
+          "published_on": { "type": "string", "format": "date" },
+          "retrieved_on": { "type": "string", "format": "date" },
+          "artifact_hash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "canonical_url": { "type": "string", "format": "uri" },
+          "license": { "type": "string" },
+          "supersedes": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["current", "deprecated", "withdrawn", "draft", "final-review"]
+          },
+          "flagship": {
+            "type": "boolean",
+            "description": "Exactly one source per control should carry flagship: true — the primary normative source grounding the control's existence."
+          },
+          "claim": {
+            "type": "boolean",
+            "description": "True only for apeiris-thesis source_type entries. Requires source_type: apeiris-thesis."
+          }
+        }
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "description": "Actionable implementation guidance.",
+      "required": ["pattern", "steps"],
+      "additionalProperties": false,
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "description": "High-level implementation pattern in one sentence naming the architectural approach.",
+          "minLength": 10,
+          "maxLength": 512
+        },
+        "steps": {
+          "type": "array",
+          "description": "Ordered, actionable implementation steps in imperative mood.",
+          "items": { "type": "string", "minLength": 10, "maxLength": 1024 },
+          "minItems": 1
+        },
+        "anti_patterns": {
+          "type": "array",
+          "description": "Concrete, observable mis-implementations that appear to satisfy the control but do not.",
+          "items": { "type": "string", "minLength": 10, "maxLength": 1024 }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "description": "Verification methodology. design_check[] items are assessable without a running system. runtime_test[] items require a live deployment.",
+      "required": ["design_check", "runtime_test", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "design_check": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10, "maxLength": 1024 }
+        },
+        "runtime_test": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10, "maxLength": 1024 }
+        },
+        "evidence": {
+          "type": "array",
+          "description": "Evidence artefact types that demonstrate control effectiveness. E.g. 'model:evaluation-scorecard', 'model:training-data-lineage-record', 'model:red-team-report', 'model:capability-assessment-report'.",
+          "items": { "type": "string", "minLength": 2, "maxLength": 256 }
+        }
+      }
+    },
+    "lenses": {
+      "type": "object",
+      "description": "Stakeholder-specific views. All five model-assurance lens keys are required. Key vocabulary: engineering, evaluation, red_team, grc, mlops. Other keys are rejected by this schema.",
+      "required": ["engineering", "evaluation", "red_team", "grc", "mlops"],
+      "additionalProperties": false,
+      "properties": {
+        "engineering": { "$ref": "#/definitions/LensContent" },
+        "evaluation": { "$ref": "#/definitions/LensContent" },
+        "red_team": { "$ref": "#/definitions/LensContent" },
+        "grc": { "$ref": "#/definitions/LensContent" },
+        "mlops": { "$ref": "#/definitions/LensContent" }
+      }
+    },
+    "maturity": {
+      "type": "object",
+      "description": "Implementation maturity tracking.",
+      "required": ["current", "target"],
+      "additionalProperties": false,
+      "properties": {
+        "current": { "$ref": "#/definitions/MaturityLevel" },
+        "target": { "$ref": "#/definitions/MaturityLevel" },
+        "assessment_date": { "type": "string", "format": "date" },
+        "notes": { "type": "string", "maxLength": 1024 }
+      }
+    },
+    "coverage_note": {
+      "type": "string",
+      "description": "Narrative on coverage gaps, partial implementation caveats, or known limitations. Silence on gaps is an editorial error. Must be non-empty.",
+      "minLength": 10
+    },
+    "matrix_thesis": {
+      "type": "string",
+      "description": "Apeiris editorial thesis motivating this control's inclusion — why the authors believe it is necessary and insufficient without it.",
+      "minLength": 20,
+      "maxLength": 4096
+    },
+    "thesis_type": {
+      "type": "string",
+      "enum": ["preventive", "detective", "corrective", "deterrent", "compensating", "directive", "recovery"]
+    },
+    "readiness": {
+      "type": "string",
+      "enum": ["draft", "review", "approved", "deprecated"]
+    },
+    "tiers": {
+      "type": "array",
+      "description": "Profile membership. Model-assurance canonical profiles: general-predictive-ml, generative-ai, hosted-api, continuously-learning, high-impact-decision, us-regulated-banking, eu-high-risk, frontier-capability. Populated by the build pipeline from profiles.json — do not manually set on individual control records.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "general-predictive-ml",
+          "generative-ai",
+          "hosted-api",
+          "continuously-learning",
+          "high-impact-decision",
+          "us-regulated-banking",
+          "eu-high-risk",
+          "frontier-capability"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "implementers": {
+      "type": "array",
+      "description": "Organisational roles primarily responsible for implementing this control.",
+      "items": { "type": "string", "minLength": 2, "maxLength": 128 },
+      "uniqueItems": true
+    },
+    "frameworks": {
+      "type": "array",
+      "description": "Framework mapping objects. Each item is a mapping_object from model-assurance-extension.schema.json with 7 split status fields. Allowed framework keys: nist_rmf, iso_42001, eu_ai_act, sr262, aisvs, llm10, aicm, mitre. requirement_id must match the pattern for the framework in framework-mapping-catalog.json.",
+      "items": { "$ref": "#/definitions/mapping_object" }
+    },
+    "obligations": {
+      "type": "array",
+      "description": "Legal and regulatory obligations. Each item is an obligation_object from model-assurance-extension.schema.json with executable applicability predicates. Required for controls that map to eu_ai_act or sr262.",
+      "items": { "$ref": "#/definitions/obligation_object" }
+    },
+    "status_fields": {
+      "type": "object",
+      "description": "Structured status tracking. Seven split status dimensions at the control level (aggregate across all framework mappings). Per-mapping status is tracked on each frameworks[] item. These control-level fields reflect the editorial and assurance state of the control record as a whole.",
+      "additionalProperties": false,
+      "properties": {
+        "source_status": {
+          "type": "string",
+          "enum": ["verified", "pending-verification", "unverified", "superseded", "disputed"],
+          "description": "Quality and recency of the sources[] array. verified: all sources retrieved, hashed, confirmed active."
+        },
+        "mapping_confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "not-mapped"],
+          "description": "Aggregate confidence across all frameworks[] mappings. Reflects the lowest individual mapping_confidence value."
+        },
+        "legal_status": {
+          "type": "string",
+          "enum": ["clear", "under-review", "contested", "counsel-required"],
+          "description": "Legal review status of the obligations[] array."
+        },
+        "control_readiness": {
+          "type": "string",
+          "enum": ["ready", "gap-identified", "not-ready", "waived"],
+          "description": "Readiness for inclusion in a compliance programme."
+        },
+        "implementation_maturity": {
+          "$ref": "#/definitions/MaturityLevel",
+          "description": "Maturity of the implementation[] and validation[] editorial content."
+        },
+        "assurance_result": {
+          "type": "string",
+          "enum": ["pass", "fail", "partial", "not-assessed", "exception-granted"],
+          "description": "Most recent assurance assessment outcome. Updated by the assurance pipeline."
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": ["current", "stale", "missing", "exception"],
+          "description": "Currency of the most recent evidence record."
+        }
+      }
+    },
+    "cross_domain": {
+      "type": "object",
+      "description": "Cross-domain navigation and evidence-sharing declarations.",
+      "additionalProperties": false,
+      "properties": {
+        "references": {
+          "type": "array",
+          "description": "Navigation pointers to related controls in other Apeiris domain matrices. Expressed as decentralised Apeiris URIs resolvable via namespace-registry.json.",
+          "items": {
+            "type": "object",
+            "required": ["uri", "relationship"],
+            "additionalProperties": false,
+            "properties": {
+              "uri": {
+                "type": "string",
+                "description": "Apeiris URI for the target control. Pattern: apeiris://<domain>/controls/<LAYER>-<NN>. Examples: apeiris://security/controls/IA-02, apeiris://privacy/controls/PC-03.",
+                "pattern": "^apeiris://[a-z][a-z0-9-]*/controls/[A-Z]{2,6}-[0-9]{2}$"
+              },
+              "relationship": {
+                "type": "string",
+                "enum": ["related", "extends", "requires", "mirrored-by", "supersedes", "implements"]
+              },
+              "note": { "type": "string", "maxLength": 512 }
+            }
+          }
+        },
+        "evidence_artifacts": {
+          "type": "array",
+          "description": "Evidence artefact types this control produces that other domain verifiers are authorized to consume. Producer_verifier owns collection; consumer_verifiers declare reliance.",
+          "items": {
+            "type": "object",
+            "required": ["artifact_type", "producer_verifier"],
+            "additionalProperties": false,
+            "properties": {
+              "artifact_type": {
+                "type": "string",
+                "description": "Canonical artefact type. E.g. 'model:evaluation-scorecard', 'model:capability-assessment-report', 'model:training-data-lineage-record', 'model:red-team-report'.",
+                "minLength": 4,
+                "maxLength": 256
+              },
+              "producer_verifier": {
+                "type": "string",
+                "pattern": "^apeiris://[a-z][a-z0-9-]*$"
+              },
+              "consumer_verifiers": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 3, "maxLength": 256 },
+                "uniqueItems": true
+              },
+              "schema_ref": { "type": "string", "format": "uri" },
+              "retention": { "type": "string", "maxLength": 64 }
+            }
+          }
+        }
+      }
+    },
+    "monitoring_schema": {
+      "description": "Structured monitoring specification. Required for controls in BH and CR layers. Recommended for EV and TG controls with production monitoring implications. Not applicable to documentation or pure governance controls.",
+      "$ref": "#/definitions/monitoring_schema"
+    },
+    "capability_risk": {
+      "description": "Multidimensional capability risk assessment. Required on all model-assurance control records to enable profile trigger evaluation.",
+      "$ref": "#/definitions/capability_risk"
+    },
+    "assurance_target": {
+      "description": "Optional binding to a specific deployment assurance target. Used when a control record is instantiated for a specific deployment rather than expressed generically.",
+      "$ref": "#/definitions/assurance_target"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Control lifecycle and editorial metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "authored_on": { "type": "string", "format": "date" },
+        "authored_by": { "type": "string", "maxLength": 256 },
+        "reviewed_on": { "type": "string", "format": "date" },
+        "published_on": { "type": "string", "format": "date" },
+        "schema_version": {
+          "type": "string",
+          "const": "1.0.0",
+          "description": "Must be '1.0.0' — the version of model-controls.schema.json used to author this record."
+        },
+        "changelog": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["date", "summary"],
+            "additionalProperties": false,
+            "properties": {
+              "date": { "type": "string", "format": "date" },
+              "summary": { "type": "string", "minLength": 5, "maxLength": 1024 },
+              "author": { "type": "string", "maxLength": 256 }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "MaturityLevel": {
+      "type": "string",
+      "enum": ["none", "initial", "developing", "defined", "managed", "optimizing"],
+      "description": "none: absent. initial: ad hoc, reactive. developing: inconsistently applied. defined: documented, consistently applied. managed: measured with quantitative metrics. optimizing: continuously improved."
+    },
+    "LensContent": {
+      "type": "object",
+      "description": "Stakeholder-specific view of a control.",
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "What this control means from this stakeholder's perspective. 1-3 sentences.",
+          "minLength": 10,
+          "maxLength": 1024
+        },
+        "actions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5, "maxLength": 512 }
+        },
+        "tools": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 256 }
+        },
+        "metrics": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5, "maxLength": 512 }
+        },
+        "failure_signals": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5, "maxLength": 512 }
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2048
+        }
+      }
+    },
+    "monitoring_schema": {
+      "type": "object",
+      "required": ["metrics", "sampling_rate", "window_context"],
+      "additionalProperties": false,
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/metric_object" }
+        },
+        "sampling_rate": {
+          "type": "string",
+          "examples": ["all", "10%", "1:100", "stratified:1000/day"]
+        },
+        "window_context": {
+          "type": "string",
+          "examples": ["P7D", "P30D", "rolling-7d", "batch-monthly"]
+        }
+      }
+    },
+    "metric_object": {
+      "type": "object",
+      "required": ["metric_id", "metric_type", "measure", "population", "comparison", "severity"],
+      "additionalProperties": false,
+      "properties": {
+        "metric_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,62}[a-z0-9]$"
+        },
+        "metric_type": {
+          "type": "string",
+          "enum": ["performance", "drift", "fairness", "safety", "cost"]
+        },
+        "measure": { "type": "string", "minLength": 2 },
+        "population": { "type": "string", "minLength": 2 },
+        "segments": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "baseline_ref": { "type": "string", "minLength": 2 },
+        "comparison": {
+          "type": "object",
+          "required": ["operator", "value", "window", "evaluation_mode"],
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "type": "string",
+              "enum": ["lt", "lte", "gt", "gte", "eq", "neq", "decrease-greater-than", "increase-greater-than", "outside-range", "exceeds-absolute-difference"]
+            },
+            "value": {
+              "oneOf": [
+                { "type": "number" },
+                { "type": "string" },
+                {
+                  "type": "object",
+                  "required": ["min", "max"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "min": { "type": "number" },
+                    "max": { "type": "number" }
+                  }
+                }
+              ]
+            },
+            "window": { "type": "string" },
+            "evaluation_mode": {
+              "type": "string",
+              "enum": ["real-time", "batch"]
+            }
+          }
+        },
+        "minimum_sample_size": { "type": "integer", "minimum": 1 },
+        "confidence_level": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "warning", "critical"]
+        },
+        "actions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "fallback": { "type": "string" },
+        "evidence_retention": { "type": "string" }
+      }
+    },
+    "capability_risk": {
+      "type": "object",
+      "required": ["capability_level"],
+      "additionalProperties": false,
+      "properties": {
+        "capability_domains": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["cyber", "bio", "chemical", "nuclear-radiological", "autonomous-ai-rd", "persuasion-manipulation", "self-proliferation", "code-generation", "reasoning", "tool-use", "multimodal", "long-horizon-planning", "knowledge-synthesis", "social-engineering"]
+          },
+          "uniqueItems": true
+        },
+        "capability_level": {
+          "type": "string",
+          "enum": ["none", "low", "elevated", "frontier"]
+        },
+        "frontier_framework_refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["framework", "version", "assessed_on"],
+            "additionalProperties": false,
+            "properties": {
+              "framework": { "type": "string" },
+              "version": { "type": "string" },
+              "assessed_on": { "type": "string", "format": "date" },
+              "asl_level": { "type": "string" }
+            }
+          }
+        },
+        "access_mode": {
+          "type": "string",
+          "enum": ["api", "embedded", "on-device", "agentic", "open-weight", "restricted-research"]
+        },
+        "autonomy": {
+          "type": "string",
+          "enum": ["none", "supervised", "semi-autonomous", "autonomous"]
+        },
+        "external_reach": { "type": "boolean" },
+        "irreversibility": {
+          "type": "string",
+          "enum": ["reversible", "partially-reversible", "irreversible"]
+        },
+        "data_sensitivity": {
+          "type": "string",
+          "enum": ["public", "internal", "confidential", "restricted", "secret"]
+        },
+        "deployment_scale": {
+          "type": "string",
+          "enum": ["individual", "team", "enterprise", "public"]
+        },
+        "affected_party_impact": {
+          "type": "string",
+          "enum": ["low", "moderate", "high", "critical"]
+        }
+      }
+    },
+    "assurance_target": {
+      "type": "object",
+      "required": ["use_case_id", "use_case"],
+      "additionalProperties": false,
+      "properties": {
+        "use_case_id": { "type": "string" },
+        "use_case": { "type": "string", "minLength": 10 },
+        "model_ids": { "type": "array", "items": { "type": "string" } },
+        "model_version": { "type": "string" },
+        "model_paradigm": {
+          "type": "string",
+          "enum": ["supervised", "unsupervised", "semi-supervised", "reinforcement-learning", "generative", "time-series", "tabular", "multimodal", "hybrid", "rules-ensemble"]
+        },
+        "provider": { "type": "string" },
+        "provider_type": {
+          "type": "string",
+          "enum": ["first-party", "third-party", "open-weight", "open-source", "hybrid"]
+        },
+        "training_regime": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["supervised-learning", "unsupervised-learning", "rlhf", "online-learning", "continual-learning", "adaptive-fine-tuning", "prompt-tuning", "retrieval-augmented", "distillation", "pre-trained-frozen"]
+          }
+        },
+        "output_modalities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["text", "code", "image", "audio", "video", "structured-data", "embeddings", "decision", "action"]
+          }
+        },
+        "data_sources": { "type": "array", "items": { "type": "string" } },
+        "retrieval_sources": { "type": "array", "items": { "type": "string" } },
+        "prompt_system_config_ref": { "type": "string" },
+        "tool_integrations": { "type": "array", "items": { "type": "string" } },
+        "deployment_environment": {
+          "type": "string",
+          "enum": ["production", "staging", "sandbox", "research", "pilot"]
+        },
+        "human_oversight_mode": {
+          "type": "string",
+          "enum": ["full", "meaningful", "limited", "none"]
+        },
+        "end_users": { "type": "array", "items": { "type": "string" } },
+        "affected_parties": { "type": "array", "items": { "type": "string" } },
+        "jurisdiction": { "type": "array", "items": { "type": "string" } },
+        "industry": { "type": "array", "items": { "type": "string" } },
+        "eu_ai_act_classification": {
+          "type": "string",
+          "enum": ["prohibited", "high-risk-annex-iii", "high-risk-product-embedded", "gpai", "gpai-systemic-risk", "minimal-risk", "excluded", "not-yet-determined"]
+        },
+        "decision_domain": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["credit", "hiring", "healthcare", "benefits", "education", "law-enforcement", "housing", "insurance", "judicial", "immigration", "government-services", "critical-infrastructure", "financial-markets", "other-consequential"]
+          }
+        },
+        "regulated_entity": { "type": "boolean" },
+        "asset_threshold_usd": { "type": "number" }
+      }
+    },
+    "mapping_object": {
+      "type": "object",
+      "required": ["framework", "requirement_id", "fit", "direction", "rationale", "source_version", "reviewed_on"],
+      "additionalProperties": false,
+      "properties": {
+        "framework": {
+          "type": "string",
+          "enum": ["nist_rmf", "iso_42001", "eu_ai_act", "sr262", "aisvs", "llm10", "aicm", "mitre"]
+        },
+        "requirement_id": {
+          "type": "string",
+          "description": "Must match the pattern for the declared framework in framework-mapping-catalog.json. Validated by audit:mappings build step."
+        },
+        "fit": {
+          "type": "string",
+          "enum": ["direct", "partial", "adjacent", "supporting", "none"]
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["control-supports-requirement", "requirement-subsumes-control", "bidirectional", "tangential"]
+        },
+        "rationale": { "type": "string", "minLength": 30 },
+        "uncovered_portion": { "type": "string" },
+        "source_locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "section": { "type": "string" },
+            "clause": { "type": "string" },
+            "page": { "type": "integer", "minimum": 1 },
+            "url": { "type": "string", "format": "uri" }
+          }
+        },
+        "source_version": { "type": "string" },
+        "source_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "reviewed_on": { "type": "string", "format": "date" },
+        "reviewer_type": {
+          "type": "string",
+          "enum": ["human", "automated", "human-reviewed-automated"]
+        },
+        "source_status": {
+          "type": "string",
+          "enum": ["authoritative", "draft", "proposed", "deprecated", "withdrawn"]
+        },
+        "mapping_confidence": {
+          "type": "string",
+          "enum": ["verified", "high", "medium", "low", "speculative"]
+        },
+        "legal_status": {
+          "type": "string",
+          "enum": ["binding", "guidance", "voluntary", "pending", "not-applicable"]
+        },
+        "control_readiness": {
+          "type": "string",
+          "enum": ["not-started", "in-design", "in-review", "approved", "published"]
+        },
+        "implementation_maturity": {
+          "type": "string",
+          "enum": ["none", "initial", "developing", "defined", "managed", "optimizing"]
+        },
+        "assurance_result": {
+          "type": "string",
+          "enum": ["not-assessed", "pass", "pass-with-findings", "fail", "not-applicable"]
+        },
+        "evidence_status": {
+          "type": "string",
+          "enum": ["no-evidence", "partial", "sufficient", "verified", "expired"]
+        }
+      }
+    },
+    "obligation_object": {
+      "type": "object",
+      "required": ["authority", "instrument", "provision", "jurisdiction", "normative_force", "legal_status", "source_ref", "reviewed_on"],
+      "additionalProperties": false,
+      "properties": {
+        "authority": { "type": "string" },
+        "instrument": { "type": "string" },
+        "provision": { "type": "string" },
+        "jurisdiction": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "sector": { "type": "array", "items": { "type": "string" } },
+        "actor_roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["provider", "deployer", "importer", "distributor", "user", "operator", "developer", "authorised-representative"]
+          }
+        },
+        "subject_types": { "type": "array", "items": { "type": "string" } },
+        "classification": { "type": "array", "items": { "type": "string" } },
+        "normative_force": {
+          "type": "string",
+          "enum": ["binding-law", "regulation", "supervisory-guidance", "voluntary-standard", "certification-standard", "industry-framework", "best-practice"]
+        },
+        "legal_status": {
+          "type": "string",
+          "enum": ["enacted", "pending-adoption", "proposed", "withdrawn", "not-applicable"]
+        },
+        "effective_from": { "type": "string", "format": "date" },
+        "effective_until": { "type": "string", "format": "date" },
+        "applicability": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "all": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/applicability_condition" }
+            },
+            "any": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/applicability_condition" }
+            },
+            "none": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/applicability_condition" }
+            }
+          }
+        },
+        "mapping_fit": {
+          "type": "string",
+          "enum": ["direct", "partial", "adjacent", "supporting"]
+        },
+        "source_ref": { "type": "string" },
+        "reviewed_on": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      }
+    },
+    "applicability_condition": {
+      "type": "object",
+      "required": ["field", "op", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "field": { "type": "string" },
+        "op": {
+          "type": "string",
+          "enum": ["eq", "neq", "in", "not-in", "contains", "contains-any", "contains-all", "gte", "lte", "gt", "lt", "exists", "eq-true", "eq-false"]
+        },
+        "value": {}
+      }
+    }
+  },
+  "schema_composition_note": {
+    "$comment": "This schema is the authoritative validation target for validate.mjs. It explicitly declares all properties allowed in model-assurance control records — core vocabulary from control-core.schema.json v1 plus model-assurance extensions (monitoring_schema, capability_risk, assurance_target). Explicit composition is required because JSON Schema draft-07 additionalProperties: false in the core schema conflicts with additive allOf extension. The validate.mjs pipeline should: (1) validate each control JSON against this schema; (2) additionally run audit:mappings to validate requirement_id patterns against framework-mapping-catalog.json; (3) run audit:applicability to verify obligation predicates reference valid assurance_target fields; (4) run check:freshness to verify source retrieved_on dates are within the configured staleness window."
+  },
+  "layer_plane_assignments": {
+    "$comment": "Authoritative layer-to-plane mapping enforced by audit:namespaces. LI=control, TG=data, EV=both, OA=control, BH=data, CR=lifecycle.",
+    "LI": "control",
+    "TG": "data",
+    "EV": "both",
+    "OA": "control",
+    "BH": "data",
+    "CR": "lifecycle"
+  },
+  "baseline_controls": {
+    "$comment": "15 controls required for all deployments regardless of profile. Enforced by validate:baselines build step.",
+    "required": ["LI-01", "LI-04", "LI-06", "TG-01", "TG-05", "EV-01", "EV-06", "EV-07", "EV-09", "OA-01", "OA-07", "BH-03", "BH-05", "CR-01", "CR-02"]
+  }
+}

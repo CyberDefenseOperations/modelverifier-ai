@@ -1,0 +1,2125 @@
+[
+  {
+    "id": "BH-01",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Output Anomaly Detection",
+    "plain": "Continuously monitor model outputs using statistical process control to detect when output distributions deviate from established baselines, triggering alerts before users are harmed at scale.",
+    "threat": {
+      "tags": [
+        "MR-MONITORING",
+        "AML.T0024",
+        "LLM04:2025"
+      ],
+      "desc": "Undetected output drift or adversarial manipulation of model outputs can cause cascading harm, biased decisions, or undetected exfiltration via inference outputs. Without statistical monitoring, regressions and attacks go unnoticed until user complaints surface."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "GOVERN 1.7, MANAGE 2.4"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 9.1"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 9(7), Art. 72"
+      },
+      {
+        "id": "aisvs",
+        "ref": "V8.1"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "iso_42001_2023",
+        "authority": "ISO/IEC",
+        "title": "ISO/IEC 42001:2023 AI Management System",
+        "source_type": "certification-standard",
+        "license": "proprietary",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "2023",
+        "published_on": "2023-12-18",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "atlas_v560",
+        "authority": "MITRE",
+        "title": "MITRE ATLAS v5.6.0",
+        "url": "https://atlas.mitre.org",
+        "source_type": "threat-knowledge-base",
+        "license": "apache_2_0",
+        "version": "5.6.0",
+        "effective_date": "2026-05-04",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "informative",
+        "published_on": "2026-05-04",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "owasp_aisvs_v1",
+        "authority": "OWASP",
+        "title": "OWASP AI Security Verification Standard v1.0",
+        "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0-pre",
+        "published_on": "2026-06-26",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "Deploy a statistical process control (SPC) pipeline that continuously samples model output distributions, computes control chart statistics, and fires alerts when outputs fall outside control limits derived from a validated baseline window.",
+      "steps": [
+        "Instrument inference endpoints to capture a stratified sample (5\u201320% of volume) with metadata: timestamp, input_hash, caller_id, model_version.",
+        "Establish a baseline output distribution from a 30-day post-deployment stable window; store baseline statistics (mean, std_dev, p5/p50/p95/p99) in a versioned, signed artifact in the model registry.",
+        "Implement Shewhart X-bar and R control charts for continuous numeric outputs; use CUSUM or EWMA for detecting small persistent shifts.",
+        "For classification outputs, track class distribution stability using PSI: alert at PSI > 0.2, escalate at PSI > 0.25.",
+        "For generative outputs, monitor token entropy, output length distribution, refusal rate, and toxicity score distribution.",
+        "Route severity=critical alerts to on-call MLOps within 15 minutes; severity=warning to model owner within 4 hours.",
+        "Store all anomaly events in the evidence registry with control linkage BH-01."
+      ],
+      "anti_patterns": [
+        "Logging outputs without statistical comparison to a fixed baseline \u2014 produces noise without signal.",
+        "Setting control limits from overall historical average without seasonality adjustment \u2014 causes alert fatigue.",
+        "Monitoring only error rates without output distribution \u2014 misses silent degradations.",
+        "Using real PII in the sampled output stream without masking before storage."
+      ]
+    },
+    "monitoring_schema": {
+      "metric_objects": [
+        {
+          "name": "output_psi",
+          "type": "psi_score",
+          "description": "PSI comparing current output distribution to the 30-day post-deployment baseline.",
+          "alert_threshold": 0.2,
+          "critical_threshold": 0.25,
+          "unit": "dimensionless",
+          "metric_id": "output_psi",
+          "metric_type": "drift",
+          "measure": "population-stability-index",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "output_entropy_mean",
+          "type": "gauge",
+          "description": "Rolling mean of token-level entropy for generative outputs.",
+          "alert_threshold_delta_pct": 25,
+          "unit": "bits_per_token",
+          "metric_id": "output_entropy_mean",
+          "metric_type": "performance",
+          "measure": "output-entropy-mean",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "refusal_rate",
+          "type": "rate",
+          "description": "Fraction of outputs classified as refusals or out-of-scope deflections.",
+          "alert_threshold_delta_pct": 50,
+          "unit": "fraction",
+          "metric_id": "refusal_rate",
+          "metric_type": "safety",
+          "measure": "event-rate",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "output_length_p95",
+          "type": "percentile",
+          "description": "95th percentile output length in tokens.",
+          "alert_threshold_delta_pct": 30,
+          "unit": "tokens",
+          "metric_id": "output_length_p95",
+          "metric_type": "performance",
+          "measure": "output-length-p95",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        }
+      ],
+      "window_context": {
+        "type": "sliding",
+        "duration_minutes": 60,
+        "minimum_sample_size": 200,
+        "baseline_window_days": 30
+      },
+      "sampling_rate": 0.1,
+      "sampling_strategy": "stratified_by_caller"
+    },
+    "validation": {
+      "design_check": [
+        "SPC baseline was computed from a validated stable post-deployment window and stored as a versioned signed artifact. [ref:nist_rmf_1_0]",
+        "PSI alert and critical thresholds are documented and reviewed by the model owner at minimum quarterly. [ref:iso_42001_2023]",
+        "Anomaly alert routing SLA (15 min critical, 4 hours warning) is defined in the incident response runbook. [ref:nist_rmf_1_0]",
+        "Sampled outputs pass through a PII masking pipeline before storage. [ref:nist_rmf_1_0]"
+      ],
+      "runtime_test": [
+        "{'test': 'Inject a known-anomalous output batch (distribution shifted 2 sigma) and verify SPC fires within one monitoring window.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Verify sampled outputs contain no direct PII fields after the masking pipeline.', 'unverified': True} [unverified]",
+        "{'test': 'Confirm anomaly events appear in evidence registry with BH-01 control linkage and required metadata.', 'unverified': True} [unverified]",
+        "{'test': 'Inject low-amplitude persistent shift (0.5 sigma over 6 hours) and verify EWMA detects it.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+      ],
+      "evidence": [
+        "{'artifact': 'Baseline distribution artifact with version, timestamp, and statistical parameters for current production model.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification.', 'unverified': True} [unverified]",
+        "{'artifact': 'Quarterly threshold review sign-off from model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
+      ]
+    },
+    "lenses": {
+      "engineering": "Implement as a sidecar or streaming pipeline consuming inference telemetry; use efficient reservoir sampling to add no measurable inference latency.",
+      "evaluation": "SPC control limits must be re-derived after each model update; the post-deployment evaluation run defines the new baseline window \u2014 evaluation team owns baseline publication.",
+      "red_team": "Probe whether slow-drip adversarial inputs evade single-window SPC; test EWMA sensitivity to multi-modal output distribution attacks.",
+      "grc": "EU AI Act Art. 72 requires post-market monitoring for high-risk AI; the SPC alert log and baseline artifact are primary evidence for that obligation.",
+      "mlops": "Integrate PSI computation as a non-blocking async task; auto-trigger model review workflow when critical threshold is crossed."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers output-layer statistical monitoring only. Input distribution monitoring is in BH-02. Security-layer anomaly detection is owned by securitycontrols.ai.",
+    "canonical_id": "apeiris://model/controls/BH-01",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "none",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    }
+  },
+  {
+    "id": "BH-02",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Concept and Data Drift Detection",
+    "plain": "Detect when production data diverges from the training distribution, triggering review or retraining before performance silently degrades \u2014 with stricter thresholds and shorter windows for continuously-learning deployments.",
+    "threat": {
+      "tags": [
+        "MR-MONITORING",
+        "MR-PERFORMANCE",
+        "AML.T0020"
+      ],
+      "desc": "Covariate shift and concept drift silently erode model reliability. For continuously-learning models, undetected drift initiates feedback loops that effectively poison the model over time, analogous to a slow training-data poisoning attack (AML.T0020)."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "MANAGE 2.4, MANAGE 4.1"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 9.1, Clause 10.1"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 9(7), Art. 72"
+      },
+      {
+        "id": "sr262",
+        "ref": "Section IV.C \u2014 Ongoing Monitoring"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "iso_42001_2023",
+        "authority": "ISO/IEC",
+        "title": "ISO/IEC 42001:2023 AI Management System",
+        "source_type": "certification-standard",
+        "license": "proprietary",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "2023",
+        "published_on": "2023-12-18",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "sr_26_2",
+        "authority": "Federal Reserve / OCC",
+        "title": "SR 26-2: Model Risk Management Guidance",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "supersedes": [
+          "SR 11-7",
+          "SR 21-8"
+        ],
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "guidance",
+        "version": "SR 26-2",
+        "published_on": "2026-04-01",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "atlas_v560",
+        "authority": "MITRE",
+        "title": "MITRE ATLAS v5.6.0",
+        "url": "https://atlas.mitre.org",
+        "source_type": "threat-knowledge-base",
+        "license": "apache_2_0",
+        "version": "5.6.0",
+        "effective_date": "2026-05-04",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "informative",
+        "published_on": "2026-05-04",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "Compute feature-level and prediction-level drift statistics on a rolling basis against a training-time DriftReference artifact. Apply profile-conditional thresholds and retraining triggers: general-predictive-ml uses 24-hour windows with PSI > 0.2; continuously-learning uses 6-hour windows with PSI > 0.1 and automatic online-learning suspension.",
+      "steps": [
+        "At training time, serialize a DriftReference artifact: per-feature statistics (mean, std, histogram, KDE), joint covariance matrix, prediction distribution histogram, SHA-256 artifact hash. Store in model registry alongside weights.",
+        "In production, compute PSI and KS-test p-values for each monitored feature per profile window, enforcing minimum_sample_size before reporting any statistic.",
+        "Track prediction drift separately: compare current prediction distribution to training-time validation set distribution using PSI.",
+        "general-predictive-ml: when feature PSI > 0.2 on any tier-1 feature OR prediction PSI > 0.2, raise drift_alert and auto-open a model review ticket.",
+        "continuously-learning: stricter threshold PSI > 0.1 on 6-hour window; trigger emergency review and suspend online updates until model owner signs a resume authorization.",
+        "Maintain drift event log per alert: feature_name, test_statistic, p_value, window_start, window_end, sample_count, action_taken.",
+        "Monthly drift summary reports to model owner and governance board."
+      ],
+      "anti_patterns": [
+        "Single aggregate drift score across all features \u2014 masks per-feature shifts.",
+        "Skipping minimum_sample_size guard \u2014 noisy statistics on small windows cause false urgency.",
+        "Not versioning the DriftReference artifact \u2014 makes comparison to original training distribution impossible after retraining.",
+        "Triggering full retraining automatically without human review for high-impact-decision models.",
+        "Monitoring only the prediction column \u2014 masks root cause of covariate shift."
+      ]
+    },
+    "monitoring_schema": {
+      "metric_objects": [
+        {
+          "name": "feature_psi_max",
+          "type": "psi_score",
+          "description": "Maximum PSI across all tier-1 monitored input features in the current window.",
+          "alert_threshold": 0.2,
+          "critical_threshold": 0.25,
+          "profile_override": {
+            "continuously-learning": {
+              "alert_threshold": 0.1,
+              "critical_threshold": 0.15
+            }
+          },
+          "unit": "dimensionless",
+          "metric_id": "feature_psi_max",
+          "metric_type": "drift",
+          "measure": "population-stability-index",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "prediction_psi",
+          "type": "psi_score",
+          "description": "PSI of current prediction distribution vs. training-time DriftReference.",
+          "alert_threshold": 0.2,
+          "critical_threshold": 0.3,
+          "unit": "dimensionless",
+          "metric_id": "prediction_psi",
+          "metric_type": "drift",
+          "measure": "population-stability-index",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "ks_test_p_value_min",
+          "type": "p_value",
+          "description": "Minimum KS-test p-value across monitored continuous features.",
+          "alert_threshold": 0.05,
+          "unit": "probability",
+          "metric_id": "ks_test_p_value_min",
+          "metric_type": "performance",
+          "measure": "ks-test-p-value-min",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "drift_event_count_7d",
+          "type": "counter",
+          "description": "Number of distinct drift alert events in trailing 7 days.",
+          "alert_threshold": 3,
+          "unit": "count",
+          "metric_id": "drift_event_count_7d",
+          "metric_type": "performance",
+          "measure": "event-count",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        }
+      ],
+      "window_context": {
+        "type": "sliding",
+        "duration_hours": 24,
+        "minimum_sample_size": 500,
+        "baseline_artifact": "DriftReference_v{model_version}",
+        "profile_conditional_windows": {
+          "general-predictive-ml": {
+            "duration_hours": 24,
+            "minimum_sample_size": 500
+          },
+          "continuously-learning": {
+            "duration_hours": 6,
+            "minimum_sample_size": 200
+          }
+        }
+      },
+      "sampling_rate": 1.0,
+      "sampling_strategy": "full_population_with_feature_hash"
+    },
+    "profiles": [
+      "general-predictive-ml",
+      "continuously-learning"
+    ],
+    "validation": {
+      "design_check": [
+        "DriftReference artifact is versioned, SHA-256 signed, and stored in the model registry alongside model weights at training time. [ref:nist_rmf_1_0]",
+        "minimum_sample_size is configured per profile and enforced before any statistic is reported. [ref:iso_42001_2023]",
+        "Profile-conditional thresholds are documented in the drift configuration YAML and version-controlled. [ref:sr_26_2]",
+        "SR 26-2 ongoing monitoring requirement: drift detection policy and review cadence are documented in the model risk file. [ref:sr_26_2]"
+      ],
+      "runtime_test": [
+        "{'test': 'Inject synthetic shifted feature distribution (mean offset 2 sigma on tier-1 feature) and verify drift alert fires within one window period.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Verify system refuses to report drift statistics when sample count < minimum_sample_size.', 'unverified': True} [unverified]",
+        "{'test': 'continuously-learning profile: inject PSI=0.12 and verify online learning is suspended pending signed resume authorization.', 'unverified': True} [unverified]",
+        "{'test': 'Confirm DriftReference artifact hash is validated on load before any comparison proceeds.', 'unverified': True} [unverified]"
+      ],
+      "evidence": [
+        "{'artifact': 'DriftReference artifact for current production model with version, training date, and per-feature statistics.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Drift event log for trailing 90 days with per-feature statistics and action-taken records.', 'ref': 'sr_26_2'} [ref:sr_26_2]",
+        "{'artifact': 'Monthly drift summary report signed by model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
+      ]
+    },
+    "lenses": {
+      "engineering": "Serialize DriftReference as a lightweight JSON artifact at training time; implement drift computation as a stateless function reading reference from object storage, keeping monitoring path independent of serving path.",
+      "evaluation": "Post-deployment evaluation establishes the initial drift baseline; include drift alert rate and time-to-drift in the model health dashboard.",
+      "red_team": "Test whether gradual adversarial input manipulation below the per-window PSI threshold accumulates across windows to cause undetected performance degradation.",
+      "grc": "SR 26-2 mandates ongoing monitoring for $30B+ asset institutions; drift event log is primary evidence for model risk management attestation.",
+      "mlops": "Drift alerts auto-create issue tickets; retraining triggers require human approval for high-impact-decision and continuously-learning profiles before any production weight update."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers input feature drift and prediction drift. Concept drift requiring labeled ground truth is handled in the EV layer. Online learning governance is detailed in BH-10.",
+    "canonical_id": "apeiris://model/controls/BH-02",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "none",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    }
+  },
+  {
+    "id": "BH-03",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Production Performance Degradation Alerting",
+    "plain": "Compare live production metrics against a signed evaluation baseline established at release, firing threshold-based tiered alerts when performance regresses beyond accepted tolerances before degradation impacts users at scale.",
+    "threat": {
+      "tags": [
+        "MR-PERFORMANCE",
+        "MR-MONITORING"
+      ],
+      "desc": "Silent performance degradation \u2014 where accuracy, latency, or calibration degrades in production without triggering any alert \u2014 leads to scaled harm. Regressions can stem from infrastructure changes, model updates, distribution shifts, or adversarial inputs that degrade subgroup performance while keeping aggregate metrics within tolerance."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "MANAGE 2.4, MANAGE 4.2"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 9.1"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 9(7), Art. 72"
+      },
+      {
+        "id": "sr262",
+        "ref": "Section IV.C \u2014 Performance Benchmarking"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "iso_42001_2023",
+        "authority": "ISO/IEC",
+        "title": "ISO/IEC 42001:2023 AI Management System",
+        "source_type": "certification-standard",
+        "license": "proprietary",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "2023",
+        "published_on": "2023-12-18",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "sr_26_2",
+        "authority": "Federal Reserve / OCC",
+        "title": "SR 26-2: Model Risk Management Guidance",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "supersedes": [
+          "SR 11-7",
+          "SR 21-8"
+        ],
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "guidance",
+        "version": "SR 26-2",
+        "published_on": "2026-04-01",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "eu_ai_act_2024",
+        "authority": "European Parliament and Council",
+        "title": "EU AI Act (Regulation (EU) 2024/1689)",
+        "source_type": "regulation",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "effective_dates": {
+          "standalone_high_risk": "2027-12-02",
+          "product_embedded": "2028-08-02"
+        },
+        "status": "current",
+        "normative_force": "binding-law",
+        "version": "2024",
+        "published_on": "2024-08-01",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      }
+    ],
+    "implementation": {
+      "pattern": "Anchor all production performance metrics against a signed EvaluationBaseline artifact published at each release gate. Compute rolling production estimates and fire tiered alerts (warning / critical / sev1) when metrics breach thresholds expressed as percentage regression from baseline.",
+      "steps": [
+        "At the release gate (EV layer), publish a signed EvaluationBaseline artifact: {model_id, version, eval_date, primary_metrics [{metric_name, value, confidence_interval}], eval_dataset_hash, artifact_sha256}.",
+        "Deploy a metrics aggregation service that continuously estimates production values of the same primary metrics using available signals (labeled ground truth, proxy metrics, user correction rate).",
+        "Define alert thresholds as percentage regression from baseline: tier-1 metrics alert at 5% regression / critical at 10%; tier-2 metrics (calibration, latency p95) alert at 15%.",
+        "When no labeled ground truth is available, use calibrated proxy metrics documented in the proxy_metric_registry.",
+        "Route warning to MLOps on-call (acknowledge within 4 hours); critical to model owner + MLOps (1 hour); sev1 escalates to incident commander (15 minutes).",
+        "Track each alert to resolution: root cause, remediation action, closure sign-off stored in the incident registry linked to BH-03.",
+        "Re-anchor baseline after each planned model update; require new signed EvaluationBaseline from the evaluation team."
+      ],
+      "anti_patterns": [
+        "Using absolute metric targets rather than regression-from-baseline \u2014 breaks after model updates.",
+        "Relying solely on latency as a proxy for model quality.",
+        "Not versioning the EvaluationBaseline artifact \u2014 makes auditing impossible.",
+        "Measuring only aggregate metrics \u2014 masks subgroup performance drops."
+      ]
+    },
+    "monitoring_schema": {
+      "metric_objects": [
+        {
+          "name": "primary_metric_regression_pct",
+          "type": "regression_from_baseline",
+          "description": "Percentage regression in the primary task metric relative to the signed EvaluationBaseline.",
+          "alert_threshold_pct": 5,
+          "critical_threshold_pct": 10,
+          "unit": "percent",
+          "metric_id": "primary_metric_regression_pct",
+          "metric_type": "performance",
+          "measure": "percentage-regression-from-baseline",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "calibration_ece",
+          "type": "gauge",
+          "description": "Expected Calibration Error of production probability outputs vs. baseline ECE.",
+          "alert_threshold_delta_pct": 15,
+          "unit": "absolute_error",
+          "metric_id": "calibration_ece",
+          "metric_type": "performance",
+          "measure": "calibration-ece",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "latency_p95_ms",
+          "type": "percentile",
+          "description": "95th percentile inference latency vs. baseline p95.",
+          "alert_threshold_delta_pct": 20,
+          "unit": "milliseconds",
+          "metric_id": "latency_p95_ms",
+          "metric_type": "performance",
+          "measure": "latency-percentile",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "subgroup_metric_regression_pct",
+          "type": "regression_from_baseline",
+          "description": "Worst-case regression across defined subgroup slices vs. baseline subgroup metrics.",
+          "alert_threshold_pct": 7,
+          "critical_threshold_pct": 15,
+          "unit": "percent",
+          "metric_id": "subgroup_metric_regression_pct",
+          "metric_type": "performance",
+          "measure": "percentage-regression-from-baseline",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        }
+      ],
+      "window_context": {
+        "type": "sliding",
+        "duration_hours": 24,
+        "minimum_sample_size": 1000,
+        "baseline_artifact": "EvaluationBaseline_v{model_version}"
+      },
+      "sampling_rate": 1.0,
+      "sampling_strategy": "full_population_with_stratified_subgroup_tracking"
+    },
+    "validation": {
+      "design_check": [
+        "EvaluationBaseline artifact is published, signed, and stored in the model registry at every release. [ref:nist_rmf_1_0]",
+        "Alert thresholds are documented as percentage-regression-from-baseline and reviewed by the model owner at minimum quarterly. [ref:iso_42001_2023]",
+        "SR 26-2 requires performance benchmarks and monitoring thresholds be documented and reviewed annually. [ref:sr_26_2]",
+        "Subgroup slice metrics are defined and included in the EvaluationBaseline artifact. [ref:eu_ai_act_2024]"
+      ],
+      "runtime_test": [
+        "{'test': 'Replay a degraded production stream (simulated 8% accuracy drop) and verify critical alert fires within one monitoring window.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Verify that an EvaluationBaseline artifact with an invalid hash is rejected by the metrics comparison service.', 'unverified': True} [unverified]",
+        "{'test': 'Confirm subgroup regression alerts fire independently of aggregate metric alerts.', 'unverified': True} [unverified]"
+      ],
+      "evidence": [
+        "{'artifact': 'EvaluationBaseline artifact for current production model version.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Alert log for trailing 90 days with root cause and remediation records.', 'ref': 'sr_26_2'} [ref:sr_26_2]",
+        "{'artifact': 'Quarterly threshold review sign-off by model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
+      ]
+    },
+    "lenses": {
+      "engineering": "The metrics aggregation service must be independent of the inference serving path \u2014 a serving failure must not also disable performance monitoring.",
+      "evaluation": "EvaluationBaseline artifact is the authoritative linkage between pre-release evaluation (EV layer) and production monitoring; evaluation team owns baseline publication.",
+      "red_team": "Test whether adversarial inputs can selectively degrade subgroup performance while keeping aggregate metrics within alert thresholds.",
+      "grc": "SR 26-2 and EU AI Act Art. 72 both require evidence of ongoing performance monitoring; EvaluationBaseline artifact and alert log are primary audit evidence.",
+      "mlops": "Automate baseline re-anchoring as part of the deployment pipeline; require human sign-off before alerting thresholds are adjusted."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers performance metric regression alerting anchored to the release baseline. Feature drift driving performance loss is in BH-02. Pre-release performance evaluation is in EV-01.",
+    "canonical_id": "apeiris://model/controls/BH-03",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "none",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    }
+  },
+  {
+    "id": "BH-04",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Behavioral Boundary Performance Testing",
+    "plain": "Measure how effectively the model's behavioral boundaries hold in production \u2014 Model Assurance quantifies boundary adherence rates and trends; detection and enforcement of violations is owned by securitycontrols.ai.",
+    "threat": {
+      "tags": [
+        "MR-PERFORMANCE",
+        "LLM01:2025",
+        "AML.T0051"
+      ],
+      "desc": "Behavioral boundaries (topic restrictions, capability limits, refusal policies) can erode due to model updates, new user populations, or adversarial pressure. Without measurement, boundary adherence is assumed rather than known. AML.T0051 (LLM Prompt Injection) is the primary vector exploiting boundary weaknesses."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "MANAGE 1.3, MANAGE 4.1"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 6.1, Clause 9.1"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 9(1)(b), Art. 15"
+      },
+      {
+        "id": "aisvs",
+        "ref": "V5.2"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "iso_42001_2023",
+        "authority": "ISO/IEC",
+        "title": "ISO/IEC 42001:2023 AI Management System",
+        "source_type": "certification-standard",
+        "license": "proprietary",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "2023",
+        "published_on": "2023-12-18",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "atlas_v560",
+        "authority": "MITRE",
+        "title": "MITRE ATLAS v5.6.0",
+        "url": "https://atlas.mitre.org",
+        "source_type": "threat-knowledge-base",
+        "license": "apache_2_0",
+        "version": "5.6.0",
+        "effective_date": "2026-05-04",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "informative",
+        "published_on": "2026-05-04",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "owasp_aisvs_v1",
+        "authority": "OWASP",
+        "title": "OWASP AI Security Verification Standard v1.0",
+        "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0-pre",
+        "published_on": "2026-06-26",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "Run a continuous behavioral boundary test harness against production model endpoints using a curated BoundaryTestSuite. Model Assurance measures and reports BoundaryAdherenceRate per category. securitycontrols.ai owns detection of active violations and enforcement response.",
+      "steps": [
+        "Maintain a versioned BoundaryTestSuite: probe inputs per boundary category (topic restriction, capability limit, policy compliance, refusal boundary). Include novel adversarial formulations, not only published datasets.",
+        "Schedule BoundaryTestSuite runs against the production endpoint: minimum daily; high-impact-decision and frontier-capability profiles: every 6 hours.",
+        "Compute BoundaryAdherenceRate per category: (passing_probes / total_probes); track trend over a 30-day rolling window.",
+        "Fire alerts: BoundaryAdherenceRate < 95% (warning), < 90% (critical). Route critical alerts to model owner and securitycontrols.ai cross-domain channel.",
+        "Log all probe results \u2014 pass and fail \u2014 with probe_id, timestamp, model_version, response_hash; store in the evidence registry.",
+        "When a boundary adherence drop is detected, notify securitycontrols.ai via the cross-domain alert channel for enforcement action. Model Assurance does NOT modify guardrails.",
+        "Re-run BoundaryTestSuite as part of every pre-release evaluation gate (EV layer) to establish a new baseline."
+      ],
+      "anti_patterns": [
+        "Model Assurance modifying guardrail logic or enforcement rules \u2014 this is the securitycontrols.ai boundary; Model Assurance measures, Security enforces.",
+        "Using only published probe inputs \u2014 probes must include novel adversarial formulations unavailable to the model's safety training.",
+        "Running boundary tests only at release and not in production \u2014 misses post-release boundary drift.",
+        "Sharing probe inputs publicly in a way that enables adversarial optimization."
+      ]
+    },
+    "cross_domain": {
+      "domain": "securitycontrols.ai",
+      "boundary_note": "Model Assurance (modelverifier.ai / BH-04) measures behavioral boundary adherence rates and trends. Detection of active boundary violations and enforcement responses (guardrail updates, blocking, rate limiting) are owned by securitycontrols.ai. BH-04 results are shared with securitycontrols.ai via the cross-domain alert channel. Neither domain modifies the other's controls without a formal governance handoff.",
+      "navigation_pointer": "securitycontrols.ai > Runtime Enforcement layer > Guardrail Control",
+      "evidence_artifact_pattern": "BoundaryTestResult_{model_id}_{date}.json written to both domain evidence registries"
+    },
+    "validation": {
+      "design_check": [
+        "BoundaryTestSuite is version-controlled and reviewed by model owner and security team at minimum quarterly. [ref:nist_rmf_1_0]",
+        "Cross-domain alert channel to securitycontrols.ai is documented and the measure-vs-enforce boundary is explicitly stated in the runbook. [ref:iso_42001_2023]",
+        "BoundaryAdherenceRate alert thresholds (95% warning, 90% critical) are documented in the model health runbook. [ref:nist_rmf_1_0]",
+        "AISVS V5.2 boundary probe coverage requirements are mapped to BoundaryTestSuite categories. [ref:owasp_aisvs_v1]"
+      ],
+      "runtime_test": [
+        "{'test': 'Run the full BoundaryTestSuite in shadow mode and verify results are logged with correct probe_id linkage.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Simulate boundary adherence drop to 88% in one category and verify critical alert fires and cross-domain notification is sent.', 'unverified': True} [unverified]",
+        "{'test': 'Verify probe inputs are not accessible via any public API or logging endpoint.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+      ],
+      "evidence": [
+        "{'artifact': 'BoundaryTestSuite artifact with version and review date.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'BoundaryAdherenceRate time-series for trailing 90 days per boundary category.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
+        "{'artifact': 'Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops.', 'unverified': True} [unverified]"
+      ]
+    },
+    "lenses": {
+      "engineering": "BoundaryTestSuite runner authenticates to the production endpoint as a dedicated test identity; results are isolated from real traffic logs.",
+      "evaluation": "Evaluation team curates and updates the BoundaryTestSuite; novel adversarial probes from red team exercises must be added within 30 days of discovery.",
+      "red_team": "Primary threat model: AML.T0051 (LLM Prompt Injection). Red team provides novel boundary probe inputs; exercises at minimum quarterly.",
+      "grc": "EU AI Act Art. 9(1)(b) and Art. 15 require that high-risk AI achieve consistent performance across intended use conditions; BoundaryAdherenceRate is the measurable proxy.",
+      "mlops": "BoundaryTestSuite runs are a deployment gate; new model versions must not regress vs. previous BoundaryAdherenceRate before reaching production."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers measurement of behavioral boundary adherence. Enforcement actions are owned by securitycontrols.ai. Injection-resistance measurement specifically is in BH-06.",
+    "canonical_id": "apeiris://model/controls/BH-04",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "none",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    },
+    "monitoring_schema": {
+      "metrics": [
+        {
+          "metric_id": "bh-04-pass-rate",
+          "metric_type": "performance",
+          "measure": "control-verification-pass-rate",
+          "population": "all-assessed-deployments",
+          "comparison": {
+            "operator": "lt",
+            "value": 1.0,
+            "window": "7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "critical"
+        }
+      ],
+      "sampling_rate": "100%",
+      "window_context": "rolling-7d"
+    }
+  },
+  {
+    "id": "BH-05",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Usage Telemetry and Decision Logging",
+    "plain": "Log every model inference with caller identity, masked/hashed inputs, sampled outputs, and latency \u2014 creating a tamper-evident audit trail for incident response, regulatory audit, and model improvement \u2014 while enforcing a retention policy that protects user privacy.",
+    "threat": {
+      "tags": [
+        "MR-MONITORING",
+        "AML.T0024",
+        "EU-AIA-AnnexIII"
+      ],
+      "desc": "Without structured decision logging, AI-driven decisions cannot be audited, contested, or investigated. Missing telemetry prevents detection of misuse patterns, bulk inference for model extraction (AML.T0024), and accountability gaps in high-impact decisions."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "GOVERN 1.2, MANAGE 4.1"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 7.5, Clause 9.1"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 12, Art. 26(5), Annex III"
+      },
+      {
+        "id": "sr262",
+        "ref": "Section IV.D \u2014 Documentation and Records"
+      },
+      {
+        "id": "aicm",
+        "ref": "AICM-LOG-01"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "iso_42001_2023",
+        "authority": "ISO/IEC",
+        "title": "ISO/IEC 42001:2023 AI Management System",
+        "source_type": "certification-standard",
+        "license": "proprietary",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "2023",
+        "published_on": "2023-12-18",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "sr_26_2",
+        "authority": "Federal Reserve / OCC",
+        "title": "SR 26-2: Model Risk Management Guidance",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "supersedes": [
+          "SR 11-7",
+          "SR 21-8"
+        ],
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "guidance",
+        "version": "SR 26-2",
+        "published_on": "2026-04-01",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "eu_ai_act_2024",
+        "authority": "European Parliament and Council",
+        "title": "EU AI Act (Regulation (EU) 2024/1689)",
+        "source_type": "regulation",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "effective_dates": {
+          "standalone_high_risk": "2027-12-02",
+          "product_embedded": "2028-08-02"
+        },
+        "status": "current",
+        "normative_force": "binding-law",
+        "version": "2024",
+        "published_on": "2024-08-01",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "atlas_v560",
+        "authority": "MITRE",
+        "title": "MITRE ATLAS v5.6.0",
+        "url": "https://atlas.mitre.org",
+        "source_type": "threat-knowledge-base",
+        "license": "apache_2_0",
+        "version": "5.6.0",
+        "effective_date": "2026-05-04",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "informative",
+        "published_on": "2026-05-04",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "Instrument every model inference endpoint to emit a structured DecisionLog record. Apply three-tier logging: full metadata always logged; inputs masked/hashed before logging; outputs sampled at a configurable rate. Enforce tiered retention aligned to regulatory requirements.",
+      "steps": [
+        "Define the DecisionLog schema: {log_id, model_id, model_version, timestamp_utc, caller_id, session_id, input_hash (HMAC-SHA-256), input_sensitivity_tier, output_sample (at sampling rate), output_hash, latency_ms, inference_cost_tokens, decision_outcome, confidence_score, flags[]}.",
+        "Apply input masking: strip direct identifiers before logging; hash PII fields using HMAC-SHA-256 with a key-per-tenant stored in the key management system.",
+        "Implement deterministic output sampling: 10% default; 100% for high-impact-decision profile; output samples encrypted at rest.",
+        "Enforce retention tiers: raw inference logs 90 days; aggregated anonymized logs 3 years; EU high-risk AI deployments minimum 10 years per Art. 12.",
+        "Make logs tamper-evident: append-only store; compute a daily Merkle tree root hash and publish to a separate tamper-evident log.",
+        "Expose a DecisionLog query API to model owner, compliance team, and authorized regulators; all access logged for access audit trail.",
+        "Enrich caller_id to human-readable identity (service name, user role) at log time; never log raw auth tokens."
+      ],
+      "anti_patterns": [
+        "Logging raw user inputs containing PII \u2014 creates GDPR liability and breach risk.",
+        "Logging all outputs without sampling at high volume \u2014 uneconomical and may expose model internals.",
+        "Using a mutable logging store \u2014 allows log tampering, defeating the audit purpose.",
+        "Not logging caller identity \u2014 makes attribution impossible during incident response.",
+        "Logging only errors \u2014 misses the normal baseline needed for anomaly detection."
+      ]
+    },
+    "obligations": [
+      "EU AI Act Art. 12: high-risk AI systems must automatically log events; logs kept for minimum period.",
+      "EU AI Act Art. 26(5): deployers of high-risk AI must keep logs.",
+      "SR 26-2 Section IV.D: model documentation must support ongoing monitoring and audit.",
+      "GDPR Art. 5(1)(e): data minimization and storage limitation apply to logged personal data."
+    ],
+    "profiles": [
+      "high-impact-decision",
+      "eu-high-risk",
+      "us-regulated-banking"
+    ],
+    "validation": {
+      "design_check": [
+        "DecisionLog schema is documented and includes all required fields: input_hash, caller_id, model_version, latency_ms. [ref:nist_rmf_1_0]",
+        "Input masking pipeline is reviewed by the privacy team; no direct PII fields appear in stored logs. [ref:eu_ai_act_2024]",
+        "Retention tiers are documented and configured in log storage, aligned to Art. 12 for EU high-risk deployments. [ref:eu_ai_act_2024]",
+        "SR 26-2 records requirement: DecisionLog configuration is included in the model risk documentation. [ref:sr_26_2]",
+        "Tamper-evident mechanism (Merkle tree or equivalent) is designed and daily root hash publication is documented. [ref:eu_ai_act_2024]"
+      ],
+      "runtime_test": [
+        "{'test': 'Issue 100 test inferences and verify all 100 DecisionLog records appear with correct fields and no raw PII.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Attempt to modify a historical log record and verify the tamper-evident mechanism raises an integrity alert.', 'unverified': True} [unverified]",
+        "{'test': 'Verify output sampling rate (10% default; 100% for high-impact-decision profile) is correctly applied.', 'unverified': True} [unverified]",
+        "{'test': 'Verify caller_id resolves to human-readable identity; no raw auth tokens in logs.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+      ],
+      "evidence": [
+        "{'artifact': 'DecisionLog schema documentation with field definitions and masking policy.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Privacy review sign-off confirming no direct PII in stored logs.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]",
+        "{'artifact': 'Retention policy configuration and automated deletion audit log.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
+        "{'artifact': 'Daily Merkle root hash publication log for trailing 90 days.', 'unverified': True} [unverified]"
+      ]
+    },
+    "lenses": {
+      "engineering": "Log emission must be async and non-blocking; inference latency must not increase due to logging. Use a write-ahead log pattern with a dedicated logging service.",
+      "evaluation": "DecisionLogs feed the continuous evaluation pipeline \u2014 sampled outputs are scored by the evaluation harness to estimate production performance.",
+      "red_team": "Test whether the output sampling pattern can be inferred and exploited by an adversary to prefer outputs that appear in the log.",
+      "grc": "EU AI Act Art. 12 and SR 26-2 both require structured logging; BH-05 is the primary control satisfying both obligations. Obligations mapping must be documented.",
+      "mlops": "DecisionLog volume must be budgeted in infrastructure cost; log ingestion pipeline SLA must be monitored separately from model serving SLA."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers inference-level telemetry and decision logging. Session-level behavioral analytics for security purposes are owned by securitycontrols.ai. Drift monitoring using logged data is in BH-02.",
+    "canonical_id": "apeiris://model/controls/BH-05",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "none",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    },
+    "monitoring_schema": {
+      "metrics": [
+        {
+          "metric_id": "bh-05-pass-rate",
+          "metric_type": "performance",
+          "measure": "control-verification-pass-rate",
+          "population": "all-assessed-deployments",
+          "comparison": {
+            "operator": "lt",
+            "value": 1.0,
+            "window": "7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "critical"
+        }
+      ],
+      "sampling_rate": "100%",
+      "window_context": "rolling-7d"
+    }
+  },
+  {
+    "id": "BH-06",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Injection-Resistance Evaluation in Production",
+    "plain": "Continuously measure the production model's resistance to prompt injection and adversarial input attacks using a structured probe suite; Model Assurance owns measurement and scoring; securitycontrols.ai owns detection and blocking of actual production attacks.",
+    "threat": {
+      "tags": [
+        "LLM01:2025",
+        "AML.T0051",
+        "MR-PERFORMANCE"
+      ],
+      "desc": "Prompt injection (LLM01:2025, AML.T0051) is the leading attack vector against deployed language models. Models that resisted injection at evaluation time can become more vulnerable after fine-tuning updates, context window changes, or new tool integrations. Production measurement of injection resistance is distinct from one-time red-team exercises."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "MANAGE 1.3, MANAGE 2.2"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 6.1"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 9(1)(b), Art. 15"
+      },
+      {
+        "id": "aisvs",
+        "ref": "V5.1, V5.3"
+      },
+      {
+        "id": "llm10",
+        "ref": "LLM01:2025"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "owasp_llm_top10_2025",
+        "authority": "OWASP",
+        "title": "OWASP LLM Top 10 2025",
+        "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "version": "2025",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "published_on": "2024-11-17",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "atlas_v560",
+        "authority": "MITRE",
+        "title": "MITRE ATLAS v5.6.0",
+        "url": "https://atlas.mitre.org",
+        "source_type": "threat-knowledge-base",
+        "license": "apache_2_0",
+        "version": "5.6.0",
+        "effective_date": "2026-05-04",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "informative",
+        "published_on": "2026-05-04",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "owasp_aisvs_v1",
+        "authority": "OWASP",
+        "title": "OWASP AI Security Verification Standard v1.0",
+        "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0-pre",
+        "published_on": "2026-06-26",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "Operate a continuous InjectionProbeLibrary that runs structured adversarial inputs against the production endpoint on a scheduled basis. Compute InjectionResistanceScore per attack category. Publish scores to the model health dashboard and notify securitycontrols.ai when scores degrade. Detection and blocking remain with securitycontrols.ai.",
+      "steps": [
+        "Maintain a versioned InjectionProbeLibrary organized by attack category: direct prompt injection, indirect injection via context, jailbreak, role confusion, instruction override. Source probes from red team exercises, published datasets, and MITRE ATLAS AML.T0051 patterns.",
+        "Schedule InjectionProbeLibrary runs against the production endpoint: every 6 hours for generative-ai and frontier-capability profiles; daily for others. Run from a dedicated probe identity filtered from operational metrics.",
+        "Compute InjectionResistanceScore = (probes_resisted / total_probes) per attack category; track trend over a 30-day rolling window.",
+        "Alert when InjectionResistanceScore drops below 90% in any category (warning) or 80% (critical). Route critical alerts to model owner and securitycontrols.ai.",
+        "For novel injection techniques discovered in production (via securitycontrols.ai alert), add a corresponding probe to InjectionProbeLibrary within 30 days.",
+        "Do NOT implement blocking or guardrail updates in this control \u2014 all enforcement routed to securitycontrols.ai via the cross-domain alert channel.",
+        "Publish monthly InjectionResistanceScore trend reports to the governance board."
+      ],
+      "anti_patterns": [
+        "Model Assurance implementing blocking rules or guardrail modifications \u2014 enforcement is owned by securitycontrols.ai.",
+        "Using only publicly known injection probes \u2014 models may resist published datasets while remaining vulnerable to novel variants.",
+        "Running probe suite so infrequently that resistance degradation is detected days after it occurs.",
+        "Publishing probe library contents in a way that enables adversarial optimization against them."
+      ]
+    },
+    "cross_domain": {
+      "domain": "securitycontrols.ai",
+      "boundary_note": "Model Assurance (modelverifier.ai / BH-06) measures injection resistance via structured probe suites and publishes InjectionResistanceScore metrics. Detection of actual injection attacks in production traffic and enforcement responses (blocking, rate limiting, guardrail updates) are owned exclusively by securitycontrols.ai. BH-06 feeds measurement data to securitycontrols.ai; securitycontrols.ai feeds novel attack patterns back to the InjectionProbeLibrary. Neither domain implements the other's controls.",
+      "navigation_pointer": "securitycontrols.ai > Runtime Enforcement layer > Injection Defense Control",
+      "evidence_artifact_pattern": "InjectionResistanceScore_{model_id}_{date}.json shared to both domain registries; novel_attack_patterns fed back from securitycontrols.ai to InjectionProbeLibrary"
+    },
+    "validation": {
+      "design_check": [
+        "InjectionProbeLibrary is version-controlled and includes probes from at least three attack categories (direct, indirect, jailbreak). [ref:atlas_v560]",
+        "Cross-domain alert channel to securitycontrols.ai is documented and the measure-vs-enforce boundary is explicitly stated in the runbook. [ref:nist_rmf_1_0]",
+        "InjectionResistanceScore thresholds (90% warning, 80% critical) are documented. [ref:nist_rmf_1_0]",
+        "AISVS V5.1 and V5.3 probe coverage requirements are mapped to InjectionProbeLibrary categories. [ref:owasp_aisvs_v1]"
+      ],
+      "runtime_test": [
+        "{'test': 'Run the full InjectionProbeLibrary against the production endpoint and verify InjectionResistanceScore is computed and published to the health dashboard.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
+        "{'test': 'Simulate resistance drop to 78% in the jailbreak category and verify critical alert fires and cross-domain notification is sent.', 'unverified': True} [unverified]",
+        "{'test': 'Verify probe runs do not appear in operational traffic metrics (probe identity correctly filtered).', 'unverified': True} [unverified]"
+      ],
+      "evidence": [
+        "{'artifact': 'InjectionProbeLibrary artifact with version, category coverage, and last review date.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
+        "{'artifact': 'InjectionResistanceScore time-series for trailing 90 days per attack category.', 'ref': 'owasp_llm_top10_2025'} [ref:owasp_llm_top10_2025]",
+        "{'artifact': 'Cross-domain alert log showing securitycontrols.ai notifications.', 'unverified': True} [unverified]",
+        "{'artifact': 'Monthly InjectionResistanceScore trend report to governance board.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]"
+      ]
+    },
+    "lenses": {
+      "engineering": "Probe runner uses a separate credential from production users; probe inputs must be syntactically indistinguishable from real inputs to test actual production behavior.",
+      "evaluation": "InjectionResistanceScore is a first-class model health metric alongside accuracy and latency; evaluation team updates probe library after each red team exercise.",
+      "red_team": "Primary threat model: AML.T0051 (LLM Prompt Injection) and OWASP LLM01:2025. Red team provides novel probe inputs; exercises at minimum quarterly.",
+      "grc": "EU AI Act Art. 15 requires robustness against manipulation attempts; InjectionResistanceScore is the measurable evidence artifact for this obligation.",
+      "mlops": "InjectionProbeLibrary runs are a deployment gate; new model versions must not regress vs. previous InjectionResistanceScore before reaching production."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers measurement of injection resistance. Actual attack detection and blocking are owned by securitycontrols.ai. General behavioral boundary adherence is in BH-04. Pre-release adversarial evaluation is in EV-06 and EV-07.",
+    "canonical_id": "apeiris://model/controls/BH-06",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "elevated",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    },
+    "monitoring_schema": {
+      "metrics": [
+        {
+          "metric_id": "bh-06-pass-rate",
+          "metric_type": "performance",
+          "measure": "control-verification-pass-rate",
+          "population": "all-assessed-deployments",
+          "comparison": {
+            "operator": "lt",
+            "value": 1.0,
+            "window": "7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "critical"
+        }
+      ],
+      "sampling_rate": "100%",
+      "window_context": "rolling-7d"
+    }
+  },
+  {
+    "id": "BH-07",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Resource and Cost Anomaly Monitoring",
+    "plain": "Monitor compute spend, token consumption, and API call volume in real time; detect cost spikes that may indicate abuse, runaway automation, or adversarial resource exhaustion before they cause material financial or operational harm.",
+    "threat": {
+      "tags": [
+        "MR-MONITORING",
+        "AML.T0024",
+        "LLM10:2025"
+      ],
+      "desc": "Uncontrolled resource consumption through abuse, compromised API keys, runaway agents, or adversarial resource exhaustion causes significant financial harm and service degradation. Sudden cost spikes may also indicate bulk inference for model extraction (AML.T0024) where an adversary runs high-volume queries to steal model knowledge."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "MANAGE 2.4, GOVERN 1.7"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 9.1"
+      },
+      {
+        "id": "aisvs",
+        "ref": "V8.2"
+      },
+      {
+        "id": "llm10",
+        "ref": "LLM10:2025"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "owasp_llm_top10_2025",
+        "authority": "OWASP",
+        "title": "OWASP LLM Top 10 2025",
+        "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "version": "2025",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "published_on": "2024-11-17",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "atlas_v560",
+        "authority": "MITRE",
+        "title": "MITRE ATLAS v5.6.0",
+        "url": "https://atlas.mitre.org",
+        "source_type": "threat-knowledge-base",
+        "license": "apache_2_0",
+        "version": "5.6.0",
+        "effective_date": "2026-05-04",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "informative",
+        "published_on": "2026-05-04",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "owasp_aisvs_v1",
+        "authority": "OWASP",
+        "title": "OWASP AI Security Verification Standard v1.0",
+        "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0-pre",
+        "published_on": "2026-06-26",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "Deploy a cost and resource telemetry pipeline aggregating compute spend, token usage, and API call volume per caller, model, and time window. Apply Z-score and EWMA anomaly detection against rolling baselines. Fire tiered alerts for spend spikes; enforce configurable per-caller budget guardrails.",
+      "steps": [
+        "Instrument the inference serving layer to emit a CostEvent per request: {caller_id, model_id, timestamp, input_tokens, output_tokens, compute_seconds, cost_usd_estimated}.",
+        "Aggregate CostEvents in a time-series store; compute rolling baselines per caller and per model for: total_cost_per_hour, total_tokens_per_hour, call_volume_per_minute.",
+        "Apply Z-score anomaly detection: alert when any metric exceeds baseline_mean + 3*std_dev within the monitoring window; use EWMA smoothing to reduce false positives on short spikes.",
+        "Tiered alert structure: cost_spike_warning (>2x baseline over 1 hour), cost_spike_critical (>5x baseline over 1 hour OR >10x in any 15-minute window).",
+        "Implement per-caller budget guardrails: configurable monthly spend cap; when cap is reached, requests are queued and the caller notified; hard stop after 120% of cap.",
+        "Route cost_spike_critical alerts to MLOps on-call and finance operations, including: caller_id, time_window, observed_cost, baseline_cost, anomaly_score.",
+        "Correlate cost spikes with inference volume patterns consistent with AML.T0024 (bulk inference for model extraction); route correlated events to securitycontrols.ai for enforcement."
+      ],
+      "anti_patterns": [
+        "Alerting only on absolute spend thresholds \u2014 misses relative spikes for low-volume callers.",
+        "Not segmenting by caller_id \u2014 makes attribution impossible during a cost incident.",
+        "Setting budget guardrails so high that meaningful abuse occurs before any alert fires.",
+        "Not correlating cost anomalies with the AML.T0024 pattern of bulk inference for model extraction."
+      ]
+    },
+    "monitoring_schema": {
+      "metric_objects": [
+        {
+          "name": "cost_usd_per_hour",
+          "type": "rate",
+          "description": "Total estimated cost in USD per hour, aggregated across all callers and models.",
+          "alert_threshold_multiplier": 2.0,
+          "critical_threshold_multiplier": 5.0,
+          "unit": "usd_per_hour",
+          "metric_id": "cost_usd_per_hour",
+          "metric_type": "cost",
+          "measure": "cost-per-request-usd",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "tokens_per_hour",
+          "type": "rate",
+          "description": "Total tokens (input + output) consumed per hour across all callers.",
+          "alert_threshold_multiplier": 2.0,
+          "critical_threshold_multiplier": 5.0,
+          "unit": "tokens_per_hour",
+          "metric_id": "tokens_per_hour",
+          "metric_type": "performance",
+          "measure": "tokens-per-hour",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "call_volume_per_minute",
+          "type": "rate",
+          "description": "API call volume per minute per caller; detects automated abuse patterns.",
+          "alert_threshold_multiplier": 3.0,
+          "critical_threshold_multiplier": 10.0,
+          "unit": "calls_per_minute",
+          "metric_id": "call_volume_per_minute",
+          "metric_type": "performance",
+          "measure": "call-volume-per-minute",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        },
+        {
+          "name": "cost_per_caller_pct_of_cap",
+          "type": "fraction",
+          "description": "Per-caller monthly spend as a fraction of their configured budget cap.",
+          "alert_threshold": 0.8,
+          "critical_threshold": 1.0,
+          "unit": "fraction",
+          "metric_id": "cost_per_caller_pct_of_cap",
+          "metric_type": "performance",
+          "measure": "cost-per-request-usd",
+          "population": "all-production-inferences",
+          "comparison": {
+            "operator": "greater-than",
+            "value": 0,
+            "window": "rolling-7d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "medium"
+        }
+      ],
+      "window_context": {
+        "type": "sliding",
+        "duration_minutes": 60,
+        "minimum_sample_size": 10,
+        "short_window_minutes": 15,
+        "baseline_window_days": 14
+      },
+      "sampling_rate": 1.0,
+      "sampling_strategy": "full_population"
+    },
+    "validation": {
+      "design_check": [
+        "CostEvent schema is documented and includes all required fields: caller_id, model_id, input_tokens, output_tokens, cost_usd_estimated. [ref:nist_rmf_1_0]",
+        "Per-caller budget caps are defined, documented, and enforced in serving infrastructure configuration. [ref:nist_rmf_1_0]",
+        "EWMA smoothing parameters are documented; false positive rate is evaluated against 30 days of historical data. [ref:nist_rmf_1_0]",
+        "AISVS V8.2 resource control requirements are reviewed against the budget guardrail implementation. [ref:owasp_aisvs_v1]"
+      ],
+      "runtime_test": [
+        "{'test': 'Simulate a 6x cost spike (automated high-volume requests) and verify critical alert fires within one monitoring window with correct caller attribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Verify per-caller hard stop triggers at 120% of monthly cap and caller receives notification.', 'unverified': True} [unverified]",
+        "{'test': 'Confirm cost spikes correlated with high call volume (potential AML.T0024 pattern) are routed to securitycontrols.ai.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+      ],
+      "evidence": [
+        "{'artifact': 'CostEvent time-series for trailing 90 days with per-caller attribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Alert log for cost anomalies with root cause and resolution records.', 'unverified': True} [unverified]",
+        "{'artifact': 'Budget cap configuration document reviewed by finance operations and model owner.', 'unverified': True} [unverified]"
+      ]
+    },
+    "lenses": {
+      "engineering": "CostEvent emission must be non-blocking; cost estimation uses token-count-based pricing at inference time; actual billing reconciliation runs in a separate async pipeline.",
+      "evaluation": "Evaluation runs (BoundaryTestSuite, InjectionProbeLibrary) must use a dedicated cost bucket excluded from production baselines to avoid polluting anomaly detection.",
+      "red_team": "Test whether a low-and-slow bulk inference attack (AML.T0044 / AML.T0024) evades per-minute call volume thresholds by staying within per-window limits across multiple windows.",
+      "grc": "Cost monitoring provides financial controls evidence for governance reporting; budget cap enforcement supports NIST AI RMF GOVERN function accountability requirements.",
+      "mlops": "Monthly cost reports generated per model and per caller; cost efficiency regressions (cost per correct prediction) tracked alongside accuracy metrics."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers resource consumption and cost anomaly monitoring. Model extraction attacks are handled jointly with securitycontrols.ai (BH-07 detects cost signal; securitycontrols.ai investigates and blocks). Compute infrastructure security is out of scope.",
+    "canonical_id": "apeiris://model/controls/BH-07",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "none",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    }
+  },
+  {
+    "id": "BH-08",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Shadow and Canary Deployment Governance",
+    "plain": "Require formal authorization gates before routing production traffic to new model versions; define canary rollout criteria, shadow scoring comparison requirements, and rollback trigger conditions so unvalidated models cannot reach full production.",
+    "threat": {
+      "tags": [
+        "MR-DEV",
+        "MR-PERFORMANCE"
+      ],
+      "desc": "Deploying new model versions without structured rollout controls risks exposing users to regressions, behavioral boundary violations, or unexpected capability changes at scale. Rushed deployments bypass evaluation gates established in the EV layer and create accountability gaps."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "MANAGE 1.3, MANAGE 3.1"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 8.1, Clause 8.4"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 9, Art. 15"
+      },
+      {
+        "id": "sr262",
+        "ref": "Section IV.B \u2014 Model Deployment Controls"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "iso_42001_2023",
+        "authority": "ISO/IEC",
+        "title": "ISO/IEC 42001:2023 AI Management System",
+        "source_type": "certification-standard",
+        "license": "proprietary",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "2023",
+        "published_on": "2023-12-18",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "sr_26_2",
+        "authority": "Federal Reserve / OCC",
+        "title": "SR 26-2: Model Risk Management Guidance",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "supersedes": [
+          "SR 11-7",
+          "SR 21-8"
+        ],
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "guidance",
+        "version": "SR 26-2",
+        "published_on": "2026-04-01",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      }
+    ],
+    "implementation": {
+      "pattern": "Implement a four-stage deployment pipeline: (1) shadow deployment for offline comparison, (2) canary rollout with configurable traffic percentage and exit criteria, (3) progressive rollout with automated health gates, (4) full production with rollback arm. Each stage requires a signed authorization artifact before advancing.",
+      "steps": [
+        "Shadow Stage: route a copy of production traffic to the new model version; compare shadow outputs to current production using automated scoring (BoundaryAdherenceRate, InjectionResistanceScore, primary metric delta). Require shadow comparison report showing <5% output divergence on safety-critical categories before advancing.",
+        "Canary Authorization Gate: require signed approval from model owner + evaluation team lead before routing live user traffic to the new version. Approval must reference the EvaluationBaseline artifact from EV layer and the shadow comparison report.",
+        "Canary Rollout: route 5% of production traffic to the new model version; monitor for 24 hours minimum with all BH-layer health metrics active at elevated alert sensitivity.",
+        "Canary Exit Criteria (advance to progressive rollout): primary metric regression <3%, BoundaryAdherenceRate >=97%, InjectionResistanceScore >=95%, no sev1 incidents during canary window.",
+        "Canary Rollback Triggers: auto-rollback within 5 minutes when primary metric regression >8% OR BoundaryAdherenceRate <90% OR any sev1 incident occurs during canary.",
+        "Progressive Rollout: 25% -> 50% -> 100% with 6-hour soak periods at each stage; same health gates apply.",
+        "Document all stage transitions, authorization records, and rollback events in the DeploymentGovernanceLog linked to the model version."
+      ],
+      "anti_patterns": [
+        "Skipping shadow stage for 'minor' model updates \u2014 all changes to model weights require shadow comparison.",
+        "Using informal approval (Slack message) rather than a signed authorization artifact \u2014 makes audit impossible.",
+        "Setting canary rollback triggers after the fact rather than pre-defining them in deployment configuration.",
+        "Advancing canary percentage based on elapsed time alone without checking health gate criteria."
+      ]
+    },
+    "validation": {
+      "design_check": [
+        "Deployment pipeline configuration documents all four stages with authorization gate requirements. [ref:iso_42001_2023]",
+        "Canary exit criteria and rollback trigger thresholds are pre-defined in deployment configuration before any rollout begins. [ref:nist_rmf_1_0]",
+        "SR 26-2 deployment controls requirement: DeploymentGovernanceLog satisfies the documented procedures requirement. [ref:sr_26_2]",
+        "Shadow comparison scoring methodology references the current EvaluationBaseline artifact. [ref:nist_rmf_1_0]"
+      ],
+      "runtime_test": [
+        "{'test': 'Run a canary deployment with simulated 9% metric regression; verify auto-rollback triggers within 5 minutes.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Verify canary cannot advance to progressive rollout without a signed authorization artifact from the model owner.', 'unverified': True} [unverified]",
+        "{'test': 'Confirm shadow comparison report is generated and stored before any canary authorization gate is presented.', 'unverified': True} [unverified]"
+      ],
+      "evidence": [
+        "{'artifact': 'DeploymentGovernanceLog for all production deployments in trailing 12 months.', 'ref': 'sr_26_2'} [ref:sr_26_2]",
+        "{'artifact': 'Signed authorization artifacts for each canary deployment.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
+        "{'artifact': 'Shadow comparison reports with output divergence metrics for each deployment.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Rollback event log with trigger condition and resolution time.', 'unverified': True} [unverified]"
+      ]
+    },
+    "lenses": {
+      "engineering": "Implement authorization gates as pipeline-as-code checks that block stage advancement without a valid signed artifact; automate rollback using infrastructure-level traffic weight controls, not application-layer switches.",
+      "evaluation": "Shadow comparison report and EvaluationBaseline artifact from EV layer are inputs to the canary authorization gate; evaluation team co-signs canary advancement.",
+      "red_team": "Probe whether shadow scoring can be gamed by a model that behaves differently on shadow vs. live traffic (detecting shadow via timing or request metadata).",
+      "grc": "SR 26-2 requires model deployment be subject to independent validation and documented controls; the four-stage pipeline with signed authorizations satisfies this.",
+      "mlops": "Canary rollout is orchestrated by MLOps; auto-rollback must be tested in staging quarterly; rollback SLA (5 minutes) is included in the service level objective."
+    },
+    "maturity": {
+      "current": "initial",
+      "target": "defined"
+    },
+    "coverage_note": "Covers model deployment governance from shadow through full production. Pre-release evaluation (EV layer) is a prerequisite. Infrastructure-level deployment automation is out of scope; this control governs authorization and monitoring requirements.",
+    "canonical_id": "apeiris://model/controls/BH-08",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "capability_risk": {
+      "capability_level": "none",
+      "access_mode": "internal",
+      "autonomy": "bounded",
+      "external_reach": "internal",
+      "irreversibility": "low",
+      "data_sensitivity": "internal",
+      "deployment_scale": "enterprise",
+      "affected_party_impact": "low"
+    },
+    "monitoring_schema": {
+      "metrics": [
+        {
+          "metric_id": "bh-08-pass-rate",
+          "metric_type": "performance",
+          "measure": "control-verification-pass-rate",
+          "population": "all-assessed-deployments",
+          "comparison": {
+            "operator": "lt",
+            "value": 1.0,
+            "window": "30d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "critical"
+        }
+      ],
+      "sampling_rate": "100%",
+      "window_context": "rolling-30d"
+    }
+  },
+  {
+    "id": "BH-09",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Synthetic-Content Provenance, Disclosure and Traceability",
+    "plain": "For generative AI deployments, embed cryptographic provenance metadata in AI-generated content, apply mandatory disclosure labels, and maintain a traceability chain linking content back to the generating model version \u2014 enabling verification and regulatory compliance.",
+    "matrix_thesis": true,
+    "thesis_type": "directive",
+    "threat": {
+      "tags": [
+        "LLM09:2025",
+        "MR-PERFORMANCE",
+        "EU-AIA-AnnexIII"
+      ],
+      "desc": "AI-generated content without provenance metadata enables disinformation, fraudulent attribution, and regulatory non-compliance. The inability to trace generated content to a model version prevents incident investigation and accountability. LLM09:2025 (Misinformation) is the primary threat vector; EU AI Act Art. 50 creates a binding disclosure obligation."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "GOVERN 1.2, MANAGE 4.1"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 8.2"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 50 \u2014 Transparency obligations for AI-generated content"
+      },
+      {
+        "id": "llm10",
+        "ref": "LLM09:2025"
+      }
+    ],
+    "sources": [
+      {
+        "id": "c2pa_spec_v2",
+        "authority": "Coalition for Content Provenance and Authenticity (C2PA)",
+        "title": "C2PA Technical Specification v2.x",
+        "url": "https://c2pa.org/specifications/specifications/2.x/specs/C2PA_Specification.html",
+        "source_type": "voluntary-standard",
+        "license": "CC BY 4.0",
+        "artifact_hash": null,
+        "status": "current",
+        "retrieved_on": "2026-06-26",
+        "normative_force": "voluntary",
+        "version": "2.1",
+        "published_on": "2024-11-01"
+      },
+      {
+        "id": "nist_ai_100_4",
+        "authority": "NIST",
+        "title": "NIST AI 100-4: Reducing Risks Posed by Synthetic Content",
+        "url": "https://doi.org/10.6028/NIST.AI.100-4",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "retrieved_on": "2026-06-26",
+        "normative_force": "voluntary",
+        "version": "1.0"
+      },
+      {
+        "id": "eu_ai_act_2024",
+        "authority": "European Parliament and Council",
+        "title": "EU AI Act (Regulation (EU) 2024/1689)",
+        "source_type": "regulation",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "effective_dates": {
+          "standalone_high_risk": "2027-12-02",
+          "product_embedded": "2028-08-02"
+        },
+        "status": "current",
+        "normative_force": "binding-law",
+        "version": "2024",
+        "published_on": "2024-08-01",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "owasp_llm_top10_2025",
+        "authority": "OWASP",
+        "title": "OWASP LLM Top 10 2025",
+        "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "version": "2025",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "published_on": "2024-11-17",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "For generative-ai profile deployments, embed C2PA-compliant provenance assertions in all generated content artifacts. Apply mandatory AI-generated disclosure labels for text outputs. Maintain a GenerationTraceabilityRegistry linking content back to model version. CONDITIONAL: this control applies only to the generative-ai profile.",
+      "steps": [
+        "Classify all generative AI deployments under the generative-ai profile; confirm with the model owner that BH-09 applies before implementation.",
+        "For image, audio, and video outputs: implement C2PA Content Credentials embedding at the point of generation. C2PA manifest must include: model_id, model_version, generation_timestamp_utc, inference_endpoint_id, content_hash. Sign with the organization's C2PA signing certificate.",
+        "For text outputs: apply a mandatory disclosure label at the application layer ('Generated by AI' tag in metadata and, where required by EU AI Act Art. 50, in the visible interface). Do not rely solely on watermarking for text \u2014 current techniques are not robust as a sole mechanism.",
+        "Implement model watermarking following NIST AI 100-4 approaches per output modality: image (visible/invisible watermarking), audio (spectral watermarking), text (token-bias watermarking as secondary layer only).",
+        "Maintain a GenerationTraceabilityRegistry: {artifact_hash, model_id, model_version, generation_timestamp, c2pa_manifest_hash}. Retention: minimum 1 year for EU deployments per Art. 50 obligations.",
+        "Implement a provenance verification endpoint: given a content artifact, return the associated C2PA manifest and model version if traceable.",
+        "Perform quarterly C2PA manifest integrity audits: verify a random sample of stored manifests against the signing certificate chain."
+      ],
+      "anti_patterns": [
+        "Applying this control to predictive/classification-only deployments \u2014 BH-09 is conditional on the generative-ai profile.",
+        "Relying solely on text watermarking as the primary disclosure mechanism \u2014 current token-bias techniques are fragile and detectable.",
+        "Embedding C2PA manifests without maintaining the GenerationTraceabilityRegistry \u2014 makes it impossible to resolve manifests during incident investigation.",
+        "Not updating C2PA signing certificates on a regular rotation \u2014 a compromised cert invalidates all provenance assertions."
+      ]
+    },
+    "profiles": [
+      "generative-ai"
+    ],
+    "obligations": [
+      "EU AI Act Art. 50: AI-generated content must be labeled as AI-generated in a machine-readable format; GPAI model providers must ensure outputs are detectable. Art. 50 applies from August 2026.",
+      "NIST AI 100-4: recommends provenance and watermarking approaches for synthetic content; not yet binding federal requirement.",
+      "C2PA: industry standard for content provenance; voluntary but increasingly required by platform partners."
+    ],
+    "capability_risk": {
+      "domain": "synthetic_content",
+      "risk_level": "high",
+      "rationale": "Unlabeled AI-generated content at scale enables disinformation operations, fraudulent identity claims, and regulatory non-compliance. Risk is proportional to the realism and reach of generated content.",
+      "capability_level": "none"
+    },
+    "validation": {
+      "design_check": [
+        "The generative-ai profile is assigned and confirmed by the model owner before BH-09 is implemented. [ref:nist_rmf_1_0]",
+        "C2PA signing certificate is issued, stored in the key management system, and has a defined rotation schedule. [ref:c2pa_spec_v2]",
+        "EU AI Act Art. 50 disclosure requirements are mapped to specific implementation points in the application architecture. [ref:eu_ai_act_2024]",
+        "NIST AI 100-4 watermarking approach selection is documented with rationale per output modality. [ref:nist_ai_100_4]"
+      ],
+      "runtime_test": [
+        "{'test': 'Generate a sample artifact and verify the C2PA manifest is embedded, signed with the correct certificate, and includes all required fields.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]",
+        "{'test': 'Submit the sample artifact to the provenance verification endpoint and confirm model_id and model_version are correctly returned.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]",
+        "{'test': 'Verify text outputs include mandatory disclosure labels in both metadata and visible UI where required by Art. 50.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]",
+        "{'test': 'Attempt to remove the C2PA manifest from a generated image and verify the verification endpoint detects tampering.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]"
+      ],
+      "evidence": [
+        "{'artifact': 'C2PA signing certificate and rotation schedule documentation.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]",
+        "{'artifact': 'GenerationTraceabilityRegistry sample audit for trailing 90 days.', 'ref': 'nist_ai_100_4'} [ref:nist_ai_100_4]",
+        "{'artifact': 'Quarterly C2PA manifest integrity audit report.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]",
+        "{'artifact': 'EU AI Act Art. 50 compliance mapping document.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]"
+      ]
+    },
+    "lenses": {
+      "engineering": "C2PA manifest embedding must be atomic with content generation \u2014 manifests added as post-processing risk being stripped. Use a generation wrapper that produces content and manifest together.",
+      "evaluation": "Evaluate watermark robustness: test whether common post-processing (compression, transcoding, cropping) destroys provenance signals; document robustness limits in the model card.",
+      "red_team": "Test whether the C2PA manifest can be stripped, replayed from a different artifact, or forged using a stolen signing certificate. Test whether watermarks survive common evasion transformations.",
+      "grc": "EU AI Act Art. 50 is an active obligation for GPAI models; it applies from August 2026, making this a near-term compliance priority. Non-compliance carries Art. 99 penalties.",
+      "mlops": "GenerationTraceabilityRegistry must be budgeted as separate storage and retention cost; artifact volume for high-throughput generative deployments can be significant."
+    },
+    "maturity": {
+      "current": "none",
+      "target": "developing"
+    },
+    "coverage_note": "Applies ONLY to the generative-ai profile. Not applicable to predictive-ml, classification, or non-generative deployments. Text watermarking is a secondary layer; EU AI Act Art. 50 disclosure labels are the primary obligation for text outputs.",
+    "canonical_id": "apeiris://model/controls/BH-09",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "monitoring_schema": {
+      "metrics": [
+        {
+          "metric_id": "bh-09-pass-rate",
+          "metric_type": "performance",
+          "measure": "control-verification-pass-rate",
+          "population": "all-assessed-deployments",
+          "comparison": {
+            "operator": "lt",
+            "value": 1.0,
+            "window": "30d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "critical"
+        }
+      ],
+      "sampling_rate": "100%",
+      "window_context": "rolling-30d"
+    }
+  },
+  {
+    "id": "BH-10",
+    "layer": "BH",
+    "plane": "data",
+    "name": "Feedback Loop Integrity and Online Learning Governance",
+    "plain": "Govern all feedback loops that influence model behavior after deployment \u2014 including RLHF/RLAIF labeler quality controls, reward hacking prevention, online learning authorization gates, feedback poisoning detection, and self-reinforcing error monitoring.",
+    "threat": {
+      "tags": [
+        "AML.T0020",
+        "LLM04:2025",
+        "MR-MONITORING",
+        "MR-DEV"
+      ],
+      "desc": "Feedback loops that update model behavior post-deployment create a continuous attack surface. Poisoned human feedback, reward hacking, unauthorized online learning updates, and self-reinforcing errors can silently degrade model quality, introduce bias, or create exploitable behavioral patterns. RLHF labeler compromise is analogous to training data poisoning (AML.T0020, LLM04:2025) but operates continuously after deployment."
+    },
+    "standard": [
+      {
+        "id": "nist_rmf",
+        "ref": "MANAGE 2.2, MANAGE 4.1"
+      },
+      {
+        "id": "iso_42001",
+        "ref": "Clause 8.1, Clause 10.1"
+      },
+      {
+        "id": "eu_ai_act",
+        "ref": "Art. 9(1)(c), Art. 12"
+      },
+      {
+        "id": "sr262",
+        "ref": "Section IV.C \u2014 Ongoing Monitoring"
+      },
+      {
+        "id": "aisvs",
+        "ref": "V7.2"
+      }
+    ],
+    "sources": [
+      {
+        "id": "nist_rmf_1_0",
+        "authority": "NIST",
+        "title": "AI Risk Management Framework 1.0",
+        "url": "https://doi.org/10.6028/NIST.AI.100-1",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0",
+        "published_on": "2023-01-26",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "iso_42001_2023",
+        "authority": "ISO/IEC",
+        "title": "ISO/IEC 42001:2023 AI Management System",
+        "source_type": "certification-standard",
+        "license": "proprietary",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "2023",
+        "published_on": "2023-12-18",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "sr_26_2",
+        "authority": "Federal Reserve / OCC",
+        "title": "SR 26-2: Model Risk Management Guidance",
+        "source_type": "supervisory-guidance",
+        "license": "public_domain",
+        "supersedes": [
+          "SR 11-7",
+          "SR 21-8"
+        ],
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "guidance",
+        "version": "SR 26-2",
+        "published_on": "2026-04-01",
+        "retrieved_on": "2026-06-26",
+        "flagship": true
+      },
+      {
+        "id": "atlas_v560",
+        "authority": "MITRE",
+        "title": "MITRE ATLAS v5.6.0",
+        "url": "https://atlas.mitre.org",
+        "source_type": "threat-knowledge-base",
+        "license": "apache_2_0",
+        "version": "5.6.0",
+        "effective_date": "2026-05-04",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "informative",
+        "published_on": "2026-05-04",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "owasp_llm_top10_2025",
+        "authority": "OWASP",
+        "title": "OWASP LLM Top 10 2025",
+        "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "version": "2025",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "published_on": "2024-11-17",
+        "retrieved_on": "2026-06-26"
+      },
+      {
+        "id": "owasp_aisvs_v1",
+        "authority": "OWASP",
+        "title": "OWASP AI Security Verification Standard v1.0",
+        "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+        "source_type": "voluntary-standard",
+        "license": "CC-BY-SA-4.0",
+        "artifact_hash": null,
+        "status": "current",
+        "normative_force": "voluntary",
+        "version": "1.0-pre",
+        "published_on": "2026-06-26",
+        "retrieved_on": "2026-06-26"
+      }
+    ],
+    "implementation": {
+      "pattern": "Implement a multi-layer feedback loop governance framework covering: (1) labeler quality controls for RLHF/RLAIF, (2) reward model monitoring and hacking detection, (3) online learning authorization gates, (4) feedback poisoning detection, and (5) self-reinforcing error circuit breakers. All feedback loop updates to model weights require a signed authorization artifact before taking effect.",
+      "steps": [
+        "RLHF/RLAIF Labeler Quality Controls: monitor inter-rater reliability (IRR) using Cohen's Kappa; alert when Kappa drops below 0.6 (moderate agreement threshold). Apply adversarial screening: randomly insert known-correct calibration items; flag labelers who fail >10% of calibration items. All labels must be associated with labeler_id, timestamp, and confidence score.",
+        "Reward Model Monitoring: track reward score distribution over time; detect reward hacking patterns (abnormally high reward scores correlating with semantically degenerate outputs). Alert when mean reward score exceeds the 99th percentile of training-time reward distribution.",
+        "Online Learning Authorization Gate: all online learning updates (gradient steps, fine-tuning, RLHF policy updates) require a signed authorization artifact from the model owner before being applied to the production model. Unauthorized updates are rejected and logged.",
+        "Feedback Poisoning Detection: apply anomaly detection to incoming feedback batches; flag when label distribution deviates from historical norms (PSI > 0.2); flag coordinated feedback from a small set of labeler_ids (potential sybil attack); quarantine suspicious batches pending review.",
+        "Self-Reinforcing Error Circuit Breaker: monitor correlation between model outputs at time T and the feedback/labels received at T+delta; if outputs are systematically influencing the feedback they train on, suspend online learning and raise an alert.",
+        "RLAIF Quality Controls: apply secondary human review sample (minimum 10%) to verify AI labeler quality; track RLAIF model version and labeling consistency against the human-reviewed sample.",
+        "Maintain a FeedbackGovernanceLog: all authorized feedback batches, source, labeler quality metrics, anomaly flags, and authorization records stored for audit."
+      ],
+      "anti_patterns": [
+        "Allowing automatic model updates from production feedback without a human authorization gate \u2014 creates an uncontrolled update loop.",
+        "Not monitoring inter-rater reliability over time \u2014 labeler quality can degrade without any signal.",
+        "Treating RLAIF (AI-labeled) feedback as equivalent to gold-label human feedback without quality verification.",
+        "No circuit breaker for self-reinforcing errors \u2014 the model trains on its own outputs, amplifying existing bias or error.",
+        "Allowing feedback to bypass the poisoning detection pipeline in 'emergency' retraining scenarios."
+      ]
+    },
+    "profiles": [
+      "continuously-learning",
+      "generative-ai"
+    ],
+    "capability_risk": {
+      "domain": "feedback_loop_integrity",
+      "risk_level": "high",
+      "rationale": "Compromised feedback loops can silently align model behavior with adversarial objectives, degrade quality, or introduce systematic bias at scale. For continuously-learning models, the attack surface is persistent and continuous post-deployment.",
+      "capability_level": "elevated"
+    },
+    "validation": {
+      "design_check": [
+        "RLHF/RLAIF labeler quality controls including IRR monitoring (Cohen's Kappa) are documented and the Kappa=0.6 alert threshold is configured. [ref:nist_rmf_1_0]",
+        "Online learning authorization gate is implemented and requires a signed artifact before any production model weight update. [ref:iso_42001_2023]",
+        "Feedback poisoning detection pipeline is designed with PSI threshold (0.2) for label distribution anomalies. [ref:atlas_v560]",
+        "SR 26-2 ongoing monitoring: model updates driven by feedback loops are subject to model risk management controls; FeedbackGovernanceLog satisfies the documentation requirement. [ref:sr_26_2]",
+        "Self-reinforcing error monitoring mechanism is designed with a defined correlation threshold that triggers the circuit breaker. [ref:iso_42001_2023]",
+        "AISVS V7.2 feedback integrity requirements are reviewed against implemented controls. [ref:owasp_aisvs_v1]"
+      ],
+      "runtime_test": [
+        "{'test': 'Inject a batch of adversarially uniform labels (all positive) from a small set of labeler_ids and verify feedback poisoning detection fires within one monitoring window.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
+        "{'test': 'Attempt to apply an online learning update without a signed authorization artifact and verify the update is rejected and logged.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Simulate IRR drop to Kappa=0.5 and verify the alert fires with labeler_id attribution.', 'unverified': True} [unverified]",
+        "{'test': 'Run reward hacking probe: submit semantically degenerate outputs and verify reward model health monitor detects the abnormal score distribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Simulate self-reinforcing error pattern (output-to-label correlation exceeding threshold) and verify circuit breaker suspends online learning.', 'unverified': True} [unverified]"
+      ],
+      "evidence": [
+        "{'artifact': 'FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
+        "{'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
+        "{'artifact': 'Feedback poisoning detection alert log for trailing 90 days.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
+        "{'artifact': 'Reward model health report showing reward score distribution vs. training-time baseline.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]"
+      ]
+    },
+    "lenses": {
+      "engineering": "The online learning authorization gate must be enforced at the model serving infrastructure level, not the application layer \u2014 application-layer gates can be bypassed by direct API calls to the model update endpoint.",
+      "evaluation": "Evaluation team reviews RLAIF labeler quality at minimum monthly; novel RLAIF quality failure modes must be added to the calibration item set within 30 days of discovery.",
+      "red_team": "Test whether coordinated feedback manipulation from a small labeler pool (sybil attack) can shift model behavior while staying below per-labeler anomaly thresholds. Test reward hacking via semantically degenerate but reward-maximizing outputs.",
+      "grc": "SR 26-2 requires model updates driven by feedback loops be subject to the same model risk management controls as initial deployment. FeedbackGovernanceLog is primary evidence.",
+      "mlops": "Feedback pipeline SLA must be monitored: feedback latency (time from inference to label availability) affects online learning staleness; track staleness as a model health metric."
+    },
+    "maturity": {
+      "current": "none",
+      "target": "defined"
+    },
+    "coverage_note": "Covers post-deployment feedback loop integrity for RLHF, RLAIF, and online learning. Training-time data poisoning is addressed in the DT layer. Drift driven by feedback loop effects is addressed in BH-02. This control was moved from the training lifecycle to the behavior layer because the threat surface is active and continuous during deployment.",
+    "canonical_id": "apeiris://model/controls/BH-10",
+    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "monitoring_schema": {
+      "metrics": [
+        {
+          "metric_id": "bh-10-pass-rate",
+          "metric_type": "performance",
+          "measure": "control-verification-pass-rate",
+          "population": "all-assessed-deployments",
+          "comparison": {
+            "operator": "lt",
+            "value": 1.0,
+            "window": "30d",
+            "evaluation_mode": "batch"
+          },
+          "severity": "critical"
+        }
+      ],
+      "sampling_rate": "100%",
+      "window_context": "rolling-30d"
+    }
+  }
+]
