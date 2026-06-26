@@ -41,9 +41,9 @@ jobs:
         run: npm run check:freshness
         continue-on-error: ${{ github.event_name == 'pull_request' }}
 
-      - name: Build integration bundle
+      - name: Build (integration bundle + copy into public/)
         working-directory: modelverifier.ai
-        run: npm run build:integration
+        run: npm run build
         env:
           COMMIT_SHA: ${{ github.sha }}
           BUILD_DATE: ${{ github.event.head_commit.timestamp }}
@@ -54,9 +54,6 @@ jobs:
         env:
           MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
           MANIFEST_REF_DATE: ${{ github.event.head_commit.timestamp }}
-
-      - name: Copy integration into public for deployment
-        run: cp -r modelverifier.ai/integration modelverifier.ai/public/integration
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -85,9 +82,9 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Build integration bundle (production)
+      - name: Build (integration bundle + copy into public/)
         working-directory: modelverifier.ai
-        run: npm run build:integration
+        run: npm run build
         env:
           COMMIT_SHA: ${{ github.sha }}
           BUILD_DATE: ${{ github.event.head_commit.timestamp }}
@@ -99,9 +96,6 @@ jobs:
         env:
           MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
           MANIFEST_REF_DATE: ${{ github.event.head_commit.timestamp }}
-
-      - name: Copy integration into public for deployment
-        run: cp -r modelverifier.ai/integration modelverifier.ai/public/integration
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -131,16 +125,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Build integration bundle (preview)
+      - name: Build (integration bundle + copy into public/)
         working-directory: modelverifier.ai
-        run: npm run build:integration
+        run: npm run build
         env:
           COMMIT_SHA: ${{ github.sha }}
           BUILD_DATE: ${{ github.event.pull_request.updated_at }}
           NODE_ENV: preview
-
-      - name: Copy integration into public for deployment
-        run: cp -r modelverifier.ai/integration modelverifier.ai/public/integration
 
       - name: Publish preview to Cloudflare Pages
         uses: cloudflare/pages-action@v1
