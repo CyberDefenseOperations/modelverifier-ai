@@ -838,21 +838,32 @@ function fillOverview(c) {
     </div>`;
   }
 
-  if (obligs.length) {
+  if (Array.isArray(obligs) && obligs.length) {
     html += `<div class="d-section">
       <div class="d-title">Obligations (${obligs.length})</div>
       <div class="obl-list">`;
     for (const o of obligs) {
+      if (typeof o === 'string') {
+        html += `<div class="obl-item"><div class="obl-top"><span class="obl-prov">${esc(o)}</span></div></div>`;
+        continue;
+      }
+      const provText = o.provision ?? o.text ?? o.requirement ?? o.requirement_summary ?? '';
       const forceClass = (o.normative_force ?? '').replace(/[^a-z-]/g, '');
+      const instrument = o.instrument ?? o.regulation ?? '';
+      const effectiveFrom = o.effective_from ?? o.effective_date ?? '';
+      const jur = o.jurisdiction;
+      const jurHtml = jur
+        ? `<span>${Array.isArray(jur) ? jur.map(j => esc(j)).join(', ') : esc(String(jur))}</span>`
+        : '';
       html += `<div class="obl-item">
         <div class="obl-top">
-          <span class="obl-prov">${esc(o.provision ?? '')}</span>
+          <span class="obl-prov">${esc(provText)}</span>
           <span class="obl-force ${forceClass}">${esc(o.normative_force ?? '')}</span>
         </div>
         <div class="obl-meta">
-          ${o.instrument ? `<span>${esc(o.instrument)}</span>` : ''}
-          ${o.effective_from ? `<span>From ${esc(o.effective_from)}</span>` : ''}
-          ${o.jurisdiction?.length ? `<span>${o.jurisdiction.map(j => esc(j)).join(', ')}</span>` : ''}
+          ${instrument ? `<span>${esc(instrument)}</span>` : ''}
+          ${effectiveFrom ? `<span>From ${esc(effectiveFrom)}</span>` : ''}
+          ${jurHtml}
           ${o.mapping_fit ? `<span class="fit-pill fit-${esc(o.mapping_fit)}">${esc(o.mapping_fit)}</span>` : ''}
         </div>
       </div>`;
