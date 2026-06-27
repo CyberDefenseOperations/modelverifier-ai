@@ -2643,8 +2643,10 @@
     "cross_domain": {
       "references": [
         {
-          "relationship": "requires",
-          "uri": "apeiris://security/controls/NET-07"
+          "relationship": "composes-with",
+          "uri": "apeiris://security/controls/RT-04",
+          "name": "Detect anomalies and trigger pause, kill switch, or containment",
+          "note": "CR-08 signals cross-domain evidence discrepancies; RT-04 owns the enforcement response (pause, kill switch, containment) on the security side."
         }
       ],
       "evidence_artifacts": []

@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T16:28:35.189Z",
+      "generated_at": "2026-06-27T16:37:10.384Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:65a1d3369138f6706d8045cbae83273c79e5d953cfcc7efcef5cdc7ba2c5b723"
+      "content_hash": "sha256:caf10a1a03fc3fca7c288b7a7c81ac850aaab6d800b3cdd4cc9d4598b6eddac8"
     },
     "controls": [
       {
@@ -19375,8 +19375,10 @@
         "cross_domain": {
           "references": [
             {
-              "relationship": "requires",
-              "uri": "apeiris://security/controls/NET-07"
+              "relationship": "composes-with",
+              "uri": "apeiris://security/controls/RT-04",
+              "name": "Detect anomalies and trigger pause, kill switch, or containment",
+              "note": "CR-08 signals cross-domain evidence discrepancies; RT-04 owns the enforcement response (pause, kill switch, containment) on the security side."
             }
           ],
           "evidence_artifacts": []
