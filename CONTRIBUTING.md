@@ -275,6 +275,33 @@ Example:
 
 All `owasp_aitg` mappings must carry `mapping_confidence: medium` because the OWASP AI Testing Guide is a pre-release document that may change before stable v1.0 publication.
 
+### 4.7 AICM Domain Prefix Conventions
+
+CSA AICM v1.1 (247 control objectives, 18 domains) mappings span all 6 layers of this matrix. When adding or updating `aicm` mappings, follow these domain prefix conventions:
+
+| Domain Prefix | Domain Name | mapping_confidence |
+|---|---|---|
+| GOV | Governance | high |
+| DM | Data Management | high |
+| EVA | Evaluation and Auditing | high |
+| SEC | Security Controls | high |
+| PRV | Privacy | high |
+| SUP | Supply Chain | high |
+| MON | Monitoring and Alerting | medium |
+| IR | Incident Response and Recovery | medium |
+| HO | Human Oversight and Control | medium |
+| TE | Transparency and Explainability | medium |
+| CL | Compliance and Legal Obligations | medium |
+| RM | Risk Management | medium |
+| DP | Deployment and Change Management | medium |
+
+**Confidence rules:**
+
+- Use `mapping_confidence: "high"` for the six confirmed-domain prefixes (GOV, DM, EVA, SEC, PRV, SUP). These domains are well-established in the AICM v1.1 document and have been fully verified.
+- Use `mapping_confidence: "medium"` for the seven new v1.1 domain prefixes (MON, IR, HO, TE, CL, RM, DP) until each individual mapping has been fully verified against the published AICM v1.1 document.
+- `source_locator.section` is required for every `fit: "direct"` AICM mapping.
+- Do not invent domain prefixes not listed in this table. If you believe a new domain prefix is warranted, add it to this table in the same PR and justify the mapping against the AICM v1.1 source document.
+
 ---
 
 ## 5. Obligation Object Requirements
