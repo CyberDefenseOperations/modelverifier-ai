@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T16:37:10.384Z",
+      "generated_at": "2026-06-27T18:28:05.069Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:caf10a1a03fc3fca7c288b7a7c81ac850aaab6d800b3cdd4cc9d4598b6eddac8"
+      "content_hash": "sha256:ade089b9098d4107d5b9862ecba6ced1d6cb90e9b519a80a108333dccd42ec9d"
     },
     "controls": [
       {
@@ -443,6 +443,17 @@
       },
       {
         "id": "LI-02",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/AS-06",
+              "name": "Verify model-weights and training-data provenance before load",
+              "note": "AS-06 verifies model-weights and training-data provenance before load on the security side; it relies on this provenance chain."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "LI",
         "plane": "control",
         "name": "Model Provenance Chain — Base Model, Fine-Tune, Merge, and Adapter Lineage",
@@ -758,6 +769,17 @@
       },
       {
         "id": "LI-03",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "mirrored-by",
+              "uri": "apeiris://security/controls/PT-03",
+              "name": "Verify skill/tool manifest integrity and sign the supply chain",
+              "note": "PT-03 mirrors this on the security side: verify skill/tool manifest integrity and sign the supply chain."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "LI",
         "plane": "control",
         "name": "Supply Chain Integrity — Third-Party Model Verification and Cryptographic...",
@@ -1482,6 +1504,17 @@
       },
       {
         "id": "LI-05",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/AS-06",
+              "name": "Verify model-weights and training-data provenance before load",
+              "note": "AS-06 verifies training-data provenance before load on the security side; it relies on this lineage pointer."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "LI",
         "plane": "control",
         "name": "Training Data Lineage Pointer — Link from Model Registry to TG-Layer Dataset...",
@@ -6847,6 +6880,17 @@
       },
       {
         "id": "EV-01",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/AS-03",
+              "name": "Gate releases on continuous adversarial validation",
+              "note": "AS-03 gates releases on continuous adversarial validation on the security side."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "EV",
         "plane": "both",
         "name": "Pre-Deployment Evaluation Gate",
@@ -7174,6 +7218,17 @@
       },
       {
         "id": "EV-02",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/AS-05",
+              "name": "Study frontier offensive capability before public release",
+              "note": "AS-05 studies frontier offensive capability before public release on the security side."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "EV",
         "plane": "both",
         "name": "Fitness, Safety, Reliability and Policy-Conformance Evaluation",
@@ -7842,6 +7897,17 @@
       },
       {
         "id": "EV-04",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/AS-01",
+              "name": "Adversarially red-team and evaluate the agent before launch",
+              "note": "AS-01 adversarially red-teams and evaluates the agent before launch on the security side."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "EV",
         "plane": "both",
         "name": "Adversarial Red-Team Testing",
@@ -10601,6 +10667,17 @@
       },
       {
         "id": "OA-02",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/GV-01",
+              "name": "Require a human hard-stop for irreversible actions",
+              "note": "GV-01 requires a human hard-stop for irreversible actions on the security side."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "OA",
         "plane": "control",
         "name": "Meaningful Human Oversight for High-Stakes Decisions",
@@ -11428,6 +11505,15 @@
           "mlops": "Instrument action logs to detect tier boundary violations; alert when a model's observed action surface exceeds its tier permission set."
         },
         "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/GV-05",
+              "name": "Run an AI management system and tier agents by their autonomy",
+              "note": "GV-05 runs an AI management system and tiers agents by their autonomy on the security side."
+            }
+          ],
+          "evidence_artifacts": [],
           "domain": "securitycontrols.ai",
           "layer": "IA",
           "relationship": "Security Verifier domain owns the autonomy tier taxonomy, technical enforcement controls, and tier registry. Model Assurance consumes tier assignments as a read-only input — this is a one-way dependency. Tier changes in Security Verifier domain trigger evaluation re-scoping in Model Assurance.",
@@ -14357,6 +14443,15 @@
           ]
         },
         "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/AS-07",
+              "name": "Verify a skill does what it declares (behavioral integrity)",
+              "note": "AS-07 verifies a skill does what it declares (behavioral integrity) on the security side."
+            }
+          ],
+          "evidence_artifacts": [],
           "domain": "securitycontrols.ai",
           "boundary_note": "Model Assurance (modelverifier.ai / BH-04) measures behavioral boundary adherence rates and trends. Detection of active boundary violations and enforcement responses (guardrail updates, blocking, rate limiting) are owned by securitycontrols.ai. BH-04 results are shared with securitycontrols.ai via the cross-domain alert channel. Neither domain modifies the other's controls without a formal governance handoff.",
           "navigation_pointer": "securitycontrols.ai > Runtime Enforcement layer > Guardrail Control",
@@ -15111,6 +15206,15 @@
           ]
         },
         "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/RT-02",
+              "name": "Detect direct and indirect prompt injection at every input and output",
+              "note": "RT-02 detects direct and indirect prompt injection at every input and output on the security side."
+            }
+          ],
+          "evidence_artifacts": [],
           "domain": "securitycontrols.ai",
           "boundary_note": "Model Assurance (modelverifier.ai / BH-06) measures injection resistance via structured probe suites and publishes InjectionResistanceScore metrics. Detection of actual injection attacks in production traffic and enforcement responses (blocking, rate limiting, guardrail updates) are owned exclusively by securitycontrols.ai. BH-06 feeds measurement data to securitycontrols.ai; securitycontrols.ai feeds novel attack patterns back to the InjectionProbeLibrary. Neither domain implements the other's controls.",
           "navigation_pointer": "securitycontrols.ai > Runtime Enforcement layer > Injection Defense Control",
@@ -15318,6 +15422,17 @@
       },
       {
         "id": "BH-07",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/EC-05",
+              "name": "Cap spend and resource use, stop denial-of-wallet",
+              "note": "EC-05 caps spend and resource use to stop denial-of-wallet on the security side."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "BH",
         "plane": "data",
         "name": "Resource and Cost Anomaly Monitoring",
@@ -15979,6 +16094,17 @@
       },
       {
         "id": "BH-09",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/GV-07",
+              "name": "Protect humans from being deceived by an agent",
+              "note": "GV-07 protects humans from being deceived by an agent on the security side."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "BH",
         "plane": "data",
         "name": "Synthetic-Content Provenance, Disclosure and Traceability",
@@ -16741,6 +16867,17 @@
       },
       {
         "id": "CR-01",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "related",
+              "uri": "apeiris://security/controls/RT-04",
+              "name": "Detect anomalies and trigger pause, kill switch, or containment",
+              "note": "RT-04 detects anomalies and triggers pause, kill switch, or containment on the security side."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "CR",
         "plane": "lifecycle",
         "name": "Continuous Production Monitoring and Risk Aggregation",
@@ -17197,6 +17334,17 @@
       },
       {
         "id": "CR-02",
+        "cross_domain": {
+          "references": [
+            {
+              "relationship": "mirrored-by",
+              "uri": "apeiris://security/controls/GV-02",
+              "name": "Keep an immutable, tamper-evident audit trail of what the agent did",
+              "note": "GV-02 mirrors this on the security side: an immutable, tamper-evident audit trail of agent actions."
+            }
+          ],
+          "evidence_artifacts": []
+        },
         "layer": "CR",
         "plane": "lifecycle",
         "name": "Model Evidence Archive and Audit Trail",
@@ -19375,7 +19523,7 @@
         "cross_domain": {
           "references": [
             {
-              "relationship": "composes-with",
+              "relationship": "related",
               "uri": "apeiris://security/controls/RT-04",
               "name": "Detect anomalies and trigger pause, kill switch, or containment",
               "note": "CR-08 signals cross-domain evidence discrepancies; RT-04 owns the enforcement response (pause, kill switch, containment) on the security side."

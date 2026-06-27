@@ -2,6 +2,17 @@
   {
     "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "CR-01",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/RT-04",
+          "name": "Detect anomalies and trigger pause, kill switch, or containment",
+          "note": "RT-04 detects anomalies and triggers pause, kill switch, or containment on the security side."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "CR",
     "plane": "lifecycle",
     "name": "Continuous Production Monitoring and Risk Aggregation",
@@ -459,6 +470,17 @@
   {
     "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "CR-02",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "mirrored-by",
+          "uri": "apeiris://security/controls/GV-02",
+          "name": "Keep an immutable, tamper-evident audit trail of what the agent did",
+          "note": "GV-02 mirrors this on the security side: an immutable, tamper-evident audit trail of agent actions."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "CR",
     "plane": "lifecycle",
     "name": "Model Evidence Archive and Audit Trail",
@@ -2643,7 +2665,7 @@
     "cross_domain": {
       "references": [
         {
-          "relationship": "composes-with",
+          "relationship": "related",
           "uri": "apeiris://security/controls/RT-04",
           "name": "Detect anomalies and trigger pause, kill switch, or containment",
           "note": "CR-08 signals cross-domain evidence discrepancies; RT-04 owns the enforcement response (pause, kill switch, containment) on the security side."

@@ -1,6 +1,17 @@
 [
   {
     "id": "EV-01",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/AS-03",
+          "name": "Gate releases on continuous adversarial validation",
+          "note": "AS-03 gates releases on continuous adversarial validation on the security side."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "EV",
     "plane": "both",
     "name": "Pre-Deployment Evaluation Gate",
@@ -329,6 +340,17 @@
   },
   {
     "id": "EV-02",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/AS-05",
+          "name": "Study frontier offensive capability before public release",
+          "note": "AS-05 studies frontier offensive capability before public release on the security side."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "EV",
     "plane": "both",
     "name": "Fitness, Safety, Reliability and Policy-Conformance Evaluation",
@@ -999,6 +1021,17 @@
   },
   {
     "id": "EV-04",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/AS-01",
+          "name": "Adversarially red-team and evaluate the agent before launch",
+          "note": "AS-01 adversarially red-teams and evaluates the agent before launch on the security side."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "EV",
     "plane": "both",
     "name": "Adversarial Red-Team Testing",

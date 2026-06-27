@@ -320,6 +320,17 @@
   },
   {
     "id": "OA-02",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/GV-01",
+          "name": "Require a human hard-stop for irreversible actions",
+          "note": "GV-01 requires a human hard-stop for irreversible actions on the security side."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "OA",
     "plane": "control",
     "name": "Meaningful Human Oversight for High-Stakes Decisions",
@@ -1149,6 +1160,15 @@
       "mlops": "Instrument action logs to detect tier boundary violations; alert when a model's observed action surface exceeds its tier permission set."
     },
     "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/GV-05",
+          "name": "Run an AI management system and tier agents by their autonomy",
+          "note": "GV-05 runs an AI management system and tiers agents by their autonomy on the security side."
+        }
+      ],
+      "evidence_artifacts": [],
       "domain": "securitycontrols.ai",
       "layer": "IA",
       "relationship": "Security Verifier domain owns the autonomy tier taxonomy, technical enforcement controls, and tier registry. Model Assurance consumes tier assignments as a read-only input \u2014 this is a one-way dependency. Tier changes in Security Verifier domain trigger evaluation re-scoping in Model Assurance.",

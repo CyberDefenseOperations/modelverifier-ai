@@ -369,6 +369,17 @@
   {
     "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-02",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/AS-06",
+          "name": "Verify model-weights and training-data provenance before load",
+          "note": "AS-06 verifies model-weights and training-data provenance before load on the security side; it relies on this provenance chain."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "LI",
     "plane": "control",
     "name": "Model Provenance Chain \u2014 Base Model, Fine-Tune, Merge, and Adapter Lineage",
@@ -685,6 +696,17 @@
   {
     "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-03",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "mirrored-by",
+          "uri": "apeiris://security/controls/PT-03",
+          "name": "Verify skill/tool manifest integrity and sign the supply chain",
+          "note": "PT-03 mirrors this on the security side: verify skill/tool manifest integrity and sign the supply chain."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "LI",
     "plane": "control",
     "name": "Supply Chain Integrity \u2014 Third-Party Model Verification and Cryptographic...",
@@ -1411,6 +1433,17 @@
   {
     "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-05",
+    "cross_domain": {
+      "references": [
+        {
+          "relationship": "related",
+          "uri": "apeiris://security/controls/AS-06",
+          "name": "Verify model-weights and training-data provenance before load",
+          "note": "AS-06 verifies training-data provenance before load on the security side; it relies on this lineage pointer."
+        }
+      ],
+      "evidence_artifacts": []
+    },
     "layer": "LI",
     "plane": "control",
     "name": "Training Data Lineage Pointer \u2014 Link from Model Registry to TG-Layer Dataset...",
