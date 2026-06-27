@@ -179,7 +179,7 @@ GitHub Actions: deploy.yml
         │   ├── build aggregated sections:
         │   │     references, layers, planes, gaps, profiles, patterns,
         │   │     threat_scenarios, framework_coverage, regulatory_coverage,
-        │   │     capability_coverage, lifecycle
+        │   │     capability_coverage, capability_coverage_by_domain, lifecycle
         │   ├── compute SHA-256 content hash
         │   ├── write integration/model-controls-full.json  { dataset: { meta, ... } }
         │   ├── write integration/release-manifest.json
@@ -352,12 +352,12 @@ node build-integration.mjs [options]
    - `buildProfiles()` — enriched profile objects with control counts
    - `buildPatterns()` — implementation pattern summaries per control
    - `buildThreatScenarios()` — controls grouped by threat tag
-   - `buildFrameworkCoverage()` — per-framework mapping statistics
-   - `buildRegulatoryCoverage()` — per-regulatory-instrument obligation summaries
-   - `buildCapabilityCoverage()` — controls grouped by capability level and domain
+   - `buildFrameworkCoverage()` — per-framework mapping statistics; each entry includes `fit_distribution` (count of controls by fit value: direct/partial/supporting/adjacent/none)
+   - `buildRegulatoryCoverage()` — per-regulatory-instrument obligation summaries; each entry includes `framework_key` (e.g., `eu_ai_act`, `sr262`) linking to the framework registry
+   - `buildCapabilityCoverage()` — controls grouped by capability level; produces two top-level fields: `capability_coverage` (array of by-level entries) and `capability_coverage_by_domain` (separate top-level field grouping controls by capability domain)
    - `buildLifecycle()` — ordered lifecycle stages
 8. **Assemble dataset** — wraps everything in `{ dataset: { meta, controls, ... } }`
-9. **Hash** — SHA-256 of serialized JSON, attached to `meta.content_hash`
+9. **Hash** — SHA-256 of the serialized JSON with `meta.content_hash` excluded, attached to `meta.content_hash`. The hash is non-self-referential: to verify, parse the file, delete `dataset.meta.content_hash`, re-stringify with `JSON.stringify(parsed, null, 2)`, and SHA-256 that string — the result must equal the stored `meta.content_hash` value.
 10. **Write** — `integration/model-controls-full.json`, `integration/release-manifest.json`
 
 ### npm script graph
@@ -422,7 +422,7 @@ Applied by:        applyTheme() — sets html[data-theme] attribute
 ```javascript
 filters = {
   layer:    'ALL' | 'LI' | 'TG' | 'EV' | 'OA' | 'BH' | 'CR',
-  cap:      'ALL' | 'none' | 'low' | 'elevated' | 'frontier',
+  cap:      'ALL' | 'universal' | 'low' | 'elevated' | 'frontier',
   profile:  '' | profile_id string,
   baseline: false | true,
   search:   string,
@@ -431,7 +431,7 @@ filters = {
 
 Filtering logic in `filtered()`:
 1. Layer filter — exact match on `c.layer`
-2. Capability filter — match on `c.capability_risk.capability_level`
+2. Capability filter — match on `c.capability_risk.capability_level`. The value `'universal'` matches controls applicable to all deployment contexts regardless of capability tier (previously labeled `'none'` in older schema versions). Selecting `'universal'` in the UI shows controls with no capability-level restriction.
 3. Baseline filter — `baselineSet.has(c.id)`
 4. Profile filter — `profileMap[profile_id].required.has(c.id) || .recommended.has(c.id)`
 5. Search filter — substring match against `[id, name, plain, threat.desc, layer].join(' ')`
@@ -612,6 +612,8 @@ active when:
   AND no conditions in trigger_conditions.none are true (if present)
 ```
 
+**SR 26-2 profile scope note:** The `us-regulated-banking` profile triggers only on `industry: ["banking"]`. SR 26-2 applies to supervised banking institutions subject to Federal Reserve oversight and does not extend to insurance, investment-management, or general financial services. SR 26-2 explicitly does not apply to generative AI or agentic AI systems — those deployments are out of scope regardless of industry.
+
 ### Monitoring schema (BH and CR layers)
 
 Controls in the BH and CR layers must include a `monitoring_schema` block. This is a machine-executable metric specification:
@@ -685,7 +687,8 @@ For a detailed domain-creation walkthrough including schema authoring standards,
 | All framework `requirement_id` values exist in the catalog | `audit:mappings` |
 | `partial` fit mappings have `uncovered_portion` | `audit:mappings` |
 | `direct` fit mappings have `source_locator` | `audit:mappings` |
-| SR 26-2 obligations have `normative_force: supervisory-guidance`, not `binding-law` | `audit:legal-status` |
+| SR 26-2 obligations have `normative_force: supervisory-guidance`, not `binding-law`; scope is supervised banking institutions only — SR 26-2 does not apply to GenAI or agentic AI systems | `audit:legal-status` |
+| EU AI Act Art-55 obligations must carry `subject_types: ["gpai_model_systemic_risk"]`, not `high-risk-ai-system` — Art-55 applies to GPAI models with systemic risk, not Annex III high-risk systems | `audit:applicability` |
 | Baseline controls (15) are all present in the dataset | `build-integration.mjs` validation |
 | BH and CR controls have `monitoring_schema` | `validate:schema` |
 | NIST RMF and ISO 42001 mappings present on every control (all 6 layers, including BH and CR) | `build-integration.mjs` validation — 0 warnings in v1.0 release |
