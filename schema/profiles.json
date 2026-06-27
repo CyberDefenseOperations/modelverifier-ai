@@ -521,8 +521,8 @@
     },
     {
       "profile_id": "gpai-systemic-risk",
-      "name": "GPAI Model with Systemic Risk (EU AI Act Ch. VI)",
-      "description": "Providers of general-purpose AI models classified as presenting systemic risk under EU AI Act Art. 51 — models with aggregate training compute exceeding 10^25 floating-point operations (FLOPs, per Annex XIII), or models designated by the European Commission following qualitative evaluation (Art. 51(2)). Systemic risk GPAI models are subject to Chapter VI obligations (Art. 55) in addition to all Chapter V obligations applicable to GPAI providers. Chapter VI requires: model evaluation using standardized protocols and adversarial testing; systemic risk assessment and mitigation including cybersecurity risk; serious incident tracking, documentation, and reporting to the AI Office without undue delay; and adequate cybersecurity protection for the model and its infrastructure. This profile is additive to gpai-provider — both profiles are simultaneously active for systemic risk GPAI model providers.",
+      "name": "GPAI Model with Systemic Risk (EU AI Act Ch. V, Section 3, Art. 55)",
+      "description": "Providers of general-purpose AI models classified as presenting systemic risk under EU AI Act Art. 51 — models with aggregate training compute exceeding 10^25 floating-point operations (FLOPs, per Annex XIII), or models designated by the European Commission following qualitative evaluation (Art. 51(2)). Systemic risk GPAI models are subject to Chapter V, Section 3, Art. 55 obligations in addition to all Chapter V, Section 2 obligations applicable to GPAI providers. Art. 55 requires: model evaluation using standardized protocols and adversarial testing; systemic risk assessment and mitigation including cybersecurity risk; serious incident tracking, documentation, and reporting to the AI Office without undue delay; and adequate cybersecurity protection for the model and its infrastructure. This profile is additive to gpai-provider — both profiles are simultaneously active for systemic risk GPAI model providers.",
       "version": "1.0.0",
       "trigger_conditions": {
         "any": [
@@ -600,7 +600,7 @@
         "CR-02": "Art-55(1)(c) (Incident investigation, corrective action, and reporting without undue delay to AI Office)"
       },
       "profile_specific_notes": {
-        "additive_to_gpai_provider": "This profile is additive to gpai-provider — both profiles are simultaneously active for systemic risk GPAI model providers. The required_controls here include the full set needed for Ch. VI compliance; the union of both profiles' required_controls represents the total obligation set.",
+        "additive_to_gpai_provider": "This profile is additive to gpai-provider — both profiles are simultaneously active for systemic risk GPAI model providers. The required_controls here include the full set needed for Ch. V, Section 3, Art. 55 compliance; the union of both profiles' required_controls represents the total obligation set.",
         "EV-03": "Art. 55(1)(a) requires GPAI model providers with systemic risk to perform model evaluations in accordance with standardized protocols and tools reflecting the state of the art. EV-03 (Dangerous Capability Assessment) is the primary control: the evaluation must address systemic risk domains including but not limited to cyber offense, biological design assistance, persuasion at scale, and autonomous AI R&D. The AI Office may prescribe specific evaluation protocols and may designate third parties for independent evaluation under Art. 78.",
         "EV-04": "Art. 55(1)(a) explicitly requires adversarial testing of systemic risk GPAI models to identify and mitigate systemic risks before release. Red-team exercises (EV-04) must be structured to probe for systemic risk scenarios, not only conventional harmful outputs. Adversarial testing must be repeated upon material modifications to the model.",
         "CR-02": "Art. 55(1)(c) requires tracking, documenting, and reporting serious incidents without undue delay to the AI Office and national competent authorities. A 'serious incident' in the GPAI context includes incidents that actually or potentially affect safety, health, or fundamental rights at scale, or that constitute an infringement of Union law protecting fundamental rights.",
@@ -739,7 +739,7 @@
       },
       {
         "profiles": ["gpai-provider", "gpai-systemic-risk"],
-        "note": "Systemic risk GPAI model providers trigger both profiles simultaneously. gpai-systemic-risk is additive — all gpai-provider required controls carry through, plus the Chapter VI adversarial testing, incident reporting, and ongoing systemic risk assessment obligations."
+        "note": "Systemic risk GPAI model providers trigger both profiles simultaneously. gpai-systemic-risk is additive — all gpai-provider required controls carry through, plus the Chapter V, Section 3, Art. 55 adversarial testing, incident reporting, and ongoing systemic risk assessment obligations."
       },
       {
         "profiles": ["gpai-systemic-risk", "frontier-capability"],

@@ -42,6 +42,7 @@ Never invent, guess, or paraphrase a framework requirement ID. This includes:
 - OWASP LLM Top 10 entries (LLM01:2025 through LLM10:2025)
 - CSA AICM control IDs (MG-01, GOV-03, etc.)
 - MITRE ATLAS technique IDs (AML.T####)
+- OWASP AI Testing Guide requirement IDs (AITG-XX-NN format, e.g., AITG-OT-01)
 
 Verify each ID against the primary source before submitting. The `schema/framework-mapping-catalog.json` file defines the allowed `requirement_id` patterns for each framework. The `audit:mappings` build step validates all IDs against these patterns and will fail on any unrecognized ID. If a valid ID does not match the catalog pattern, update the catalog first with a documented rationale.
 
@@ -68,7 +69,7 @@ If a control represents a practice that Apeiris believes is necessary but that i
 
 Control IDs are stable and permanent. A retired control is marked `readiness: deprecated`, not deleted. When adding a control:
 
-1. Identify the correct layer (LI, DT, EV, OA, BH, or CA).
+1. Identify the correct layer (LI, TG, EV, OA, BH, or CR).
 2. Find the next available sequence number in that layer's control file (`controls/<LAYER>.json`).
 3. Assign the ID `<LAYER>-<NN>` with a zero-padded two-digit sequence number.
 4. Confirm that no deprecated control in that layer occupies that ID.
@@ -328,6 +329,8 @@ If a contribution includes AISVS text that appears to be copied verbatim, it wil
 
 The same constraint applies to OWASP LLM Top 10 (CC BY-SA 4.0) and CSA AICM (CC BY-SA 4.0). Map by identifier and write original rationale.
 
+The OWASP AI Testing Guide (owasp_aitg) is a pre-release document. All owasp_aitg mappings must carry `mapping_confidence: medium` until a stable v1.0 release is published. Do not set `mapping_confidence: high` or `verified` for owasp_aitg entries regardless of how well the control aligns with the draft text — draft documents can change substantially before publication.
+
 ---
 
 ## 7. Review Process
@@ -408,13 +411,26 @@ npm install
 | `npm run build` | Generate `integration/` bundle from validated controls |
 | `npm run ci` | Full pipeline: validate + audit + build |
 
-### 8.3 Control File Format
+### 8.3 Framework Keys
+
+`FRAMEWORK_KEYS` in `build-integration.mjs` contains 10 entries:
+
+```
+nist_rmf  nist_ai_600_1  iso_42001  eu_ai_act  sr262
+aisvs     llm10          aicm       mitre       owasp_aitg
+```
+
+When adding a mapping to `owasp_aitg`, use the AITG-XX-NN format (e.g., `AITG-OT-01`, `AITG-ML-03`). The framework has 52 total mappings across all 6 layers. Because the OWASP AI Testing Guide is a pre-release document, all owasp_aitg mappings must carry `mapping_confidence: medium`.
+
+Adding a new framework requires updating `FRAMEWORK_KEYS` and `FRAMEWORK_DISPLAY` in `build-integration.mjs`, `VALID_FRAMEWORK_KEYS` in `scripts/validate.mjs`, the `frameworks[].framework` enum in `schema/model-controls.schema.json`, allowed patterns in `schema/framework-mapping-catalog.json`, and the `fillFrameworks()` renderer in `public/index.html`. See the "Adding a framework mapping key" section in ARCHITECTURE.md for the full checklist.
+
+### 8.4 Control File Format
 
 Control records are stored as JSON arrays in `controls/<LAYER>.json`. Each file contains all controls for that layer ordered by sequence number. Do not split controls into individual files — the per-layer file structure matches securitycontrols.ai.
 
 The `$schema` field at the top of each control object must reference `https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json`. This enables IDE validation via the schema file at `schema/model-controls.schema.json`.
 
-### 8.4 Schema Files
+### 8.5 Schema Files
 
 Do not edit `schema/model-controls.schema.json` or `schema/model-assurance-extension.schema.json` in a control contribution PR. Schema changes require a separate PR, a migration plan for any controls that become invalid, and explicit sign-off.
 

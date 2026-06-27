@@ -400,7 +400,8 @@ curl https://modelverifier.ai/integration/model-controls-full.json \
 
   <div class="warn-box">
     <strong>Build warnings:</strong> The current dataset sets <code>dataset.meta.has_warnings: true</code>
-    with <code>warning_count: 1</code> but does not yet emit a structured <code>warnings[]</code> array.
+    with <code>warning_count: N</code> (35 in the 1.0 build — primarily BH and CR layer mappings
+    not yet present in all frameworks) but does not yet emit a structured <code>warnings[]</code> array.
     API consumers should check <code>has_warnings</code> and treat it as a signal to consult the
     <a href="/integration/release-manifest.json" style="color:var(--warn)">release manifest</a> for details.
     A typed <code>warnings[]</code> block (severity, object_path, message, remediation, blocks_release)
@@ -448,17 +449,17 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
     <div class="profile-card"><div class="profile-id">us-regulated-banking</div><div class="profile-name">US Regulated Banking / Financial Institution</div><div class="profile-trigger">Supervised banking organizations; heightened expectations scaled by size, complexity, and model risk profile</div></div>
     <div class="profile-card"><div class="profile-id">eu-high-risk</div><div class="profile-name">EU High-Risk AI System</div><div class="profile-trigger">EU AI Act Annex III or product-embedded (Ch. III/IV obligations; deployer and provider duties differ)</div></div>
     <div class="profile-card"><div class="profile-id">gpai-provider</div><div class="profile-name">GPAI Model Provider</div><div class="profile-trigger">EU AI Act Ch. V — providers of general-purpose AI models; technical documentation, copyright compliance, training data summary, downstream provider access</div></div>
-    <div class="profile-card"><div class="profile-id">gpai-systemic-risk</div><div class="profile-name">GPAI with Systemic Risk</div><div class="profile-trigger">EU AI Act Ch. VI — ≥10²⁵ FLOPs or AI Office designation; adversarial testing, incident reporting to AI Office, systemic-risk assessment and mitigation</div></div>
+    <div class="profile-card"><div class="profile-id">gpai-systemic-risk</div><div class="profile-name">GPAI with Systemic Risk</div><div class="profile-trigger">EU AI Act Ch. V, Section 3, Art. 55 — ≥10²⁵ FLOPs or AI Office designation; adversarial testing, incident reporting to AI Office, systemic-risk assessment and mitigation</div></div>
     <div class="profile-card"><div class="profile-id">frontier-capability</div><div class="profile-name">Frontier Capability</div><div class="profile-trigger">capability_level: "frontier" or dangerous domains — ~ASL-3+ evaluation requirements</div></div>
   </div>
 
   <div class="notice">
-    <strong>GPAI profiles:</strong> EU AI Act Chapter V and VI impose distinct obligations on <em>providers</em> of
+    <strong>GPAI profiles:</strong> EU AI Act Chapter V imposes distinct obligations on <em>providers</em> of
     general-purpose AI models that are separate from, and additive to, high-risk system obligations.
     A frontier model provider, a downstream enterprise deployer, and an orchestrated-service provider
     do not have the same duties. The <code>gpai-provider</code> and <code>gpai-systemic-risk</code> profiles
     are now live — both profiles became applicable 2025-08-02 (12 months after EU AI Act entry into force).
-    The systemic risk profile (Ch. VI) is additive to the GPAI provider profile (Ch. V) — both are simultaneously
+    The systemic risk profile (Ch. V, Section 3, Art. 55) is additive to the GPAI provider profile (Ch. V, Section 2) — both are simultaneously
     active for providers above the 10²⁵ FLOPs threshold or designated by the AI Office.
   </div>
 

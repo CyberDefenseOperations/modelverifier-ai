@@ -98,6 +98,20 @@ The application validates all externally-supplied data before use:
 - GitHub Actions workflows reference secrets via environment variables, never via direct expression interpolation in shell steps, mitigating script injection via attacker-controlled event payloads.
 - Integer inputs in workflow steps are validated before use in shell commands.
 
+### Release manifest signing
+
+Every published integration bundle is accompanied by `integration/release-manifest.json` (SHA-256 content hashes and artifact metadata) and `integration/release-manifest.sig` (an Ed25519 digital signature over that manifest).
+
+The signature is produced by the CI pipeline using `MODEL_VERIFIER_SIGNING_KEY`, an Ed25519 private key stored exclusively as a GitHub Actions secret. This key is **never committed to the repository** and is not accessible to pull-request runs or fork workflows — it is injected only into the `sign:release-manifest` step of trusted `main`-branch deployments.
+
+The corresponding Ed25519 public key is published at:
+
+```
+https://modelverifier.ai/.well-known/apeiris-release.pub
+```
+
+Any consumer can use this public key to independently verify that a release manifest was produced by the Apeiris pipeline and has not been tampered with since signing. Verification does not require access to any Apeiris infrastructure — only the public key file and a standard Ed25519 tool.
+
 ### CORS and cross-origin resource policy
 
 Global security headers set `Cross-Origin-Resource-Policy: same-origin` on all paths. The `/integration/*` path explicitly overrides this to `Cross-Origin-Resource-Policy: cross-origin` and adds `Access-Control-Allow-Origin: *`, enabling any tool to consume the control matrix JSON. All other paths remain same-origin. The integration endpoint serves only a static JSON knowledge corpus with no user data.
