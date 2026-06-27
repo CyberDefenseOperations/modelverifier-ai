@@ -494,7 +494,7 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
 
   <!-- §5 Framework queries -->
   <h2 id="s5"><span class="section-num">05</span> Framework queries</h2>
-  <p>Nine frameworks are currently mapped. Each mapping object includes the requirement ID, fit rating, rationale, and source locator. One additional framework key is planned.</p>
+  <p>Ten frameworks are currently mapped. Each mapping object includes the requirement ID, fit rating (<code>direct</code> / <code>supporting</code> / <code>adjacent</code> / <code>partial</code>), rationale, and source locator.</p>
 
   <table class="dataset-table fw-table">
     <thead><tr><th>Key</th><th>Force</th><th>Framework</th></tr></thead>
@@ -502,7 +502,7 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
       <tr><td>nist_rmf</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI Risk Management Framework 1.0 (NIST AI 100-1)</td></tr>
       <tr><td>nist_ai_600_1</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI 600-1 — GenAI Profile: confabulation, CBRN, data privacy, info integrity, info security, IP, human-AI configuration</td></tr>
       <tr><td>iso_42001</td><td><span class="fw-force fw-voluntary">standard</span></td><td>ISO/IEC 42001:2023 AI Management Systems</td></tr>
-      <tr><td>eu_ai_act</td><td><span class="fw-force fw-binding">binding (EU)</span></td><td>EU AI Act — Regulation 2024/1689 (Ch. III–VI; includes GPAI provider and systemic risk obligations)</td></tr>
+      <tr><td>eu_ai_act</td><td><span class="fw-force fw-binding">binding (EU)</span></td><td>EU AI Act — Regulation 2024/1689 (Ch. III/IV high-risk; Ch. V GPAI providers; Ch. V, Section 3, Art. 55 systemic risk)</td></tr>
       <tr><td>sr262</td><td><span class="fw-force fw-guidance">guidance</span></td><td>Fed SR 26-2 — Supervisory Guidance on Model Risk Management</td></tr>
       <tr><td>aisvs</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Security Verification Standard v1.0</td></tr>
       <tr><td>llm10</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP LLM Top 10 2025 v2.0</td></tr>
@@ -532,11 +532,12 @@ dataset.controls.<span class="hlf">filter</span>(c =>
 <span class="hlk">const</span> coverage = {};
 <span class="hlk">for</span> (<span class="hlk">const</span> c <span class="hlk">of</span> dataset.controls) {
   <span class="hlk">for</span> (<span class="hlk">const</span> fw <span class="hlk">of</span> (c.frameworks ?? [])) {
-    coverage[fw.framework] ??= { direct: 0, partial: 0, adjacent: 0 };
+    coverage[fw.framework] ??= { direct: 0, supporting: 0, adjacent: 0, partial: 0 };
     coverage[fw.framework][fw.fit] = (coverage[fw.framework][fw.fit] ?? 0) + 1;
   }
 }
-<span class="hlc">// coverage.nist_rmf → { direct: 28, partial: 14, adjacent: 5 }</span></code></pre>
+<span class="hlc">// coverage.nist_rmf → { direct: 11, partial: 43 }
+// coverage.owasp_aitg → { direct: 33, supporting: 5, adjacent: 4, partial: 10 }</span></code></pre>
 
   <pre><code><span class="hlc">// Build a gap report for SR 26-2 compliance</span>
 <span class="hlk">const</span> sr262Controls = dataset.controls.<span class="hlf">filter</span>(c =>
