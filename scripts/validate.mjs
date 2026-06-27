@@ -78,7 +78,7 @@ const MONITORING_RECOMMENDED_LAYERS  = ['EV', 'TG'];
 const CONTROL_ID_RE  = /^(LI|TG|EV|OA|BH|CR)-\d{2}$/;
 const SOURCE_ID_RE   = /^[a-z][a-z0-9_]{1,31}$/;
 const DATE_RE        = /^\d{4}-\d{2}-\d{2}$/;
-const ARTIFACT_HASH_RE = /^sha256:[a-f0-9]{64}$/;
+const ARTIFACT_HASH_RE = /^(sha256:[a-f0-9]{64}|git:[a-f0-9]{40})$/;
 
 /** Cite-or-flag: items must include [ref:source_id] referencing a known source. */
 const CITE_REF_RE     = /\[ref:([a-z][a-z0-9_]{0,31})\]/;
@@ -513,7 +513,7 @@ function checkSources(controls) {
 /**
  * Validates:
  * - published_on and retrieved_on are valid YYYY-MM-DD dates
- * - artifact_hash follows sha256:<64-hex> format when present
+ * - artifact_hash follows sha256:<64-hex> or git:<40-hex> format when present
  * - source_hash on framework mappings follows same format
  * - The EU AI Act source version must be 2024/1689
  * - MITRE ATLAS version must reference v5.6.0
@@ -545,7 +545,7 @@ function checkSourceVersions(controls) {
 
       // artifact_hash format
       if (src.artifact_hash && !ARTIFACT_HASH_RE.test(src.artifact_hash)) {
-        err(id, `sources['${sid}'].artifact_hash must be sha256:<64 lowercase hex chars>`);
+        err(id, `sources['${sid}'].artifact_hash must be sha256:<64 hex> or git:<40 hex>`);
       }
 
       // Version-specific guards

@@ -1093,7 +1093,7 @@
         "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "supersedes": null,
         "status": "current",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-26",
         "retrieved_on": "2026-06-26"
@@ -1780,7 +1780,7 @@
         "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "supersedes": null,
         "status": "current",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-26",
         "retrieved_on": "2026-06-26"

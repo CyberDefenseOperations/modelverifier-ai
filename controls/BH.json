@@ -84,7 +84,7 @@
         "license": "CC-BY-SA-4.0",
         "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "status": "current",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-26",
         "retrieved_on": "2026-06-26"
@@ -1293,7 +1293,7 @@
         "license": "CC-BY-SA-4.0",
         "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "status": "current",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-26",
         "retrieved_on": "2026-06-26"
@@ -2058,7 +2058,7 @@
         "license": "CC-BY-SA-4.0",
         "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "status": "current",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-26",
         "retrieved_on": "2026-06-26"
@@ -2395,7 +2395,7 @@
         "license": "CC-BY-SA-4.0",
         "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "status": "current",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-26",
         "retrieved_on": "2026-06-26"
@@ -3152,7 +3152,7 @@
           "global"
         ],
         "binding": false,
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "reviewed_on": "2026-06-26",
         "authority": "Coalition for Content Provenance and Authenticity",
         "instrument": "C2PA Specification",
@@ -3498,7 +3498,7 @@
         "license": "CC-BY-SA-4.0",
         "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "status": "current",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-26",
         "retrieved_on": "2026-06-26"

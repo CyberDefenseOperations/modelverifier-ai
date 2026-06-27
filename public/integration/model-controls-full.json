@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T18:28:05.069Z",
+      "generated_at": "2026-06-27T19:09:37.216Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:ade089b9098d4107d5b9862ecba6ced1d6cb90e9b519a80a108333dccd42ec9d"
+      "content_hash": "sha256:a7919972358c9e4a59cd61536b181b503a1f2609d246fe24fa426edd15456f05"
     },
     "controls": [
       {
@@ -158,7 +158,7 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
@@ -521,7 +521,7 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
@@ -1596,7 +1596,7 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
@@ -2394,7 +2394,7 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
@@ -2727,7 +2727,7 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
@@ -7969,7 +7969,7 @@
             "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "supersedes": null,
             "status": "current",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
@@ -8654,7 +8654,7 @@
             "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "supersedes": null,
             "status": "current",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
@@ -12821,7 +12821,7 @@
             "unverified": true,
             "status": "current",
             "retrieved_on": "2026-06-26",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0"
           },
           {
@@ -13212,7 +13212,7 @@
             "license": "CC-BY-SA-4.0",
             "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
@@ -14418,7 +14418,7 @@
             "license": "CC-BY-SA-4.0",
             "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
@@ -15181,7 +15181,7 @@
             "license": "CC-BY-SA-4.0",
             "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
@@ -15517,7 +15517,7 @@
             "license": "CC-BY-SA-4.0",
             "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
@@ -16272,7 +16272,7 @@
               "global"
             ],
             "binding": false,
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "reviewed_on": "2026-06-26",
             "authority": "Coalition for Content Provenance and Authenticity",
             "instrument": "C2PA Specification",
@@ -16617,7 +16617,7 @@
             "license": "CC-BY-SA-4.0",
             "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary-standard",
+            "normative_force": "voluntary",
             "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
@@ -20216,7 +20216,7 @@
         "title": "OWASP AI Security Verification Standard v1.0",
         "authority": "Open Worldwide Application Security Project (OWASP)",
         "source_type": "voluntary-standard",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "version": "1.0",
         "published_on": "2026-06-24",
         "retrieved_on": "2026-06-26",
@@ -26017,7 +26017,7 @@
         "framework_key": null,
         "instrument": "C2PA Specification",
         "authority": "Coalition for Content Provenance and Authenticity",
-        "normative_force": "voluntary-standard",
+        "normative_force": "voluntary",
         "legal_status": "enacted",
         "effective_from": null,
         "jurisdiction": [
