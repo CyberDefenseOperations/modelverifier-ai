@@ -37,6 +37,40 @@
       --cr: #06b6d4;  --cr-bg: rgba(6,182,212,0.12);   --cr-br: rgba(6,182,212,0.3);
     }
 
+    /* ── Light theme overrides ── */
+    html[data-theme="light"] {
+      --bg:          #f8fafc;
+      --surface:     #ffffff;
+      --surface2:    #f1f5f9;
+      --border:      #e2e8f0;
+      --border2:     #cbd5e1;
+      --text:        #0f172a;
+      --text2:       #334155;
+      --muted:       #64748b;
+      --accent:      #2563eb;
+      --accent-dim:  #1d4ed8;
+      --accent-glow: rgba(37,99,235,0.1);
+      --warn:        #b45309;
+      --success:     #047857;
+      --danger:      #b91c1c;
+      --li-bg: rgba(99,102,241,0.18);   --li-br: rgba(99,102,241,0.35);
+      --tg-bg: rgba(139,92,246,0.18);   --tg-br: rgba(139,92,246,0.35);
+      --ev-bg: rgba(16,185,129,0.18);   --ev-br: rgba(16,185,129,0.35);
+      --oa-bg: rgba(245,158,11,0.18);   --oa-br: rgba(245,158,11,0.35);
+      --bh-bg: rgba(239,68,68,0.18);    --bh-br: rgba(239,68,68,0.35);
+      --cr-bg: rgba(6,182,212,0.18);    --cr-br: rgba(6,182,212,0.35);
+    }
+    html[data-theme="light"] header {
+      background: rgba(248,250,252,0.95);
+    }
+    html[data-theme="light"] .layer-header {
+      background: rgba(248,250,252,0.97);
+    }
+    html[data-theme="light"] #mvTip {
+      background: #1e293b;
+      border-color: #334155;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -84,6 +118,13 @@
       transition: background 0.15s; flex-shrink: 0;
     }
     .api-btn:hover { background: rgba(59,130,246,0.24); }
+    .theme-toggle {
+      font-size: 0.72rem; font-weight: 600; padding: 4px 11px; border-radius: 6px;
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border2); cursor: pointer; transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { color: var(--text); border-color: var(--accent); }
 
     /* ── Layout ── */
     .app { display: flex; height: calc(100vh - 50px); overflow: hidden; }
@@ -619,6 +660,7 @@
   <a class="wordmark" href="/">modelverifier<span class="wordmark-dot">.</span>ai <span class="wordmark-sub">Apeiris</span></a>
   <div class="header-sep"></div>
   <a class="header-link" href="/integrate.html">Integrate</a>
+  <button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">◑ Dark</button>
   <button class="assess-toggle" id="assessToggle" title="Switch to self-assessment mode">⊕ Assess</button>
   <button class="export-btn" id="exportBtn" title="Export your assessment as JSON">↓ Export</button>
   <a class="api-btn" href="/integration/model-controls-full.json" target="_blank" style="margin-left:4px">↓ JSON</a>
@@ -900,6 +942,57 @@ const FW_NAMES = {
   mitre:     'MITRE ATLAS v5.6',
 };
 
+// Human-readable labels and tooltips for threat tags
+const TAG_LABELS = {
+  // MITRE ATLAS adversarial ML techniques
+  'AML.T0018': { label: 'ATLAS: Backdoor ML Model',       tip: 'MITRE ATLAS AML.T0018 — Attacker inserts a backdoor into a model during training or supply chain compromise.' },
+  'AML.T0020': { label: 'ATLAS: Poison Training Data',    tip: 'MITRE ATLAS AML.T0020 — Adversarial corruption of training data to alter model behavior at inference time.' },
+  'AML.T0024': { label: 'ATLAS: Infer Training Data',     tip: 'MITRE ATLAS AML.T0024 — Model inversion and membership inference attacks that extract information about training data.' },
+  'AML.T0051': { label: 'ATLAS: LLM Prompt Injection',    tip: 'MITRE ATLAS AML.T0051 — Adversarial prompt inputs that override model instructions or bypass safety guardrails.' },
+  // OWASP LLM Top 10 2025
+  'LLM01:2025': { label: 'OWASP LLM01: Prompt Injection',        tip: 'OWASP LLM Top 10 2025 — LLM01: Direct and indirect prompt injection attacks that hijack model behavior.' },
+  'LLM03:2025': { label: 'OWASP LLM03: Supply Chain',            tip: 'OWASP LLM Top 10 2025 — LLM03: Risks from third-party models, datasets, plugins, and upstream dependencies.' },
+  'LLM04:2025': { label: 'OWASP LLM04: Data & Model Poisoning',  tip: 'OWASP LLM Top 10 2025 — LLM04: Manipulation of training data or fine-tuning processes to corrupt model outputs.' },
+  'LLM09:2025': { label: 'OWASP LLM09: Misinformation',          tip: 'OWASP LLM Top 10 2025 — LLM09: Model generates false, misleading, or hallucinated content that users may rely on.' },
+  'LLM10:2025': { label: 'OWASP LLM10: Unbounded Consumption',   tip: 'OWASP LLM Top 10 2025 — LLM10: Resource exhaustion, denial-of-service via excessive inference requests, and runaway costs.' },
+  // Model Risk Management domains (Federal Reserve SR 26-2 taxonomy)
+  'MR-DEV':         { label: 'Model Risk: Development',    tip: 'Federal Reserve SR 26-2 model risk domain — Development phase risks: errors in design, training methodology, or data selection.' },
+  'MR-VAL':         { label: 'Model Risk: Validation',     tip: 'Federal Reserve SR 26-2 model risk domain — Validation phase: inadequate or missing independent model review before deployment.' },
+  'MR-MONITORING':  { label: 'Model Risk: Monitoring',     tip: 'Federal Reserve SR 26-2 model risk domain — Ongoing monitoring: undetected drift, silent failure, or stale performance metrics.' },
+  'MR-PERFORMANCE': { label: 'Model Risk: Performance',    tip: 'Federal Reserve SR 26-2 model risk domain — Performance degradation, distributional shift, and concept drift over time.' },
+  // EU regulatory
+  'EU-AIA-AnnexIII': { label: 'EU AI Act: Annex III High-Risk', tip: 'EU AI Act (Regulation 2024/1689) — System falls into a high-risk category under Annex III, triggering full conformity obligations.' },
+};
+
+function tagHtml(t) {
+  const info = TAG_LABELS[t];
+  if (info) {
+    return `<span class="tag has-tip" data-tip="${esc(info.tip)}" style="cursor:default">${esc(info.label)}</span>`;
+  }
+  // Humanize kebab-case descriptive risk tags (e.g. "silent-model-degradation" → "Silent Model Degradation")
+  const humanized = t.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  return `<span class="tag">${esc(humanized)}</span>`;
+}
+
+// Normative force display labels for obligations and sources
+const FORCE_LABELS = {
+  'binding-law':            'Binding Law',
+  'supervisory-guidance':   'Supervisory Guidance',
+  'voluntary':              'Voluntary',
+  'voluntary-standard':     'Voluntary Standard',
+  'certification-standard': 'Certification Standard',
+  'industry-framework':     'Industry Framework',
+  'informative':            'Informative',
+  'best-practice':          'Best Practice',
+};
+
+// Mapping fit labels and tooltips
+const FIT_TIPS = {
+  direct:   'Direct — this control\'s evidence directly satisfies the requirement with no gaps.',
+  partial:  'Partial — the control addresses part of the requirement; additional evidence may be needed.',
+  adjacent: 'Adjacent — the control is related to the requirement but does not satisfy it directly.',
+};
+
 // ── State ──────────────────────────────────────────────────────────────────────
 let controls    = [];
 let baselineSet = new Set();
@@ -995,7 +1088,7 @@ function fmtCheckText(raw) {
 }
 
 function capLabel(lvl) {
-  return lvl === 'none' ? 'univ.' : (lvl || 'n/a');
+  return lvl === 'none' ? 'Universal' : (lvl || 'n/a');
 }
 
 // ── Load ───────────────────────────────────────────────────────────────────────
@@ -1100,7 +1193,7 @@ function render() {
 
     html += `<div class="layer-section">
       <div class="layer-header">
-        <span class="layer-badge ${layer}">${layer}</span>
+        <span class="layer-badge ${layer} has-tip" data-tip="${esc(LAYER_META[layer]?.name ?? layer)}">${layer}</span>
         <span class="layer-header-name">${esc(lm.name)}</span>
         <span class="plane-pill plane-${lm.plane}">${lm.plane}</span>
         <span class="layer-header-count">${group.length}</span>
@@ -1167,8 +1260,8 @@ function cardHtml(c) {
       ${assessRow}
     </div>
     <div class="ctrl-right">
-      <div class="cap-badge ${cap}">${capLabel(cap)}</div>
-      <div class="maturity-dots">${dots}</div>
+      <div class="cap-badge ${cap} has-tip" data-tip="${cap === 'none' ? 'Universal — applies to every AI deployment regardless of capability level.' : cap === 'frontier' ? 'Frontier — potential for serious harm at scale; requires the most rigorous evaluation controls.' : cap === 'elevated' ? 'Elevated — enhanced capabilities requiring broader evaluation gates.' : 'Standard — above-baseline capability without threshold-crossing risk.'}">${capLabel(cap)}</div>
+      <div class="maturity-dots" title="Maturity: ${mat}">${dots}</div>
     </div>
   </div>`;
 }
@@ -1188,10 +1281,10 @@ function openDrawer(id) {
   const lm     = LAYER_META[c.layer] ?? {};
 
   document.getElementById('drawerBadges').innerHTML = `
-    <span class="drawer-layer-id ${c.layer}">${esc(c.id)}</span>
+    <span class="drawer-layer-id ${c.layer} has-tip" data-tip="${esc(lm.name)} — ${esc(lm.plane)} plane">${esc(c.id)}</span>
     ${isBase ? `<span class="ctrl-star" title="Baseline control">★ Baseline</span>` : ''}
-    <span class="cap-badge ${cap}" style="font-size:.68rem">${capLabel(cap)}</span>
-    <span class="plane-pill plane-${lm.plane}">${lm.plane}</span>
+    <span class="cap-badge ${cap} has-tip" style="font-size:.68rem" data-tip="${cap === 'none' ? 'Universal — applies to every AI deployment regardless of capability level.' : cap === 'frontier' ? 'Frontier — potential for serious harm at scale; most rigorous evaluation controls required.' : cap === 'elevated' ? 'Elevated — enhanced capabilities requiring broader evaluation gates.' : 'Standard — above-baseline capability without threshold-crossing risk.'}">${capLabel(cap)}</span>
+    <span class="plane-pill plane-${lm.plane} has-tip" data-tip="${lm.plane === 'control' ? 'Control plane — governance, ownership, documentation, and process controls.' : lm.plane === 'data' ? 'Data plane — controls over data flows, inputs, training, and runtime outputs.' : lm.plane === 'lifecycle' ? 'Lifecycle plane — continuous risk, monitoring, incident response, and evidence retention.' : 'Cross-plane — spans both control and data plane concerns.'}">${lm.plane}</span>
     ${c.canonical_id ? `<span class="drawer-canonical">${esc(c.canonical_id)}</span>` : ''}
   `;
   document.getElementById('drawerName').textContent  = c.name;
@@ -1269,7 +1362,7 @@ function fillOverview(c) {
     html += `<div class="d-section">
       <div class="d-title">Threat Context</div>
       <div class="d-text">${esc(c.threat.desc)}</div>
-      ${c.threat.tags?.length ? `<div class="tag-cloud" style="margin-top:8px">${c.threat.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+      ${c.threat.tags?.length ? `<div class="tag-cloud" style="margin-top:8px">${c.threat.tags.map(tagHtml).join('')}</div>` : ''}
     </div>`;
   }
 
@@ -1284,6 +1377,7 @@ function fillOverview(c) {
       }
       const provText = o.provision ?? o.text ?? o.requirement ?? o.requirement_summary ?? '';
       const forceClass = (o.normative_force ?? '').replace(/[^a-z-]/g, '');
+      const forceLabel = FORCE_LABELS[o.normative_force] ?? o.normative_force ?? '';
       const instrument = o.instrument ?? o.regulation ?? '';
       const effectiveFrom = o.effective_from ?? o.effective_date ?? '';
       const jur = o.jurisdiction;
@@ -1293,13 +1387,13 @@ function fillOverview(c) {
       html += `<div class="obl-item">
         <div class="obl-top">
           <span class="obl-prov">${esc(provText)}</span>
-          <span class="obl-force ${forceClass}">${esc(o.normative_force ?? '')}</span>
+          <span class="obl-force ${forceClass}">${esc(forceLabel)}</span>
         </div>
         <div class="obl-meta">
           ${instrument ? `<span>${esc(instrument)}</span>` : ''}
           ${effectiveFrom ? `<span>From ${esc(effectiveFrom)}</span>` : ''}
           ${jurHtml}
-          ${o.mapping_fit ? `<span class="fit-pill fit-${esc(o.mapping_fit)}">${esc(o.mapping_fit)}</span>` : ''}
+          ${o.mapping_fit ? `<span class="fit-pill fit-${esc(o.mapping_fit)} has-tip" data-tip="${esc(FIT_TIPS[o.mapping_fit] ?? o.mapping_fit)}">${esc(o.mapping_fit)}</span>` : ''}
         </div>
       </div>`;
     }
@@ -1522,9 +1616,9 @@ function fillFrameworks(c) {
       : '';
 
     html += `<tr>
-      <td><span class="fw-key" title="${esc(name)}">${esc(fk)}</span></td>
+      <td><span class="fw-key">${esc(name)}</span></td>
       <td><span class="fw-req">${esc(req)}</span></td>
-      <td><span class="fit-pill fit-${esc(fit)}">${esc(fit)}</span></td>
+      <td><span class="fit-pill fit-${esc(fit)} has-tip" data-tip="${esc(FIT_TIPS[fit] ?? fit)}">${esc(fit)}</span></td>
       <td style="color:var(--text2);max-width:200px">${esc(rat)}</td>
     </tr>`;
 
@@ -1559,7 +1653,7 @@ function fillSources(c) {
         <div class="source-meta">
           ${s.authority ? `<span>${esc(s.authority)}</span>` : ''}
           ${s.version ? `<span>v${esc(s.version)}</span>` : ''}
-          ${s.normative_force ? `<span class="force-chip ${forceClass}">${esc(s.normative_force)}</span>` : ''}
+          ${s.normative_force ? `<span class="force-chip ${forceClass}">${esc(FORCE_LABELS[s.normative_force] ?? s.normative_force)}</span>` : ''}
           ${s.published_on ? `<span>${esc(s.published_on)}</span>` : ''}
           ${s.license ? `<span style="color:var(--warn)">${esc(s.license)}</span>` : ''}
         </div>
@@ -1724,6 +1818,28 @@ document.addEventListener('keydown', e => {
   document.getElementById('scopeBannerClose').addEventListener('click', () => {
     document.getElementById('scopeBanner').classList.add('hidden');
     localStorage.setItem('mvai_scope_banner_dismissed', '1');
+  });
+})();
+
+// ── Theme toggle ────────────────────────────────────────────────────────────────
+(function() {
+  const THEME_KEY = 'mvai_theme';
+  const btn = document.getElementById('themeToggle');
+  function applyTheme(t) {
+    document.documentElement.dataset.theme = t;
+    btn.textContent = t === 'light' ? '☀ Light' : '◑ Dark';
+    btn.title = t === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
+  }
+  const stored = localStorage.getItem(THEME_KEY);
+  const sysLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  applyTheme(stored ?? (sysLight ? 'light' : 'dark'));
+  btn.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
+  });
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches ? 'light' : 'dark');
   });
 })();
 
