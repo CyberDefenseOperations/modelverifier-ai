@@ -26,7 +26,8 @@
         "jurisdiction": "EU",
         "binding": true,
         "effective_date_standalone_high_risk": "2027-12-02",
-        "effective_date_product_embedded": "2028-08-02"
+        "effective_date_product_embedded": "2028-08-02",
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -261,7 +262,7 @@
         "rationale": "AI Control Matrix general governance controls align with the requirement for documented deployment decisions.",
         "uncovered_portion": "AICM does not specify technical gate enforcement or signing requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -531,7 +532,7 @@
         "rationale": "AICM EV-1 aligns with structured model evaluation before deployment.",
         "uncovered_portion": "AICM does not specify dimension isolation or pre-specified threshold requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -551,7 +552,7 @@
         "source_locator": {
           "section": "CONFABULATION"
         },
-        "source_version": "1.0",
+        "source_version": "2024",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium",
         "provisional": true,
@@ -879,7 +880,7 @@
         "direction": "out-of-scope",
         "rationale": "AI Control Matrix does not currently include frontier dangerous capability assessment controls.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -900,7 +901,7 @@
         "source_locator": {
           "section": "CBRN"
         },
-        "source_version": "1.0",
+        "source_version": "2024",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium",
         "provisional": true,
@@ -1200,7 +1201,7 @@
         "rationale": "AICM adversarial testing controls align with structured red-team exercise requirements.",
         "uncovered_portion": "AICM does not specify threat model documentation or deployment gate integration.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -1219,7 +1220,7 @@
         "direction": "control-supports-requirement",
         "rationale": "NIST AI 600-1 identifies Information Security as a GenAI risk category covering adversarial attacks, prompt injection, extraction of training data, and supply chain threats against AI systems. EV-04 red-team testing directly addresses this by requiring structured adversarial probing before deployment.",
         "uncovered_portion": "NIST AI 600-1 INFO-SECURITY also covers runtime detection and incident response to adversarial attacks — those aspects are owned by securitycontrols.ai runtime controls, not by this pre-deployment evaluation control.",
-        "source_version": "1.0",
+        "source_version": "2024",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium",
         "provisional": true,
@@ -1537,7 +1538,7 @@
         "rationale": "AICM bias and fairness assessment controls align with structured fairness evaluation requirements.",
         "uncovered_portion": "AICM does not specify pre-specification of thresholds or metric trade-off documentation requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -1555,7 +1556,7 @@
         "direction": "control-supports-requirement",
         "rationale": "NIST AI 600-1 identifies Human-AI Configuration as a GenAI risk encompassing automation bias, over-reliance, and the erosion of human oversight capacity — dynamics that intensify when models produce systematically biased outputs across demographic groups. EV-05 fairness evaluation supports this risk category by measuring demographic performance disparities that can exacerbate biased automated decisions.",
         "uncovered_portion": "HUMAN-AI-CONFIG addresses the full human-oversight configuration problem beyond just measurement of bias; interface design, user calibration, and override mechanisms are not covered by EV-05.",
-        "source_version": "1.0",
+        "source_version": "2024",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium",
         "provisional": true,
@@ -1852,7 +1853,7 @@
         "rationale": "AICM evaluation integrity controls align with reproducible design requirements.",
         "uncovered_portion": "AICM does not specify contamination screening or artifact signing.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -2279,7 +2280,7 @@
         "rationale": "AICM regression testing controls align with structured regression evaluation on model updates.",
         "uncovered_portion": "AICM does not specify monitoring schema structure or safety regression zero-tolerance policy.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -2410,7 +2411,8 @@
         "jurisdiction": "US",
         "binding": false,
         "note": "SR 26-2 is supervisory guidance, not binding regulation; however, non-compliance is subject to supervisory action for in-scope institutions.",
-        "in_scope_threshold": "$30B+ total assets"
+        "in_scope_threshold": "$30B+ total assets",
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -2648,7 +2650,7 @@
         "rationale": "AICM separation of duties controls align with independent validation requirements.",
         "uncovered_portion": "AICM does not specify the organizational depth of independence required for effective challenge.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -2732,7 +2734,8 @@
         "jurisdiction": "EU",
         "binding": true,
         "effective_date_standalone_high_risk": "2027-12-02",
-        "effective_date_product_embedded": "2028-08-02"
+        "effective_date_product_embedded": "2028-08-02",
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "SR262-model-risk-tiering",
@@ -2740,7 +2743,8 @@
         "jurisdiction": "US",
         "binding": false,
         "note": "Supervisory guidance; non-compliance subject to supervisory action for in-scope institutions.",
-        "in_scope_threshold": "$30B+ total assets"
+        "in_scope_threshold": "$30B+ total assets",
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -3006,7 +3010,7 @@
         "rationale": "AICM risk classification controls align with the structured classification process.",
         "uncovered_portion": "AICM does not specify EU AI Act Article 6 / Annex III classification methodology.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",
@@ -3281,7 +3285,7 @@
         "rationale": "AICM evaluation records controls align with content-addressed, signed evaluation result provenance requirements.",
         "uncovered_portion": "AICM does not specify tamper-evident log technology or provenance chain traversal tooling.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.0.3"
       },
       {
         "framework": "mitre",

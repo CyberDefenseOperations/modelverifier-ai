@@ -1,6 +1,6 @@
 # modelverifier.ai — AI Model & System Assurance Control Matrix
 
-**Version:** 1.0.0 | **Status:** Public Beta | **Controls:** 54 across 6 layers | **Frameworks:** 10 | **Profiles:** 11
+**Version:** 1.0.0 | **Status:** Public Beta | **Controls:** 54 across 6 layers | **Frameworks:** 10 | **Profiles:** 11 | **Build:** 0 warnings
 
 The AI Model & System Assurance Control Matrix is the second Apeiris public knowledge domain, complementing [securitycontrols.ai](https://securitycontrols.ai). It provides a machine-readable, citation-backed corpus of controls for assessing, evaluating, and governing AI models and AI systems across their full lifecycle — from lineage and training data governance through deployment, runtime assurance, and continuous evidence collection.
 
@@ -80,6 +80,15 @@ Both domains share the `apeiris-control-core/` schema package — the same base 
 **Cross-domain evidence:** When a model assurance control produces an evidence artifact (e.g., a model evaluation scorecard), that artifact can be declared as consumable by the security verifier. The `cross_domain.evidence_artifacts[]` block on each control record declares these sharing relationships. This is the mechanism by which the Apeiris platform avoids duplicate evidence collection across domains.
 
 **The Apeiris runtime:** Both matrices feed a single runtime engine. The runtime is domain-parameterized — point it at the model assurance corpus and it becomes the Model Assurance Verifier; point it at the security corpus and it becomes the Security Verifier. This architecture enables an enterprise to run both verifiers on the same agent deployment from the same evidence infrastructure.
+
+**Apeiris domain portfolio:** The confirmed set of Apeiris-owned domains:
+
+- **apeiris.com / apeiris.ai** — Platform brand and runtime
+- **securitycontrols.ai** — Agentic Security Control Matrix
+- **modelverifier.ai** — AI Model & System Assurance Control Matrix (this domain)
+- **complianceverifier.ai**, **privacyverifier.ai**, **identitycontrols.ai**, **agenticverifier.ai** — Planned future verifier domains
+
+All domains share the `apeiris-control-core/` schema package and the `apeiris://` cross-domain URI namespace.
 
 ---
 
@@ -345,6 +354,11 @@ modelverifier.ai introduces the following schema extensions beyond the shared `a
 | **Assurance target** | Not used | `assurance_target` object binding model to use case, deployment context, affected parties, and jurisdiction |
 | **Cross-domain** | Not used | `cross_domain.references[]` navigation pointers + `evidence_artifacts[]` sharing declarations |
 
+**Framework mapping notes:**
+
+- **NIST AI 600-1** mappings use category-level IDs only (CONFABULATION, CBRN, DATA-PRIVACY, INFO-INTEGRITY, INFO-SECURITY, IP, HUMAN-AI-CONFIG, OBSCENE-DEGRADING). All `nist_ai_600_1` entries carry `provisional: true` and a `provisional_note` because action-level IDs within each category are not yet published. Do not set `mapping_confidence: high` or `verified` for `nist_ai_600_1` entries.
+- **OWASP AI Testing Guide** (`owasp_aitg`) mappings use three `fit` values: `direct` (the AITG requirement directly names what the control tests), `supporting` (the control enables the test condition), or `adjacent` (same threat domain, different concern). Do not use `partial` for AITG entries — use `adjacent` instead.
+
 ---
 
 ## How to Contribute
@@ -395,6 +409,8 @@ Runs the full audit suite:
 - `audit:applicability` — validates obligation predicates reference valid `assurance_target` fields
 - `check:freshness` — warns on source `retrieved_on` dates older than 180 days
 - `validate:baselines` — enforces all 15 baseline controls are present with `readiness: approved`
+
+The v1.0 release builds with **0 warnings**. All 6 layers — including BH and CR — have complete NIST RMF and ISO 42001 framework mappings on every control.
 
 ### Build integration bundle
 
@@ -448,9 +464,10 @@ MITRE ATLAS (Apache 2.0), OWASP LLM Top 10 (CC BY-SA 4.0), and CSA AICM (CC BY-S
 
 modelverifier.ai is the second Apeiris public knowledge domain. The roadmap includes:
 
-- **privacycontrols.ai** — GDPR, CCPA, PIPL, and data governance controls. Privacy domain lens vocabulary: engineering, legal, dpo, grc, product.
-- **compliancecontrols.ai** — SOX, HIPAA, PCI-DSS, and industry-specific frameworks. Compliance domain lens vocabulary: engineering, audit, legal, grc, finance.
-- **financecontrols.ai** — Financial authority delegation, purchasing controls, and procurement governance for autonomous AI agents in financial workflows.
+- **privacyverifier.ai** — GDPR, CCPA, PIPL, and data governance controls. Privacy domain lens vocabulary: engineering, legal, dpo, grc, product.
+- **complianceverifier.ai** — SOX, HIPAA, PCI-DSS, and industry-specific frameworks. Compliance domain lens vocabulary: engineering, audit, legal, grc, finance.
+- **identitycontrols.ai** — Identity governance, access management, and authentication controls for AI systems and agentic workflows.
+- **agenticverifier.ai** — Delegated authority, tool authorization, and multi-agent workflow enforcement controls.
 
 All future domains share the `apeiris-control-core/` schema package. Adding a new domain requires: a domain registration in `apeiris-control-core/namespace-registry.json`, a domain-specific extension schema, a framework mapping catalog, and a profiles definition file. The build pipeline and deployment workflow are identical across domains.
 

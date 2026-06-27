@@ -202,6 +202,13 @@ Example entry:
 
 The `requirement_id_pattern` is validated by `audit:mappings` for every `framework` entry in every control file. Write it carefully — a pattern that is too strict will break the build; one that is too loose will allow mapping errors.
 
+**Inherited modelverifier.ai framework conventions:** If your domain retains `nist_ai_600_1` or `owasp_aitg` from the modelverifier.ai framework catalog, these conventions apply:
+
+- **`nist_ai_600_1`** — Always set `provisional: true` and `mapping_confidence: "medium"` on every mapping. Only category-level IDs (CONFABULATION, CBRN, etc.) are available; action-level IDs have not been published. See `CONTRIBUTING.md` section 4.5.
+- **`owasp_aitg`** — Use `fit: direct`, `fit: supporting`, or `fit: adjacent` only. Do not use `fit: partial`. Set `mapping_confidence: medium` on all entries. See `CONTRIBUTING.md` section 4.6 for fit value criteria.
+
+For domains that define their own framework catalog (not inherited from modelverifier.ai), these conventions do not apply — define fit semantics appropriate to your frameworks.
+
 ---
 
 ## Step 5: Create the schema extension

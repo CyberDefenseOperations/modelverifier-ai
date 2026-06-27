@@ -243,7 +243,37 @@ When `fit: direct`, `source_locator` is required with at least a `section` field
 
 For MITRE ATLAS: if no technique applies, use `fit: none` and explain the gap in `rationale`. Do not map to an adjacent technique to fill the field.
 
-For other frameworks: if a control has no substantive relationship to a framework, omit that framework from `frameworks[]`. The `audit:mappings` step enforces only that covered controls have mappings to at least `nist_rmf` and `iso_42001` (FWMAP-009, severity: warning).
+For other frameworks: if a control has no substantive relationship to a framework, omit that framework from `frameworks[]`. The `audit:mappings` step enforces only that covered controls have mappings to at least `nist_rmf` and `iso_42001` (FWMAP-009, severity: warning). This requirement applies to all 6 layers, including BH and CR. As of the v1.0 release, all controls across all layers satisfy this requirement with 0 build warnings.
+
+### 4.5 NIST AI 600-1 Mappings — Always Provisional
+
+All `nist_ai_600_1` mappings must carry `provisional: true` and a `provisional_note` field explaining that only category-level IDs are available. The eight category-level IDs are: CONFABULATION, CBRN, DATA-PRIVACY, INFO-INTEGRITY, INFO-SECURITY, IP, HUMAN-AI-CONFIG, OBSCENE-DEGRADING.
+
+Action-level IDs within each category have not been published by NIST. Until they are, no `nist_ai_600_1` mapping may claim higher granularity than the category level, and `mapping_confidence` must be set to `"medium"` at most. Do not use `mapping_confidence: high` or `verified` for any `nist_ai_600_1` entry regardless of how well the control aligns with the category description.
+
+Example:
+```json
+{
+  "framework": "nist_ai_600_1",
+  "requirement_id": "CONFABULATION",
+  "fit": "direct",
+  "provisional": true,
+  "provisional_note": "Category-level mapping only. NIST AI 600-1 does not yet publish action-level IDs within each category.",
+  "mapping_confidence": "medium"
+}
+```
+
+### 4.6 OWASP AI Testing Guide Fit Values
+
+`owasp_aitg` mappings use three specific `fit` values. Do not use `partial` for AITG entries.
+
+| Fit value | Meaning |
+|---|---|
+| `direct` | The AITG requirement directly names the test this control enables. The test procedure in the AITG document describes what this control must demonstrate. |
+| `supporting` | This control creates the precondition or evidence structure that the AITG test procedure depends on, but the test itself covers more than this control alone. |
+| `adjacent` | The control and the AITG requirement address the same threat domain but from different angles — implementing the control does not directly satisfy the AITG test. |
+
+All `owasp_aitg` mappings must carry `mapping_confidence: medium` because the OWASP AI Testing Guide is a pre-release document that may change before stable v1.0 publication.
 
 ---
 
@@ -420,7 +450,9 @@ nist_rmf  nist_ai_600_1  iso_42001  eu_ai_act  sr262
 aisvs     llm10          aicm       mitre       owasp_aitg
 ```
 
-When adding a mapping to `owasp_aitg`, use the AITG-XX-NN format (e.g., `AITG-OT-01`, `AITG-ML-03`). The framework has 52 total mappings across all 6 layers. Because the OWASP AI Testing Guide is a pre-release document, all owasp_aitg mappings must carry `mapping_confidence: medium`.
+When adding a mapping to `owasp_aitg`, use the AITG-XX-NN format (e.g., `AITG-OT-01`, `AITG-ML-03`). The framework has 52 total mappings across all 6 layers. Because the OWASP AI Testing Guide is a pre-release document, all owasp_aitg mappings must carry `mapping_confidence: medium`. Use `fit: direct`, `fit: supporting`, or `fit: adjacent` — not `fit: partial`. See section 4.6 for fit value criteria.
+
+When adding a mapping to `nist_ai_600_1`, always set `provisional: true` and `mapping_confidence: "medium"`. See section 4.5 for required fields and the rationale.
 
 Adding a new framework requires updating `FRAMEWORK_KEYS` and `FRAMEWORK_DISPLAY` in `build-integration.mjs`, `VALID_FRAMEWORK_KEYS` in `scripts/validate.mjs`, the `frameworks[].framework` enum in `schema/model-controls.schema.json`, allowed patterns in `schema/framework-mapping-catalog.json`, and the `fillFrameworks()` renderer in `public/index.html`. See the "Adding a framework mapping key" section in ARCHITECTURE.md for the full checklist.
 

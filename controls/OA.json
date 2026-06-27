@@ -321,7 +321,8 @@
         "requirement": "High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which they are in use.",
         "applicability": "eu-high-risk profile",
         "deadline": "2027-12-02",
-        "enforcement_body": "National market surveillance authority"
+        "enforcement_body": "National market surveillance authority",
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "eu-ai-act-art-14-sub3",
@@ -331,7 +332,8 @@
         "requirement": "Operators of high-risk AI systems shall assign the oversight to natural persons who have the necessary competence, training and authority to carry out that role.",
         "applicability": "eu-high-risk profile — deployer obligation",
         "deadline": "2027-12-02",
-        "enforcement_body": "National market surveillance authority"
+        "enforcement_body": "National market surveillance authority",
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -1188,7 +1190,8 @@
         "applicability": "eu-high-risk profile",
         "deadline": "2027-12-02",
         "enforcement_body": "National market surveillance authority",
-        "note": "For most Annex III categories (except biometric and critical infrastructure), providers may use self-assessment against Annex IV technical documentation requirements."
+        "note": "For most Annex III categories (except biometric and critical infrastructure), providers may use self-assessment against Annex IV technical documentation requirements.",
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "eu-ai-act-art-17",
@@ -1198,7 +1201,8 @@
         "requirement": "Providers of high-risk AI systems shall implement a quality management system including procedures for regulatory compliance review.",
         "applicability": "eu-high-risk profile",
         "deadline": "2027-12-02",
-        "enforcement_body": "National market surveillance authority"
+        "enforcement_body": "National market surveillance authority",
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "eu-ai-act-art-47",
@@ -1208,7 +1212,8 @@
         "requirement": "Providers shall draw up an EU declaration of conformity for each high-risk AI system and keep it at the disposal of the national competent authorities for 10 years after the system has been placed on the market or put into service.",
         "applicability": "eu-high-risk profile",
         "deadline": "2027-12-02",
-        "enforcement_body": "National market surveillance authority"
+        "enforcement_body": "National market surveillance authority",
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -1696,7 +1701,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 8.1",
+        "requirement_id": "8.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "OA-06 implements operational planning and control for third-party AI model procurement — requiring risk-based due diligence before first use, contract terms covering model change notification and audit rights, annual vendor risk review, and substitutability planning — directly supporting ISO 42001 Clause 8.1's requirement that operational processes including the use of externally-provided AI components be planned, implemented, controlled, and reviewed. Annex B's AI system supply chain considerations are additionally addressed because OA-06's vendor governance framework governs the intake, monitoring, and exit of third-party AI components throughout their operational lifecycle.",
@@ -2091,7 +2096,8 @@
         "requirement": "High-risk AI systems shall be designed and developed in such a way as to ensure that their operation is sufficiently transparent to enable deployers to understand the system's output and use it appropriately.",
         "applicability": "eu-high-risk profile",
         "deadline": "2027-12-02",
-        "enforcement_body": "National market surveillance authority"
+        "enforcement_body": "National market surveillance authority",
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "eu-ai-act-art-50",
@@ -2101,7 +2107,8 @@
         "requirement": "Providers of AI systems intended to interact with natural persons shall design and develop systems such that persons are notified that they are interacting with an AI system.",
         "applicability": "AI systems interacting directly with natural persons",
         "deadline": "2025-08-02",
-        "enforcement_body": "National market surveillance authority"
+        "enforcement_body": "National market surveillance authority",
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "gdpr-art-22",
@@ -2112,7 +2119,8 @@
         "applicability": "EU data subjects; solely automated decisions with legal or similarly significant effects — NOT all AI use cases",
         "deadline": "in effect",
         "enforcement_body": "National data protection authority",
-        "note": "GDPR Art-22 is specifically scoped. It does not apply to all AI decisions — only those that are solely automated and produce legal or similarly significant effects."
+        "note": "GDPR Art-22 is specifically scoped. It does not apply to all AI decisions — only those that are solely automated and produce legal or similarly significant effects.",
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "us-fcra-adverse-action",
@@ -2123,7 +2131,8 @@
         "applicability": "US consumer credit decisions — jurisdiction-specific",
         "deadline": "in effect",
         "enforcement_body": "CFPB and FTC",
-        "note": "AI-generated reasons must be translatable to human-interpretable adverse action codes. OCC 2026-13 provides non-binding guidance on this translation."
+        "note": "AI-generated reasons must be translatable to human-interpretable adverse action codes. OCC 2026-13 provides non-binding guidance on this translation.",
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",

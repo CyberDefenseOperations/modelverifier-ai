@@ -399,13 +399,12 @@ curl https://modelverifier.ai/integration/model-controls-full.json \
   <p>Each control has a stable <code>id</code> (<code>LI-01</code> through <code>CR-08</code>) that is never reused. The <code>canonical_id</code> is the globally unique cross-domain identifier: <code>apeiris://model/controls/LI-01</code>.</p>
 
   <div class="warn-box">
-    <strong>Build warnings:</strong> The current dataset sets <code>dataset.meta.has_warnings: true</code>
-    with <code>warning_count: N</code> (35 in the 1.0 build — primarily BH and CR layer mappings
-    not yet present in all frameworks) but does not yet emit a structured <code>warnings[]</code> array.
-    API consumers should check <code>has_warnings</code> and treat it as a signal to consult the
-    <a href="/integration/release-manifest.json" style="color:var(--warn)">release manifest</a> for details.
+    <strong>Build warnings:</strong> The current dataset sets <code>dataset.meta.has_warnings: false</code>
+    with <code>warning_count: 0</code>. Framework gap warnings from the initial 1.0 build — primarily
+    BH and CR layer mappings not yet present in all frameworks — have been resolved in the current release.
+    All 6 layers now have complete NIST RMF and ISO 42001 mappings on every control.
     A typed <code>warnings[]</code> block (severity, object_path, message, remediation, blocks_release)
-    is on the v1.1 data schema roadmap.
+    is on the v1.1 data schema roadmap for future use when warnings are present.
   </div>
 
   <div class="section-divider"></div>
@@ -509,12 +508,12 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
       <tr><td>llm10</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP LLM Top 10 2025 v2.0</td></tr>
       <tr><td>aicm</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>CSA AI Controls Matrix v1.1 (247 objectives, 18 domains — released 2026-06-22)</td></tr>
       <tr><td>mitre</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>MITRE ATLAS v5.6.0</td></tr>
-      <tr><td>owasp_aitg</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Testing Guide v1 — structured test procedures mapped across all 6 layers (pre-release; mapping_confidence: medium)</td></tr>
+      <tr><td>owasp_aitg</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Testing Guide v1 — structured test procedures mapped across all 6 layers (pre-release; mapping_confidence: medium; fit values: direct / supporting / adjacent)</td></tr>
     </tbody>
   </table>
 
   <div class="notice">
-    <strong>NIST AI 600-1 (live as of 2026-06-26):</strong> Now a first-class framework key. Controls in the EV, BH, and TG layers carry <code>nist_ai_600_1</code> mappings referencing the eight GenAI risk categories (CONFABULATION, CBRN, DATA-PRIVACY, INFO-INTEGRITY, INFO-SECURITY, IP, HUMAN-AI-CONFIG, OBSCENE-DEGRADING). Initial mappings target the risk-category level; action-level granularity within each category is planned for the next authoring cycle.<br><br>
+    <strong>NIST AI 600-1 (live as of 2026-06-26):</strong> Now a first-class framework key. Controls in the EV, BH, and TG layers carry <code>nist_ai_600_1</code> mappings referencing the eight GenAI risk categories (CONFABULATION, CBRN, DATA-PRIVACY, INFO-INTEGRITY, INFO-SECURITY, IP, HUMAN-AI-CONFIG, OBSCENE-DEGRADING). All <code>nist_ai_600_1</code> mappings are <strong>provisional</strong> — category-level only; action-level IDs within each category have not been published by NIST. Each entry carries <code>provisional: true</code> and a <code>provisional_note</code>. Action-level granularity is planned for the next authoring cycle once NIST publishes sub-category identifiers.<br><br>
     <strong>AICM v1.1 (June 22, 2026):</strong> Framework catalog updated to v1.1 (247 control objectives, 18 domains). Existing AICM mapping IDs authored against v1.0.3 — validate locators against the v1.1 document before relying on specific control IDs in downstream tooling.<br><br>
     <strong>EU AI Act Omnibus:</strong> Obligation objects now carry <code>enforcement_gating</code> metadata indicating the date basis (AI Act 2024/1689 as proposed to be amended by Digital Omnibus, provisional agreement May 2026, Council adoption pending) and legal status. The Dec 2, 2027 date for standalone Annex III systems is provisional pending final adoption.<br><br>
     <strong>SR 26-2 scope:</strong> Supervisory guidance, not binding law. Non-compliance will not result in supervisory criticism on its own. Applies to supervised banking organizations with heightened expectations based on size, complexity, and model risk profile.
