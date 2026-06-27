@@ -82,9 +82,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -99,7 +99,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -165,14 +165,14 @@
     },
     "validation": {
       "design_check": [
-        "Pipeline configuration enforces evaluation gate as a blocking stage with no undocumented bypass path; gate failure produces an auditable rejection record. [ref:nist_rmf_v1]",
+        "Pipeline configuration enforces evaluation gate as a blocking stage with no undocumented bypass path; gate failure produces an auditable rejection record. [ref:nist_ai_rmf_1_0]",
         "Evaluation manifest schema includes required fields: model_artifact_hash, eval_suite_version, eval_suite_hash, run_timestamp, environment_spec, approver_ids, gate_result. [ref:iso_42001_2023]",
         "Signing infrastructure uses non-repudiable, individually attributed key material (HSM-backed or equivalent); shared signing keys are prohibited. [ref:iso_42001_2023]",
         "Retention policy for evaluation manifests meets or exceeds the longer of: operational model lifetime or applicable regulatory minimum for each jurisdiction in scope. [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
         "{'test': 'Attempt a deployment without a valid signed evaluation manifest and verify the pipeline blocks with an auditable rejection record containing the attempted artifact hash.', 'unverified': True} [unverified]",
-        "{'test': 'Verify that the model artifact hash embedded in the evaluation manifest exactly matches the hash of the artifact being promoted to production.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'test': 'Verify that the model artifact hash embedded in the evaluation manifest exactly matches the hash of the artifact being promoted to production.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Confirm that evaluation manifests appear in the tamper-evident log and that log integrity verification (inclusion proof) passes for each manifest.', 'unverified': True} [unverified]"
       ],
       "evidence": [
@@ -262,7 +262,9 @@
         "rationale": "AI Control Matrix general governance controls align with the requirement for documented deployment decisions.",
         "uncovered_portion": "AICM does not specify technical gate enforcement or signing requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -339,9 +341,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -356,7 +358,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -434,19 +436,19 @@
     },
     "validation": {
       "design_check": [
-        "Evaluation protocol document pre-specifies thresholds for each dimension before evaluation runs begin; thresholds are version-controlled and signed. [ref:nist_rmf_v1]",
+        "Evaluation protocol document pre-specifies thresholds for each dimension before evaluation runs begin; thresholds are version-controlled and signed. [ref:nist_ai_rmf_1_0]",
         "Evaluation datasets are versioned, provenance-documented, and verified as disjoint from training data before evaluation. [ref:iso_42001_2023]",
         "Safety evaluation scenarios cover the prohibited-output categories defined in the deployment use-case policy. [ref:eu_ai_act_2024]",
         "For generative-ai profile: refusal-rate evaluation is included with explicit refusal thresholds per policy-violating prompt category. [ref:owasp_llm10_2025]"
       ],
       "runtime_test": [
-        "{'test': 'Run the evaluation suite on a known-deficient model variant and confirm that each failing dimension produces an explicit fail record that blocks the gate.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'test': 'Run the evaluation suite on a known-deficient model variant and confirm that each failing dimension produces an explicit fail record that blocks the gate.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Verify that evaluation environment configuration matches production serving configuration for all relevant parameters (hardware, serving framework version, quantization).', 'unverified': True} [unverified]",
         "{'test': 'Confirm that dimension-level results are recorded independently and that a safety dimension failure cannot be overridden by fitness dimension pass.', 'unverified': True} [unverified]"
       ],
       "evidence": [
         "{'artifact': 'Pre-specified evaluation protocol document with per-dimension thresholds, signed before evaluation execution.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': 'Dimension-level evaluation results linked to the model artifact hash and evaluation suite version.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Dimension-level evaluation results linked to the model artifact hash and evaluation suite version.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Dataset provenance records confirming training-evaluation disjointness.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
         "{'artifact': 'Risk-acceptance records for any dimension threshold trade-off decisions.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]"
       ]
@@ -532,7 +534,9 @@
         "rationale": "AICM EV-1 aligns with structured model evaluation before deployment.",
         "uncovered_portion": "AICM does not specify dimension isolation or pre-specified threshold requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -880,7 +884,9 @@
         "direction": "out-of-scope",
         "rationale": "AI Control Matrix does not currently include frontier dangerous capability assessment controls.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -1007,7 +1013,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "voluntary-standard",
         "license": "CC BY 4.0",
@@ -1051,9 +1057,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -1103,8 +1109,8 @@
     "validation": {
       "design_check": [
         "Red-team scope document and threat model are version-controlled and approved before exercise begins; scope covers AML.T0051 (prompt injection) for generative-AI and hosted-API profiles. [ref:mitre_atlas_v5_6_0]",
-        "Red-team team composition confirms independence from model development team; team includes domain experts for the deployment context. [ref:nist_rmf_v1]",
-        "Finding severity classification criteria are defined and documented before the exercise begins; criteria are not modified post-exercise. [ref:nist_rmf_v1]",
+        "Red-team team composition confirms independence from model development team; team includes domain experts for the deployment context. [ref:nist_ai_rmf_1_0]",
+        "Finding severity classification criteria are defined and documented before the exercise begins; criteria are not modified post-exercise. [ref:nist_ai_rmf_1_0]",
         "For EU-scope GPAI models: red-team exercise satisfies Art. 55(1)(a) adversarial testing requirements. [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
@@ -1113,9 +1119,9 @@
         "{'test': 'For a model with a known exploitable failure mode: confirm the red-team exercise correctly identifies and documents it.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'Signed red-team scope and threat model document, version-controlled, approved before exercise.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Signed red-team scope and threat model document, version-controlled, approved before exercise.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Red-team findings log with severity classifications, reproduction steps, affected populations, and remediation status.', 'ref': 'owasp_aisvs_v1'} [ref:owasp_aisvs_v1]",
-        "{'artifact': 'Signed red-team report with residual risk statement, linked to the model artifact hash.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Signed red-team report with residual risk statement, linked to the model artifact hash.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Evidence of remediation for all critical and high findings, including re-test results.', 'unverified': True} [unverified]",
         "{'artifact': 'For frontier-capability profile: escalation records for any capability elicited that approaches threshold levels.', 'ref': 'mitre_atlas_v5_6_0'} [ref:mitre_atlas_v5_6_0]"
       ]
@@ -1201,7 +1207,9 @@
         "rationale": "AICM adversarial testing controls align with structured red-team exercise requirements.",
         "uncovered_portion": "AICM does not specify threat model documentation or deployment gate integration.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -1374,7 +1382,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1387,9 +1395,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -1445,12 +1453,12 @@
       ],
       "runtime_test": [
         "{'test': 'Run the fairness evaluation suite on a model variant with a known synthetic disparity and confirm that the disparity is correctly detected and exceeds the defined threshold.', 'unverified': True} [unverified]",
-        "{'test': 'Verify that disaggregated performance metrics are reported per population group independently, not only as aggregate metrics.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'test': 'Verify that disaggregated performance metrics are reported per population group independently, not only as aggregate metrics.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Confirm that evaluation data for each population group is disjoint from training data.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
       ],
       "evidence": [
         "{'artifact': 'Fairness evaluation protocol document with pre-specified populations, harms, metrics, rationale, legal basis, and thresholds.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]",
-        "{'artifact': 'Disaggregated evaluation results per population group and harm type, linked to model artifact hash.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Disaggregated evaluation results per population group and harm type, linked to model artifact hash.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Trade-off decision record with explicit rationale and risk-acceptance sign-off.', 'unverified': True} [unverified]",
         "{'artifact': 'Legal review record for deployments involving legally protected characteristics.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]",
         "{'artifact': 'ISO 42005:2025 impact assessment record for high-impact-decision and eu-high-risk profiles.', 'ref': 'iso_42005_2025'} [ref:iso_42005_2025]"
@@ -1537,7 +1545,9 @@
         "rationale": "AICM bias and fairness assessment controls align with structured fairness evaluation requirements.",
         "uncovered_portion": "AICM does not specify pre-specification of thresholds or metric trade-off documentation requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -1673,9 +1683,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -1690,7 +1700,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1754,18 +1764,18 @@
     },
     "validation": {
       "design_check": [
-        "Benchmark selection criteria are documented and version-controlled before any evaluation run begins; selection is pre-specified, not post-hoc. [ref:nist_rmf_v1]",
+        "Benchmark selection criteria are documented and version-controlled before any evaluation run begins; selection is pre-specified, not post-hoc. [ref:nist_ai_rmf_1_0]",
         "Contamination screening methodology is documented and applied to all benchmarks before final selection; contaminated benchmarks are excluded or flagged. [ref:nist_ai_600_1]",
         "Evaluation design document captures all parameters required for reproduction at sufficient granularity for independent replication. [ref:iso_42001_2023]",
         "All evaluation artifacts are signed with individually attributed key material and their hashes are recorded in the evaluation manifest. [ref:iso_42001_2023]"
       ],
       "runtime_test": [
-        "{'test': 'Conduct an independent reproduction run using only the design document as input; verify results match within the defined tolerance.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'test': 'Conduct an independent reproduction run using only the design document as input; verify results match within the defined tolerance.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Verify that the evaluation script hash recorded in the manifest matches the hash of the script used in the current run.', 'unverified': True} [unverified]",
         "{'test': 'Confirm that contamination screening results are present for each benchmark and that contaminated benchmarks are absent from the final evaluation suite.', 'ref': 'nist_ai_600_1'} [ref:nist_ai_600_1]"
       ],
       "evidence": [
-        "{'artifact': 'Version-controlled, signed benchmark selection document with pre-specified selection criteria.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Version-controlled, signed benchmark selection document with pre-specified selection criteria.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Contamination screening report documenting methodology, training corpus reference, and benchmark-level results.', 'ref': 'nist_ai_600_1'} [ref:nist_ai_600_1]",
         "{'artifact': 'Evaluation design document capturing all reproduction parameters, version-controlled and signed.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
         "{'artifact': 'Independent reproduction run results within tolerance, confirming design document sufficiency.', 'unverified': True} [unverified]",
@@ -1852,7 +1862,9 @@
         "rationale": "AICM evaluation integrity controls align with reproducible design requirements.",
         "uncovered_portion": "AICM does not specify contamination screening or artifact signing.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -1980,9 +1992,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -1997,7 +2009,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2180,19 +2192,19 @@
     },
     "validation": {
       "design_check": [
-        "Regression suite is defined, versioned, and covers safety scenarios, alignment scenarios (generative-AI profile), and known failure modes from prior red-team exercises. [ref:nist_rmf_v1]",
+        "Regression suite is defined, versioned, and covers safety scenarios, alignment scenarios (generative-AI profile), and known failure modes from prior red-team exercises. [ref:nist_ai_rmf_1_0]",
         "Pipeline configuration triggers regression evaluation automatically on all defined update types with no manual bypass path except documented exception. [ref:iso_42001_2023]",
         "Safety regression threshold is documented as zero-tolerance; the pipeline blocks on any non-zero safety_regression_rate without manual override. [ref:eu_ai_act_2024]",
         "Signed baseline artifact is version-locked and cannot be updated without a successful regression evaluation pass. [ref:iso_42001_2023]"
       ],
       "runtime_test": [
         "{'test': 'Introduce a synthetic safety regression in a test model variant and verify the pipeline blocks promotion with an auditable blocking record.', 'unverified': True} [unverified]",
-        "{'test': 'Verify that the regression manifest references both the updated model artifact hash and the signed baseline artifact hash.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'test': 'Verify that the regression manifest references both the updated model artifact hash and the signed baseline artifact hash.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Confirm that sampling (if used for capability metrics) meets the defined minimum coverage threshold and is documented consistently.', 'unverified': True} [unverified]"
       ],
       "evidence": [
         "{'artifact': 'Versioned regression evaluation suite artifact with signed hash.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': 'Signed regression manifests for each update event, linked to updated artifact hash, baseline artifact hash, and regression suite version.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Signed regression manifests for each update event, linked to updated artifact hash, baseline artifact hash, and regression suite version.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Signed baseline evaluation results for each production model version.', 'ref': 'sr262_2026'} [ref:sr262_2026]",
         "{'artifact': 'Blocking records for any regression finding, including root-cause analysis for safety regressions.', 'unverified': True} [unverified]",
         "{'artifact': 'Risk-acceptance records for sub-threshold capability regression findings with time-bound remediation commitments.', 'ref': 'sr262_2026'} [ref:sr262_2026]"
@@ -2279,7 +2291,9 @@
         "rationale": "AICM regression testing controls align with structured regression evaluation on model updates.",
         "uncovered_portion": "AICM does not specify monitoring schema structure or safety regression zero-tolerance policy.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -2502,7 +2516,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2515,9 +2529,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -2553,7 +2567,7 @@
       "design_check": [
         "Organizational chart confirms that model validators do not report to the same management chain as model developers for in-scope models. [ref:sr262_2026]",
         "Validation function authority is documented in policy: right to request additional evaluation, require remediation, and withhold authorization. [ref:sr262_2026]",
-        "Evaluation manifests contain named, attributed validator approval that is distinct from the development team lead identity. [ref:nist_rmf_v1]",
+        "Evaluation manifests contain named, attributed validator approval that is distinct from the development team lead identity. [ref:nist_ai_rmf_1_0]",
         "Escalation path for validation disputes routes to a governance committee independent of the development management chain. [ref:iso_42001_2023]"
       ],
       "runtime_test": [
@@ -2564,7 +2578,7 @@
       "evidence": [
         "{'artifact': 'Organizational chart and reporting structure documentation confirming validator independence from development function.', 'ref': 'sr262_2026'} [ref:sr262_2026]",
         "{'artifact': 'Validation function authority policy document, version-controlled and approved by governance committee.', 'ref': 'sr262_2026'} [ref:sr262_2026]",
-        "{'artifact': 'Evaluation manifests with named, attributed validator approvals distinct from development team lead.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Evaluation manifests with named, attributed validator approvals distinct from development team lead.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Validation dispute log (if any) confirming escalation to governance committee.', 'unverified': True} [unverified]",
         "{'artifact': 'Annual independence structure review documentation for us-regulated-banking profile.', 'ref': 'sr262_2026'} [ref:sr262_2026]"
       ]
@@ -2649,7 +2663,9 @@
         "rationale": "AICM separation of duties controls align with independent validation requirements.",
         "uncovered_portion": "AICM does not specify the organizational depth of independence required for effective challenge.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -2834,7 +2850,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2862,9 +2878,9 @@
         "published_on": "2025-05-01"
       },
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -3009,7 +3025,9 @@
         "rationale": "AICM risk classification controls align with the structured classification process.",
         "uncovered_portion": "AICM does not specify EU AI Act Article 6 / Annex III classification methodology.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -3121,7 +3139,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -3134,9 +3152,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_rmf_v1",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://airc.nist.gov/RMF",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -3177,14 +3195,14 @@
         "Retention policy for signed result artifacts meets or exceeds the longer of: operational model lifetime or applicable regulatory minimum per jurisdiction. [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
-        "{'test': 'Given a deployed model artifact hash, traverse the provenance chain to the evaluation result and verify all signatures and inclusion proofs in the tamper-evident log.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'test': 'Given a deployed model artifact hash, traverse the provenance chain to the evaluation result and verify all signatures and inclusion proofs in the tamper-evident log.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Attempt to modify a stored evaluation result artifact and verify that the tamper-evident log detects the modification (inclusion proof verification fails).', 'unverified': True} [unverified]",
         "{'test': 'Verify that the deployment gate rejects a manifest where the referenced evaluation result artifact cannot be found in the tamper-evident log or where inclusion proof verification fails.', 'unverified': True} [unverified]",
         "{'test': 'Confirm that signer identity in evaluation result artifacts can be independently verified via PKI or equivalent directory lookup.', 'ref': 'sr262_2026'} [ref:sr262_2026]"
       ],
       "evidence": [
         "{'artifact': 'Signed, content-addressed evaluation result artifacts for each evaluation run, stored in the tamper-evident log with inclusion proofs.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': 'Provenance chain traversal records demonstrating machine-verifiable linkage from model artifact to deployment decision for each production model version.', 'ref': 'nist_rmf_v1'} [ref:nist_rmf_v1]",
+        "{'artifact': 'Provenance chain traversal records demonstrating machine-verifiable linkage from model artifact to deployment decision for each production model version.', 'ref': 'nist_rmf_v1'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Tamper-evident log integrity verification records (inclusion proofs) for all evaluation result submissions.', 'unverified': True} [unverified]",
         "{'artifact': 'Retention compliance records confirming artifact availability for the required retention period.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]",
         "{'artifact': 'For eu-high-risk profile: record-keeping compliance assessment per EU AI Act Art. 12 and Art. 18.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]"
@@ -3284,7 +3302,9 @@
         "rationale": "AICM evaluation records controls align with content-addressed, signed evaluation result provenance requirements.",
         "uncovered_portion": "AICM does not specify tamper-evident log technology or provenance chain traversal tooling.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1"
+        "source_version": "1.1",
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",

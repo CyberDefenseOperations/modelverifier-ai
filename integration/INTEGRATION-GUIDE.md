@@ -220,7 +220,7 @@ for that specific framework-requirement pair.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `framework` | string | One of 8 canonical framework keys |
+| `framework` | string | One of 10 canonical framework keys |
 | `requirement_id` | string | Framework-specific requirement identifier |
 | `fit` | string | `direct`, `partial`, `adjacent`, `supporting`, or `none` |
 | `direction` | string | `control-supports-requirement`, `bidirectional`, etc. |
@@ -239,7 +239,7 @@ for that specific framework-requirement pair.
 ### 3.3 `references`
 
 Deduplicated array of all source documents cited across the 54 controls.
-One entry per unique `id` (e.g., `nist_rmf_100_1`, `sr_26_2`, `owasp_aisvs_v1`).
+One entry per unique `id` (e.g., `nist_ai_rmf_1_0`, `sr262_2026`, `owasp_aisvs_v1`).
 
 Each entry includes the full source metadata plus a `cited_by` array of all
 control IDs that cite the source. Use this to navigate from a source document
@@ -524,7 +524,7 @@ Rich source objects include:
 
 | Field | Description |
 |-------|-------------|
-| `id` | Stable source identifier (e.g., `nist_rmf_100_1`) |
+| `id` | Stable source identifier (e.g., `nist_ai_rmf_1_0`) |
 | `title` | Full document title |
 | `authority` | Issuing organization |
 | `source_type` | `binding-law`, `supervisory-guidance`, `voluntary-standard`, `certification-standard`, `industry-framework`, `threat-knowledge-base`, `academic-research`, `vendor-framework`, `apeiris-thesis` |
@@ -883,8 +883,8 @@ joins between the model assurance matrix and other Apeiris datasets.
 | Key | Location | Description |
 |-----|----------|-------------|
 | `control.id` | Every control record | Stable control identifier (`LI-01`, etc.). Never reused. |
-| `source.id` | `sources[]`, `references[]` | Stable source identifier (e.g., `nist_rmf_100_1`). |
-| `framework` key | `frameworks[]` mapping objects | One of 8 canonical framework keys shared across domains. |
+| `source.id` | `sources[]`, `references[]` | Stable source identifier (e.g., `nist_ai_rmf_1_0`). |
+| `framework` key | `frameworks[]` mapping objects | One of 10 canonical framework keys shared across domains. |
 | `apeiris://` URI | `cross_domain.references[].uri` | Decentralized namespace URI resolvable via namespace-registry.json. |
 | `artifact_type` | `cross_domain.evidence_artifacts[].artifact_type` | Canonical evidence artifact type (e.g., `model:registry-entry`). |
 | `profile_id` | `profiles[]` | Canonical profile identifier shared across integrators. |
@@ -1007,7 +1007,7 @@ description text is reproduced verbatim in this dataset.
 - EU AI Act: EU public sector information license
 - SR 26-2, OCC 2026-13: US Government public domain
 - OWASP LLM Top 10 2025: CC BY-SA 4.0 (requirement IDs used as locators only)
-- CSA AICM v1.0.3: CC BY-SA 4.0 (requirement IDs used as locators only)
+- CSA AICM v1.1: CC BY-SA 4.0 (requirement IDs used as locators only)
 - ISO/IEC 42001:2023: Proprietary paid — not reproduced; cited by ID only
 
 ---

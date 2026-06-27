@@ -33,9 +33,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -49,7 +49,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -61,9 +61,9 @@
         "flagship": true
       },
       {
-        "id": "atlas_v560",
+        "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -195,19 +195,19 @@
     },
     "validation": {
       "design_check": [
-        "SPC baseline was computed from a validated stable post-deployment window and stored as a versioned signed artifact. [ref:nist_rmf_1_0]",
+        "SPC baseline was computed from a validated stable post-deployment window and stored as a versioned signed artifact. [ref:nist_ai_rmf_1_0]",
         "PSI alert and critical thresholds are documented and reviewed by the model owner at minimum quarterly. [ref:iso_42001_2023]",
-        "Anomaly alert routing SLA (15 min critical, 4 hours warning) is defined in the incident response runbook. [ref:nist_rmf_1_0]",
-        "Sampled outputs pass through a PII masking pipeline before storage. [ref:nist_rmf_1_0]"
+        "Anomaly alert routing SLA (15 min critical, 4 hours warning) is defined in the incident response runbook. [ref:nist_ai_rmf_1_0]",
+        "Sampled outputs pass through a PII masking pipeline before storage. [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
-        "{'test': 'Inject a known-anomalous output batch (distribution shifted 2 sigma) and verify SPC fires within one monitoring window.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Inject a known-anomalous output batch (distribution shifted 2 sigma) and verify SPC fires within one monitoring window.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Verify sampled outputs contain no direct PII fields after the masking pipeline.', 'unverified': True} [unverified]",
         "{'test': 'Confirm anomaly events appear in evidence registry with BH-01 control linkage and required metadata.', 'unverified': True} [unverified]",
-        "{'test': 'Inject low-amplitude persistent shift (0.5 sigma over 6 hours) and verify EWMA detects it.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+        "{'test': 'Inject low-amplitude persistent shift (0.5 sigma over 6 hours) and verify EWMA detects it.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'Baseline distribution artifact with version, timestamp, and statistical parameters for current production model.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Baseline distribution artifact with version, timestamp, and statistical parameters for current production model.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification.', 'unverified': True} [unverified]",
         "{'artifact': 'Quarterly threshold review sign-off from model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
       ]
@@ -425,9 +425,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -441,7 +441,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -452,9 +452,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC",
-        "title": "SR 26-2: Model Risk Management Guidance",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
         "supersedes": [
@@ -470,9 +470,9 @@
         "flagship": true
       },
       {
-        "id": "atlas_v560",
+        "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -612,20 +612,20 @@
     ],
     "validation": {
       "design_check": [
-        "DriftReference artifact is versioned, SHA-256 signed, and stored in the model registry alongside model weights at training time. [ref:nist_rmf_1_0]",
+        "DriftReference artifact is versioned, SHA-256 signed, and stored in the model registry alongside model weights at training time. [ref:nist_ai_rmf_1_0]",
         "minimum_sample_size is configured per profile and enforced before any statistic is reported. [ref:iso_42001_2023]",
-        "Profile-conditional thresholds are documented in the drift configuration YAML and version-controlled. [ref:sr_26_2]",
-        "SR 26-2 ongoing monitoring requirement: drift detection policy and review cadence are documented in the model risk file. [ref:sr_26_2]"
+        "Profile-conditional thresholds are documented in the drift configuration YAML and version-controlled. [ref:sr262_2026]",
+        "SR 26-2 ongoing monitoring requirement: drift detection policy and review cadence are documented in the model risk file. [ref:sr262_2026]"
       ],
       "runtime_test": [
-        "{'test': 'Inject synthetic shifted feature distribution (mean offset 2 sigma on tier-1 feature) and verify drift alert fires within one window period.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Inject synthetic shifted feature distribution (mean offset 2 sigma on tier-1 feature) and verify drift alert fires within one window period.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Verify system refuses to report drift statistics when sample count < minimum_sample_size.', 'unverified': True} [unverified]",
         "{'test': 'continuously-learning profile: inject PSI=0.12 and verify online learning is suspended pending signed resume authorization.', 'unverified': True} [unverified]",
         "{'test': 'Confirm DriftReference artifact hash is validated on load before any comparison proceeds.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'DriftReference artifact for current production model with version, training date, and per-feature statistics.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
-        "{'artifact': 'Drift event log for trailing 90 days with per-feature statistics and action-taken records.', 'ref': 'sr_26_2'} [ref:sr_26_2]",
+        "{'artifact': 'DriftReference artifact for current production model with version, training date, and per-feature statistics.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
+        "{'artifact': 'Drift event log for trailing 90 days with per-feature statistics and action-taken records.', 'ref': 'sr_26_2'} [ref:sr262_2026]",
         "{'artifact': 'Monthly drift summary report signed by model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
       ]
     },
@@ -841,9 +841,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -857,7 +857,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -868,9 +868,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC",
-        "title": "SR 26-2: Model Risk Management Guidance",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
         "supersedes": [
@@ -1009,19 +1009,19 @@
     },
     "validation": {
       "design_check": [
-        "EvaluationBaseline artifact is published, signed, and stored in the model registry at every release. [ref:nist_rmf_1_0]",
+        "EvaluationBaseline artifact is published, signed, and stored in the model registry at every release. [ref:nist_ai_rmf_1_0]",
         "Alert thresholds are documented as percentage-regression-from-baseline and reviewed by the model owner at minimum quarterly. [ref:iso_42001_2023]",
-        "SR 26-2 requires performance benchmarks and monitoring thresholds be documented and reviewed annually. [ref:sr_26_2]",
+        "SR 26-2 requires performance benchmarks and monitoring thresholds be documented and reviewed annually. [ref:sr262_2026]",
         "Subgroup slice metrics are defined and included in the EvaluationBaseline artifact. [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
-        "{'test': 'Replay a degraded production stream (simulated 8% accuracy drop) and verify critical alert fires within one monitoring window.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Replay a degraded production stream (simulated 8% accuracy drop) and verify critical alert fires within one monitoring window.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Verify that an EvaluationBaseline artifact with an invalid hash is rejected by the metrics comparison service.', 'unverified': True} [unverified]",
         "{'test': 'Confirm subgroup regression alerts fire independently of aggregate metric alerts.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'EvaluationBaseline artifact for current production model version.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
-        "{'artifact': 'Alert log for trailing 90 days with root cause and remediation records.', 'ref': 'sr_26_2'} [ref:sr_26_2]",
+        "{'artifact': 'EvaluationBaseline artifact for current production model version.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
+        "{'artifact': 'Alert log for trailing 90 days with root cause and remediation records.', 'ref': 'sr_26_2'} [ref:sr262_2026]",
         "{'artifact': 'Quarterly threshold review sign-off by model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
       ]
     },
@@ -1238,9 +1238,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -1254,7 +1254,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -1266,9 +1266,9 @@
         "flagship": true
       },
       {
-        "id": "atlas_v560",
+        "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -1321,18 +1321,18 @@
     },
     "validation": {
       "design_check": [
-        "BoundaryTestSuite is version-controlled and reviewed by model owner and security team at minimum quarterly. [ref:nist_rmf_1_0]",
+        "BoundaryTestSuite is version-controlled and reviewed by model owner and security team at minimum quarterly. [ref:nist_ai_rmf_1_0]",
         "Cross-domain alert channel to securitycontrols.ai is documented and the measure-vs-enforce boundary is explicitly stated in the runbook. [ref:iso_42001_2023]",
-        "BoundaryAdherenceRate alert thresholds (95% warning, 90% critical) are documented in the model health runbook. [ref:nist_rmf_1_0]",
+        "BoundaryAdherenceRate alert thresholds (95% warning, 90% critical) are documented in the model health runbook. [ref:nist_ai_rmf_1_0]",
         "AISVS V5.2 boundary probe coverage requirements are mapped to BoundaryTestSuite categories. [ref:owasp_aisvs_v1]"
       ],
       "runtime_test": [
-        "{'test': 'Run the full BoundaryTestSuite in shadow mode and verify results are logged with correct probe_id linkage.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Run the full BoundaryTestSuite in shadow mode and verify results are logged with correct probe_id linkage.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Simulate boundary adherence drop to 88% in one category and verify critical alert fires and cross-domain notification is sent.', 'unverified': True} [unverified]",
-        "{'test': 'Verify probe inputs are not accessible via any public API or logging endpoint.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+        "{'test': 'Verify probe inputs are not accessible via any public API or logging endpoint.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'BoundaryTestSuite artifact with version and review date.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'BoundaryTestSuite artifact with version and review date.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'BoundaryAdherenceRate time-series for trailing 90 days per boundary category.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
         "{'artifact': 'Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops.', 'unverified': True} [unverified]"
       ]
@@ -1567,9 +1567,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -1583,7 +1583,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -1594,9 +1594,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC",
-        "title": "SR 26-2: Model Risk Management Guidance",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
         "supersedes": [
@@ -1629,9 +1629,9 @@
         "flagship": true
       },
       {
-        "id": "atlas_v560",
+        "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -1756,20 +1756,20 @@
     ],
     "validation": {
       "design_check": [
-        "DecisionLog schema is documented and includes all required fields: input_hash, caller_id, model_version, latency_ms. [ref:nist_rmf_1_0]",
+        "DecisionLog schema is documented and includes all required fields: input_hash, caller_id, model_version, latency_ms. [ref:nist_ai_rmf_1_0]",
         "Input masking pipeline is reviewed by the privacy team; no direct PII fields appear in stored logs. [ref:eu_ai_act_2024]",
         "Retention tiers are documented and configured in log storage, aligned to Art. 12 for EU high-risk deployments. [ref:eu_ai_act_2024]",
-        "SR 26-2 records requirement: DecisionLog configuration is included in the model risk documentation. [ref:sr_26_2]",
+        "SR 26-2 records requirement: DecisionLog configuration is included in the model risk documentation. [ref:sr262_2026]",
         "Tamper-evident mechanism (Merkle tree or equivalent) is designed and daily root hash publication is documented. [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
-        "{'test': 'Issue 100 test inferences and verify all 100 DecisionLog records appear with correct fields and no raw PII.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Issue 100 test inferences and verify all 100 DecisionLog records appear with correct fields and no raw PII.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Attempt to modify a historical log record and verify the tamper-evident mechanism raises an integrity alert.', 'unverified': True} [unverified]",
         "{'test': 'Verify output sampling rate (10% default; 100% for high-impact-decision profile) is correctly applied.', 'unverified': True} [unverified]",
-        "{'test': 'Verify caller_id resolves to human-readable identity; no raw auth tokens in logs.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+        "{'test': 'Verify caller_id resolves to human-readable identity; no raw auth tokens in logs.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'DecisionLog schema documentation with field definitions and masking policy.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'DecisionLog schema documentation with field definitions and masking policy.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Privacy review sign-off confirming no direct PII in stored logs.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]",
         "{'artifact': 'Retention policy configuration and automated deletion audit log.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
         "{'artifact': 'Daily Merkle root hash publication log for trailing 90 days.', 'unverified': True} [unverified]"
@@ -1963,9 +1963,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -1978,9 +1978,9 @@
         "flagship": true
       },
       {
-        "id": "owasp_llm_top10_2025",
+        "id": "owasp_llm10_2025",
         "authority": "OWASP",
-        "title": "OWASP LLM Top 10 2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
         "source_type": "voluntary-standard",
         "license": "CC-BY-SA-4.0",
@@ -1992,9 +1992,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "atlas_v560",
+        "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -2047,21 +2047,21 @@
     },
     "validation": {
       "design_check": [
-        "InjectionProbeLibrary is version-controlled and includes probes from at least three attack categories (direct, indirect, jailbreak). [ref:atlas_v560]",
-        "Cross-domain alert channel to securitycontrols.ai is documented and the measure-vs-enforce boundary is explicitly stated in the runbook. [ref:nist_rmf_1_0]",
-        "InjectionResistanceScore thresholds (90% warning, 80% critical) are documented. [ref:nist_rmf_1_0]",
+        "InjectionProbeLibrary is version-controlled and includes probes from at least three attack categories (direct, indirect, jailbreak). [ref:mitre_atlas_v5_6_0]",
+        "Cross-domain alert channel to securitycontrols.ai is documented and the measure-vs-enforce boundary is explicitly stated in the runbook. [ref:nist_ai_rmf_1_0]",
+        "InjectionResistanceScore thresholds (90% warning, 80% critical) are documented. [ref:nist_ai_rmf_1_0]",
         "AISVS V5.1 and V5.3 probe coverage requirements are mapped to InjectionProbeLibrary categories. [ref:owasp_aisvs_v1]"
       ],
       "runtime_test": [
-        "{'test': 'Run the full InjectionProbeLibrary against the production endpoint and verify InjectionResistanceScore is computed and published to the health dashboard.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
+        "{'test': 'Run the full InjectionProbeLibrary against the production endpoint and verify InjectionResistanceScore is computed and published to the health dashboard.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]",
         "{'test': 'Simulate resistance drop to 78% in the jailbreak category and verify critical alert fires and cross-domain notification is sent.', 'unverified': True} [unverified]",
         "{'test': 'Verify probe runs do not appear in operational traffic metrics (probe identity correctly filtered).', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'InjectionProbeLibrary artifact with version, category coverage, and last review date.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
-        "{'artifact': 'InjectionResistanceScore time-series for trailing 90 days per attack category.', 'ref': 'owasp_llm_top10_2025'} [ref:owasp_llm_top10_2025]",
+        "{'artifact': 'InjectionProbeLibrary artifact with version, category coverage, and last review date.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]",
+        "{'artifact': 'InjectionResistanceScore time-series for trailing 90 days per attack category.', 'ref': 'owasp_llm_top10_2025'} [ref:owasp_llm10_2025]",
         "{'artifact': 'Cross-domain alert log showing securitycontrols.ai notifications.', 'unverified': True} [unverified]",
-        "{'artifact': 'Monthly InjectionResistanceScore trend report to governance board.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]"
+        "{'artifact': 'Monthly InjectionResistanceScore trend report to governance board.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]"
       ]
     },
     "lenses": {
@@ -2279,9 +2279,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -2294,9 +2294,9 @@
         "flagship": true
       },
       {
-        "id": "owasp_llm_top10_2025",
+        "id": "owasp_llm10_2025",
         "authority": "OWASP",
-        "title": "OWASP LLM Top 10 2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
         "source_type": "voluntary-standard",
         "license": "CC-BY-SA-4.0",
@@ -2308,9 +2308,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "atlas_v560",
+        "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -2446,18 +2446,18 @@
     },
     "validation": {
       "design_check": [
-        "CostEvent schema is documented and includes all required fields: caller_id, model_id, input_tokens, output_tokens, cost_usd_estimated. [ref:nist_rmf_1_0]",
-        "Per-caller budget caps are defined, documented, and enforced in serving infrastructure configuration. [ref:nist_rmf_1_0]",
-        "EWMA smoothing parameters are documented; false positive rate is evaluated against 30 days of historical data. [ref:nist_rmf_1_0]",
+        "CostEvent schema is documented and includes all required fields: caller_id, model_id, input_tokens, output_tokens, cost_usd_estimated. [ref:nist_ai_rmf_1_0]",
+        "Per-caller budget caps are defined, documented, and enforced in serving infrastructure configuration. [ref:nist_ai_rmf_1_0]",
+        "EWMA smoothing parameters are documented; false positive rate is evaluated against 30 days of historical data. [ref:nist_ai_rmf_1_0]",
         "AISVS V8.2 resource control requirements are reviewed against the budget guardrail implementation. [ref:owasp_aisvs_v1]"
       ],
       "runtime_test": [
-        "{'test': 'Simulate a 6x cost spike (automated high-volume requests) and verify critical alert fires within one monitoring window with correct caller attribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Simulate a 6x cost spike (automated high-volume requests) and verify critical alert fires within one monitoring window with correct caller attribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Verify per-caller hard stop triggers at 120% of monthly cap and caller receives notification.', 'unverified': True} [unverified]",
-        "{'test': 'Confirm cost spikes correlated with high call volume (potential AML.T0024 pattern) are routed to securitycontrols.ai.', 'ref': 'atlas_v560'} [ref:atlas_v560]"
+        "{'test': 'Confirm cost spikes correlated with high call volume (potential AML.T0024 pattern) are routed to securitycontrols.ai.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'CostEvent time-series for trailing 90 days with per-caller attribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'CostEvent time-series for trailing 90 days with per-caller attribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Alert log for cost anomalies with root cause and resolution records.', 'unverified': True} [unverified]",
         "{'artifact': 'Budget cap configuration document reviewed by finance operations and model owner.', 'unverified': True} [unverified]"
       ]
@@ -2642,9 +2642,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -2658,7 +2658,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -2669,9 +2669,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC",
-        "title": "SR 26-2: Model Risk Management Guidance",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
         "supersedes": [
@@ -2708,19 +2708,19 @@
     "validation": {
       "design_check": [
         "Deployment pipeline configuration documents all four stages with authorization gate requirements. [ref:iso_42001_2023]",
-        "Canary exit criteria and rollback trigger thresholds are pre-defined in deployment configuration before any rollout begins. [ref:nist_rmf_1_0]",
-        "SR 26-2 deployment controls requirement: DeploymentGovernanceLog satisfies the documented procedures requirement. [ref:sr_26_2]",
-        "Shadow comparison scoring methodology references the current EvaluationBaseline artifact. [ref:nist_rmf_1_0]"
+        "Canary exit criteria and rollback trigger thresholds are pre-defined in deployment configuration before any rollout begins. [ref:nist_ai_rmf_1_0]",
+        "SR 26-2 deployment controls requirement: DeploymentGovernanceLog satisfies the documented procedures requirement. [ref:sr262_2026]",
+        "Shadow comparison scoring methodology references the current EvaluationBaseline artifact. [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
-        "{'test': 'Run a canary deployment with simulated 9% metric regression; verify auto-rollback triggers within 5 minutes.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Run a canary deployment with simulated 9% metric regression; verify auto-rollback triggers within 5 minutes.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Verify canary cannot advance to progressive rollout without a signed authorization artifact from the model owner.', 'unverified': True} [unverified]",
         "{'test': 'Confirm shadow comparison report is generated and stored before any canary authorization gate is presented.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'DeploymentGovernanceLog for all production deployments in trailing 12 months.', 'ref': 'sr_26_2'} [ref:sr_26_2]",
+        "{'artifact': 'DeploymentGovernanceLog for all production deployments in trailing 12 months.', 'ref': 'sr_26_2'} [ref:sr262_2026]",
         "{'artifact': 'Signed authorization artifacts for each canary deployment.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': 'Shadow comparison reports with output divergence metrics for each deployment.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'Shadow comparison reports with output divergence metrics for each deployment.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Rollback event log with trigger condition and resolution time.', 'unverified': True} [unverified]"
       ]
     },
@@ -2986,9 +2986,9 @@
         "flagship": true
       },
       {
-        "id": "owasp_llm_top10_2025",
+        "id": "owasp_llm10_2025",
         "authority": "OWASP",
-        "title": "OWASP LLM Top 10 2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
         "source_type": "voluntary-standard",
         "license": "CC-BY-SA-4.0",
@@ -3000,9 +3000,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -3119,7 +3119,7 @@
     },
     "validation": {
       "design_check": [
-        "The generative-ai profile is assigned and confirmed by the model owner before BH-09 is implemented. [ref:nist_rmf_1_0]",
+        "The generative-ai profile is assigned and confirmed by the model owner before BH-09 is implemented. [ref:nist_ai_rmf_1_0]",
         "C2PA signing certificate is issued, stored in the key management system, and has a defined rotation schedule. [ref:c2pa_spec_v2]",
         "EU AI Act Art. 50 disclosure requirements are mapped to specific implementation points in the application architecture. [ref:eu_ai_act_2024]",
         "NIST AI 100-4 watermarking approach selection is documented with rationale per output modality. [ref:nist_ai_100_4]"
@@ -3315,9 +3315,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
@@ -3331,7 +3331,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -3342,9 +3342,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC",
-        "title": "SR 26-2: Model Risk Management Guidance",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "license": "public_domain",
         "supersedes": [
@@ -3360,9 +3360,9 @@
         "flagship": true
       },
       {
-        "id": "atlas_v560",
+        "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -3375,9 +3375,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "owasp_llm_top10_2025",
+        "id": "owasp_llm10_2025",
         "authority": "OWASP",
-        "title": "OWASP LLM Top 10 2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
         "source_type": "voluntary-standard",
         "license": "CC-BY-SA-4.0",
@@ -3434,26 +3434,26 @@
     },
     "validation": {
       "design_check": [
-        "RLHF/RLAIF labeler quality controls including IRR monitoring (Cohen's Kappa) are documented and the Kappa=0.6 alert threshold is configured. [ref:nist_rmf_1_0]",
+        "RLHF/RLAIF labeler quality controls including IRR monitoring (Cohen's Kappa) are documented and the Kappa=0.6 alert threshold is configured. [ref:nist_ai_rmf_1_0]",
         "Online learning authorization gate is implemented and requires a signed artifact before any production model weight update. [ref:iso_42001_2023]",
-        "Feedback poisoning detection pipeline is designed with PSI threshold (0.2) for label distribution anomalies. [ref:atlas_v560]",
-        "SR 26-2 ongoing monitoring: model updates driven by feedback loops are subject to model risk management controls; FeedbackGovernanceLog satisfies the documentation requirement. [ref:sr_26_2]",
+        "Feedback poisoning detection pipeline is designed with PSI threshold (0.2) for label distribution anomalies. [ref:mitre_atlas_v5_6_0]",
+        "SR 26-2 ongoing monitoring: model updates driven by feedback loops are subject to model risk management controls; FeedbackGovernanceLog satisfies the documentation requirement. [ref:sr262_2026]",
         "Self-reinforcing error monitoring mechanism is designed with a defined correlation threshold that triggers the circuit breaker. [ref:iso_42001_2023]",
         "AISVS V7.2 feedback integrity requirements are reviewed against implemented controls. [ref:owasp_aisvs_v1]"
       ],
       "runtime_test": [
-        "{'test': 'Inject a batch of adversarially uniform labels (all positive) from a small set of labeler_ids and verify feedback poisoning detection fires within one monitoring window.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
-        "{'test': 'Attempt to apply an online learning update without a signed authorization artifact and verify the update is rejected and logged.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Inject a batch of adversarially uniform labels (all positive) from a small set of labeler_ids and verify feedback poisoning detection fires within one monitoring window.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]",
+        "{'test': 'Attempt to apply an online learning update without a signed authorization artifact and verify the update is rejected and logged.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Simulate IRR drop to Kappa=0.5 and verify the alert fires with labeler_id attribution.', 'unverified': True} [unverified]",
-        "{'test': 'Run reward hacking probe: submit semantically degenerate outputs and verify reward model health monitor detects the abnormal score distribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'test': 'Run reward hacking probe: submit semantically degenerate outputs and verify reward model health monitor detects the abnormal score distribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'test': 'Simulate self-reinforcing error pattern (output-to-label correlation exceeding threshold) and verify circuit breaker suspends online learning.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]",
+        "{'artifact': 'FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
         "{'artifact': 'Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
         "{'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
-        "{'artifact': 'Feedback poisoning detection alert log for trailing 90 days.', 'ref': 'atlas_v560'} [ref:atlas_v560]",
-        "{'artifact': 'Reward model health report showing reward score distribution vs. training-time baseline.', 'ref': 'nist_rmf_1_0'} [ref:nist_rmf_1_0]"
+        "{'artifact': 'Feedback poisoning detection alert log for trailing 90 days.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]",
+        "{'artifact': 'Reward model health report showing reward score distribution vs. training-time baseline.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]"
       ]
     },
     "lenses": {
