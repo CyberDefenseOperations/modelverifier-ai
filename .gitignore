@@ -24,3 +24,9 @@ integration/framework-index.json
 # Cloudflare
 .dev.vars
 wrangler.toml.local
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
