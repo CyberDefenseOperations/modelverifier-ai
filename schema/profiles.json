@@ -117,6 +117,65 @@
       }
     },
     {
+      "profile_id": "multimodal",
+      "name": "Multimodal AI System",
+      "description": "AI systems that process non-text inputs (images, audio, video, documents) or generate outputs across multiple modalities. Includes vision-language models (VLMs), audio-language models, video understanding systems, document AI, and any model where non-text modalities create a meaningful attack surface or data governance obligation. The generative-ai profile addresses output generation risks; this profile addresses the distinct risks that arise from non-text input processing: cross-modal jailbreaks (image or audio inputs bypassing text-layer safety filters), indirect prompt injection via OCR'd document content, visual PII and biometric data in training corpora, audio deepfake generation, and cross-modal hallucination (false descriptions of visual content). Multimodal evaluation must test adversarial inputs across all active modalities, not only text.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "assurance_target.model_paradigm",
+            "op": "eq",
+            "value": "multimodal"
+          },
+          {
+            "field": "assurance_target.input_modalities",
+            "op": "contains-any",
+            "value": ["image", "audio", "video", "document"]
+          },
+          {
+            "field": "assurance_target.output_modalities",
+            "op": "contains-any",
+            "value": ["image", "audio", "video"]
+          }
+        ]
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "TG-01",
+        "TG-06",
+        "EV-01",
+        "EV-02",
+        "EV-04",
+        "OA-01",
+        "BH-04",
+        "BH-09"
+      ],
+      "recommended_controls": [
+        "LI-06",
+        "TG-03",
+        "TG-05",
+        "EV-06",
+        "EV-07",
+        "EV-09",
+        "OA-07",
+        "BH-05",
+        "CR-01",
+        "CR-02"
+      ],
+      "profile_specific_notes": {
+        "cross_modal_attack_surface": "The primary risk this profile addresses is cross-modal policy bypass: adversarial content embedded in images, audio, or documents that causes the model to behave in ways that text-only safety evaluation would not predict or detect. EV-04 (adversarial red-team testing) must include modality-specific attack vectors — not only text jailbreaks.",
+        "EV-02": "Safety and fitness evaluation must be conducted across all active input modalities. A text-safe model is not necessarily image-safe or audio-safe. Evaluation must include cross-modal adversarial inputs: adversarial images designed to produce harmful text outputs, document-embedded injection attacks (OCR-based), and audio-based manipulation if audio input is active.",
+        "EV-04": "Red-team testing must include domain experts in relevant modalities. Cross-modal jailbreaks require different attack expertise than text-only jailbreaks. Test cases must cover: images with embedded text instructions, typographic attacks, adversarial optical patterns, indirect prompt injection via OCR'd documents, audio-based adversarial inputs, and steganographic content.",
+        "TG-06": "Non-text training data carries distinct sensitive data risks: visual content may contain biometric data (faces, fingerprints), location information (GPS EXIF data), PII in document images, or sensitive visual scenes. Audio data may contain voice biometrics and PII. The sensitive data necessity and minimization analysis (TG-06) must address all modalities present in training data.",
+        "BH-04": "Behavioral boundary enforcement must cover all output modalities, not only text. For image-generating systems: policy enforcement on generated visual content (nudity, violence, biometrics, IP-infringing styles). For audio-generating systems: deepfake voice policy enforcement, voice consent requirements. Cross-modal output policies are owned here; Security domain owns API-level enforcement.",
+        "BH-09": "Synthetic content provenance and disclosure requirements under BH-09 are especially critical for multimodal systems that generate images, audio, or video. C2PA (Coalition for Content Provenance and Authenticity) is the leading technical standard; NIST AI 100-4 covers synthetic content risk. Provenance metadata must travel with generated non-text content.",
+        "LI-04": "Technical documentation must enumerate all active modalities: input modalities accepted, output modalities generated, any modality-specific limitations (e.g., language support varies by modality), and modality-specific evaluation results. Modality-specific risk profile must be documented.",
+        "document_ai_note": "Document AI (PDF/image parsing for question answering or extraction) is a distinct multimodal pattern with specific indirect prompt injection risks — malicious content in documents can hijack the model's behavior when processed by an LLM backend. TG-05 must address document corpus contamination; EV-04 must test document-embedded injection."
+      }
+    },
+    {
       "profile_id": "hosted-api",
       "name": "Hosted API / Third-Party Model",
       "description": "Deployments where the model is accessed via an external API rather than operated directly — including commercial LLM APIs, foundation model providers, and third-party ML service vendors. Also applies to internal model-as-a-service deployments serving multiple internal consumers. Key risks: supply-chain exposure, undisclosed provider-side model updates, provider availability dependency, rate limits and unbounded consumption, and loss of reproducibility when provider changes model behavior without notice.",
@@ -394,6 +453,163 @@
       }
     },
     {
+      "profile_id": "gpai-provider",
+      "name": "GPAI Model Provider (EU AI Act Ch. V)",
+      "description": "Providers of general-purpose AI models (GPAI models) as defined in EU AI Act Art. 3(63) and regulated under Title III, Chapter V (Art. 51–55). A GPAI model is trained on broad data at scale, exhibits general-purpose capabilities, and can perform a wide range of distinct tasks — typically including foundation models and large language models. Chapter V obligations apply to organizations that develop and place GPAI models on the EU market (providers), not downstream deployers. Key obligations: technical documentation per Annex XI, copyright compliance policy, training data summary publication, and availability of documentation to downstream providers. GPAI-specific obligations became applicable 2 August 2025 — earlier than standalone Annex III high-risk enforcement. A limited open-source exception applies under Art. 53(2).",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "assurance_target.eu_ai_act_classification",
+            "op": "in",
+            "value": ["gpai-general", "gpai-systemic-risk"]
+          },
+          {
+            "field": "assurance_target.is_gpai_model",
+            "op": "eq-true"
+          }
+        ],
+        "all": [
+          {
+            "field": "assurance_target.actor_role",
+            "op": "contains",
+            "value": "provider"
+          }
+        ]
+      },
+      "enforcement_gating": {
+        "description": "GPAI model provider obligations under EU AI Act Title III, Chapter V became applicable 2025-08-02 (12 months after entry into force on 2024-08-01) — earlier than standalone Annex III high-risk system enforcement (2027-12-02). The open-source exception under Art. 53(2) reduces documentation obligations for models released under qualifying free and open-source licenses, unless the model presents systemic risk.",
+        "gpai_general_effective": "2025-08-02",
+        "gpai_systemic_risk_effective": "2025-08-02",
+        "open_source_exception": "Art-53(2)"
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "TG-01",
+        "TG-03",
+        "OA-01",
+        "OA-03"
+      ],
+      "recommended_controls": [
+        "LI-02",
+        "LI-03",
+        "LI-05",
+        "TG-05",
+        "EV-01",
+        "OA-07",
+        "CR-01",
+        "CR-02"
+      ],
+      "eu_ai_act_mapping": {
+        "LI-01": "Art-51 (Classification and notification of GPAI models with systemic risk; identity registration)",
+        "LI-04": "Art-53(1)(a) (Technical documentation per Annex XI), Art-53(1)(d) (Documentation made available to downstream providers)",
+        "TG-01": "Art-53(1)(a) (Training data governance and documentation as part of Annex XI)",
+        "TG-03": "Art-53(1)(b) (Union copyright compliance policy, text and data mining exception under Directive 2019/790 Art-4(3)), Art-53(1)(c) (Sufficiently detailed summary of training data content)",
+        "OA-01": "Art-52 (Provider accountability for GPAI model obligations)",
+        "OA-03": "Art-56 (Governance and cooperation with the AI Office)"
+      },
+      "profile_specific_notes": {
+        "actor_scope": "This profile applies to providers of GPAI models — organizations that develop GPAI models and place them on the EU market or put them into service. Downstream providers who deploy a GPAI model within their own AI system (without modifying its core parameters) are not GPAI model providers under Ch. V and instead may trigger the eu-high-risk profile if their system qualifies under Annex III.",
+        "gpai_definition": "A GPAI model (Art. 3(63)) is an AI model trained on large amounts of data using self-supervision at scale, displaying significant generality and capable of performing a wide range of distinct tasks. The classification is based on the model's characteristics and training methodology, not the deployer's specific intended use.",
+        "TG-03": "Art. 53(1)(b) requires a copyright compliance policy specifically covering the text and data mining exception under Art. 4(3) of Directive (EU) 2019/790. Art. 53(1)(c) requires public disclosure of a sufficiently detailed summary of training data content including sources and data types. These obligations apply regardless of whether the model is open-source.",
+        "LI-04": "Technical documentation for GPAI models must be prepared in accordance with Annex XI, covering: model description, training methodology, evaluation results, downstream use guidance, and information for integrating providers. For models with systemic risk, Annex XII applies additionally — see gpai-systemic-risk profile.",
+        "open_source_exception": "Under Art. 53(2), GPAI model providers releasing models under free and open-source licenses need only comply with Art. 53(1)(b) (copyright policy) and Art. 53(1)(c) (training summary) unless the model presents systemic risk. The Annex XI documentation and downstream-provider information obligations are reduced for qualifying open-source releases.",
+        "gpai_vs_high_risk": "GPAI model obligations (Ch. V–VI) and high-risk AI system obligations (Ch. III, Annex III) are distinct regulatory regimes with different subject scopes and actor roles. A GPAI model integrated into a high-risk AI system may trigger obligations under both regimes for different actors: the GPAI provider under Ch. V and the high-risk system provider under Ch. III.",
+        "effective_date_note": "GPAI-specific Title III obligations became applicable 2025-08-02 — one year after EU AI Act entry into force on 2024-08-01 — ahead of standalone Annex III high-risk enforcement (2027-12-02) and product-embedded enforcement (2028-08-02)."
+      }
+    },
+    {
+      "profile_id": "gpai-systemic-risk",
+      "name": "GPAI Model with Systemic Risk (EU AI Act Ch. VI)",
+      "description": "Providers of general-purpose AI models classified as presenting systemic risk under EU AI Act Art. 51 — models with aggregate training compute exceeding 10^25 floating-point operations (FLOPs, per Annex XIII), or models designated by the European Commission following qualitative evaluation (Art. 51(2)). Systemic risk GPAI models are subject to Chapter VI obligations (Art. 55) in addition to all Chapter V obligations applicable to GPAI providers. Chapter VI requires: model evaluation using standardized protocols and adversarial testing; systemic risk assessment and mitigation including cybersecurity risk; serious incident tracking, documentation, and reporting to the AI Office without undue delay; and adequate cybersecurity protection for the model and its infrastructure. This profile is additive to gpai-provider — both profiles are simultaneously active for systemic risk GPAI model providers.",
+      "version": "1.0.0",
+      "trigger_conditions": {
+        "any": [
+          {
+            "field": "assurance_target.eu_ai_act_classification",
+            "op": "eq",
+            "value": "gpai-systemic-risk"
+          },
+          {
+            "field": "capability_risk.training_compute_flops",
+            "op": "gte",
+            "value": 1e+25,
+            "value_note": "10^25 FLOPs — EU AI Act Annex XIII threshold"
+          },
+          {
+            "field": "assurance_target.gpai_systemic_risk_designated",
+            "op": "eq-true"
+          }
+        ],
+        "all": [
+          {
+            "field": "assurance_target.actor_role",
+            "op": "contains",
+            "value": "provider"
+          }
+        ]
+      },
+      "enforcement_gating": {
+        "description": "Chapter VI (systemic risk) obligations became applicable 2025-08-02, concurrent with Chapter V. The 10^25 FLOPs threshold is codified in Annex XIII. The AI Office may designate additional models as presenting systemic risk based on qualitative assessment under Art. 51(2), even below the compute threshold. Providers must self-notify the AI Office when they determine their model meets the systemic risk threshold.",
+        "effective": "2025-08-02",
+        "threshold_reference": "Annex XIII (10^25 FLOPs training compute) or AI Office designation under Art-51(2)"
+      },
+      "required_controls": [
+        "LI-01",
+        "LI-04",
+        "TG-01",
+        "TG-03",
+        "EV-01",
+        "EV-03",
+        "EV-04",
+        "EV-09",
+        "OA-01",
+        "OA-03",
+        "OA-07",
+        "BH-05",
+        "CR-01",
+        "CR-02"
+      ],
+      "recommended_controls": [
+        "LI-02",
+        "LI-03",
+        "LI-05",
+        "LI-06",
+        "TG-05",
+        "EV-06",
+        "EV-07",
+        "BH-03",
+        "BH-04",
+        "CR-03",
+        "CR-06"
+      ],
+      "eu_ai_act_mapping": {
+        "LI-01": "Art-51 (Classification and notification of GPAI models with systemic risk to the AI Office)",
+        "LI-04": "Art-53(1)(a) (Technical documentation per Annex XI), Annex-XII (Additional documentation requirements for systemic risk models)",
+        "TG-03": "Art-53(1)(b) (Copyright compliance policy), Art-53(1)(c) (Training data summary)",
+        "EV-01": "Art-55(1)(a) (Model evaluation before release and upon material modification)",
+        "EV-03": "Art-55(1)(a) (Systemic risk evaluation in accordance with standardized protocols and state-of-the-art tools)",
+        "EV-04": "Art-55(1)(a) (Adversarial testing to identify and mitigate systemic risks; AI Office may prescribe evaluation protocols)",
+        "EV-09": "Art-55(1)(b) (Systemic risk identification, analysis and mitigation planning)",
+        "OA-01": "Art-52 (Provider accountability), Art-55(1) (Obligations attributable to systemic risk GPAI model provider)",
+        "OA-03": "Art-55(1) (Internal governance for systemic risk models), Art-56 (Cooperation with AI Office including model access for evaluation)",
+        "OA-07": "Art-55(1)(c) (Escalation authority for serious incident reporting to AI Office and national competent authorities)",
+        "BH-05": "Art-55(1)(c) (Tracking and documenting serious incidents affecting or potentially affecting safety, health, fundamental rights)",
+        "CR-01": "Art-55(1)(b) (Ongoing assessment and mitigation of systemic risks; continuous monitoring)",
+        "CR-02": "Art-55(1)(c) (Incident investigation, corrective action, and reporting without undue delay to AI Office)"
+      },
+      "profile_specific_notes": {
+        "additive_to_gpai_provider": "This profile is additive to gpai-provider — both profiles are simultaneously active for systemic risk GPAI model providers. The required_controls here include the full set needed for Ch. VI compliance; the union of both profiles' required_controls represents the total obligation set.",
+        "EV-03": "Art. 55(1)(a) requires GPAI model providers with systemic risk to perform model evaluations in accordance with standardized protocols and tools reflecting the state of the art. EV-03 (Dangerous Capability Assessment) is the primary control: the evaluation must address systemic risk domains including but not limited to cyber offense, biological design assistance, persuasion at scale, and autonomous AI R&D. The AI Office may prescribe specific evaluation protocols and may designate third parties for independent evaluation under Art. 78.",
+        "EV-04": "Art. 55(1)(a) explicitly requires adversarial testing of systemic risk GPAI models to identify and mitigate systemic risks before release. Red-team exercises (EV-04) must be structured to probe for systemic risk scenarios, not only conventional harmful outputs. Adversarial testing must be repeated upon material modifications to the model.",
+        "CR-02": "Art. 55(1)(c) requires tracking, documenting, and reporting serious incidents without undue delay to the AI Office and national competent authorities. A 'serious incident' in the GPAI context includes incidents that actually or potentially affect safety, health, or fundamental rights at scale, or that constitute an infringement of Union law protecting fundamental rights.",
+        "cybersecurity_boundary": "Art. 55(1)(d) requires adequate cybersecurity protection for the GPAI model and its physical infrastructure. BH-04 (Behavioral Boundary Enforcement) covers the behavioral evidence dimension. The Security domain (securitycontrols.ai) owns infrastructure, access control, and vulnerability response enforcement.",
+        "systemic_risk_scope": "Systemic risk concerns under Art. 55 include: amplification of disinformation at scale; autonomous cyberattacks against critical infrastructure; enabling mass-casualty-weapon development; cascading failures across dependent AI systems; large-scale manipulation of public opinion or democratic processes. Systemic risk is about macro-level harm potential, not individual incident harm.",
+        "ai_office_cooperation": "The AI Office (established under the EU AI Act to oversee GPAI models) may: issue guidance on evaluation protocols; request model access for independent testing; impose corrective actions and fines; designate additional models as systemic risk even below the compute threshold; and publish lists of GPAI models with systemic risk."
+      }
+    },
+    {
       "profile_id": "frontier-capability",
       "name": "Frontier Capability Model",
       "description": "Model deployments at or near the state of the art in capability, where the model has demonstrated or potentially has capability thresholds that could enable serious harm at scale — including dangerous capabilities in cyber, biological, chemical, nuclear-radiological, persuasion/manipulation, or autonomous AI R&D domains. Corresponds to Anthropic RSP ASL-3+ levels, Google DeepMind FSF equivalent, or other frontier safety frameworks. This profile requires the full 15-control baseline plus the most demanding evaluation, governance, and assurance controls in the matrix. No control is categorically excluded for frontier models.",
@@ -490,11 +706,14 @@
     "profile_ids": [
       "general-predictive-ml",
       "generative-ai",
+      "multimodal",
       "hosted-api",
       "continuously-learning",
       "high-impact-decision",
       "us-regulated-banking",
       "eu-high-risk",
+      "gpai-provider",
+      "gpai-systemic-risk",
       "frontier-capability"
     ],
     "notable_intersections": [
@@ -513,6 +732,22 @@
       {
         "profiles": ["hosted-api", "generative-ai"],
         "note": "Third-party LLM APIs trigger both profiles. Provider change monitoring (BH-10) and pre-evaluation via API (EV-01 adaptation) are key considerations."
+      },
+      {
+        "profiles": ["multimodal", "generative-ai"],
+        "note": "Multimodal generators (image, audio, video generation) trigger both profiles. generative-ai covers output generation risks (hallucination, synthetic content provenance, supply chain); multimodal adds cross-modal attack surface evaluation (EV-04 cross-modal red-team), visual/audio data governance (TG-06), and cross-modal behavioral boundaries (BH-04). Both EV-04 and BH-09 required_controls from generative-ai carry forward."
+      },
+      {
+        "profiles": ["gpai-provider", "gpai-systemic-risk"],
+        "note": "Systemic risk GPAI model providers trigger both profiles simultaneously. gpai-systemic-risk is additive — all gpai-provider required controls carry through, plus the Chapter VI adversarial testing, incident reporting, and ongoing systemic risk assessment obligations."
+      },
+      {
+        "profiles": ["gpai-systemic-risk", "frontier-capability"],
+        "note": "Frontier capability models (ASL-3+ equivalent) are likely to also qualify as GPAI systemic risk models under the EU AI Act. Both profiles activate EV-03 and EV-04 as required controls. Frontier safety framework evaluation and Art. 55 adversarial testing requirements have significant overlap."
+      },
+      {
+        "profiles": ["gpai-provider", "eu-high-risk"],
+        "note": "A GPAI model integrated into an EU high-risk AI system may trigger both profiles for different actors: the GPAI provider under Ch. V and the high-risk system provider under Ch. III. These are distinct regulatory regimes. If a single organization is both the GPAI model provider and the high-risk system provider, both profiles' required_controls apply."
       }
     ]
   }

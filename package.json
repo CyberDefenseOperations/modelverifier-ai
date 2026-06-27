@@ -21,8 +21,11 @@
     "check:freshness":          "node scripts/check-freshness.mjs",
     "test:coverage":            "node scripts/test-coverage.mjs",
     "build:integration":        "node build-integration.mjs",
-    "build":                    "node build-integration.mjs && cp -r integration public/integration",
+    "build":                    "node build-integration.mjs && rm -rf public/integration && cp -r integration public/integration",
     "sign:release-manifest":    "node scripts/sign-release-manifest.mjs",
+
+    "watch:regulatory": "node scripts/regulatory-watch.mjs",
+    "watch:regulatory:github": "node scripts/regulatory-watch.mjs --check-github",
 
     "validate": "npm run validate:schema && npm run validate:namespaces && npm run validate:sources && npm run validate:source-versions && npm run validate:licenses",
     "audit":    "npm run audit:mappings && npm run audit:applicability && npm run audit:legal-status && npm run audit:control-overlap && npm run audit:cross-domain && npm run audit:evidence-contracts",

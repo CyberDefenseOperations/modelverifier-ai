@@ -390,22 +390,24 @@
     },
     "aicm": {
       "id": "aicm",
-      "title": "Cloud Security Alliance AI Controls Matrix v1.0.3",
+      "title": "Cloud Security Alliance AI Controls Matrix v1.1",
       "short_name": "CSA AICM",
       "authority": "Cloud Security Alliance (CSA)",
       "source_type": "industry-framework",
       "normative_force": "voluntary",
-      "version": "1.0.3",
-      "published_on": "2024-06-01",
+      "version": "1.1",
+      "published_on": "2026-06-22",
       "retrieved_on": "2026-06-26",
       "canonical_url": "https://cloudsecurityalliance.org/research/topics/ai-controls-matrix",
       "license": "CC BY-SA 4.0",
-      "supersedes": "CSA AICM 1.0.2",
+      "supersedes": "CSA AICM 1.0.3",
       "status": "current",
+      "control_objective_count": 247,
+      "domain_count": 18,
       "requirement_id_pattern": "^[A-Z]{2,6}-\\d{2,3}$",
       "domain_prefixes": {
         "GOV": "Governance",
-        "TG": "Data",
+        "TG": "Data Governance",
         "MG": "Model Governance",
         "RMG": "Risk Management",
         "SEC": "Security",
@@ -413,7 +415,8 @@
         "AUD": "Audit and Accountability",
         "ETH": "Ethics and Fairness",
         "PRI": "Privacy",
-        "INC": "Incident Response"
+        "INC": "Incident Response",
+        "_v11_note": "AICM v1.1 expanded from 10 to 18 domains with 247 total control objectives. New domain prefixes from the 8 additional domains require verification against the v1.1 document before use in control mappings."
       },
       "requirement_id_examples": [
         "GOV-01", "GOV-02", "GOV-03",
@@ -427,11 +430,11 @@
         "PRI-01",
         "INC-01"
       ],
-      "coverage_guidance": "GOV aligns to OA. DT aligns to DT layer. MG aligns to LI and EV. RMG aligns to EV-09 and CR. SEC aligns to EV-04 and BH. OPS aligns to BH and CR. AUD aligns to BH-05 and CR.",
+      "coverage_guidance": "GOV aligns to OA. TG (AICM) aligns to TG layer. MG aligns to LI and EV. RMG aligns to EV-09 and CR. SEC aligns to EV-04 and BH. OPS aligns to BH and CR. AUD aligns to BH-05 and CR. AICM v1.1 added 8 new domains — review domain alignment after full v1.1 document retrieval and ID validation.",
       "mapping_caveats": [
-        "CSA AICM domain prefix 'DT' conflicts with the modelverifier.ai layer prefix 'DT'. In mapping rationale, always qualify whether DT refers to the CSA AICM domain or the modelverifier.ai layer.",
+        "CSA AICM domain prefix 'TG' conflicts with the modelverifier.ai layer prefix 'TG'. In mapping rationale, always qualify whether TG refers to the CSA AICM domain or the modelverifier.ai layer.",
         "CSA AISMM (AI Safety Management Model) is a separate CSA artifact — do not cite AICM controls as AISMM references.",
-        "Version 1.0.3 is the current version; verify version before each authoring cycle."
+        "Existing control mappings in controls/ reference AICM v1.0.3 control IDs (published 2024-06-01). AICM v1.1 released 2026-06-22 expanded to 247 objectives across 18 domains. Validate all existing AICM control ID mappings against the v1.1 document before the next authoring cycle; flag any IDs not present in v1.1 as stale."
       ]
     },
     "mitre": {

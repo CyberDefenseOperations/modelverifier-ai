@@ -1,0 +1,140 @@
+name: Weekly Regulatory Watch
+
+on:
+  schedule:
+    # Monday 08:00 UTC — start of week, before the team standup
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+    inputs:
+      check_github:
+        description: 'Check GitHub repos for new releases'
+        required: false
+        default: 'true'
+        type: boolean
+      days_urgent:
+        description: 'Days ahead treated as urgent (default: 90)'
+        required: false
+        default: '90'
+        type: string
+
+concurrency:
+  group: regulatory-watch
+  cancel-in-progress: true
+
+jobs:
+  watch:
+    name: Regulatory & Framework Watch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run regulatory watch
+        id: watch
+        run: |
+          ARGS="--out /tmp/watch-report.md --days-urgent ${{ inputs.days_urgent || '90' }}"
+          if [ "${{ inputs.check_github || 'true' }}" = "true" ]; then
+            ARGS="$ARGS --check-github"
+          fi
+          # Exit code 1 = critical items found (not a script error); we capture it
+          node scripts/regulatory-watch.mjs $ARGS && echo "has_critical=false" >> "$GITHUB_OUTPUT" || {
+            CODE=$?
+            if [ $CODE -eq 1 ]; then
+              echo "has_critical=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "Script error (exit $CODE)" >&2
+              exit $CODE
+            fi
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read report
+        id: report
+        run: |
+          # Export the report body for use in the issue
+          BODY=$(cat /tmp/watch-report.md)
+          # GitHub Actions output has a 1MB limit — truncate if needed
+          if [ ${#BODY} -gt 60000 ]; then
+            BODY="${BODY:0:60000}
+
+          *(report truncated — run \`node scripts/regulatory-watch.mjs\` locally for full output)*"
+          fi
+          # Use heredoc to handle multiline content
+          {
+            echo "body<<WATCH_REPORT_EOF"
+            echo "$BODY"
+            echo "WATCH_REPORT_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Find existing watch issue
+        id: find-issue
+        run: |
+          ISSUE=$(gh issue list \
+            --label "regulatory-watch" \
+            --state open \
+            --limit 1 \
+            --json number \
+            --jq '.[0].number // ""')
+          echo "number=$ISSUE" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create or update watch issue
+        run: |
+          TITLE="Regulatory Watch — Week of $(date -u '+%Y-%m-%d')"
+          LABEL="regulatory-watch"
+          HAS_CRITICAL="${{ steps.watch.outputs.has_critical }}"
+
+          if [ "$HAS_CRITICAL" = "true" ]; then
+            TITLE="🔴 $TITLE"
+          fi
+
+          # Ensure label exists
+          gh label create "$LABEL" --color "0075ca" --description "Weekly AI regulatory & framework watch report" 2>/dev/null || true
+
+          EXISTING="${{ steps.find-issue.outputs.number }}"
+
+          if [ -n "$EXISTING" ]; then
+            # Update existing issue body and title
+            gh issue edit "$EXISTING" \
+              --title "$TITLE" \
+              --body "${{ steps.report.outputs.body }}"
+            echo "Updated issue #$EXISTING"
+          else
+            # Create new issue
+            gh issue create \
+              --title "$TITLE" \
+              --body "${{ steps.report.outputs.body }}" \
+              --label "$LABEL"
+            echo "Created new watch issue"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close previous week's issue if no criticals
+        if: steps.watch.outputs.has_critical == 'false' && steps.find-issue.outputs.number != ''
+        run: |
+          # Only close if this is the scheduled run (not manual), to avoid accidentally closing
+          # issues that were manually kept open for tracking
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "No critical items and scheduled run — leaving issue open for team review."
+            # Intentionally not auto-closing: team should review and close manually
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Post summary to job
+        run: |
+          cat /tmp/watch-report.md >> "$GITHUB_STEP_SUMMARY"

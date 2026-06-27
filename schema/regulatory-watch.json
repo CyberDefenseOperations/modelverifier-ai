@@ -1,0 +1,458 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.apeiris.io/model-assurance/v1/regulatory-watch.json",
+  "title": "Regulatory & Framework Watch",
+  "description": "Authoritative watchlist for the AI Model & System Assurance Control Matrix. Tracks: (1) frameworks already incorporated into the matrix with version verification metadata; (2) incoming regulations and frameworks under evaluation; (3) jurisdictions with active AI regulatory programs to monitor weekly. The regulatory-watch.mjs script reads this file and reports stale items and upcoming enforcement dates. The weekly-regulatory-watch GitHub Actions workflow runs the script and opens a GitHub issue with findings.",
+  "version": "1.0.0",
+  "last_reviewed": "2026-06-26",
+  "review_owner": "apeiris-data-team",
+  "check_interval_days": 7,
+
+  "tracked_frameworks": [
+    {
+      "id": "eu_ai_act",
+      "catalog_key": "eu_ai_act",
+      "name": "EU AI Act (Regulation 2024/1689)",
+      "authority": "European Parliament and Council of the European Union",
+      "current_version": "Regulation 2024/1689 as adopted",
+      "published_on": "2024-07-12",
+      "last_checked": "2026-06-26",
+      "check_interval_days": 30,
+      "official_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+      "monitor_url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "ai_office_url": "https://digital-strategy.ec.europa.eu/en/policies/ai-office",
+      "status": "enacted",
+      "watch_for": [
+        "Implementing acts under Art. 6(2) — additional high-risk AI use cases via Annex III expansion",
+        "Delegated acts — updates to Annexes I, II, VI, VII, IX, XI, XII, XIII",
+        "AI Office binding decisions and systemic risk designations (Art. 51 GPAI)",
+        "Codes of practice for GPAI providers (AI Office coordination)",
+        "European Standardisation Organisations (CEN/CENELEC) AI Act technical standards",
+        "Council formal adoption of Digital AI Omnibus amendments (pending as of 2026-06-26)",
+        "Member state implementation status and competent authority designations",
+        "AI Office guidance publications and Q&A documents"
+      ],
+      "upcoming_milestones": [
+        {
+          "date": "2026-08-02",
+          "event": "Deadline for GPAI codes of practice initial finalization",
+          "severity": "high",
+          "matrix_impact": "gpai-provider and gpai-systemic-risk profile obligations; may clarify EV-03 evaluation protocol requirements"
+        },
+        {
+          "date": "2026-08-02",
+          "event": "Prohibited AI systems enforcement begins (Art. 5)",
+          "severity": "high",
+          "matrix_impact": "OA-09 (use-case classification) and LI-10 (applicability assessment) directly affected"
+        },
+        {
+          "date": "2027-08-02",
+          "event": "GPAI model obligations apply to models placed on market before 2025-08-02",
+          "severity": "medium",
+          "matrix_impact": "gpai-provider required controls apply to legacy GPAI models not yet compliant"
+        },
+        {
+          "date": "2027-12-02",
+          "event": "Standalone Annex III high-risk AI system enforcement begins",
+          "severity": "high",
+          "matrix_impact": "eu-high-risk profile becomes enforceable; all required controls become pass/fail gates"
+        },
+        {
+          "date": "2028-08-02",
+          "event": "Product-embedded high-risk AI system enforcement begins",
+          "severity": "medium",
+          "matrix_impact": "eu-high-risk profile for Annex I product-embedded systems"
+        }
+      ]
+    },
+    {
+      "id": "nist_ai_rmf",
+      "catalog_key": "nist_rmf",
+      "name": "NIST AI Risk Management Framework 1.0",
+      "authority": "National Institute of Standards and Technology (NIST)",
+      "current_version": "1.0",
+      "published_on": "2023-01-26",
+      "last_checked": "2026-06-26",
+      "check_interval_days": 90,
+      "official_url": "https://doi.org/10.6028/NIST.AI.100-1",
+      "monitor_url": "https://airc.nist.gov/RMF",
+      "status": "current",
+      "watch_for": [
+        "NIST AI RMF 2.0 or update announcement",
+        "New AI RMF Playbook modules and sector profiles",
+        "NIST AI 600-1 GenAI Profile updates (separate document, planned as own catalog key)",
+        "NIST AI 100-4 (Synthetic Content) supplemental guidance",
+        "NIST AI safety institute publications and evaluations"
+      ],
+      "upcoming_milestones": []
+    },
+    {
+      "id": "iso_42001",
+      "catalog_key": "iso_42001",
+      "name": "ISO/IEC 42001:2023 AI Management System",
+      "authority": "ISO/IEC JTC 1/SC 42",
+      "current_version": "2023",
+      "published_on": "2023-12-18",
+      "last_checked": "2026-06-26",
+      "check_interval_days": 180,
+      "official_url": "https://www.iso.org/standard/81230.html",
+      "status": "current",
+      "watch_for": [
+        "ISO/IEC 42001:2023 amendments or corrigenda",
+        "ISO/IEC 42005:2025 AI system impact assessment (separate standard, complementary)",
+        "ISO/IEC 42006 (planned — AI auditing requirements)",
+        "SC 42 work items relevant to model assurance controls",
+        "ISO/IEC 12792:2025 AI transparency taxonomy (separate standard)"
+      ],
+      "upcoming_milestones": []
+    },
+    {
+      "id": "sr262",
+      "catalog_key": "sr262",
+      "name": "Fed SR 26-2 — Supervisory Guidance on Model Risk Management",
+      "authority": "Federal Reserve Board",
+      "current_version": "SR 26-2 (supersedes SR 11-7 and SR 21-8)",
+      "published_on": "2026-04-01",
+      "last_checked": "2026-06-26",
+      "check_interval_days": 90,
+      "official_url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
+      "companion_url": "https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-13.html",
+      "status": "current",
+      "watch_for": [
+        "Federal Reserve, OCC, FDIC, NCUA interagency guidance updates",
+        "OCC Bulletin 2026-13 supplements or FAQs",
+        "Fed supervisory letters on AI model risk (AI-specific supplements to SR 26-2)",
+        "CFPB AI guidance (adverse action explanations, fair lending AI)",
+        "CFTC, SEC, FINRA AI governance guidance for capital markets"
+      ],
+      "upcoming_milestones": []
+    },
+    {
+      "id": "owasp_llm10",
+      "catalog_key": "llm10",
+      "name": "OWASP LLM Top 10 2025 v2.0",
+      "authority": "OWASP LLM AI Security Project",
+      "current_version": "2025 v2.0",
+      "published_on": "2024-11-17",
+      "last_checked": "2026-06-26",
+      "check_interval_days": 60,
+      "official_url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "github_releases_url": "https://api.github.com/repos/OWASP/www-project-top-10-for-large-language-model-applications/releases",
+      "status": "current",
+      "watch_for": [
+        "OWASP LLM Top 10 2026 edition (annual cadence expected)",
+        "New vulnerability entries (LLM13+ agentic AI vulnerabilities)",
+        "Agentic AI supplement publication",
+        "Classification changes to existing LLM01-LLM10 entries"
+      ],
+      "upcoming_milestones": [
+        {
+          "date": "2026-11-01",
+          "event": "Expected OWASP LLM Top 10 2026 publication (annual cadence — estimated)",
+          "severity": "medium",
+          "matrix_impact": "LLM mapping requirement IDs in all 54 controls may need updating if classification changes"
+        }
+      ]
+    },
+    {
+      "id": "owasp_aisvs",
+      "catalog_key": "aisvs",
+      "name": "OWASP AI Security Verification Standard v1.0",
+      "authority": "OWASP AI Security Verification Standard Project",
+      "current_version": "v1.0 (no formal release tag as of 2026-06-26)",
+      "published_on": null,
+      "last_checked": "2026-06-26",
+      "check_interval_days": 30,
+      "official_url": "https://owasp.org/www-project-ai-security-verification-standard/",
+      "github_releases_url": "https://api.github.com/repos/OWASP/AISVS/releases",
+      "status": "pre-release",
+      "watch_for": [
+        "AISVS v1.0 formal GitHub release tag (CRITICAL — updates source_status from pre-release to verified)",
+        "AISVS requirement ID changes between current repo state and final v1.0",
+        "AISVS v1.1 or v2.0 announcements",
+        "License clarification (CC BY-SA 4.0 compatibility with matrix CC BY-NC 4.0)"
+      ],
+      "upcoming_milestones": [
+        {
+          "date": null,
+          "event": "AISVS v1.0 formal release tag — expected but date unconfirmed",
+          "severity": "high",
+          "matrix_impact": "All aisvs framework mappings move from pre-release to verified status; existing C-IDs must be validated against released version"
+        }
+      ]
+    },
+    {
+      "id": "csa_aicm",
+      "catalog_key": "aicm",
+      "name": "CSA AI Controls Matrix v1.1",
+      "authority": "Cloud Security Alliance (CSA)",
+      "current_version": "1.1",
+      "published_on": "2026-06-22",
+      "last_checked": "2026-06-26",
+      "check_interval_days": 60,
+      "official_url": "https://cloudsecurityalliance.org/research/topics/ai-controls-matrix",
+      "status": "current",
+      "watch_for": [
+        "AICM v1.2 or v2.0 release",
+        "Validation of existing v1.0.3 control ID mappings against v1.1 (in-progress — 8 new domains need mapping)",
+        "CSA AICM EU AI Act mapping companion material",
+        "CSA AI-CAIQ (AI Consensus Assessments Initiative Questionnaire) updates",
+        "CSA STAR for AI program updates"
+      ],
+      "upcoming_milestones": [
+        {
+          "date": "2026-09-30",
+          "event": "Target: complete validation of all control-level AICM ID mappings against v1.1",
+          "severity": "medium",
+          "matrix_impact": "Stale v1.0.3 AICM IDs in control files must be updated or flagged as not-found in v1.1"
+        }
+      ]
+    },
+    {
+      "id": "mitre_atlas",
+      "catalog_key": "mitre",
+      "name": "MITRE ATLAS v5.6.0",
+      "authority": "MITRE Corporation",
+      "current_version": "5.6.0",
+      "published_on": "2026-05-04",
+      "last_checked": "2026-06-26",
+      "check_interval_days": 60,
+      "official_url": "https://atlas.mitre.org",
+      "github_releases_url": "https://api.github.com/repos/mitre-atlas/atlas-data/releases",
+      "status": "current",
+      "watch_for": [
+        "MITRE ATLAS v5.7.0 or v2026.x release (maintains dual versioning post-May 2026)",
+        "New technique additions relevant to GPAI and agentic AI attack patterns",
+        "AML technique ID changes or deprecations affecting existing mappings",
+        "ATLAS agentic AI supplement or new tactic categories",
+        "MITRE ATT&CK AI-adjacent technique additions"
+      ],
+      "upcoming_milestones": []
+    }
+  ],
+
+  "watchlist": [
+    {
+      "id": "nist_ai_600_1",
+      "name": "NIST AI 600-1: Generative AI Profile",
+      "authority": "National Institute of Standards and Technology (NIST)",
+      "status": "incorporate-next-cycle",
+      "priority": "high",
+      "published_on": "2024-07-26",
+      "official_url": "https://doi.org/10.6028/NIST.AI.100-4",
+      "planned_catalog_key": "nist_ai_600_1",
+      "notes": "Currently referenced via nist_rmf. Covers confabulation, IP, CBRN uplift, information integrity, compute — distinct coverage that does not map cleanly to base RMF subcategories. Planned as a separate catalog key primarily affecting EV and BH layer controls. Evaluate v1.0 content and determine which existing nist_rmf mappings should migrate to nist_ai_600_1.",
+      "trigger_controls": ["EV-02", "EV-03", "BH-09", "TG-04"]
+    },
+    {
+      "id": "owasp_aitg",
+      "name": "OWASP AI Testing Guide v1",
+      "authority": "OWASP AI Testing Guide Project",
+      "status": "monitoring",
+      "priority": "medium",
+      "published_on": null,
+      "official_url": "https://owasp.org/www-project-ai-testing-guide/",
+      "planned_catalog_key": "owasp_aitg",
+      "notes": "Covers repeatable trustworthiness testing across EV/BH/CR layers. Status unknown — publication date unconfirmed. Primarily affects EV controls. Monitor for formal v1.0 release.",
+      "trigger_controls": ["EV-01", "EV-04", "BH-03", "CR-01"]
+    },
+    {
+      "id": "iso_23894",
+      "name": "ISO/IEC 23894:2023 AI Risk Management",
+      "authority": "ISO/IEC JTC 1/SC 42",
+      "status": "evaluate",
+      "priority": "medium",
+      "published_on": "2023-02-01",
+      "official_url": "https://www.iso.org/standard/77304.html",
+      "notes": "Risk management framework companion to 42001. Aligns to CR and EV layers. Evaluate whether mappings would add material coverage beyond existing nist_rmf and iso_42001 mappings before incorporating as a 9th framework key.",
+      "trigger_controls": ["EV-09", "CR-01", "OA-03"]
+    },
+    {
+      "id": "iso_42005",
+      "name": "ISO/IEC 42005:2025 AI System Impact Assessment",
+      "authority": "ISO/IEC JTC 1/SC 42",
+      "status": "evaluate",
+      "priority": "medium",
+      "published_on": "2025-01-01",
+      "official_url": "https://www.iso.org/standard/44545.html",
+      "notes": "Impact assessment lifecycle for AI systems, aligns to OA-layer controls (OA-02 human oversight, OA-08 contestability) and EV-09 risk classification. Evaluate whether high-impact-decision and eu-high-risk profiles should reference this explicitly.",
+      "trigger_controls": ["EV-09", "OA-02", "OA-08", "EV-05"]
+    },
+    {
+      "id": "iso_12792",
+      "name": "ISO/IEC 12792:2025 AI Transparency Taxonomy",
+      "authority": "ISO/IEC JTC 1/SC 42",
+      "status": "evaluate",
+      "priority": "low",
+      "published_on": "2025-01-01",
+      "official_url": "https://www.iso.org/standard/84555.html",
+      "notes": "Transparency taxonomy for AI systems — relevant to LI-04 (technical documentation) and OA-08 (notice and contestability). Low priority as standalone mapping framework; may be incorporated as a source citation within existing controls rather than a new catalog key.",
+      "trigger_controls": ["LI-04", "OA-08", "BH-09"]
+    },
+    {
+      "id": "anthropic_rsp_v33",
+      "name": "Anthropic Responsible Scaling Policy v3.3",
+      "authority": "Anthropic",
+      "status": "reference-only",
+      "priority": "low",
+      "published_on": "2026-05-26",
+      "official_url": "https://anthropic.com/rsp",
+      "notes": "Referenced in frontier-capability profile notes. Classified as matrix_thesis: true with thesis_type: frontier. Not a candidate for 9th framework key — changes too rapidly. Monitor for RSP v3.4+ that add new ASL tiers or evaluation protocols affecting EV-03 or EV-04 control content.",
+      "trigger_controls": ["EV-03", "EV-04"]
+    },
+    {
+      "id": "google_deepmind_fsf_v31",
+      "name": "Google DeepMind Frontier Safety Framework v3.1",
+      "authority": "Google DeepMind",
+      "status": "reference-only",
+      "priority": "low",
+      "published_on": "2026-04-17",
+      "official_url": "https://deepmind.google/discover/blog/frontier-safety-framework/",
+      "notes": "Referenced in frontier-capability profile notes. v3.1 adds Tracked Capability Levels and Critical Capability Level for harmful manipulation; expands to cover model shutdown resistance. Monitor for v3.2+ updates. Not a framework catalog key — cited within specific frontier controls.",
+      "trigger_controls": ["EV-03", "EV-04", "OA-04"]
+    },
+    {
+      "id": "uk_dsit_framework",
+      "name": "UK DSIT AI Risk Framework",
+      "authority": "UK Department for Science, Innovation and Technology",
+      "status": "monitoring",
+      "priority": "medium",
+      "published_on": null,
+      "official_url": "https://www.gov.uk/government/publications/ai-regulation-a-pro-innovation-approach",
+      "notes": "UK pro-innovation AI regulation approach: existing sector regulators, not a new centralized AI Act. Key instruments: Bletchley Declaration, Seoul AI Summit commitments, DSIT AI Safety Institute (AISI) evaluations. Monitor for: binding DSIT sector guidance that creates enforceable obligations; AISI evaluation framework publications; AI Safety Summit follow-on commitments. Not currently incorporated — UK obligations differ materially from EU binding law model.",
+      "trigger_controls": ["EV-03", "EV-04"]
+    },
+    {
+      "id": "canada_aida",
+      "name": "Canada Bill C-27 / Artificial Intelligence and Data Act (AIDA)",
+      "authority": "Government of Canada",
+      "status": "monitoring",
+      "priority": "medium",
+      "published_on": null,
+      "official_url": "https://www.parl.ca/legisinfo/en/bill/44-1/c-27",
+      "notes": "AIDA is Part 3 of Bill C-27 (Digital Charter Implementation Act, 2022). Status: died on order paper when Parliament prorogued early 2025 — not enacted. Monitor for reintroduction in new Parliament session. Key obligations if enacted: high-impact AI system obligations (risk assessment, mitigation, monitoring, human oversight, incident reporting); general-purpose AI system transparency obligations. Relevant trigger controls if enacted.",
+      "trigger_controls": ["EV-09", "OA-01", "CR-02"]
+    },
+    {
+      "id": "china_gen_ai_regs",
+      "name": "China Interim Measures for Generative AI Services",
+      "authority": "Cyberspace Administration of China (CAC) et al.",
+      "status": "monitoring",
+      "priority": "medium",
+      "published_on": "2023-07-13",
+      "official_url": "https://www.gov.cn/zhengce/zhengceku/202307/content_6891752.htm",
+      "notes": "Effective 2023-08-15. Applies to providers of generative AI services to the public within China. Obligations: security assessment before public release, algorithm filing, content labeling, training data sourcing legality, RLHF quality controls. Monitor for: CAC implementation guidance, new sector-specific AI regulations, updates to the AI governance framework. Relevant to gpai-provider and TG-03 (data rights) controls for organizations serving China.",
+      "trigger_controls": ["TG-03", "EV-01", "BH-09"]
+    },
+    {
+      "id": "korea_ai_basic_law",
+      "name": "South Korea AI Basic Law",
+      "authority": "National Assembly of the Republic of Korea",
+      "status": "monitoring",
+      "priority": "medium",
+      "published_on": "2024-12-27",
+      "official_url": "https://www.law.go.kr/",
+      "notes": "Enacted 2024-12-27; expected to take effect mid-2026 after enforcement decree. High-impact AI systems: mandatory risk assessment, incident reporting, human oversight. General AI: transparency and labeling. Foundation model (AGI equivalent) provisions. Monitor enforcement decree for specific control obligations.",
+      "trigger_controls": ["EV-09", "OA-02", "CR-02", "BH-09"]
+    },
+    {
+      "id": "singapore_imda_framework",
+      "name": "Singapore IMDA AI Governance Framework / Model AI Governance Framework",
+      "authority": "Infocomm Media Development Authority (IMDA), Singapore",
+      "status": "monitoring",
+      "priority": "low",
+      "published_on": "2023-06-01",
+      "official_url": "https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2023/generative-ai-governance-sg",
+      "notes": "Voluntary framework; agentic AI and generative AI governance guidelines in scope. Not yet binding. Monitor for IMDA enforcement legislative expansion or mandatory sector guidance in financial services / healthcare.",
+      "trigger_controls": ["EV-09", "OA-08"]
+    },
+    {
+      "id": "brazil_ai_bill",
+      "name": "Brazil Federal AI Law (Bill 2338/2023)",
+      "authority": "Brazilian Senate",
+      "status": "monitoring",
+      "priority": "medium",
+      "published_on": null,
+      "official_url": "https://www25.senado.leg.br/web/atividade/materias/-/materia/157233",
+      "notes": "Approved by Senate committee 2024-12. Pending House vote as of 2026. Modeled partly on EU AI Act risk-based approach. Monitor for enactment and implementing regulations. High-impact AI systems would require risk assessment, human oversight, contestability — similar to eu-high-risk and high-impact-decision profile controls.",
+      "trigger_controls": ["EV-09", "OA-02", "OA-08", "CR-02"]
+    },
+    {
+      "id": "ecb_guide_internal_models",
+      "name": "ECB Guide to Internal Models v4.0",
+      "authority": "European Central Bank (ECB)",
+      "status": "reference-only",
+      "priority": "low",
+      "published_on": "2025-07-01",
+      "official_url": "https://www.bankingsupervision.europa.eu/legalframework/supervisoryguide/html/index.en.html",
+      "notes": "Supervisory guidance for capital models at ECB-supervised banks. Scope is capital models — not general enterprise AI. Informative sector reference for EV-08 (independent validation) in European banking context only. Not a candidate for framework catalog key. Reference within sr262 mapping rationale for EU banking context.",
+      "trigger_controls": ["EV-08"]
+    }
+  ],
+
+  "enforcement_calendar": {
+    "description": "Sorted view of all upcoming enforcement dates from tracked_frameworks and watchlist. Used by regulatory-watch.mjs to generate the upcoming events section of the weekly report.",
+    "note": "Dates here are maintained manually — they are not auto-derived from tracked_frameworks milestones. Keep in sync when tracked_frameworks.upcoming_milestones change.",
+    "events": [
+      {
+        "date": "2026-08-02",
+        "regulation": "EU AI Act",
+        "event": "Prohibited AI systems enforcement begins (Art. 5); GPAI code of practice deadline",
+        "severity": "critical",
+        "days_from_baseline": null
+      },
+      {
+        "date": "2026-09-30",
+        "regulation": "CSA AICM",
+        "event": "Target date: complete v1.1 control ID mapping validation",
+        "severity": "medium",
+        "days_from_baseline": null
+      },
+      {
+        "date": "2027-08-02",
+        "regulation": "EU AI Act",
+        "event": "GPAI legacy model compliance deadline",
+        "severity": "medium",
+        "days_from_baseline": null
+      },
+      {
+        "date": "2027-12-02",
+        "regulation": "EU AI Act",
+        "event": "Standalone Annex III high-risk system enforcement",
+        "severity": "critical",
+        "days_from_baseline": null
+      },
+      {
+        "date": "2028-08-02",
+        "regulation": "EU AI Act",
+        "event": "Product-embedded high-risk system enforcement",
+        "severity": "high",
+        "days_from_baseline": null
+      }
+    ]
+  },
+
+  "github_checkable_sources": [
+    {
+      "id": "owasp_aisvs",
+      "github_owner": "OWASP",
+      "github_repo": "AISVS",
+      "watch_type": "releases",
+      "notes": "Watch for formal v1.0 release tag — currently no release exists; content is in main branch only"
+    },
+    {
+      "id": "mitre_atlas",
+      "github_owner": "mitre-atlas",
+      "github_repo": "atlas-data",
+      "watch_type": "releases",
+      "notes": "Each ATLAS release updates technique IDs; compare latest release tag against current catalog version 5.6.0"
+    },
+    {
+      "id": "owasp_llm10",
+      "github_owner": "OWASP",
+      "github_repo": "www-project-top-10-for-large-language-model-applications",
+      "watch_type": "releases",
+      "notes": "Watch for 2026 edition; compare latest against current 2025 v2.0"
+    }
+  ]
+}
