@@ -61,11 +61,12 @@ const VALID_COMPARISON_OPS    = [
 ];
 
 const VALID_PROFILES = [
-  'general-predictive-ml', 'generative-ai', 'hosted-api', 'continuously-learning',
-  'high-impact-decision', 'us-regulated-banking', 'eu-high-risk', 'frontier-capability',
+  'general-predictive-ml', 'generative-ai', 'multimodal', 'hosted-api', 'continuously-learning',
+  'high-impact-decision', 'us-regulated-banking', 'eu-high-risk', 'gpai-provider',
+  'gpai-systemic-risk', 'frontier-capability',
 ];
 
-const VALID_FRAMEWORK_KEYS = ['nist_rmf', 'iso_42001', 'eu_ai_act', 'sr262', 'aisvs', 'llm10', 'aicm', 'mitre'];
+const VALID_FRAMEWORK_KEYS = ['nist_rmf', 'nist_ai_600_1', 'iso_42001', 'eu_ai_act', 'sr262', 'aisvs', 'llm10', 'aicm', 'mitre', 'owasp_aitg'];
 
 const REQUIRED_LENSES  = ['engineering', 'evaluation', 'red_team', 'grc', 'mlops'];
 

@@ -288,7 +288,12 @@ The 10 supported framework keys used in `frameworks[].framework`:
 | `mitre` | MITRE ATLAS v5.6.0 |
 | `owasp_aitg` | OWASP AI Testing Guide v1 (pre-release; mapping_confidence: medium) |
 
-Every control must have at least one mapping to `nist_rmf` and one to `iso_42001`. The `audit:mappings` step validates all requirement IDs against `schema/framework-mapping-catalog.json`.
+Every control must have at least one mapping to `nist_rmf` and one to `iso_42001`. The `audit:mappings` step validates all requirement IDs against `schema/framework-mapping-catalog.json`. As of the v1.0 release, all 6 layers — including BH and CR — achieve this with 0 build warnings.
+
+**Framework-specific conventions:**
+
+- **`nist_ai_600_1`** — All mappings use category-level IDs only (CONFABULATION, CBRN, DATA-PRIVACY, INFO-INTEGRITY, INFO-SECURITY, IP, HUMAN-AI-CONFIG, OBSCENE-DEGRADING). Every `nist_ai_600_1` entry carries `provisional: true` and a `provisional_note` field. Action-level granularity within each category is not yet published by NIST. Do not set `mapping_confidence: high` or `verified` for any `nist_ai_600_1` entry.
+- **`owasp_aitg`** — Mappings use three `fit` values: `direct` (the AITG requirement directly names what the control tests), `supporting` (the control enables the test condition), or `adjacent` (same threat domain, different concern). The `partial` fit value is not used for AITG entries. All AITG mappings carry `mapping_confidence: medium` because the OWASP AI Testing Guide remains a pre-release document.
 
 ### Baseline controls (15)
 
@@ -682,4 +687,4 @@ For a detailed domain-creation walkthrough including schema authoring standards,
 | SR 26-2 obligations have `normative_force: supervisory-guidance`, not `binding-law` | `audit:legal-status` |
 | Baseline controls (15) are all present in the dataset | `build-integration.mjs` validation |
 | BH and CR controls have `monitoring_schema` | `validate:schema` |
-| NIST RMF and ISO 42001 mappings present on every control | `build-integration.mjs` validation |
+| NIST RMF and ISO 42001 mappings present on every control (all 6 layers, including BH and CR) | `build-integration.mjs` validation — 0 warnings in v1.0 release |

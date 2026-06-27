@@ -239,7 +239,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.3",
+        "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-01 continuously samples model output distributions and applies statistical process control — computing PSI against a signed 30-day post-deployment baseline and firing tiered alerts when outputs shift beyond thresholds — directly operationalizing the production monitoring obligation of NIST AI RMF MEASURE 2.3. MANAGE 2.4 is additionally relevant because BH-01's alert routing SLAs (15 minutes for critical anomalies) define the response pathway when monitored outputs indicate elevated risk.",
@@ -256,7 +256,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-01 implements systematic monitoring and measurement of model output distributions using PSI metrics and control charts, with documented alert thresholds reviewed quarterly by the model owner — fulfilling the core obligations of ISO 42001 Clause 9.1 for monitoring, measurement, analysis, and evaluation of AI system performance. The versioned, signed baseline artifact provides the documented reference point that Clause 9.1 requires for evaluating whether AI system performance remains acceptable.",
@@ -552,7 +552,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.3",
+        "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact and fires profile-conditional alerts when distribution shift exceeds defined thresholds, directly addressing the input-monitoring dimension of NIST AI RMF MEASURE 2.3's production monitoring requirement. MANAGE 2.4 is additionally relevant because BH-02's alerts for PSI above 0.2 trigger model review workflows constituting a structured risk response to identified distributional changes.",
@@ -569,7 +569,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-02 establishes systematic production monitoring of input and prediction distributions using PSI metrics with minimum sample size guards and profile-conditional thresholds, providing the measurement foundation that ISO 42001 Clause 9.1 requires for ongoing evaluation of AI system performance. The versioned DriftReference artifact and monthly drift summary reports reviewed by the model owner fulfill Clause 9.1's requirements for documented evidence of monitoring results and management review inputs.",
@@ -844,7 +844,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.3",
+        "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-03 compares live production performance metrics against a signed EvaluationBaseline artifact and fires tiered alerts when primary metrics regress beyond accepted tolerances — directly implementing the performance-against-baseline monitoring component of NIST AI RMF MEASURE 2.3. MANAGE 2.2 is additionally relevant because BH-03's sev1 escalation triggers the risk response pathway defined in the incident response runbook, operationalizing the MANAGE function's response to detected performance degradation.",
@@ -861,7 +861,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-03 implements documented performance thresholds expressed as percentage regression from a signed EvaluationBaseline, with tiered alert levels and routing SLAs that ensure performance monitoring evidence is systematically generated and acted upon — fulfilling the measurement, analysis, and evaluation obligations of ISO 42001 Clause 9.1. Clause 10.1 on nonconformity and corrective action is additionally implicated because crossing the critical threshold automatically initiates the corrective action workflow via CR-04 incident response.",
@@ -1076,7 +1076,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-04 monitors for prompt injection attempts and runtime adversarial activity against model systems. NIST AI 600-1 INFO-SECURITY covers adversarial prompt injection as a primary GenAI threat. This control contributes to the production monitoring component of information security risk management for GenAI deployments.",
         "uncovered_portion": "EV-04 (red-team evaluation) handles the pre-deployment adversarial testing component; BH-04 handles runtime detection only.",
-        "source_version": "1.0",
+        "source_version": "2024",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium",
         "provisional": true,
@@ -1084,7 +1084,7 @@
       },
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.6",
+        "requirement_id": "MEASURE-2.6",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-04 operates a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per category and trending results over 30 days — directly operationalizing the robustness and trustworthiness evaluation requirements of NIST AI RMF MEASURE 2.6 for the operational deployment phase. MANAGE 2.4 is additionally relevant because BH-04's critical alerts trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
@@ -1101,7 +1101,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-04 implements scheduled behavioral boundary testing in production using a versioned BoundaryTestSuite with defined BoundaryAdherenceRate thresholds reviewed quarterly — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations. Clause 6.1 on addressing risks and opportunities is additionally relevant because behavioral boundary testing directly operationalizes the risk treatment selected during the risk assessment phase to maintain intended-use constraints in production.",
@@ -1267,10 +1267,41 @@
       ]
     },
     "obligations": [
-      "EU AI Act Art. 12: high-risk AI systems must automatically log events; logs kept for minimum period.",
-      "EU AI Act Art. 26(5): deployers of high-risk AI must keep logs.",
-      "SR 26-2 Section IV.D: model documentation must support ongoing monitoring and audit.",
-      "GDPR Art. 5(1)(e): data minimization and storage limitation apply to logged personal data."
+      {
+        "id": "eu-aia-art12-logging",
+        "text": "EU AI Act Art. 12: high-risk AI systems must automatically log events; logs must be kept for the period prescribed by applicable sectoral law (minimum 6 months unless law requires longer).",
+        "jurisdiction": "EU",
+        "binding": true,
+        "normative_force": "binding-law",
+        "effective_date": "2027-12-02",
+        "reviewed_on": "2026-06-26"
+      },
+      {
+        "id": "eu-aia-art26-deployer-logs",
+        "text": "EU AI Act Art. 26(5): deployers of high-risk AI systems must keep the automatically generated logs for the prescribed period and make them available to national competent authorities on request.",
+        "jurisdiction": "EU",
+        "binding": true,
+        "normative_force": "binding-law",
+        "effective_date": "2027-12-02",
+        "reviewed_on": "2026-06-26"
+      },
+      {
+        "id": "sr262-documentation-records",
+        "text": "SR 26-2 Section IV.D: model documentation and records must support ongoing monitoring, audit, and supervisory examination for banking organizations with total assets over $30B.",
+        "jurisdiction": "US",
+        "binding": false,
+        "normative_force": "supervisory-guidance",
+        "reviewed_on": "2026-06-26"
+      },
+      {
+        "id": "gdpr-art5-data-minimization",
+        "text": "GDPR Art. 5(1)(e): storage limitation principle — logged personal data must be anonymized, pseudonymized, or deleted when no longer necessary for the stated purpose. Inference logs containing personal data require a legal basis and retention schedule.",
+        "jurisdiction": "EU",
+        "binding": true,
+        "normative_force": "binding-law",
+        "effective_date": "2018-05-25",
+        "reviewed_on": "2026-06-26"
+      }
     ],
     "profiles": [
       "high-impact-decision",
@@ -1344,7 +1375,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "GOVERN 1.2",
+        "requirement_id": "GOVERN-1.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-05 creates a tamper-evident DecisionLog for every model inference — capturing caller identity, masked inputs, sampled outputs, latency, and decision outcomes — providing the accountability record foundation that NIST AI RMF GOVERN 1.2 requires for demonstrating that AI systems operate within established policies. MANAGE 4.1 is additionally relevant because DecisionLogs are the primary source of evidence for incident attribution, root-cause analysis, and corrective action verification.",
@@ -1361,7 +1392,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 7.5",
+        "requirement_id": "7.5",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-05 implements structured documented information controls for AI inference records — including a defined schema, HMAC-SHA-256 input masking, tiered retention aligned to EU AI Act Art. 12 obligations, and a daily Merkle tree tamper-evidence mechanism — directly satisfying ISO 42001 Clause 7.5's requirement for documented information necessary for the effectiveness of the AI management system. Clause 9.1 is additionally relevant because DecisionLogs provide the raw telemetry foundation for the operational monitoring and measurement activities implemented by BH-01 through BH-04.",
@@ -1577,7 +1608,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.6",
+        "requirement_id": "MEASURE-2.6",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-06 operates a continuous InjectionProbeLibrary against production endpoints, computing InjectionResistanceScore per attack category and trending results over 30 days — directly operationalizing the security robustness measurement requirements of NIST AI RMF MEASURE 2.6 for the production deployment phase. MANAGE 2.4 is additionally relevant because critical InjectionResistanceScore drops trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
@@ -1594,7 +1625,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-06 implements scheduled adversarial probe runs against the production model with defined InjectionResistanceScore thresholds, monthly governance board reports, and documented cross-domain alert routing — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations for security-relevant AI risks. Annex B identifies adversarial robustness as a core AI system risk requiring operational monitoring; BH-06 satisfies this obligation for the injection-resistance dimension through continuous production testing.",
@@ -1870,7 +1901,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MANAGE 2.4",
+        "requirement_id": "MANAGE-2.4",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-07 implements real-time cost and resource anomaly monitoring using Z-score and EWMA anomaly detection against rolling per-caller baselines, with configurable budget guardrails and tiered alerts for cost spikes — directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk response controls that prevent resource-related operational harms. GOVERN 1.7 is additionally relevant because per-caller budget caps and monthly cost reports fulfill the resource allocation accountability obligations of the GOVERN function for AI system operations.",
@@ -1887,7 +1918,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 7.1",
+        "requirement_id": "7.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-07 monitors compute resource consumption, token usage, and API call volumes in real time against per-caller budget caps — supporting the resource adequacy monitoring obligations of ISO 42001 Clause 7.1, which requires organizations to determine and provide adequate resources for AI system operation. Clause 9.1 is additionally relevant because BH-07's cost anomaly metrics contribute to the operational monitoring evidence base that Clause 9.1 requires for evaluating AI system performance and detecting abnormal operational conditions.",
@@ -2065,7 +2096,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MANAGE 1.3",
+        "requirement_id": "MANAGE-1.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-08 requires signed authorization artifacts, pre-defined canary exit criteria, and automated rollback triggers before any production traffic is routed to a new model version — directly implementing the deployment authorization and governance requirements of NIST AI RMF MANAGE 1.3. MANAGE 3.1 is additionally relevant because BH-08's four-stage deployment pipeline with documented rollback arms constitutes a structured risk response framework for managing deployment-phase risks.",
@@ -2082,7 +2113,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 8.1",
+        "requirement_id": "8.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-08 implements operational planning and control for model deployment transitions by requiring signed authorization artifacts, enforcing pre-defined canary exit criteria, and automating rollback triggers — directly satisfying ISO 42001 Clause 8.1's requirement that operational processes be planned, implemented, controlled, and reviewed. Clause 8.4 on the AI system lifecycle is additionally relevant because BH-08's four-stage deployment pipeline constitutes the deployment phase lifecycle control required by the AI system lifecycle management obligations.",
@@ -2244,9 +2275,31 @@
       "generative-ai"
     ],
     "obligations": [
-      "EU AI Act Art. 50: AI-generated content must be labeled as AI-generated in a machine-readable format; GPAI model providers must ensure outputs are detectable. Art. 50 applies from August 2026.",
-      "NIST AI 100-4: recommends provenance and watermarking approaches for synthetic content; not yet binding federal requirement.",
-      "C2PA: industry standard for content provenance; voluntary but increasingly required by platform partners."
+      {
+        "id": "eu-aia-art50-ai-content-labeling",
+        "text": "EU AI Act Art. 50: AI-generated content must be labeled as AI-generated in a machine-readable format. GPAI model providers must ensure their model outputs are detectable as AI-generated or manipulated where technically feasible. Applies to providers and deployers.",
+        "jurisdiction": "EU",
+        "binding": true,
+        "normative_force": "binding-law",
+        "effective_date": "2026-08-02",
+        "reviewed_on": "2026-06-26"
+      },
+      {
+        "id": "nist-ai-100-4-provenance",
+        "text": "NIST AI 100-4: recommends provenance metadata and watermarking approaches for synthetic content, including C2PA-compatible implementations. Voluntary guidance — not a federal binding requirement.",
+        "jurisdiction": "US",
+        "binding": false,
+        "normative_force": "voluntary",
+        "reviewed_on": "2026-06-26"
+      },
+      {
+        "id": "c2pa-content-provenance",
+        "text": "C2PA (Coalition for Content Provenance and Authenticity): industry standard for embedding cryptographic provenance metadata in AI-generated media. Voluntary adoption required for interoperability with platform-level content authenticity checks.",
+        "jurisdiction": "global",
+        "binding": false,
+        "normative_force": "voluntary",
+        "reviewed_on": "2026-06-26"
+      }
     ],
     "capability_risk": {
       "domain": "synthetic_content",
@@ -2317,7 +2370,7 @@
         "source_locator": {
           "section": "INFO-INTEGRITY"
         },
-        "source_version": "1.0",
+        "source_version": "2024",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium",
         "provisional": true,
@@ -2325,7 +2378,7 @@
       },
       {
         "framework": "nist_rmf",
-        "requirement_id": "GOVERN 1.2",
+        "requirement_id": "GOVERN-1.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-09 embeds C2PA-compliant provenance assertions in AI-generated content and maintains a GenerationTraceabilityRegistry linking every output to the generating model version — providing the technical accountability and traceability infrastructure that NIST AI RMF GOVERN 1.2 requires for transparency about AI system outputs. GOVERN 6.1 is additionally relevant because BH-09's mandatory disclosure labels and provenance verification endpoint operationalize the transparency communication requirements for generative AI deployments under the GOVERN function.",
@@ -2342,7 +2395,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 8.2",
+        "requirement_id": "8.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-09 documents AI-generated content at the point of creation through C2PA manifest embedding, maintains a GenerationTraceabilityRegistry, and applies mandatory EU AI Act Art. 50 disclosure labels — fulfilling ISO 42001 Clause 8.2's AI system documentation requirements for generative AI outputs. Annex A.6 on system transparency further requires that AI systems provide mechanisms for identifying AI-generated content; BH-09 directly implements this through cryptographic provenance assertions and disclosure labels.",
@@ -2590,7 +2643,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MANAGE 2.2",
+        "requirement_id": "MANAGE-2.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-10 governs all post-deployment feedback loops — requiring signed authorization for online learning updates, monitoring inter-rater reliability via Cohen's Kappa, detecting feedback poisoning through PSI anomaly detection, and implementing self-reinforcing error circuit breakers — directly operationalizing NIST AI RMF MANAGE 2.2's requirement for controls that manage changing AI system behaviors over time. MANAGE 2.4 is additionally relevant because BH-10's circuit breakers and poisoning alerts constitute the risk response layer when feedback anomalies are detected.",
@@ -2607,7 +2660,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 8.6",
+        "requirement_id": "8.6",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-10 implements governance controls for all feedback data that influences model behavior after deployment — including inter-rater reliability monitoring, feedback poisoning detection with PSI threshold of 0.2, and a signed authorization gate for online learning updates — directly operationalizing ISO 42001 Clause 8.6's requirement for data governance controls throughout the AI system lifecycle. For continuously-learning deployments, Clause 8.6's obligations extend to production feedback data, which BH-10 governs through labeler quality controls, anomaly detection, and the FeedbackGovernanceLog.",

@@ -176,26 +176,30 @@ const LLM10_SEMANTIC_GUARDS = [
 
 /** Pattern regexes per framework, compiled from framework-mapping-catalog.json. */
 const FRAMEWORK_PATTERNS = {
-  nist_rmf:  /^(GOVERN|MAP|MEASURE|MANAGE)-\d+(\.\d+)?$/,
-  iso_42001: /^(A\.)?\d+(\.\d+)*$/,
-  eu_ai_act: /^(Art|Annex|Recital)-([\d]+|[IVX]+)[a-z]?(\(\d+\))?([a-z])?$/,
-  sr262:     /^(S-\d+(\.\d+)?|App-[A-Z](\.\d+)?)$/,
-  aisvs:     /^C(10|[1-9])\.\d+$/,
-  llm10:     /^LLM(0[1-9]|10):2025$/,
-  aicm:      /^[A-Z]{2,6}-\d{2,3}$/,
-  mitre:     /^AML\.(T|M|DS)\d{4}(\.\d{3})?$/,
+  nist_rmf:      /^(GOVERN|MAP|MEASURE|MANAGE)-\d+(\.\d+)?$/,
+  nist_ai_600_1: /^[A-Z][A-Z0-9-]+$/,
+  iso_42001:     /^(A\.)?\d+(\.\d+)*$/,
+  eu_ai_act:     /^(Art|Annex|Recital)-([\d]+|[IVX]+)[a-z]?(\(\d+\))?([a-z])?$/,
+  sr262:         /^(S-\d+(\.\d+)?|App-[A-Z](\.\d+)?)$/,
+  aisvs:         /^C(10|[1-9])\.\d+$/,
+  llm10:         /^LLM(0[1-9]|10):2025$/,
+  aicm:          /^[A-Z]{2,6}-\d{2,3}$/,
+  mitre:         /^AML\.(T|M|DS)\d{4}(\.\d{3})?$/,
+  owasp_aitg:    /^AITG-(DG|ME|RT|GV|IR)-\d{2}$/,
 };
 
 /** Framework versions expected on source_version field of mapping objects. */
 const FRAMEWORK_SOURCE_VERSIONS = {
-  nist_rmf:  '1.0',
-  iso_42001: '2023',
-  eu_ai_act: '2024/1689',
-  sr262:     'SR 26-2',
-  aisvs:     '1.0',
-  llm10:     '2025',
-  aicm:      '1.0.3',
-  mitre:     '5.6.0',
+  nist_rmf:      '1.0',
+  nist_ai_600_1: '2024',
+  iso_42001:     '2023',
+  eu_ai_act:     '2024/1689',
+  sr262:         'SR 26-2',
+  aisvs:         '1.0',
+  llm10:         '2025',
+  aicm:          '1.0.3',
+  mitre:         '5.6.0',
+  owasp_aitg:    '1.0',
 };
 
 /** Valid assurance_target fields for applicability condition predicates. */

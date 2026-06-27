@@ -249,7 +249,8 @@
             "op": "eq",
             "value": "EU"
           }
-        ]
+        ],
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "OB-CR-01-SR",
@@ -269,7 +270,8 @@
             "op": "gte",
             "value": 30000000000
           }
-        ]
+        ],
+        "reviewed_on": "2026-06-26"
       }
     ],
     "capability_risk": {
@@ -286,7 +288,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.3",
+        "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, and cost — into a unified risk dashboard with automated alerting thresholds calibrated at ±2σ from baseline, directly operationalizing NIST AI RMF MEASURE 2.3's production monitoring requirement for AI systems. MANAGE 2.4 is additionally relevant because CR-01's tiered alert structure (P1 for safety threshold breaches, P2 for performance drift) constitutes the risk response triggering mechanism that routes monitoring signals to the appropriate risk treatment pathway.",
@@ -303,7 +305,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-01 implements a comprehensive monitoring, measurement, analysis, and evaluation system covering five metric types — performance, drift, fairness, safety, and cost — with a composite risk score updated on each operational window and a read-only GRC access dashboard, directly fulfilling ISO 42001 Clause 9.1's requirement for systematic monitoring and evaluation of AI system performance. The quarterly synthetic anomaly injection test requirement and documented alert threshold rationale fulfill Clause 9.1's requirement for evidence of monitoring effectiveness and management review inputs.",
@@ -545,7 +547,8 @@
             "op": "eq",
             "value": "EU"
           }
-        ]
+        ],
+        "reviewed_on": "2026-06-26"
       }
     ],
     "capability_risk": {
@@ -562,7 +565,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "GOVERN 6.2",
+        "requirement_id": "GOVERN-6.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-02 implements an immutable, content-addressed evidence archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage and a read-only retrieval API accessible to auditors — directly operationalizing NIST AI RMF GOVERN 6.2's requirement for records management and accountability documentation that supports oversight of AI systems throughout their lifecycle. MANAGE 2.4 is additionally relevant because the CR-02 archive is the primary source of artifacts for post-incident investigation and corrective action verification.",
@@ -579,7 +582,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 7.5",
+        "requirement_id": "7.5",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-02 creates and maintains documented information for every AI system lifecycle event — evaluation manifests, monitoring snapshots, incident records, and regulatory submissions — in an immutable, content-addressed archive with SHA-256 hash verification and defined retention schedules of 3-year default and 10-year banking, directly satisfying ISO 42001 Clause 7.5's requirements for documented information necessary for the effectiveness of the AI management system. The Sigstore Rekor transparency-log anchoring provides the integrity assurance that Clause 7.5 requires for retained documented information.",
@@ -818,7 +821,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.2",
+        "requirement_id": "MEASURE-2.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-03 runs full benchmark, bias, and safety evaluation suites on a defined schedule — quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 — with delta reports comparing current performance against the release baseline, directly operationalizing NIST AI RMF MEASURE 2.2's requirement for periodic measurement of AI system performance to verify that systems continue to meet their stated objectives post-deployment. MANAGE 3.1 is additionally relevant because CR-03's threshold breach triggers automatically initiate CR-04 incident response and, for EU high-risk systems, the conformity re-assessment process.",
@@ -835,7 +838,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-03 implements a scheduled AI system evaluation program with risk-tier-conditional cadences and produces signed delta reports comparing re-validation results against the pre-deployment baseline, reviewed by the model owner before archiving in CR-02 — directly fulfilling ISO 42001 Clause 9.1's requirement for monitoring, measurement, analysis, and evaluation of AI system performance on a defined schedule. The re-validation pipeline is required to be identical to the pre-deployment evaluation pipeline, satisfying Clause 9.1's comparability requirement for performance measurement.",
@@ -1040,7 +1043,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MANAGE 4.1",
+        "requirement_id": "MANAGE-4.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan with four severity levels, AI-specific containment playbooks covering model rollback, output-filter enforcement, traffic shaping, and full model shutdown, plus regulatory notification triggers and quarterly MITRE ATLAS tabletop exercises — directly operationalizing NIST AI RMF MANAGE 4.1's requirement for risk treatment plans that include incident response and corrective action capabilities for AI systems. RESPOND 1.1 is additionally relevant because CR-04's AIRP and playbooks constitute the organizational AI incident response capability required under the RESPOND function.",
@@ -1057,7 +1060,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 10.1",
+        "requirement_id": "10.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-04 establishes a documented AI Incident Response Plan with defined severity classification criteria, model-specific containment playbooks, and a 5-day post-incident review requirement for P1/P2 events — directly fulfilling ISO 42001 Clause 10.1's requirement for documented processes for identifying and responding to nonconformities and implementing corrective actions. Quarterly tabletop exercises using MITRE ATLAS adversarial scenarios fulfill Clause 10.1's requirement for verifying the effectiveness of corrective action processes through regular testing.",
@@ -1213,7 +1216,8 @@
             "op": "eq",
             "value": "EU"
           }
-        ]
+        ],
+        "reviewed_on": "2026-06-26"
       }
     ],
     "canonical_id": "apeiris://model/controls/CR-05",
@@ -1249,7 +1253,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "GOVERN 1.4",
+        "requirement_id": "GOVERN-1.4",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events to jurisdictions, notification timelines, and designated liaison contacts, with automated countdown timer creation integrated into the CR-04 P1 incident escalation path — directly addressing NIST AI RMF GOVERN 1.4's requirement that organizations identify and meet their legal and regulatory accountability obligations for AI systems. GOVERN 4.1 is additionally relevant because CR-05's legal-counsel-reviewed notification matrix and countdown mechanism operationalize the organizational policies for satisfying external regulatory accountability requirements.",
@@ -1266,7 +1270,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 5.2",
+        "requirement_id": "5.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-05 implements organization-wide accountability for regulatory notification obligations by integrating statutory reporting requirements into the incident response workflow and designating a regulatory liaison role responsible for timely submission — partially fulfilling ISO 42001 Clause 5.2's requirement that AI policy includes commitments to meeting applicable requirements and that leadership ensures these commitments are operationalized. The legal-counsel-reviewed notification matrix and annual review requirement fulfill Clause 5.2's management commitment and documented policy obligations.",
@@ -1488,7 +1492,8 @@
             "op": "eq",
             "value": "EU"
           }
-        ]
+        ],
+        "reviewed_on": "2026-06-26"
       }
     ],
     "canonical_id": "apeiris://model/controls/CR-06",
@@ -1505,7 +1510,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MEASURE 2.3",
+        "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-06 establishes three proactive surveillance channels — user-facing harm reporting, coordinated vulnerability disclosure, and quarterly literature monitoring — that extend AI system monitoring beyond passive runtime metrics to capture harm data that internal instrumentation alone cannot detect, directly supporting NIST AI RMF MEASURE 2.3's production monitoring obligation. MANAGE 4.1 is additionally relevant because CR-06's monthly surveillance report feeds the risk treatment process, triggering CR-04 incident response when surveillance signals meet P1/P2 severity criteria.",
@@ -1522,7 +1527,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 9.1",
+        "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-06 implements a structured post-market surveillance program with three proactive input channels — user harm reporting, CVD submissions, and literature monitoring — aggregated into a monthly report reviewed by the AI risk function, fulfilling ISO 42001 Clause 9.1's requirement for monitoring and evaluation that captures AI system performance signals from the operating environment beyond internal instrumentation. Annex B's risk monitoring obligations for deployed AI systems are additionally addressed because CR-06 captures external risk signals and escalates qualifying findings to the incident response process.",
@@ -1716,7 +1721,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "MANAGE 2.4",
+        "requirement_id": "MANAGE-2.4",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-07 implements a formal model retirement process with a signed retirement decision record, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 evaluation, and a final retirement record — directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk treatment actions that include decommissioning and end-of-life disposal of AI systems. MANAGE 4.2 is additionally relevant because CR-07's GDPR Art. 17 evaluation constitutes the post-retirement risk treatment for any remaining data subject rights obligations linked to the retired model.",
@@ -1733,7 +1738,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 8.1",
+        "requirement_id": "8.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-07 implements operational planning and control for the AI system decommissioning phase — requiring a signed retirement decision record, minimum 30-day notice period, evidence archive completeness verification, and a final retirement record — directly satisfying ISO 42001 Clause 8.1's requirement that all AI system lifecycle phases be planned, implemented, controlled, and reviewed. Clause A.6.3 on AI system lifecycle decommissioning is additionally fulfilled because CR-07's retirement checklist ensures decommissioning is conducted in a documented and auditable manner with appropriate stakeholder notification.",
@@ -1914,7 +1919,7 @@
     "frameworks": [
       {
         "framework": "nist_rmf",
-        "requirement_id": "GOVERN 2.2",
+        "requirement_id": "GOVERN-2.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners — directly addressing NIST AI RMF GOVERN 2.2's requirement for organizational practices that establish accountability and coordination for AI risk management across functional and organizational boundaries. GOVERN 6.1 is additionally relevant because CR-08 implements the inter-domain policies and procedures needed to ensure that no cross-domain assurance gap creates an uncompensated blind spot.",
@@ -1931,7 +1936,7 @@
       },
       {
         "framework": "iso_42001",
-        "requirement_id": "Clause 8.3",
+        "requirement_id": "8.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-08 implements governance for cross-domain evidence references through the audit:cross-domain build check, namespace-registry.json resolver validation, and quarterly cross-domain sync reviews — supporting ISO 42001 Clause 8.3's requirement for processes that govern AI system design activities including coordination across organizational and domain boundaries. Annex A.4.2 on organizational context for AI risk management is additionally addressed because CR-08 explicitly compensates the gap3 cross-domain federation finding through structured inter-domain accountability and documented open findings.",

@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T04:21:28.180Z",
+      "generated_at": "2026-06-27T04:27:19.518Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:64f716dfafc5ede96dc974c45e24c0a1316907e6d62560e2ce9059e4e7f4e5ce"
+      "content_hash": "sha256:e2c381a786e1c7ba90b8a47f3e073be0fc3ddcc2499e40beaa2dc6088b4a33ec"
     },
     "controls": [
       {
@@ -2892,7 +2892,7 @@
             "fit": "direct",
             "direction": "control-supports-requirement",
             "rationale": "CSA AICM GOV-02 addresses AI governance requirements for legal compliance and IP management. LI-08's license chain record and compatibility analysis directly implement GOV-02's IP management requirement for AI systems.",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -3920,7 +3920,8 @@
             "text": "EU AI Act Art. 10(2) — high-risk AI systems must use training data that meets quality criteria including relevance, representativeness, and freedom from errors",
             "jurisdiction": "EU",
             "effective_date": "2027-08-02",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -4050,7 +4051,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Data quality gates are a core AICM data management control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
@@ -4314,7 +4315,8 @@
             "text": "EU AI Act Art. 10(3) — high-risk AI systems must examine training data for possible biases that may affect fundamental rights or lead to discrimination",
             "jurisdiction": "EU",
             "effective_date": "2027-08-02",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -4453,7 +4455,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Subgroup analysis is a core AICM fairness control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "GOV-04"
@@ -4668,35 +4670,40 @@
             "text": "GDPR Art. 6 — processing of personal data requires a lawful basis; purpose limitation applies",
             "jurisdiction": "EU / EEA",
             "effective_date": "2018-05-25",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "gdpr_art9",
             "text": "GDPR Art. 9 — additional conditions required for processing special-category data",
             "jurisdiction": "EU / EEA",
             "effective_date": "2018-05-25",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "gdpr_art17",
             "text": "GDPR Art. 17 — right to erasure must be operationalized in training data pipelines",
             "jurisdiction": "EU / EEA",
             "effective_date": "2018-05-25",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "eu_ai_act_art10_2c",
             "text": "EU AI Act Art. 10(2)(c) — training data must meet data governance requirements including lawful collection",
             "jurisdiction": "EU",
             "effective_date": "2027-08-02",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "ccpa_cpra",
             "text": "CCPA/CPRA — California residents have opt-out and deletion rights that apply to training data where personal information is used for commercial AI development",
             "jurisdiction": "California, USA",
             "effective_date": "2023-01-01",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -4835,7 +4842,7 @@
             "direction": "control-supports-requirement",
             "rationale": "DRR is the primary data rights governance control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
@@ -4858,7 +4865,7 @@
             "direction": "control-supports-requirement",
             "rationale": "NIST AI 600-1 DATA-PRIVACY covers risks from models trained on personal data — including memorization, membership inference attacks, and unintended output of personal information. TG-03 addresses the training-time component by governing how sensitive and protected-attribute data is handled during dataset assembly and preprocessing.",
             "uncovered_portion": "DATA-PRIVACY in NIST AI 600-1 also covers inference-time privacy risks (model outputs revealing training data) — those are addressed by EV-04 red-teaming and BH-05 audit logging, not TG-03.",
-            "source_version": "1.0",
+            "source_version": "2024",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium",
             "provisional": true,
@@ -5067,7 +5074,8 @@
             "text": "EU AI Act Art. 10(2) — training data for high-risk AI must meet quality criteria; data integrity is a prerequisite",
             "jurisdiction": "EU",
             "effective_date": "2027-08-02",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -5203,7 +5211,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Data integrity controls are a primary AICM supply chain security mechanism",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "SUP-01"
@@ -5459,7 +5467,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Train/eval separation is a core AICM evaluation control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "EVA-01"
@@ -5708,21 +5716,24 @@
             "text": "GDPR Art. 5(1)(c) — data minimisation: personal data must be adequate, relevant and limited to what is necessary for the purpose",
             "jurisdiction": "EU / EEA",
             "effective_date": "2018-05-25",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "gdpr_art25",
             "text": "GDPR Art. 25 — data protection by design and by default: controller must implement minimisation by design",
             "jurisdiction": "EU / EEA",
             "effective_date": "2018-05-25",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "eu_ai_act_art10_5",
             "text": "EU AI Act Art. 10(5) — processing of special category data is permitted to the extent strictly necessary for bias detection and correction, with appropriate safeguards",
             "jurisdiction": "EU",
             "effective_date": "2027-08-02",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -5861,7 +5872,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Data minimization and necessity controls are core AICM privacy controls",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "PRV-01"
@@ -6169,7 +6180,7 @@
             "direction": "control-supports-requirement",
             "rationale": "TPDR is the primary AICM third-party data supply chain control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "SUP-01"
@@ -6434,28 +6445,32 @@
             "text": "GDPR Art. 5(1)(e) — storage limitation: personal data must not be kept for longer than necessary for the specified purpose",
             "jurisdiction": "EU / EEA",
             "effective_date": "2018-05-25",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "gdpr_art17",
             "text": "GDPR Art. 17 — right to erasure: data subjects can request deletion; controller must comply within one month, extendable to three with notice",
             "jurisdiction": "EU / EEA",
             "effective_date": "2018-05-25",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "ccpa_1798_105",
             "text": "CCPA/CPRA §1798.105 — California consumers have the right to request deletion of personal information; businesses must comply within 45 days",
             "jurisdiction": "California, USA",
             "effective_date": "2023-01-01",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "eu_ai_act_annex_iv",
             "text": "EU AI Act Annex IV §2 — technical documentation must include description of training data including provenance, requiring sufficient retention to reconstruct the documentation during the post-market monitoring period",
             "jurisdiction": "EU",
             "effective_date": "2027-08-02",
-            "binding": true
+            "binding": true,
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -6594,7 +6609,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Lifecycle policy is a core AICM data governance control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1",
+            "source_version": "1.0.3",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
@@ -6691,7 +6706,8 @@
             "jurisdiction": "EU",
             "binding": true,
             "effective_date_standalone_high_risk": "2027-12-02",
-            "effective_date_product_embedded": "2028-08-02"
+            "effective_date_product_embedded": "2028-08-02",
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -6926,7 +6942,7 @@
             "rationale": "AI Control Matrix general governance controls align with the requirement for documented deployment decisions.",
             "uncovered_portion": "AICM does not specify technical gate enforcement or signing requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -7195,7 +7211,7 @@
             "rationale": "AICM EV-1 aligns with structured model evaluation before deployment.",
             "uncovered_portion": "AICM does not specify dimension isolation or pre-specified threshold requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -7215,7 +7231,7 @@
             "source_locator": {
               "section": "CONFABULATION"
             },
-            "source_version": "1.0",
+            "source_version": "2024",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium",
             "provisional": true,
@@ -7542,7 +7558,7 @@
             "direction": "out-of-scope",
             "rationale": "AI Control Matrix does not currently include frontier dangerous capability assessment controls.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -7563,7 +7579,7 @@
             "source_locator": {
               "section": "CBRN"
             },
-            "source_version": "1.0",
+            "source_version": "2024",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium",
             "provisional": true,
@@ -7862,7 +7878,7 @@
             "rationale": "AICM adversarial testing controls align with structured red-team exercise requirements.",
             "uncovered_portion": "AICM does not specify threat model documentation or deployment gate integration.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -7881,7 +7897,7 @@
             "direction": "control-supports-requirement",
             "rationale": "NIST AI 600-1 identifies Information Security as a GenAI risk category covering adversarial attacks, prompt injection, extraction of training data, and supply chain threats against AI systems. EV-04 red-team testing directly addresses this by requiring structured adversarial probing before deployment.",
             "uncovered_portion": "NIST AI 600-1 INFO-SECURITY also covers runtime detection and incident response to adversarial attacks — those aspects are owned by securitycontrols.ai runtime controls, not by this pre-deployment evaluation control.",
-            "source_version": "1.0",
+            "source_version": "2024",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium",
             "provisional": true,
@@ -8198,7 +8214,7 @@
             "rationale": "AICM bias and fairness assessment controls align with structured fairness evaluation requirements.",
             "uncovered_portion": "AICM does not specify pre-specification of thresholds or metric trade-off documentation requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -8216,7 +8232,7 @@
             "direction": "control-supports-requirement",
             "rationale": "NIST AI 600-1 identifies Human-AI Configuration as a GenAI risk encompassing automation bias, over-reliance, and the erosion of human oversight capacity — dynamics that intensify when models produce systematically biased outputs across demographic groups. EV-05 fairness evaluation supports this risk category by measuring demographic performance disparities that can exacerbate biased automated decisions.",
             "uncovered_portion": "HUMAN-AI-CONFIG addresses the full human-oversight configuration problem beyond just measurement of bias; interface design, user calibration, and override mechanisms are not covered by EV-05.",
-            "source_version": "1.0",
+            "source_version": "2024",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium",
             "provisional": true,
@@ -8512,7 +8528,7 @@
             "rationale": "AICM evaluation integrity controls align with reproducible design requirements.",
             "uncovered_portion": "AICM does not specify contamination screening or artifact signing.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -8938,7 +8954,7 @@
             "rationale": "AICM regression testing controls align with structured regression evaluation on model updates.",
             "uncovered_portion": "AICM does not specify monitoring schema structure or safety regression zero-tolerance policy.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -9068,7 +9084,8 @@
             "jurisdiction": "US",
             "binding": false,
             "note": "SR 26-2 is supervisory guidance, not binding regulation; however, non-compliance is subject to supervisory action for in-scope institutions.",
-            "in_scope_threshold": "$30B+ total assets"
+            "in_scope_threshold": "$30B+ total assets",
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -9306,7 +9323,7 @@
             "rationale": "AICM separation of duties controls align with independent validation requirements.",
             "uncovered_portion": "AICM does not specify the organizational depth of independence required for effective challenge.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -9389,7 +9406,8 @@
             "jurisdiction": "EU",
             "binding": true,
             "effective_date_standalone_high_risk": "2027-12-02",
-            "effective_date_product_embedded": "2028-08-02"
+            "effective_date_product_embedded": "2028-08-02",
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "SR262-model-risk-tiering",
@@ -9397,7 +9415,8 @@
             "jurisdiction": "US",
             "binding": false,
             "note": "Supervisory guidance; non-compliance subject to supervisory action for in-scope institutions.",
-            "in_scope_threshold": "$30B+ total assets"
+            "in_scope_threshold": "$30B+ total assets",
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -9663,7 +9682,7 @@
             "rationale": "AICM risk classification controls align with the structured classification process.",
             "uncovered_portion": "AICM does not specify EU AI Act Article 6 / Annex III classification methodology.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -9937,7 +9956,7 @@
             "rationale": "AICM evaluation records controls align with content-addressed, signed evaluation result provenance requirements.",
             "uncovered_portion": "AICM does not specify tamper-evident log technology or provenance chain traversal tooling.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.1"
+            "source_version": "1.0.3"
           },
           {
             "framework": "mitre",
@@ -10364,7 +10383,8 @@
             "requirement": "High-risk AI systems shall be designed and developed in such a way, including with appropriate human-machine interface tools, that they can be effectively overseen by natural persons during the period in which they are in use.",
             "applicability": "eu-high-risk profile",
             "deadline": "2027-12-02",
-            "enforcement_body": "National market surveillance authority"
+            "enforcement_body": "National market surveillance authority",
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "eu-ai-act-art-14-sub3",
@@ -10374,7 +10394,8 @@
             "requirement": "Operators of high-risk AI systems shall assign the oversight to natural persons who have the necessary competence, training and authority to carry out that role.",
             "applicability": "eu-high-risk profile — deployer obligation",
             "deadline": "2027-12-02",
-            "enforcement_body": "National market surveillance authority"
+            "enforcement_body": "National market surveillance authority",
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -11228,7 +11249,8 @@
             "applicability": "eu-high-risk profile",
             "deadline": "2027-12-02",
             "enforcement_body": "National market surveillance authority",
-            "note": "For most Annex III categories (except biometric and critical infrastructure), providers may use self-assessment against Annex IV technical documentation requirements."
+            "note": "For most Annex III categories (except biometric and critical infrastructure), providers may use self-assessment against Annex IV technical documentation requirements.",
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "eu-ai-act-art-17",
@@ -11238,7 +11260,8 @@
             "requirement": "Providers of high-risk AI systems shall implement a quality management system including procedures for regulatory compliance review.",
             "applicability": "eu-high-risk profile",
             "deadline": "2027-12-02",
-            "enforcement_body": "National market surveillance authority"
+            "enforcement_body": "National market surveillance authority",
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "eu-ai-act-art-47",
@@ -11248,7 +11271,8 @@
             "requirement": "Providers shall draw up an EU declaration of conformity for each high-risk AI system and keep it at the disposal of the national competent authorities for 10 years after the system has been placed on the market or put into service.",
             "applicability": "eu-high-risk profile",
             "deadline": "2027-12-02",
-            "enforcement_body": "National market surveillance authority"
+            "enforcement_body": "National market surveillance authority",
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -11735,7 +11759,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.1",
+            "requirement_id": "8.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "OA-06 implements operational planning and control for third-party AI model procurement — requiring risk-based due diligence before first use, contract terms covering model change notification and audit rights, annual vendor risk review, and substitutability planning — directly supporting ISO 42001 Clause 8.1's requirement that operational processes including the use of externally-provided AI components be planned, implemented, controlled, and reviewed. Annex B's AI system supply chain considerations are additionally addressed because OA-06's vendor governance framework governs the intake, monitoring, and exit of third-party AI components throughout their operational lifecycle.",
@@ -12128,7 +12152,8 @@
             "requirement": "High-risk AI systems shall be designed and developed in such a way as to ensure that their operation is sufficiently transparent to enable deployers to understand the system's output and use it appropriately.",
             "applicability": "eu-high-risk profile",
             "deadline": "2027-12-02",
-            "enforcement_body": "National market surveillance authority"
+            "enforcement_body": "National market surveillance authority",
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "eu-ai-act-art-50",
@@ -12138,7 +12163,8 @@
             "requirement": "Providers of AI systems intended to interact with natural persons shall design and develop systems such that persons are notified that they are interacting with an AI system.",
             "applicability": "AI systems interacting directly with natural persons",
             "deadline": "2025-08-02",
-            "enforcement_body": "National market surveillance authority"
+            "enforcement_body": "National market surveillance authority",
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "gdpr-art-22",
@@ -12149,7 +12175,8 @@
             "applicability": "EU data subjects; solely automated decisions with legal or similarly significant effects — NOT all AI use cases",
             "deadline": "in effect",
             "enforcement_body": "National data protection authority",
-            "note": "GDPR Art-22 is specifically scoped. It does not apply to all AI decisions — only those that are solely automated and produce legal or similarly significant effects."
+            "note": "GDPR Art-22 is specifically scoped. It does not apply to all AI decisions — only those that are solely automated and produce legal or similarly significant effects.",
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "us-fcra-adverse-action",
@@ -12160,7 +12187,8 @@
             "applicability": "US consumer credit decisions — jurisdiction-specific",
             "deadline": "in effect",
             "enforcement_body": "CFPB and FTC",
-            "note": "AI-generated reasons must be translatable to human-interpretable adverse action codes. OCC 2026-13 provides non-binding guidance on this translation."
+            "note": "AI-generated reasons must be translatable to human-interpretable adverse action codes. OCC 2026-13 provides non-binding guidance on this translation.",
+            "reviewed_on": "2026-06-26"
           },
           {
             "authority": "European Union — European Parliament and Council",
@@ -12788,7 +12816,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-01 continuously samples model output distributions and applies statistical process control — computing PSI against a signed 30-day post-deployment baseline and firing tiered alerts when outputs shift beyond thresholds — directly operationalizing the production monitoring obligation of NIST AI RMF MEASURE 2.3. MANAGE 2.4 is additionally relevant because BH-01's alert routing SLAs (15 minutes for critical anomalies) define the response pathway when monitored outputs indicate elevated risk.",
@@ -12805,7 +12833,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-01 implements systematic monitoring and measurement of model output distributions using PSI metrics and control charts, with documented alert thresholds reviewed quarterly by the model owner — fulfilling the core obligations of ISO 42001 Clause 9.1 for monitoring, measurement, analysis, and evaluation of AI system performance. The versioned, signed baseline artifact provides the documented reference point that Clause 9.1 requires for evaluating whether AI system performance remains acceptable.",
@@ -13100,7 +13128,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact and fires profile-conditional alerts when distribution shift exceeds defined thresholds, directly addressing the input-monitoring dimension of NIST AI RMF MEASURE 2.3's production monitoring requirement. MANAGE 2.4 is additionally relevant because BH-02's alerts for PSI above 0.2 trigger model review workflows constituting a structured risk response to identified distributional changes.",
@@ -13117,7 +13145,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-02 establishes systematic production monitoring of input and prediction distributions using PSI metrics with minimum sample size guards and profile-conditional thresholds, providing the measurement foundation that ISO 42001 Clause 9.1 requires for ongoing evaluation of AI system performance. The versioned DriftReference artifact and monthly drift summary reports reviewed by the model owner fulfill Clause 9.1's requirements for documented evidence of monitoring results and management review inputs.",
@@ -13391,7 +13419,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-03 compares live production performance metrics against a signed EvaluationBaseline artifact and fires tiered alerts when primary metrics regress beyond accepted tolerances — directly implementing the performance-against-baseline monitoring component of NIST AI RMF MEASURE 2.3. MANAGE 2.2 is additionally relevant because BH-03's sev1 escalation triggers the risk response pathway defined in the incident response runbook, operationalizing the MANAGE function's response to detected performance degradation.",
@@ -13408,7 +13436,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-03 implements documented performance thresholds expressed as percentage regression from a signed EvaluationBaseline, with tiered alert levels and routing SLAs that ensure performance monitoring evidence is systematically generated and acted upon — fulfilling the measurement, analysis, and evaluation obligations of ISO 42001 Clause 9.1. Clause 10.1 on nonconformity and corrective action is additionally implicated because crossing the critical threshold automatically initiates the corrective action workflow via CR-04 incident response.",
@@ -13622,7 +13650,7 @@
             "direction": "control-supports-requirement",
             "rationale": "BH-04 monitors for prompt injection attempts and runtime adversarial activity against model systems. NIST AI 600-1 INFO-SECURITY covers adversarial prompt injection as a primary GenAI threat. This control contributes to the production monitoring component of information security risk management for GenAI deployments.",
             "uncovered_portion": "EV-04 (red-team evaluation) handles the pre-deployment adversarial testing component; BH-04 handles runtime detection only.",
-            "source_version": "1.0",
+            "source_version": "2024",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium",
             "provisional": true,
@@ -13630,7 +13658,7 @@
           },
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.6",
+            "requirement_id": "MEASURE-2.6",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-04 operates a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per category and trending results over 30 days — directly operationalizing the robustness and trustworthiness evaluation requirements of NIST AI RMF MEASURE 2.6 for the operational deployment phase. MANAGE 2.4 is additionally relevant because BH-04's critical alerts trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
@@ -13647,7 +13675,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-04 implements scheduled behavioral boundary testing in production using a versioned BoundaryTestSuite with defined BoundaryAdherenceRate thresholds reviewed quarterly — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations. Clause 6.1 on addressing risks and opportunities is additionally relevant because behavioral boundary testing directly operationalizes the risk treatment selected during the risk assessment phase to maintain intended-use constraints in production.",
@@ -13813,10 +13841,41 @@
           ]
         },
         "obligations": [
-          "EU AI Act Art. 12: high-risk AI systems must automatically log events; logs kept for minimum period.",
-          "EU AI Act Art. 26(5): deployers of high-risk AI must keep logs.",
-          "SR 26-2 Section IV.D: model documentation must support ongoing monitoring and audit.",
-          "GDPR Art. 5(1)(e): data minimization and storage limitation apply to logged personal data."
+          {
+            "id": "eu-aia-art12-logging",
+            "text": "EU AI Act Art. 12: high-risk AI systems must automatically log events; logs must be kept for the period prescribed by applicable sectoral law (minimum 6 months unless law requires longer).",
+            "jurisdiction": "EU",
+            "binding": true,
+            "normative_force": "binding-law",
+            "effective_date": "2027-12-02",
+            "reviewed_on": "2026-06-26"
+          },
+          {
+            "id": "eu-aia-art26-deployer-logs",
+            "text": "EU AI Act Art. 26(5): deployers of high-risk AI systems must keep the automatically generated logs for the prescribed period and make them available to national competent authorities on request.",
+            "jurisdiction": "EU",
+            "binding": true,
+            "normative_force": "binding-law",
+            "effective_date": "2027-12-02",
+            "reviewed_on": "2026-06-26"
+          },
+          {
+            "id": "sr262-documentation-records",
+            "text": "SR 26-2 Section IV.D: model documentation and records must support ongoing monitoring, audit, and supervisory examination for banking organizations with total assets over $30B.",
+            "jurisdiction": "US",
+            "binding": false,
+            "normative_force": "supervisory-guidance",
+            "reviewed_on": "2026-06-26"
+          },
+          {
+            "id": "gdpr-art5-data-minimization",
+            "text": "GDPR Art. 5(1)(e): storage limitation principle — logged personal data must be anonymized, pseudonymized, or deleted when no longer necessary for the stated purpose. Inference logs containing personal data require a legal basis and retention schedule.",
+            "jurisdiction": "EU",
+            "binding": true,
+            "normative_force": "binding-law",
+            "effective_date": "2018-05-25",
+            "reviewed_on": "2026-06-26"
+          }
         ],
         "profiles": [
           "high-impact-decision",
@@ -13889,7 +13948,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 1.2",
+            "requirement_id": "GOVERN-1.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-05 creates a tamper-evident DecisionLog for every model inference — capturing caller identity, masked inputs, sampled outputs, latency, and decision outcomes — providing the accountability record foundation that NIST AI RMF GOVERN 1.2 requires for demonstrating that AI systems operate within established policies. MANAGE 4.1 is additionally relevant because DecisionLogs are the primary source of evidence for incident attribution, root-cause analysis, and corrective action verification.",
@@ -13906,7 +13965,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 7.5",
+            "requirement_id": "7.5",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-05 implements structured documented information controls for AI inference records — including a defined schema, HMAC-SHA-256 input masking, tiered retention aligned to EU AI Act Art. 12 obligations, and a daily Merkle tree tamper-evidence mechanism — directly satisfying ISO 42001 Clause 7.5's requirement for documented information necessary for the effectiveness of the AI management system. Clause 9.1 is additionally relevant because DecisionLogs provide the raw telemetry foundation for the operational monitoring and measurement activities implemented by BH-01 through BH-04.",
@@ -14121,7 +14180,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.6",
+            "requirement_id": "MEASURE-2.6",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-06 operates a continuous InjectionProbeLibrary against production endpoints, computing InjectionResistanceScore per attack category and trending results over 30 days — directly operationalizing the security robustness measurement requirements of NIST AI RMF MEASURE 2.6 for the production deployment phase. MANAGE 2.4 is additionally relevant because critical InjectionResistanceScore drops trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
@@ -14138,7 +14197,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-06 implements scheduled adversarial probe runs against the production model with defined InjectionResistanceScore thresholds, monthly governance board reports, and documented cross-domain alert routing — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations for security-relevant AI risks. Annex B identifies adversarial robustness as a core AI system risk requiring operational monitoring; BH-06 satisfies this obligation for the injection-resistance dimension through continuous production testing.",
@@ -14413,7 +14472,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 2.4",
+            "requirement_id": "MANAGE-2.4",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-07 implements real-time cost and resource anomaly monitoring using Z-score and EWMA anomaly detection against rolling per-caller baselines, with configurable budget guardrails and tiered alerts for cost spikes — directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk response controls that prevent resource-related operational harms. GOVERN 1.7 is additionally relevant because per-caller budget caps and monthly cost reports fulfill the resource allocation accountability obligations of the GOVERN function for AI system operations.",
@@ -14430,7 +14489,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 7.1",
+            "requirement_id": "7.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-07 monitors compute resource consumption, token usage, and API call volumes in real time against per-caller budget caps — supporting the resource adequacy monitoring obligations of ISO 42001 Clause 7.1, which requires organizations to determine and provide adequate resources for AI system operation. Clause 9.1 is additionally relevant because BH-07's cost anomaly metrics contribute to the operational monitoring evidence base that Clause 9.1 requires for evaluating AI system performance and detecting abnormal operational conditions.",
@@ -14607,7 +14666,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 1.3",
+            "requirement_id": "MANAGE-1.3",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-08 requires signed authorization artifacts, pre-defined canary exit criteria, and automated rollback triggers before any production traffic is routed to a new model version — directly implementing the deployment authorization and governance requirements of NIST AI RMF MANAGE 1.3. MANAGE 3.1 is additionally relevant because BH-08's four-stage deployment pipeline with documented rollback arms constitutes a structured risk response framework for managing deployment-phase risks.",
@@ -14624,7 +14683,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.1",
+            "requirement_id": "8.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-08 implements operational planning and control for model deployment transitions by requiring signed authorization artifacts, enforcing pre-defined canary exit criteria, and automating rollback triggers — directly satisfying ISO 42001 Clause 8.1's requirement that operational processes be planned, implemented, controlled, and reviewed. Clause 8.4 on the AI system lifecycle is additionally relevant because BH-08's four-stage deployment pipeline constitutes the deployment phase lifecycle control required by the AI system lifecycle management obligations.",
@@ -14786,9 +14845,31 @@
           "generative-ai"
         ],
         "obligations": [
-          "EU AI Act Art. 50: AI-generated content must be labeled as AI-generated in a machine-readable format; GPAI model providers must ensure outputs are detectable. Art. 50 applies from August 2026.",
-          "NIST AI 100-4: recommends provenance and watermarking approaches for synthetic content; not yet binding federal requirement.",
-          "C2PA: industry standard for content provenance; voluntary but increasingly required by platform partners."
+          {
+            "id": "eu-aia-art50-ai-content-labeling",
+            "text": "EU AI Act Art. 50: AI-generated content must be labeled as AI-generated in a machine-readable format. GPAI model providers must ensure their model outputs are detectable as AI-generated or manipulated where technically feasible. Applies to providers and deployers.",
+            "jurisdiction": "EU",
+            "binding": true,
+            "normative_force": "binding-law",
+            "effective_date": "2026-08-02",
+            "reviewed_on": "2026-06-26"
+          },
+          {
+            "id": "nist-ai-100-4-provenance",
+            "text": "NIST AI 100-4: recommends provenance metadata and watermarking approaches for synthetic content, including C2PA-compatible implementations. Voluntary guidance — not a federal binding requirement.",
+            "jurisdiction": "US",
+            "binding": false,
+            "normative_force": "voluntary",
+            "reviewed_on": "2026-06-26"
+          },
+          {
+            "id": "c2pa-content-provenance",
+            "text": "C2PA (Coalition for Content Provenance and Authenticity): industry standard for embedding cryptographic provenance metadata in AI-generated media. Voluntary adoption required for interoperability with platform-level content authenticity checks.",
+            "jurisdiction": "global",
+            "binding": false,
+            "normative_force": "voluntary",
+            "reviewed_on": "2026-06-26"
+          }
         ],
         "capability_risk": {
           "domain": "synthetic_content",
@@ -14858,7 +14939,7 @@
             "source_locator": {
               "section": "INFO-INTEGRITY"
             },
-            "source_version": "1.0",
+            "source_version": "2024",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium",
             "provisional": true,
@@ -14866,7 +14947,7 @@
           },
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 1.2",
+            "requirement_id": "GOVERN-1.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-09 embeds C2PA-compliant provenance assertions in AI-generated content and maintains a GenerationTraceabilityRegistry linking every output to the generating model version — providing the technical accountability and traceability infrastructure that NIST AI RMF GOVERN 1.2 requires for transparency about AI system outputs. GOVERN 6.1 is additionally relevant because BH-09's mandatory disclosure labels and provenance verification endpoint operationalize the transparency communication requirements for generative AI deployments under the GOVERN function.",
@@ -14883,7 +14964,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.2",
+            "requirement_id": "8.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-09 documents AI-generated content at the point of creation through C2PA manifest embedding, maintains a GenerationTraceabilityRegistry, and applies mandatory EU AI Act Art. 50 disclosure labels — fulfilling ISO 42001 Clause 8.2's AI system documentation requirements for generative AI outputs. Annex A.6 on system transparency further requires that AI systems provide mechanisms for identifying AI-generated content; BH-09 directly implements this through cryptographic provenance assertions and disclosure labels.",
@@ -15130,7 +15211,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 2.2",
+            "requirement_id": "MANAGE-2.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-10 governs all post-deployment feedback loops — requiring signed authorization for online learning updates, monitoring inter-rater reliability via Cohen's Kappa, detecting feedback poisoning through PSI anomaly detection, and implementing self-reinforcing error circuit breakers — directly operationalizing NIST AI RMF MANAGE 2.2's requirement for controls that manage changing AI system behaviors over time. MANAGE 2.4 is additionally relevant because BH-10's circuit breakers and poisoning alerts constitute the risk response layer when feedback anomalies are detected.",
@@ -15147,7 +15228,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.6",
+            "requirement_id": "8.6",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-10 implements governance controls for all feedback data that influences model behavior after deployment — including inter-rater reliability monitoring, feedback poisoning detection with PSI threshold of 0.2, and a signed authorization gate for online learning updates — directly operationalizing ISO 42001 Clause 8.6's requirement for data governance controls throughout the AI system lifecycle. For continuously-learning deployments, Clause 8.6's obligations extend to production feedback data, which BH-10 governs through labeler quality controls, anomaly detection, and the FeedbackGovernanceLog.",
@@ -15428,7 +15509,8 @@
                 "op": "eq",
                 "value": "EU"
               }
-            ]
+            ],
+            "reviewed_on": "2026-06-26"
           },
           {
             "id": "OB-CR-01-SR",
@@ -15448,7 +15530,8 @@
                 "op": "gte",
                 "value": 30000000000
               }
-            ]
+            ],
+            "reviewed_on": "2026-06-26"
           }
         ],
         "capability_risk": {
@@ -15465,7 +15548,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, and cost — into a unified risk dashboard with automated alerting thresholds calibrated at ±2σ from baseline, directly operationalizing NIST AI RMF MEASURE 2.3's production monitoring requirement for AI systems. MANAGE 2.4 is additionally relevant because CR-01's tiered alert structure (P1 for safety threshold breaches, P2 for performance drift) constitutes the risk response triggering mechanism that routes monitoring signals to the appropriate risk treatment pathway.",
@@ -15482,7 +15565,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-01 implements a comprehensive monitoring, measurement, analysis, and evaluation system covering five metric types — performance, drift, fairness, safety, and cost — with a composite risk score updated on each operational window and a read-only GRC access dashboard, directly fulfilling ISO 42001 Clause 9.1's requirement for systematic monitoring and evaluation of AI system performance. The quarterly synthetic anomaly injection test requirement and documented alert threshold rationale fulfill Clause 9.1's requirement for evidence of monitoring effectiveness and management review inputs.",
@@ -15723,7 +15806,8 @@
                 "op": "eq",
                 "value": "EU"
               }
-            ]
+            ],
+            "reviewed_on": "2026-06-26"
           }
         ],
         "capability_risk": {
@@ -15740,7 +15824,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 6.2",
+            "requirement_id": "GOVERN-6.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-02 implements an immutable, content-addressed evidence archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage and a read-only retrieval API accessible to auditors — directly operationalizing NIST AI RMF GOVERN 6.2's requirement for records management and accountability documentation that supports oversight of AI systems throughout their lifecycle. MANAGE 2.4 is additionally relevant because the CR-02 archive is the primary source of artifacts for post-incident investigation and corrective action verification.",
@@ -15757,7 +15841,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 7.5",
+            "requirement_id": "7.5",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-02 creates and maintains documented information for every AI system lifecycle event — evaluation manifests, monitoring snapshots, incident records, and regulatory submissions — in an immutable, content-addressed archive with SHA-256 hash verification and defined retention schedules of 3-year default and 10-year banking, directly satisfying ISO 42001 Clause 7.5's requirements for documented information necessary for the effectiveness of the AI management system. The Sigstore Rekor transparency-log anchoring provides the integrity assurance that Clause 7.5 requires for retained documented information.",
@@ -15995,7 +16079,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.2",
+            "requirement_id": "MEASURE-2.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-03 runs full benchmark, bias, and safety evaluation suites on a defined schedule — quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 — with delta reports comparing current performance against the release baseline, directly operationalizing NIST AI RMF MEASURE 2.2's requirement for periodic measurement of AI system performance to verify that systems continue to meet their stated objectives post-deployment. MANAGE 3.1 is additionally relevant because CR-03's threshold breach triggers automatically initiate CR-04 incident response and, for EU high-risk systems, the conformity re-assessment process.",
@@ -16012,7 +16096,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-03 implements a scheduled AI system evaluation program with risk-tier-conditional cadences and produces signed delta reports comparing re-validation results against the pre-deployment baseline, reviewed by the model owner before archiving in CR-02 — directly fulfilling ISO 42001 Clause 9.1's requirement for monitoring, measurement, analysis, and evaluation of AI system performance on a defined schedule. The re-validation pipeline is required to be identical to the pre-deployment evaluation pipeline, satisfying Clause 9.1's comparability requirement for performance measurement.",
@@ -16216,7 +16300,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 4.1",
+            "requirement_id": "MANAGE-4.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan with four severity levels, AI-specific containment playbooks covering model rollback, output-filter enforcement, traffic shaping, and full model shutdown, plus regulatory notification triggers and quarterly MITRE ATLAS tabletop exercises — directly operationalizing NIST AI RMF MANAGE 4.1's requirement for risk treatment plans that include incident response and corrective action capabilities for AI systems. RESPOND 1.1 is additionally relevant because CR-04's AIRP and playbooks constitute the organizational AI incident response capability required under the RESPOND function.",
@@ -16233,7 +16317,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 10.1",
+            "requirement_id": "10.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-04 establishes a documented AI Incident Response Plan with defined severity classification criteria, model-specific containment playbooks, and a 5-day post-incident review requirement for P1/P2 events — directly fulfilling ISO 42001 Clause 10.1's requirement for documented processes for identifying and responding to nonconformities and implementing corrective actions. Quarterly tabletop exercises using MITRE ATLAS adversarial scenarios fulfill Clause 10.1's requirement for verifying the effectiveness of corrective action processes through regular testing.",
@@ -16388,7 +16472,8 @@
                 "op": "eq",
                 "value": "EU"
               }
-            ]
+            ],
+            "reviewed_on": "2026-06-26"
           }
         ],
         "canonical_id": "apeiris://model/controls/CR-05",
@@ -16424,7 +16509,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 1.4",
+            "requirement_id": "GOVERN-1.4",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events to jurisdictions, notification timelines, and designated liaison contacts, with automated countdown timer creation integrated into the CR-04 P1 incident escalation path — directly addressing NIST AI RMF GOVERN 1.4's requirement that organizations identify and meet their legal and regulatory accountability obligations for AI systems. GOVERN 4.1 is additionally relevant because CR-05's legal-counsel-reviewed notification matrix and countdown mechanism operationalize the organizational policies for satisfying external regulatory accountability requirements.",
@@ -16441,7 +16526,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 5.2",
+            "requirement_id": "5.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-05 implements organization-wide accountability for regulatory notification obligations by integrating statutory reporting requirements into the incident response workflow and designating a regulatory liaison role responsible for timely submission — partially fulfilling ISO 42001 Clause 5.2's requirement that AI policy includes commitments to meeting applicable requirements and that leadership ensures these commitments are operationalized. The legal-counsel-reviewed notification matrix and annual review requirement fulfill Clause 5.2's management commitment and documented policy obligations.",
@@ -16662,7 +16747,8 @@
                 "op": "eq",
                 "value": "EU"
               }
-            ]
+            ],
+            "reviewed_on": "2026-06-26"
           }
         ],
         "canonical_id": "apeiris://model/controls/CR-06",
@@ -16679,7 +16765,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-06 establishes three proactive surveillance channels — user-facing harm reporting, coordinated vulnerability disclosure, and quarterly literature monitoring — that extend AI system monitoring beyond passive runtime metrics to capture harm data that internal instrumentation alone cannot detect, directly supporting NIST AI RMF MEASURE 2.3's production monitoring obligation. MANAGE 4.1 is additionally relevant because CR-06's monthly surveillance report feeds the risk treatment process, triggering CR-04 incident response when surveillance signals meet P1/P2 severity criteria.",
@@ -16696,7 +16782,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-06 implements a structured post-market surveillance program with three proactive input channels — user harm reporting, CVD submissions, and literature monitoring — aggregated into a monthly report reviewed by the AI risk function, fulfilling ISO 42001 Clause 9.1's requirement for monitoring and evaluation that captures AI system performance signals from the operating environment beyond internal instrumentation. Annex B's risk monitoring obligations for deployed AI systems are additionally addressed because CR-06 captures external risk signals and escalates qualifying findings to the incident response process.",
@@ -16889,7 +16975,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 2.4",
+            "requirement_id": "MANAGE-2.4",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-07 implements a formal model retirement process with a signed retirement decision record, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 evaluation, and a final retirement record — directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk treatment actions that include decommissioning and end-of-life disposal of AI systems. MANAGE 4.2 is additionally relevant because CR-07's GDPR Art. 17 evaluation constitutes the post-retirement risk treatment for any remaining data subject rights obligations linked to the retired model.",
@@ -16906,7 +16992,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.1",
+            "requirement_id": "8.1",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-07 implements operational planning and control for the AI system decommissioning phase — requiring a signed retirement decision record, minimum 30-day notice period, evidence archive completeness verification, and a final retirement record — directly satisfying ISO 42001 Clause 8.1's requirement that all AI system lifecycle phases be planned, implemented, controlled, and reviewed. Clause A.6.3 on AI system lifecycle decommissioning is additionally fulfilled because CR-07's retirement checklist ensures decommissioning is conducted in a documented and auditable manner with appropriate stakeholder notification.",
@@ -17086,7 +17172,7 @@
         "frameworks": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 2.2",
+            "requirement_id": "GOVERN-2.2",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners — directly addressing NIST AI RMF GOVERN 2.2's requirement for organizational practices that establish accountability and coordination for AI risk management across functional and organizational boundaries. GOVERN 6.1 is additionally relevant because CR-08 implements the inter-domain policies and procedures needed to ensure that no cross-domain assurance gap creates an uncompensated blind spot.",
@@ -17103,7 +17189,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.3",
+            "requirement_id": "8.3",
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-08 implements governance for cross-domain evidence references through the audit:cross-domain build check, namespace-registry.json resolver validation, and quarterly cross-domain sync reviews — supporting ISO 42001 Clause 8.3's requirement for processes that govern AI system design activities including coordination across organizational and domain boundaries. Annex A.4.2 on organizational context for AI risk management is additionally addressed because CR-08 explicitly compensates the gap3 cross-domain federation finding through structured inter-domain accountability and documented open findings.",
@@ -19413,7 +19499,7 @@
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.1",
+            "requirement_id": "8.1",
             "fit": "partial",
             "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases and components; OA-06 covers only the third-party vendor and model risk oversight dimension and does not address operational controls for internally-developed AI systems covered by other OA layer controls and the BH layer."
           },
@@ -19506,13 +19592,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.3 encompasses the full spectrum of operational AI monitoring including fairness metrics, input distribution, and societal impact dimensions; BH-01 addresses only statistical output distribution monitoring and does not cover input drift (BH-02), performance regression (BH-03), or behavioral boundary adherence (BH-04)."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 spans the full monitoring scope including evaluation of management system effectiveness and AI system performance across all risk dimensions; BH-01 addresses only statistical output distribution monitoring and does not cover the management system evaluation or other performance dimensions required by Clause 9.1's full scope."
           }
@@ -19525,13 +19611,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.3 spans the full AI system monitoring scope including output behavior, safety, and fairness monitoring; BH-02 covers only input feature and prediction distribution drift and does not address concept drift requiring labeled ground truth, which is addressed by the EV layer periodic re-validation in CR-03."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 and Annex B require a comprehensive monitoring and risk assessment view; BH-02 covers input and prediction distribution drift as one risk dimension and does not address the management system effectiveness evaluation or other performance dimensions encompassed by Clause 9.1's full scope."
           }
@@ -19544,13 +19630,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.3 encompasses the full monitoring scope including fairness, safety, and input distribution monitoring; BH-03 covers only performance metric regression monitoring anchored to the EV-layer baseline and does not address other monitoring dimensions covered by BH-01, BH-02, and BH-04."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 spans the full performance monitoring and management system evaluation scope; BH-03 addresses only production metric regression against the release baseline and does not cover other monitoring dimensions or management system effectiveness evaluation."
           }
@@ -19569,13 +19655,13 @@
           },
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.6",
+            "requirement_id": "MEASURE-2.6",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.6 encompasses robustness evaluation across the full AI lifecycle including pre-deployment testing; BH-04 covers only the production-time adherence measurement component and explicitly excludes enforcement, which is delegated to securitycontrols.ai, and pre-release adversarial evaluation covered by EV-06 and EV-07."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clauses 9.1 and 6.1 address performance monitoring and risk management across the full AI system scope; BH-04 covers only behavioral boundary adherence measurement and does not address other monitoring dimensions, fairness metrics, or management system effectiveness evaluation."
           }
@@ -19588,13 +19674,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 1.2",
+            "requirement_id": "GOVERN-1.2",
             "fit": "partial",
             "uncovered_portion": "GOVERN 1.2 addresses the full accountability and transparency policy lifecycle including governance structures, stakeholder communication, and external transparency obligations; BH-05 covers only inference-level audit trail creation and does not address governance policy documentation, accountability structures, or external reporting obligations."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 7.5",
+            "requirement_id": "7.5",
             "fit": "partial",
             "uncovered_portion": "Clause 7.5 encompasses the full documented information lifecycle including governance policies, risk assessment records, and management system procedures; BH-05 covers only inference-level decision logging and does not address broader documented information requirements such as management decisions or policy documentation."
           }
@@ -19607,13 +19693,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.6",
+            "requirement_id": "MEASURE-2.6",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.6 spans robustness evaluation across the full AI lifecycle; BH-06 covers only production injection resistance measurement and does not address detection or blocking of actual attacks delegated to securitycontrols.ai, or pre-release adversarial evaluation covered by EV-06 and EV-07."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 and Annex B address AI system performance monitoring and risk management across multiple dimensions; BH-06 covers only production injection resistance measurement and does not address other robustness dimensions, fairness monitoring, or management system effectiveness evaluation."
           },
@@ -19632,13 +19718,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 2.4",
+            "requirement_id": "MANAGE-2.4",
             "fit": "partial",
             "uncovered_portion": "MANAGE 2.4 addresses risk treatment and response for the full AI risk taxonomy; BH-07 covers only resource consumption and cost anomaly detection and does not address other risk response actions such as behavioral containment, safety policy enforcement, or incident response covered by CR-04."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 7.1",
+            "requirement_id": "7.1",
             "fit": "partial",
             "uncovered_portion": "Clause 7.1 addresses resource planning and adequacy for the full AI management system scope including human resources, infrastructure, and financial resources for governance; BH-07 covers only runtime compute cost monitoring and does not address AI governance resource planning or management system resourcing."
           }
@@ -19651,13 +19737,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 1.3",
+            "requirement_id": "MANAGE-1.3",
             "fit": "partial",
             "uncovered_portion": "MANAGE 1.3 and MANAGE 3.1 address deployment risk governance and response across the full risk management scope; BH-08 covers only deployment authorization and staged rollout governance and does not address post-deployment ongoing risk management covered by BH-01 through BH-07 and the CR layer."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.1",
+            "requirement_id": "8.1",
             "fit": "partial",
             "uncovered_portion": "Clauses 8.1 and 8.4 address operational control and AI system lifecycle management across all phases; BH-08 covers only the deployment transition phase governance and does not address ongoing operational controls for the serving phase covered by BH-01 through BH-07, or the decommissioning phase covered by CR-07."
           }
@@ -19670,13 +19756,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 1.2",
+            "requirement_id": "GOVERN-1.2",
             "fit": "partial",
             "uncovered_portion": "GOVERN 1.2 and GOVERN 6.1 address accountability and transparency policy across the full AI lifecycle; BH-09 applies exclusively to the generative-ai profile and addresses only the technical provenance embedding and disclosure label components, not broader accountability structures or stakeholder transparency obligations."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.2",
+            "requirement_id": "8.2",
             "fit": "partial",
             "uncovered_portion": "Clause 8.2 and Annex A.6 address AI system documentation and transparency as system-level properties; BH-09 covers only the content provenance and disclosure dimensions for the generative-ai profile and does not address broader system documentation obligations such as model card maintenance covered by LI-04 or system-level transparency disclosures."
           },
@@ -19696,13 +19782,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 2.2",
+            "requirement_id": "MANAGE-2.2",
             "fit": "partial",
             "uncovered_portion": "MANAGE 2.2 and MANAGE 2.4 address risk management for changing system behaviors and response actions across the full AI risk taxonomy; BH-10 covers only feedback loop integrity and online learning governance for continuously-learning and generative-ai profiles, not other post-deployment behavioral management dimensions."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.6",
+            "requirement_id": "8.6",
             "fit": "partial",
             "uncovered_portion": "Clause 8.6 addresses data governance across the full AI system lifecycle including training and evaluation data; BH-10 covers only post-deployment feedback data integrity and online learning governance, not training data governance covered by TG layer controls or evaluation data governance."
           },
@@ -19721,13 +19807,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.3 encompasses the full AI system monitoring scope including evaluation of management system effectiveness; CR-01 covers the aggregated runtime monitoring and alerting layer and does not address pre-deployment evaluation gates covered by the EV layer or the structured risk response actions covered by CR-04."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 spans management system effectiveness evaluation and AI system performance monitoring across all risk dimensions; CR-01 addresses operational runtime signal aggregation and does not cover the management system evaluation or other lifecycle monitoring dimensions that Clause 9.1's full scope encompasses."
           }
@@ -19740,13 +19826,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 6.2",
+            "requirement_id": "GOVERN-6.2",
             "fit": "partial",
             "uncovered_portion": "GOVERN 6.2 addresses accountability and transparency information requirements across the full AI system scope including real-time accountability disclosures; CR-02 covers only the records retention and evidence archival dimension and does not address real-time transparency reporting or stakeholder communication obligations."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 7.5",
+            "requirement_id": "7.5",
             "fit": "partial",
             "uncovered_portion": "Clause 7.5 encompasses the full documented information lifecycle including creation, update, distribution, and disposal of management system documentation; CR-02 covers only the evidence retention and tamper-evident archival dimension and does not address creation and update governance for management system documents such as policies and procedures."
           }
@@ -19759,13 +19845,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.2",
+            "requirement_id": "MEASURE-2.2",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.2 encompasses the full measurement scope for verifying AI systems meet their objectives including real-time performance monitoring; CR-03 addresses only the scheduled re-validation evaluation dimension and does not cover continuous runtime monitoring covered by BH-01 through BH-07 or the incident response framework covered by CR-04."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 spans the full monitoring scope including management system effectiveness evaluation and all AI system performance dimensions; CR-03 covers only the scheduled re-validation cadence and does not address continuous runtime monitoring or management system effectiveness evaluation encompassed by Clause 9.1's full scope."
           }
@@ -19778,13 +19864,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 4.1",
+            "requirement_id": "MANAGE-4.1",
             "fit": "partial",
             "uncovered_portion": "MANAGE 4.1 addresses risk treatment planning across the full AI risk taxonomy including preventive and continuous controls; CR-04 covers only the incident response and corrective action dimension and does not address preventive risk treatment or the ongoing risk monitoring covered by CR-01 and BH layer controls."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 10.1",
+            "requirement_id": "10.1",
             "fit": "partial",
             "uncovered_portion": "Clause 10.1 addresses nonconformity and corrective action across the full AI management system scope including systemic improvement; CR-04 covers only the incident response and immediate corrective action dimension and does not address continual improvement of the management system or preventive action processes encompassed by Clause 10.1's full scope."
           }
@@ -19797,13 +19883,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 1.4",
+            "requirement_id": "GOVERN-1.4",
             "fit": "partial",
             "uncovered_portion": "GOVERN 1.4 and GOVERN 4.1 address the full accountability and regulatory obligation scope for AI systems including internal governance structures; CR-05 covers only the statutory regulatory notification and reporting dimension and does not address internal governance accountability obligations or the broader transparency requirements encompassed by GOVERN 1.4's full scope."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 5.2",
+            "requirement_id": "5.2",
             "fit": "partial",
             "uncovered_portion": "Clause 5.2 addresses the full leadership commitment scope including AI policy definition, resource commitment, and strategic direction for the AI management system; CR-05 covers only the regulatory notification dimension of leadership accountability and does not address broader AI policy commitments, resource direction, or strategic AI management system leadership obligations."
           },
@@ -19823,13 +19909,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MEASURE 2.3",
+            "requirement_id": "MEASURE-2.3",
             "fit": "partial",
             "uncovered_portion": "MEASURE 2.3 encompasses the full AI system monitoring scope including runtime statistical monitoring and performance regression detection; CR-06 covers only the proactive surveillance channels for externally-reported harms and third-party research findings, not the runtime instrumentation dimension covered by CR-01 and the BH layer."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 9.1",
+            "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 spans systematic monitoring including internal performance measurement and management system effectiveness evaluation; CR-06 covers only the external surveillance and feedback channel dimension of production monitoring and does not address internal runtime metric monitoring covered by CR-01 or re-validation covered by CR-03."
           }
@@ -19842,13 +19928,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "MANAGE 2.4",
+            "requirement_id": "MANAGE-2.4",
             "fit": "partial",
             "uncovered_portion": "MANAGE 2.4 and MANAGE 4.2 address risk treatment and disposal across the full AI risk taxonomy including active runtime risk responses; CR-07 covers only the end-of-life retirement and decommissioning dimension and does not address ongoing risk treatment for active deployments covered by BH layer controls and CR-04."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.1",
+            "requirement_id": "8.1",
             "fit": "partial",
             "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases including development, deployment, and operation; CR-07 covers only the decommissioning and end-of-life phase and does not address operational controls for the active deployment phase covered by BH layer controls."
           }
@@ -19861,13 +19947,13 @@
         "gaps": [
           {
             "framework": "nist_rmf",
-            "requirement_id": "GOVERN 2.2",
+            "requirement_id": "GOVERN-2.2",
             "fit": "partial",
             "uncovered_portion": "GOVERN 2.2 and GOVERN 6.1 address organizational accountability and inter-organizational AI risk governance across the full governance scope; CR-08 covers only the cross-domain evidence reference resolution and coordination dimension and does not address single-domain governance accountability covered by OA layer controls."
           },
           {
             "framework": "iso_42001",
-            "requirement_id": "Clause 8.3",
+            "requirement_id": "8.3",
             "fit": "partial",
             "uncovered_portion": "Clause 8.3 addresses AI system design and development process governance across the full system scope; CR-08 covers only the cross-domain assurance coordination dimension and does not address intra-domain design and development governance covered by other controls."
           },

@@ -205,7 +205,8 @@
         "text": "EU AI Act Art. 10(2) — high-risk AI systems must use training data that meets quality criteria including relevance, representativeness, and freedom from errors",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -335,7 +336,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Data quality gates are a core AICM data management control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
@@ -600,7 +601,8 @@
         "text": "EU AI Act Art. 10(3) — high-risk AI systems must examine training data for possible biases that may affect fundamental rights or lead to discrimination",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -739,7 +741,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Subgroup analysis is a core AICM fairness control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "GOV-04"
@@ -955,35 +957,40 @@
         "text": "GDPR Art. 6 — processing of personal data requires a lawful basis; purpose limitation applies",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "gdpr_art9",
         "text": "GDPR Art. 9 — additional conditions required for processing special-category data",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "gdpr_art17",
         "text": "GDPR Art. 17 — right to erasure must be operationalized in training data pipelines",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "eu_ai_act_art10_2c",
         "text": "EU AI Act Art. 10(2)(c) — training data must meet data governance requirements including lawful collection",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "ccpa_cpra",
         "text": "CCPA/CPRA — California residents have opt-out and deletion rights that apply to training data where personal information is used for commercial AI development",
         "jurisdiction": "California, USA",
         "effective_date": "2023-01-01",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -1122,7 +1129,7 @@
         "direction": "control-supports-requirement",
         "rationale": "DRR is the primary data rights governance control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
@@ -1145,7 +1152,7 @@
         "direction": "control-supports-requirement",
         "rationale": "NIST AI 600-1 DATA-PRIVACY covers risks from models trained on personal data — including memorization, membership inference attacks, and unintended output of personal information. TG-03 addresses the training-time component by governing how sensitive and protected-attribute data is handled during dataset assembly and preprocessing.",
         "uncovered_portion": "DATA-PRIVACY in NIST AI 600-1 also covers inference-time privacy risks (model outputs revealing training data) — those are addressed by EV-04 red-teaming and BH-05 audit logging, not TG-03.",
-        "source_version": "1.0",
+        "source_version": "2024",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium",
         "provisional": true,
@@ -1355,7 +1362,8 @@
         "text": "EU AI Act Art. 10(2) — training data for high-risk AI must meet quality criteria; data integrity is a prerequisite",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -1491,7 +1499,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Data integrity controls are a primary AICM supply chain security mechanism",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
@@ -1748,7 +1756,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Train/eval separation is a core AICM evaluation control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "EVA-01"
@@ -1998,21 +2006,24 @@
         "text": "GDPR Art. 5(1)(c) — data minimisation: personal data must be adequate, relevant and limited to what is necessary for the purpose",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "gdpr_art25",
         "text": "GDPR Art. 25 — data protection by design and by default: controller must implement minimisation by design",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "eu_ai_act_art10_5",
         "text": "EU AI Act Art. 10(5) — processing of special category data is permitted to the extent strictly necessary for bias detection and correction, with appropriate safeguards",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -2151,7 +2162,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Data minimization and necessity controls are core AICM privacy controls",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "PRV-01"
@@ -2460,7 +2471,7 @@
         "direction": "control-supports-requirement",
         "rationale": "TPDR is the primary AICM third-party data supply chain control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
@@ -2726,28 +2737,32 @@
         "text": "GDPR Art. 5(1)(e) — storage limitation: personal data must not be kept for longer than necessary for the specified purpose",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "gdpr_art17",
         "text": "GDPR Art. 17 — right to erasure: data subjects can request deletion; controller must comply within one month, extendable to three with notice",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "ccpa_1798_105",
         "text": "CCPA/CPRA §1798.105 — California consumers have the right to request deletion of personal information; businesses must comply within 45 days",
         "jurisdiction": "California, USA",
         "effective_date": "2023-01-01",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "id": "eu_ai_act_annex_iv",
         "text": "EU AI Act Annex IV §2 — technical documentation must include description of training data including provenance, requiring sufficient retention to reconstruct the documentation during the post-market monitoring period",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
-        "binding": true
+        "binding": true,
+        "reviewed_on": "2026-06-26"
       },
       {
         "authority": "European Union — European Parliament and Council",
@@ -2886,7 +2901,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Lifecycle policy is a core AICM data governance control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.1",
+        "source_version": "1.0.3",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
