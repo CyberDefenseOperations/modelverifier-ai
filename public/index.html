@@ -1329,7 +1329,14 @@ function filtered() {
     if (filters.baseline && !baselineSet.has(c.id)) return false;
     if (pe && !pe.required.has(c.id) && !pe.recommended.has(c.id)) return false;
     if (q) {
-      const hay = [c.id, c.name, c.plain ?? '', c.threat?.desc ?? '', c.layer].join(' ').toLowerCase();
+      const fwText = (c.frameworks ?? []).map(f =>
+        [f.framework, f.requirement_id ?? '', f.rationale ?? ''].join(' ')
+      ).join(' ');
+      const hay = [
+        c.id, c.name, c.plain ?? '', c.threat?.desc ?? '', c.layer,
+        (c.threat?.tags ?? []).join(' '),
+        fwText,
+      ].join(' ').toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
