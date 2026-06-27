@@ -49,7 +49,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — AI Management System",
+        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -63,7 +63,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -93,7 +93,7 @@
     "implementation": {
       "pattern": "Deploy a statistical process control (SPC) pipeline that continuously samples model output distributions, computes control chart statistics, and fires alerts when outputs fall outside control limits derived from a validated baseline window.",
       "steps": [
-        "Instrument inference endpoints to capture a stratified sample (5–20% of volume) with metadata: timestamp, input_hash, caller_id, model_version.",
+        "Instrument inference endpoints to capture a stratified sample (5\u201320% of volume) with metadata: timestamp, input_hash, caller_id, model_version.",
         "Establish a baseline output distribution from a 30-day post-deployment stable window; store baseline statistics (mean, std_dev, p5/p50/p95/p99) in a versioned, signed artifact in the model registry.",
         "Implement Shewhart X-bar and R control charts for continuous numeric outputs; use CUSUM or EWMA for detecting small persistent shifts.",
         "For classification outputs, track class distribution stability using PSI: alert at PSI > 0.2, escalate at PSI > 0.25.",
@@ -102,9 +102,9 @@
         "Store all anomaly events in the evidence registry with control linkage BH-01."
       ],
       "anti_patterns": [
-        "Logging outputs without statistical comparison to a fixed baseline — produces noise without signal.",
-        "Setting control limits from overall historical average without seasonality adjustment — causes alert fatigue.",
-        "Monitoring only error rates without output distribution — misses silent degradations.",
+        "Logging outputs without statistical comparison to a fixed baseline \u2014 produces noise without signal.",
+        "Setting control limits from overall historical average without seasonality adjustment \u2014 causes alert fatigue.",
+        "Monitoring only error rates without output distribution \u2014 misses silent degradations.",
         "Using real PII in the sampled output stream without masking before storage."
       ]
     },
@@ -207,14 +207,14 @@
         "{'test': 'Inject low-amplitude persistent shift (0.5 sigma over 6 hours) and verify EWMA detects it.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'Baseline distribution artifact with version, timestamp, and statistical parameters for current production model.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification.', 'unverified': True} [unverified]",
-        "{'artifact': 'Quarterly threshold review sign-off from model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
+        "artifact:baseline-distribution-artifact-with-vers \u2014 Baseline distribution artifact with version, timestamp, and statistical parameters for current production model. [ref:nist_ai_rmf_1_0]",
+        "artifact:spc-alert-log-for-trailing-90-days-with \u2014 SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification. [unverified]",
+        "artifact:quarterly-threshold-review-sign-off-from \u2014 Quarterly threshold review sign-off from model owner. [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
       "engineering": "Implement as a sidecar or streaming pipeline consuming inference telemetry; use efficient reservoir sampling to add no measurable inference latency.",
-      "evaluation": "SPC control limits must be re-derived after each model update; the post-deployment evaluation run defines the new baseline window — evaluation team owns baseline publication.",
+      "evaluation": "SPC control limits must be re-derived after each model update; the post-deployment evaluation run defines the new baseline window \u2014 evaluation team owns baseline publication.",
       "red_team": "Probe whether slow-drip adversarial inputs evade single-window SPC; test EWMA sensitivity to multi-modal output distribution attacks.",
       "grc": "EU AI Act Art. 72 requires post-market monitoring for high-risk AI; the SPC alert log and baseline artifact are primary evidence for that obligation.",
       "mlops": "Integrate PSI computation as a non-blocking async task; auto-trigger model review workflow when critical threshold is crossed."
@@ -242,7 +242,7 @@
         "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-01 continuously samples model output distributions and applies statistical process control — computing PSI against a signed 30-day post-deployment baseline and firing tiered alerts when outputs shift beyond thresholds — directly operationalizing the production monitoring obligation of NIST AI RMF MEASURE 2.3. MANAGE 2.4 is additionally relevant because BH-01's alert routing SLAs (15 minutes for critical anomalies) define the response pathway when monitored outputs indicate elevated risk.",
+        "rationale": "BH-01 continuously samples model output distributions and applies statistical process control \u2014 computing PSI against a signed 30-day post-deployment baseline and firing tiered alerts when outputs shift beyond thresholds \u2014 directly operationalizing the production monitoring obligation of NIST AI RMF MEASURE 2.3. MANAGE 2.4 is additionally relevant because BH-01's alert routing SLAs (15 minutes for critical anomalies) define the response pathway when monitored outputs indicate elevated risk.",
         "uncovered_portion": "MEASURE 2.3 encompasses the full spectrum of operational AI monitoring including fairness metrics, input distribution, and societal impact dimensions; BH-01 addresses only statistical output distribution monitoring and does not cover input drift (BH-02), performance regression (BH-03), or behavioral boundary adherence (BH-04).",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -259,7 +259,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-01 implements systematic monitoring and measurement of model output distributions using PSI metrics and control charts, with documented alert thresholds reviewed quarterly by the model owner — fulfilling the core obligations of ISO 42001 Clause 9.1 for monitoring, measurement, analysis, and evaluation of AI system performance. The versioned, signed baseline artifact provides the documented reference point that Clause 9.1 requires for evaluating whether AI system performance remains acceptable.",
+        "rationale": "BH-01 implements systematic monitoring and measurement of model output distributions using PSI metrics and control charts, with documented alert thresholds reviewed quarterly by the model owner \u2014 fulfilling the core obligations of ISO 42001 Clause 9.1 for monitoring, measurement, analysis, and evaluation of AI system performance. The versioned, signed baseline artifact provides the documented reference point that Clause 9.1 requires for evaluating whether AI system performance remains acceptable.",
         "uncovered_portion": "Clause 9.1 spans the full monitoring scope including evaluation of management system effectiveness and AI system performance across all risk dimensions; BH-01 addresses only statistical output distribution monitoring and does not cover the management system evaluation or other performance dimensions required by Clause 9.1's full scope.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -273,10 +273,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "MON-01",
+        "requirement_id": "MDS-10",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-01 deploys a statistical process control pipeline that continuously samples model output distributions, computes PSI against a signed 30-day post-deployment baseline, and fires tiered alerts when outputs deviate beyond control limits — directly implementing MON-01's runtime output monitoring and anomaly detection requirement. The control produces a signed baseline artifact, an anomaly event log linked to BH-01 in the evidence registry, and quarterly threshold review records that together constitute the evidence chain MON-01 expects from a production output monitoring system.",
+        "rationale": "BH-01 deploys a statistical process control pipeline that continuously samples model output distributions, computes PSI against a signed 30-day post-deployment baseline, and fires tiered alerts when outputs deviate beyond control limits \u2014 directly implementing MON-01's runtime output monitoring and anomaly detection requirement. The control produces a signed baseline artifact, an anomaly event log linked to BH-01 in the evidence registry, and quarterly threshold review records that together constitute the evidence chain MON-01 expects from a production output monitoring system.",
         "source_locator": {
           "section": "Monitoring and Alerting"
         },
@@ -288,14 +288,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-01",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-01 continuously monitors model output distributions using statistical process control — computing PSI against a signed 30-day post-deployment baseline and firing tiered alerts when output distributions shift beyond defined thresholds — directly implementing AITG-RT-01 Runtime Testing which requires that deployed model outputs be monitored in production to detect distributional anomalies and behavioral shifts as they occur.",
+        "rationale": "BH-01 continuously monitors model output distributions using statistical process control \u2014 computing PSI against a signed 30-day post-deployment baseline and firing tiered alerts when output distributions shift beyond defined thresholds \u2014 directly implementing AITG-RT-01 Runtime Testing which requires that deployed model outputs be monitored in production to detect distributional anomalies and behavioral shifts as they occur.",
         "source_locator": {
           "section": "Runtime Testing",
           "test_id": "AITG-RT-01"
@@ -326,7 +327,7 @@
         "requirement_id": "S-5.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C requires ongoing monitoring of model performance and behavior; BH-01 operationalizes this by detecting statistical distribution shifts in model outputs that may indicate degraded performance or data quality issues in production.",
+        "rationale": "SR 26-2 \u00a7III.C requires ongoing monitoring of model performance and behavior; BH-01 operationalizes this by detecting statistical distribution shifts in model outputs that may indicate degraded performance or data quality issues in production.",
         "uncovered_portion": "SR 26-2 applies only to supervised banking organizations with $30B+ in assets; does not apply to general or GenAI deployments. BH-01 alone does not cover SR 26-2's requirement for outcome analysis and back-testing against realized results.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -341,7 +342,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -396,7 +397,7 @@
     "layer": "BH",
     "plane": "data",
     "name": "Concept and Data Drift Detection",
-    "plain": "Detect when production data diverges from the training distribution, triggering review or retraining before performance silently degrades — with stricter thresholds and shorter windows for continuously-learning deployments.",
+    "plain": "Detect when production data diverges from the training distribution, triggering review or retraining before performance silently degrades \u2014 with stricter thresholds and shorter windows for continuously-learning deployments.",
     "threat": {
       "tags": [
         "MR-MONITORING",
@@ -420,7 +421,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.C — Ongoing Monitoring"
+        "ref": "Section IV.C \u2014 Ongoing Monitoring"
       }
     ],
     "sources": [
@@ -441,7 +442,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — AI Management System",
+        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -472,7 +473,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -497,11 +498,11 @@
         "Monthly drift summary reports to model owner and governance board."
       ],
       "anti_patterns": [
-        "Single aggregate drift score across all features — masks per-feature shifts.",
-        "Skipping minimum_sample_size guard — noisy statistics on small windows cause false urgency.",
-        "Not versioning the DriftReference artifact — makes comparison to original training distribution impossible after retraining.",
+        "Single aggregate drift score across all features \u2014 masks per-feature shifts.",
+        "Skipping minimum_sample_size guard \u2014 noisy statistics on small windows cause false urgency.",
+        "Not versioning the DriftReference artifact \u2014 makes comparison to original training distribution impossible after retraining.",
         "Triggering full retraining automatically without human review for high-impact-decision models.",
-        "Monitoring only the prediction column — masks root cause of covariate shift."
+        "Monitoring only the prediction column \u2014 masks root cause of covariate shift."
       ]
     },
     "monitoring_schema": {
@@ -624,9 +625,9 @@
         "{'test': 'Confirm DriftReference artifact hash is validated on load before any comparison proceeds.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'DriftReference artifact for current production model with version, training date, and per-feature statistics.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'Drift event log for trailing 90 days with per-feature statistics and action-taken records.', 'ref': 'sr_26_2'} [ref:sr262_2026]",
-        "{'artifact': 'Monthly drift summary report signed by model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
+        "artifact:driftreference-artifact-for-current-prod \u2014 DriftReference artifact for current production model with version, training date, and per-feature statistics. [ref:nist_ai_rmf_1_0]",
+        "artifact:drift-event-log-for-trailing-90-days-wit \u2014 Drift event log for trailing 90 days with per-feature statistics and action-taken records. [ref:sr262_2026]",
+        "artifact:monthly-drift-summary-report-signed-by-m \u2014 Monthly drift summary report signed by model owner. [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
@@ -690,10 +691,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "MON-02",
+        "requirement_id": "MDS-10",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact, applying profile-conditional thresholds and triggering model review workflows when distribution shift exceeds safe bounds — directly implementing MON-02's production data and concept drift detection requirement. The control's separate handling of feature drift versus prediction drift, and its stricter thresholds for continuously-learning models, give MON-02 the granularity needed to distinguish different categories of distributional change and their risk implications.",
+        "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact, applying profile-conditional thresholds and triggering model review workflows when distribution shift exceeds safe bounds \u2014 directly implementing MON-02's production data and concept drift detection requirement. The control's separate handling of feature drift versus prediction drift, and its stricter thresholds for continuously-learning models, give MON-02 the granularity needed to distinguish different categories of distributional change and their risk implications.",
         "source_locator": {
           "section": "Monitoring and Alerting"
         },
@@ -705,14 +706,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-02",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact, applying profile-conditional thresholds and triggering model review workflows when distribution shift exceeds safe bounds — directly implementing AITG-RT-02 Runtime Testing which requires that production input distributions be monitored to detect when inputs diverge materially from the training distribution.",
+        "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact, applying profile-conditional thresholds and triggering model review workflows when distribution shift exceeds safe bounds \u2014 directly implementing AITG-RT-02 Runtime Testing which requires that production input distributions be monitored to detect when inputs diverge materially from the training distribution.",
         "source_locator": {
           "section": "Runtime Testing",
           "test_id": "AITG-RT-02"
@@ -743,7 +745,7 @@
         "requirement_id": "S-5.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C requires ongoing monitoring to detect performance deterioration and distributional changes in model inputs; BH-02 directly implements this by computing PSI statistics against a versioned DriftReference artifact and routing alerts when thresholds are exceeded.",
+        "rationale": "SR 26-2 \u00a7III.C requires ongoing monitoring to detect performance deterioration and distributional changes in model inputs; BH-02 directly implements this by computing PSI statistics against a versioned DriftReference artifact and routing alerts when thresholds are exceeded.",
         "uncovered_portion": "SR 26-2 applies only to supervised banking organizations with $30B+ in assets. BH-02 does not address SR 26-2's requirement for outcomes analysis or comparison against realized results.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -758,7 +760,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -819,7 +821,7 @@
         "MR-PERFORMANCE",
         "MR-MONITORING"
       ],
-      "desc": "Silent performance degradation — where accuracy, latency, or calibration degrades in production without triggering any alert — leads to scaled harm. Regressions can stem from infrastructure changes, model updates, distribution shifts, or adversarial inputs that degrade subgroup performance while keeping aggregate metrics within tolerance."
+      "desc": "Silent performance degradation \u2014 where accuracy, latency, or calibration degrades in production without triggering any alert \u2014 leads to scaled harm. Regressions can stem from infrastructure changes, model updates, distribution shifts, or adversarial inputs that degrade subgroup performance while keeping aggregate metrics within tolerance."
     },
     "standard": [
       {
@@ -836,7 +838,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.C — Performance Benchmarking"
+        "ref": "Section IV.C \u2014 Performance Benchmarking"
       }
     ],
     "sources": [
@@ -857,7 +859,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — AI Management System",
+        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -915,10 +917,10 @@
         "Re-anchor baseline after each planned model update; require new signed EvaluationBaseline from the evaluation team."
       ],
       "anti_patterns": [
-        "Using absolute metric targets rather than regression-from-baseline — breaks after model updates.",
+        "Using absolute metric targets rather than regression-from-baseline \u2014 breaks after model updates.",
         "Relying solely on latency as a proxy for model quality.",
-        "Not versioning the EvaluationBaseline artifact — makes auditing impossible.",
-        "Measuring only aggregate metrics — masks subgroup performance drops."
+        "Not versioning the EvaluationBaseline artifact \u2014 makes auditing impossible.",
+        "Measuring only aggregate metrics \u2014 masks subgroup performance drops."
       ]
     },
     "monitoring_schema": {
@@ -1020,13 +1022,13 @@
         "{'test': 'Confirm subgroup regression alerts fire independently of aggregate metric alerts.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'EvaluationBaseline artifact for current production model version.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'Alert log for trailing 90 days with root cause and remediation records.', 'ref': 'sr_26_2'} [ref:sr262_2026]",
-        "{'artifact': 'Quarterly threshold review sign-off by model owner.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
+        "artifact:evaluationbaseline-artifact-for-current \u2014 EvaluationBaseline artifact for current production model version. [ref:nist_ai_rmf_1_0]",
+        "artifact:alert-log-for-trailing-90-days-with-root \u2014 Alert log for trailing 90 days with root cause and remediation records. [ref:sr262_2026]",
+        "artifact:quarterly-threshold-review-sign-off-by-m \u2014 Quarterly threshold review sign-off by model owner. [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
-      "engineering": "The metrics aggregation service must be independent of the inference serving path — a serving failure must not also disable performance monitoring.",
+      "engineering": "The metrics aggregation service must be independent of the inference serving path \u2014 a serving failure must not also disable performance monitoring.",
       "evaluation": "EvaluationBaseline artifact is the authoritative linkage between pre-release evaluation (EV layer) and production monitoring; evaluation team owns baseline publication.",
       "red_team": "Test whether adversarial inputs can selectively degrade subgroup performance while keeping aggregate metrics within alert thresholds.",
       "grc": "SR 26-2 and EU AI Act Art. 72 both require evidence of ongoing performance monitoring; EvaluationBaseline artifact and alert log are primary audit evidence.",
@@ -1055,7 +1057,7 @@
         "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-03 compares live production performance metrics against a signed EvaluationBaseline artifact and fires tiered alerts when primary metrics regress beyond accepted tolerances — directly implementing the performance-against-baseline monitoring component of NIST AI RMF MEASURE 2.3. MANAGE 2.2 is additionally relevant because BH-03's sev1 escalation triggers the risk response pathway defined in the incident response runbook, operationalizing the MANAGE function's response to detected performance degradation.",
+        "rationale": "BH-03 compares live production performance metrics against a signed EvaluationBaseline artifact and fires tiered alerts when primary metrics regress beyond accepted tolerances \u2014 directly implementing the performance-against-baseline monitoring component of NIST AI RMF MEASURE 2.3. MANAGE 2.2 is additionally relevant because BH-03's sev1 escalation triggers the risk response pathway defined in the incident response runbook, operationalizing the MANAGE function's response to detected performance degradation.",
         "uncovered_portion": "MEASURE 2.3 encompasses the full monitoring scope including fairness, safety, and input distribution monitoring; BH-03 covers only performance metric regression monitoring anchored to the EV-layer baseline and does not address other monitoring dimensions covered by BH-01, BH-02, and BH-04.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -1072,7 +1074,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-03 implements documented performance thresholds expressed as percentage regression from a signed EvaluationBaseline, with tiered alert levels and routing SLAs that ensure performance monitoring evidence is systematically generated and acted upon — fulfilling the measurement, analysis, and evaluation obligations of ISO 42001 Clause 9.1. Clause 10.1 on nonconformity and corrective action is additionally implicated because crossing the critical threshold automatically initiates the corrective action workflow via CR-04 incident response.",
+        "rationale": "BH-03 implements documented performance thresholds expressed as percentage regression from a signed EvaluationBaseline, with tiered alert levels and routing SLAs that ensure performance monitoring evidence is systematically generated and acted upon \u2014 fulfilling the measurement, analysis, and evaluation obligations of ISO 42001 Clause 9.1. Clause 10.1 on nonconformity and corrective action is additionally implicated because crossing the critical threshold automatically initiates the corrective action workflow via CR-04 incident response.",
         "uncovered_portion": "Clause 9.1 spans the full performance monitoring and management system evaluation scope; BH-03 addresses only production metric regression against the release baseline and does not cover other monitoring dimensions or management system effectiveness evaluation.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -1086,10 +1088,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "MON-03",
+        "requirement_id": "LOG-03",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-03 anchors all production performance metrics to a signed EvaluationBaseline artifact established at each release, fires tiered alerts when primary metrics regress beyond accepted tolerances, and provides separate tracking for subgroup regression — directly implementing MON-03's performance monitoring and threshold alerting against deployment baseline requirement. The three-tier alert escalation (warning, critical, sev1) and automatic incident commander notification ensure that performance degradation signals reach decision-makers with enough time to intervene before user harm accumulates.",
+        "rationale": "BH-03 anchors all production performance metrics to a signed EvaluationBaseline artifact established at each release, fires tiered alerts when primary metrics regress beyond accepted tolerances, and provides separate tracking for subgroup regression \u2014 directly implementing MON-03's performance monitoring and threshold alerting against deployment baseline requirement. The three-tier alert escalation (warning, critical, sev1) and automatic incident commander notification ensure that performance degradation signals reach decision-makers with enough time to intervene before user harm accumulates.",
         "source_locator": {
           "section": "Monitoring and Alerting"
         },
@@ -1101,14 +1103,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-03",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-03 anchors all production performance metrics against a signed EvaluationBaseline artifact established at release, firing tiered alerts when primary metrics regress beyond accepted tolerances and escalating to sev1 when thresholds indicating active user harm are crossed — directly implementing AITG-RT-03 Runtime Testing which requires that production model performance be continuously compared against a validated baseline to detect regression before degradation reaches users at scale.",
+        "rationale": "BH-03 anchors all production performance metrics against a signed EvaluationBaseline artifact established at release, firing tiered alerts when primary metrics regress beyond accepted tolerances and escalating to sev1 when thresholds indicating active user harm are crossed \u2014 directly implementing AITG-RT-03 Runtime Testing which requires that production model performance be continuously compared against a validated baseline to detect regression before degradation reaches users at scale.",
         "source_locator": {
           "section": "Runtime Testing",
           "test_id": "AITG-RT-03"
@@ -1122,7 +1125,7 @@
         "requirement_id": "Art-72",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to implement post-market monitoring covering performance evaluation; BH-03's performance regression alerting — tracking accuracy, AUC, and F1 against a signed performance baseline — directly operationalizes the performance monitoring component of a post-market monitoring plan.",
+        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to implement post-market monitoring covering performance evaluation; BH-03's performance regression alerting \u2014 tracking accuracy, AUC, and F1 against a signed performance baseline \u2014 directly operationalizes the performance monitoring component of a post-market monitoring plan.",
         "uncovered_portion": "Art. 72 requires a documented post-market monitoring plan with systematic anomaly identification, user feedback loops, and reporting obligations; BH-03 covers runtime metric alerting only and does not address fairness monitoring, serious incident reporting, or systematic anomaly reporting to authorities.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -1139,7 +1142,7 @@
         "requirement_id": "S-5.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C requires banking organizations to monitor model performance on an ongoing basis and conduct periodic back-testing; BH-03's automated performance alerts provide the continuous monitoring layer that supports SR 26-2's ongoing performance tracking requirements.",
+        "rationale": "SR 26-2 \u00a7III.C requires banking organizations to monitor model performance on an ongoing basis and conduct periodic back-testing; BH-03's automated performance alerts provide the continuous monitoring layer that supports SR 26-2's ongoing performance tracking requirements.",
         "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. BH-03 does not cover SR 26-2's back-testing requirement against realized outcomes or qualitative assessment of model conceptual soundness.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -1154,7 +1157,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1209,7 +1212,7 @@
     "layer": "BH",
     "plane": "data",
     "name": "Behavioral Boundary Performance Testing",
-    "plain": "Measure how effectively the model's behavioral boundaries hold in production — Model Assurance quantifies boundary adherence rates and trends; detection and enforcement of violations is owned by securitycontrols.ai.",
+    "plain": "Measure how effectively the model's behavioral boundaries hold in production \u2014 Model Assurance quantifies boundary adherence rates and trends; detection and enforcement of violations is owned by securitycontrols.ai.",
     "threat": {
       "tags": [
         "MR-PERFORMANCE",
@@ -1254,7 +1257,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — AI Management System",
+        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -1268,7 +1271,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -1302,14 +1305,14 @@
         "Schedule BoundaryTestSuite runs against the production endpoint: minimum daily; high-impact-decision and frontier-capability profiles: every 6 hours.",
         "Compute BoundaryAdherenceRate per category: (passing_probes / total_probes); track trend over a 30-day rolling window.",
         "Fire alerts: BoundaryAdherenceRate < 95% (warning), < 90% (critical). Route critical alerts to model owner and securitycontrols.ai cross-domain channel.",
-        "Log all probe results — pass and fail — with probe_id, timestamp, model_version, response_hash; store in the evidence registry.",
+        "Log all probe results \u2014 pass and fail \u2014 with probe_id, timestamp, model_version, response_hash; store in the evidence registry.",
         "When a boundary adherence drop is detected, notify securitycontrols.ai via the cross-domain alert channel for enforcement action. Model Assurance does NOT modify guardrails.",
         "Re-run BoundaryTestSuite as part of every pre-release evaluation gate (EV layer) to establish a new baseline."
       ],
       "anti_patterns": [
-        "Model Assurance modifying guardrail logic or enforcement rules — this is the securitycontrols.ai boundary; Model Assurance measures, Security enforces.",
-        "Using only published probe inputs — probes must include novel adversarial formulations unavailable to the model's safety training.",
-        "Running boundary tests only at release and not in production — misses post-release boundary drift.",
+        "Model Assurance modifying guardrail logic or enforcement rules \u2014 this is the securitycontrols.ai boundary; Model Assurance measures, Security enforces.",
+        "Using only published probe inputs \u2014 probes must include novel adversarial formulations unavailable to the model's safety training.",
+        "Running boundary tests only at release and not in production \u2014 misses post-release boundary drift.",
         "Sharing probe inputs publicly in a way that enables adversarial optimization."
       ]
     },
@@ -1332,9 +1335,9 @@
         "{'test': 'Verify probe inputs are not accessible via any public API or logging endpoint.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'BoundaryTestSuite artifact with version and review date.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'BoundaryAdherenceRate time-series for trailing 90 days per boundary category.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': 'Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops.', 'unverified': True} [unverified]"
+        "artifact:boundarytestsuite-artifact-with-version \u2014 BoundaryTestSuite artifact with version and review date. [ref:nist_ai_rmf_1_0]",
+        "artifact:boundaryadherencerate-time-series-for-tr \u2014 BoundaryAdherenceRate time-series for trailing 90 days per boundary category. [ref:iso_42001_2023]",
+        "artifact:cross-domain-alert-log-showing-securityc \u2014 Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops. [unverified]"
       ]
     },
     "lenses": {
@@ -1399,7 +1402,7 @@
         "requirement_id": "MEASURE-2.6",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-04 operates a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per category and trending results over 30 days — directly operationalizing the robustness and trustworthiness evaluation requirements of NIST AI RMF MEASURE 2.6 for the operational deployment phase. MANAGE 2.4 is additionally relevant because BH-04's critical alerts trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
+        "rationale": "BH-04 operates a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per category and trending results over 30 days \u2014 directly operationalizing the robustness and trustworthiness evaluation requirements of NIST AI RMF MEASURE 2.6 for the operational deployment phase. MANAGE 2.4 is additionally relevant because BH-04's critical alerts trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
         "uncovered_portion": "MEASURE 2.6 encompasses robustness evaluation across the full AI lifecycle including pre-deployment testing; BH-04 covers only the production-time adherence measurement component and explicitly excludes enforcement, which is delegated to securitycontrols.ai, and pre-release adversarial evaluation covered by EV-06 and EV-07.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -1416,7 +1419,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-04 implements scheduled behavioral boundary testing in production using a versioned BoundaryTestSuite with defined BoundaryAdherenceRate thresholds reviewed quarterly — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations. Clause 6.1 on addressing risks and opportunities is additionally relevant because behavioral boundary testing directly operationalizes the risk treatment selected during the risk assessment phase to maintain intended-use constraints in production.",
+        "rationale": "BH-04 implements scheduled behavioral boundary testing in production using a versioned BoundaryTestSuite with defined BoundaryAdherenceRate thresholds reviewed quarterly \u2014 providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations. Clause 6.1 on addressing risks and opportunities is additionally relevant because behavioral boundary testing directly operationalizes the risk treatment selected during the risk assessment phase to maintain intended-use constraints in production.",
         "uncovered_portion": "Clauses 9.1 and 6.1 address performance monitoring and risk management across the full AI system scope; BH-04 covers only behavioral boundary adherence measurement and does not address other monitoring dimensions, fairness metrics, or management system effectiveness evaluation.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -1430,27 +1433,28 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "SEC-04",
+        "requirement_id": "TVM-13",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-04 runs a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per behavioral boundary category and trending results over a 30-day rolling window, with critical alerts routed to both the model owner and securitycontrols.ai — directly implementing the measurement component of SEC-04's runtime behavioral security boundary testing requirement. Because this control quantifies boundary adherence from the Model Assurance perspective while enforcement and guardrail modification remain with the Security Verifier domain, the fit is partial.",
-        "uncovered_portion": "SEC-04 covers the full behavioral security boundary enforcement regime including detection of active violations and enforcement mechanisms such as blocking and guardrail updates; BH-04 addresses only the measurement and quantification of boundary adherence from the Model Assurance perspective — enforcement infrastructure is owned by the Security Verifier domain.",
+        "rationale": "BH-04 runs a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per behavioral boundary category and trending results over a 30-day rolling window, with critical alerts routed to both the model owner and securitycontrols.ai \u2014 directly implementing the measurement component of SEC-04's runtime behavioral security boundary testing requirement. Because this control quantifies boundary adherence from the Model Assurance perspective while enforcement and guardrail modification remain with the Security Verifier domain, the fit is partial.",
+        "uncovered_portion": "SEC-04 covers the full behavioral security boundary enforcement regime including detection of active violations and enforcement mechanisms such as blocking and guardrail updates; BH-04 addresses only the measurement and quantification of boundary adherence from the Model Assurance perspective \u2014 enforcement infrastructure is owned by the Security Verifier domain.",
         "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
-        "mapping_confidence": "high",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-04",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-04 runs a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per boundary category and firing critical alerts when adherence drops below 90% — directly implementing AITG-RT-04 Runtime Testing which requires that behavioral boundary constraints be tested and verified in the production environment to ensure model policies remain intact after deployment.",
+        "rationale": "BH-04 runs a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per boundary category and firing critical alerts when adherence drops below 90% \u2014 directly implementing AITG-RT-04 Runtime Testing which requires that behavioral boundary constraints be tested and verified in the production environment to ensure model policies remain intact after deployment.",
         "source_locator": {
           "section": "Runtime Testing",
           "test_id": "AITG-RT-04"
@@ -1464,7 +1468,7 @@
         "requirement_id": "Art-15",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 15 requires high-risk AI systems to be robust against attempts to manipulate outputs through adversarial inputs; BH-04's behavioral boundary enforcement — including guardrail compliance monitoring and injection-resistance metrics — supports the cybersecurity and robustness dimensions of Art. 15.",
+        "rationale": "EU AI Act Art. 15 requires high-risk AI systems to be robust against attempts to manipulate outputs through adversarial inputs; BH-04's behavioral boundary enforcement \u2014 including guardrail compliance monitoring and injection-resistance metrics \u2014 supports the cybersecurity and robustness dimensions of Art. 15.",
         "uncovered_portion": "Art. 15 addresses the full robustness and cybersecurity design requirements; BH-04 covers boundary monitoring and enforcement at runtime but does not address the underlying system design, adversarial testing during development (covered by EV-04), or cybersecurity hardening of the deployment infrastructure.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -1479,7 +1483,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1534,7 +1538,7 @@
     "layer": "BH",
     "plane": "data",
     "name": "Usage Telemetry and Decision Logging",
-    "plain": "Log every model inference with caller identity, masked/hashed inputs, sampled outputs, and latency — creating a tamper-evident audit trail for incident response, regulatory audit, and model improvement — while enforcing a retention policy that protects user privacy.",
+    "plain": "Log every model inference with caller identity, masked/hashed inputs, sampled outputs, and latency \u2014 creating a tamper-evident audit trail for incident response, regulatory audit, and model improvement \u2014 while enforcing a retention policy that protects user privacy.",
     "threat": {
       "tags": [
         "MR-MONITORING",
@@ -1558,7 +1562,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.D — Documentation and Records"
+        "ref": "Section IV.D \u2014 Documentation and Records"
       },
       {
         "id": "aicm",
@@ -1583,7 +1587,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — AI Management System",
+        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -1631,7 +1635,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -1656,51 +1660,79 @@
         "Enrich caller_id to human-readable identity (service name, user role) at log time; never log raw auth tokens."
       ],
       "anti_patterns": [
-        "Logging raw user inputs containing PII — creates GDPR liability and breach risk.",
-        "Logging all outputs without sampling at high volume — uneconomical and may expose model internals.",
-        "Using a mutable logging store — allows log tampering, defeating the audit purpose.",
-        "Not logging caller identity — makes attribution impossible during incident response.",
-        "Logging only errors — misses the normal baseline needed for anomaly detection."
+        "Logging raw user inputs containing PII \u2014 creates GDPR liability and breach risk.",
+        "Logging all outputs without sampling at high volume \u2014 uneconomical and may expose model internals.",
+        "Using a mutable logging store \u2014 allows log tampering, defeating the audit purpose.",
+        "Not logging caller identity \u2014 makes attribution impossible during incident response.",
+        "Logging only errors \u2014 misses the normal baseline needed for anomaly detection."
       ]
     },
     "obligations": [
       {
         "id": "eu-aia-art12-logging",
         "text": "EU AI Act Art. 12: high-risk AI systems must automatically log events; logs must be kept for the period prescribed by applicable sectoral law (minimum 6 months unless law requires longer).",
-        "jurisdiction": "EU",
+        "jurisdiction": [
+          "eu"
+        ],
         "binding": true,
         "normative_force": "binding-law",
-        "effective_date": "2027-12-02",
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2024/1689",
+        "source_ref": "eu_ai_act",
+        "legal_status": "enacted",
+        "provision": "Article 12",
+        "effective_from": "2027-12-02"
       },
       {
         "id": "eu-aia-art26-deployer-logs",
         "text": "EU AI Act Art. 26(5): deployers of high-risk AI systems must keep the automatically generated logs for the prescribed period and make them available to national competent authorities on request.",
-        "jurisdiction": "EU",
+        "jurisdiction": [
+          "eu"
+        ],
         "binding": true,
         "normative_force": "binding-law",
-        "effective_date": "2027-12-02",
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2024/1689",
+        "source_ref": "eu_ai_act",
+        "legal_status": "enacted",
+        "provision": "Article 26",
+        "effective_from": "2027-12-02"
       },
       {
         "id": "sr262-documentation-records",
         "text": "SR 26-2 Section IV.D: model documentation and records must support ongoing monitoring, audit, and supervisory examination for banking organizations with total assets over $30B.",
-        "jurisdiction": "US",
+        "jurisdiction": [
+          "us"
+        ],
         "binding": false,
         "normative_force": "supervisory-guidance",
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "Federal Reserve System",
+        "instrument": "SR 26-2",
+        "source_ref": "sr262_2026",
+        "legal_status": "enacted",
+        "provision": "SR 26-2"
       },
       {
         "id": "gdpr-art5-data-minimization",
-        "text": "GDPR Art. 5(1)(e): storage limitation principle — logged personal data must be anonymized, pseudonymized, or deleted when no longer necessary for the stated purpose. Inference logs containing personal data require a legal basis and retention schedule.",
-        "jurisdiction": "EU",
+        "text": "GDPR Art. 5(1)(e): storage limitation principle \u2014 logged personal data must be anonymized, pseudonymized, or deleted when no longer necessary for the stated purpose. Inference logs containing personal data require a legal basis and retention schedule.",
+        "jurisdiction": [
+          "eu"
+        ],
         "binding": true,
         "normative_force": "binding-law",
-        "effective_date": "2018-05-25",
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2016/679",
+        "source_ref": "gdpr",
+        "legal_status": "enacted",
+        "provision": "Article 5",
+        "effective_from": "2018-05-25"
       },
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1769,15 +1801,15 @@
         "{'test': 'Verify caller_id resolves to human-readable identity; no raw auth tokens in logs.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'DecisionLog schema documentation with field definitions and masking policy.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'Privacy review sign-off confirming no direct PII in stored logs.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]",
-        "{'artifact': 'Retention policy configuration and automated deletion audit log.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': 'Daily Merkle root hash publication log for trailing 90 days.', 'unverified': True} [unverified]"
+        "artifact:decisionlog-schema-documentation-with-fi \u2014 DecisionLog schema documentation with field definitions and masking policy. [ref:nist_ai_rmf_1_0]",
+        "artifact:privacy-review-sign-off-confirming-no-di \u2014 Privacy review sign-off confirming no direct PII in stored logs. [ref:eu_ai_act_2024]",
+        "artifact:retention-policy-configuration-and-autom \u2014 Retention policy configuration and automated deletion audit log. [ref:iso_42001_2023]",
+        "artifact:daily-merkle-root-hash-publication-log-f \u2014 Daily Merkle root hash publication log for trailing 90 days. [unverified]"
       ]
     },
     "lenses": {
       "engineering": "Log emission must be async and non-blocking; inference latency must not increase due to logging. Use a write-ahead log pattern with a dedicated logging service.",
-      "evaluation": "DecisionLogs feed the continuous evaluation pipeline — sampled outputs are scored by the evaluation harness to estimate production performance.",
+      "evaluation": "DecisionLogs feed the continuous evaluation pipeline \u2014 sampled outputs are scored by the evaluation harness to estimate production performance.",
       "red_team": "Test whether the output sampling pattern can be inferred and exploited by an adversary to prefer outputs that appear in the log.",
       "grc": "EU AI Act Art. 12 and SR 26-2 both require structured logging; BH-05 is the primary control satisfying both obligations. Obligations mapping must be documented.",
       "mlops": "DecisionLog volume must be budgeted in infrastructure cost; log ingestion pipeline SLA must be monitored separately from model serving SLA."
@@ -1824,7 +1856,7 @@
         "requirement_id": "GOVERN-1.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-05 creates a tamper-evident DecisionLog for every model inference — capturing caller identity, masked inputs, sampled outputs, latency, and decision outcomes — providing the accountability record foundation that NIST AI RMF GOVERN 1.2 requires for demonstrating that AI systems operate within established policies. MANAGE 4.1 is additionally relevant because DecisionLogs are the primary source of evidence for incident attribution, root-cause analysis, and corrective action verification.",
+        "rationale": "BH-05 creates a tamper-evident DecisionLog for every model inference \u2014 capturing caller identity, masked inputs, sampled outputs, latency, and decision outcomes \u2014 providing the accountability record foundation that NIST AI RMF GOVERN 1.2 requires for demonstrating that AI systems operate within established policies. MANAGE 4.1 is additionally relevant because DecisionLogs are the primary source of evidence for incident attribution, root-cause analysis, and corrective action verification.",
         "uncovered_portion": "GOVERN 1.2 addresses the full accountability and transparency policy lifecycle including governance structures, stakeholder communication, and external transparency obligations; BH-05 covers only inference-level audit trail creation and does not address governance policy documentation, accountability structures, or external reporting obligations.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -1841,7 +1873,7 @@
         "requirement_id": "7.5",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-05 implements structured documented information controls for AI inference records — including a defined schema, HMAC-SHA-256 input masking, tiered retention aligned to EU AI Act Art. 12 obligations, and a daily Merkle tree tamper-evidence mechanism — directly satisfying ISO 42001 Clause 7.5's requirement for documented information necessary for the effectiveness of the AI management system. Clause 9.1 is additionally relevant because DecisionLogs provide the raw telemetry foundation for the operational monitoring and measurement activities implemented by BH-01 through BH-04.",
+        "rationale": "BH-05 implements structured documented information controls for AI inference records \u2014 including a defined schema, HMAC-SHA-256 input masking, tiered retention aligned to EU AI Act Art. 12 obligations, and a daily Merkle tree tamper-evidence mechanism \u2014 directly satisfying ISO 42001 Clause 7.5's requirement for documented information necessary for the effectiveness of the AI management system. Clause 9.1 is additionally relevant because DecisionLogs provide the raw telemetry foundation for the operational monitoring and measurement activities implemented by BH-01 through BH-04.",
         "uncovered_portion": "Clause 7.5 encompasses the full documented information lifecycle including governance policies, risk assessment records, and management system procedures; BH-05 covers only inference-level decision logging and does not address broader documented information requirements such as management decisions or policy documentation.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -1855,10 +1887,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "MON-04",
+        "requirement_id": "LOG-07",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-05 instruments every model inference endpoint to emit a structured DecisionLog record capturing caller identity, HMAC-masked inputs, sampled outputs, latency, and decision outcomes, stored in a tamper-evident append-only store with daily Merkle tree root hash publication — directly implementing MON-04's AI system usage telemetry, decision logging, and audit trail requirement. The control's tiered retention schedules, access-controlled query API, and PII masking pipeline provide the privacy-safe, regulatory-ready logging infrastructure that MON-04 requires across deployment profiles.",
+        "rationale": "BH-05 instruments every model inference endpoint to emit a structured DecisionLog record capturing caller identity, HMAC-masked inputs, sampled outputs, latency, and decision outcomes, stored in a tamper-evident append-only store with daily Merkle tree root hash publication \u2014 directly implementing MON-04's AI system usage telemetry, decision logging, and audit trail requirement. The control's tiered retention schedules, access-controlled query API, and PII masking pipeline provide the privacy-safe, regulatory-ready logging infrastructure that MON-04 requires across deployment profiles.",
         "source_locator": {
           "section": "Monitoring and Alerting"
         },
@@ -1870,14 +1902,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-05",
         "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "BH-05 creates a tamper-evident, structured audit trail of every model inference — capturing caller identity, masked inputs, sampled outputs, latency, and decision outcomes — supporting AITG-RT-05 Runtime Testing by providing the telemetry foundation that enables detection, attribution, and documentation of runtime behavioral anomalies and safety violations as they occur.",
+        "rationale": "BH-05 creates a tamper-evident, structured audit trail of every model inference \u2014 capturing caller identity, masked inputs, sampled outputs, latency, and decision outcomes \u2014 supporting AITG-RT-05 Runtime Testing by providing the telemetry foundation that enables detection, attribution, and documentation of runtime behavioral anomalies and safety violations as they occur.",
         "source_locator": {
           "section": "Runtime Testing",
           "test_id": "AITG-RT-05"
@@ -1891,7 +1924,7 @@
         "requirement_id": "Art-12",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 12 requires high-risk AI systems to have the capability to automatically generate logs of operation; BH-05 directly implements this by mandating structured log emission for every inference — capturing input hash, output hash, decision path, confidence score, and latency — with 7-year retention using WORM-locked storage and a structured schema. Art. 16(h) additionally requires providers to keep automatically generated logs.",
+        "rationale": "EU AI Act Art. 12 requires high-risk AI systems to have the capability to automatically generate logs of operation; BH-05 directly implements this by mandating structured log emission for every inference \u2014 capturing input hash, output hash, decision path, confidence score, and latency \u2014 with 7-year retention using WORM-locked storage and a structured schema. Art. 16(h) additionally requires providers to keep automatically generated logs.",
         "uncovered_portion": "Art. 12(1) specifies logs must enable post-market monitoring and detection of risks; BH-05 covers operational logging but does not address Art. 12(2)'s requirement that logging capabilities align with the intended purpose and the risk level of the AI system.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -1903,7 +1936,7 @@
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
         "source_locator": {
-          "section": "Art. 12 — Record-keeping"
+          "section": "Art. 12 \u2014 Record-keeping"
         }
       },
       {
@@ -1911,8 +1944,8 @@
         "requirement_id": "S-4.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §IV.D requires banking organizations to maintain model documentation and records sufficient to support ongoing monitoring, audit, and supervisory examination; BH-05's structured decision audit trail — with content-addressed log entries, WORM storage, and a read-only retrieval API — supports these record-keeping requirements.",
-        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. BH-05 addresses technical log capture only; SR 26-2 §IV.D also requires documentation of model theory, design choices, and validation results which are addressed by the EV and OA layers.",
+        "rationale": "SR 26-2 \u00a7IV.D requires banking organizations to maintain model documentation and records sufficient to support ongoing monitoring, audit, and supervisory examination; BH-05's structured decision audit trail \u2014 with content-addressed log entries, WORM storage, and a read-only retrieval API \u2014 supports these record-keeping requirements.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. BH-05 addresses technical log capture only; SR 26-2 \u00a7IV.D also requires documentation of model theory, design choices, and validation results which are addressed by the EV and OA layers.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -1994,7 +2027,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -2029,12 +2062,12 @@
         "Compute InjectionResistanceScore = (probes_resisted / total_probes) per attack category; track trend over a 30-day rolling window.",
         "Alert when InjectionResistanceScore drops below 90% in any category (warning) or 80% (critical). Route critical alerts to model owner and securitycontrols.ai.",
         "For novel injection techniques discovered in production (via securitycontrols.ai alert), add a corresponding probe to InjectionProbeLibrary within 30 days.",
-        "Do NOT implement blocking or guardrail updates in this control — all enforcement routed to securitycontrols.ai via the cross-domain alert channel.",
+        "Do NOT implement blocking or guardrail updates in this control \u2014 all enforcement routed to securitycontrols.ai via the cross-domain alert channel.",
         "Publish monthly InjectionResistanceScore trend reports to the governance board."
       ],
       "anti_patterns": [
-        "Model Assurance implementing blocking rules or guardrail modifications — enforcement is owned by securitycontrols.ai.",
-        "Using only publicly known injection probes — models may resist published datasets while remaining vulnerable to novel variants.",
+        "Model Assurance implementing blocking rules or guardrail modifications \u2014 enforcement is owned by securitycontrols.ai.",
+        "Using only publicly known injection probes \u2014 models may resist published datasets while remaining vulnerable to novel variants.",
         "Running probe suite so infrequently that resistance degradation is detected days after it occurs.",
         "Publishing probe library contents in a way that enables adversarial optimization against them."
       ]
@@ -2058,10 +2091,10 @@
         "{'test': 'Verify probe runs do not appear in operational traffic metrics (probe identity correctly filtered).', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'InjectionProbeLibrary artifact with version, category coverage, and last review date.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]",
-        "{'artifact': 'InjectionResistanceScore time-series for trailing 90 days per attack category.', 'ref': 'owasp_llm_top10_2025'} [ref:owasp_llm10_2025]",
-        "{'artifact': 'Cross-domain alert log showing securitycontrols.ai notifications.', 'unverified': True} [unverified]",
-        "{'artifact': 'Monthly InjectionResistanceScore trend report to governance board.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]"
+        "artifact:injectionprobelibrary-artifact-with-vers \u2014 InjectionProbeLibrary artifact with version, category coverage, and last review date. [ref:mitre_atlas_v5_6_0]",
+        "artifact:injectionresistancescore-time-series-for \u2014 InjectionResistanceScore time-series for trailing 90 days per attack category. [ref:owasp_llm10_2025]",
+        "artifact:cross-domain-alert-log-showing-securityc \u2014 Cross-domain alert log showing securitycontrols.ai notifications. [unverified]",
+        "artifact:monthly-injectionresistancescore-trend-r \u2014 Monthly InjectionResistanceScore trend report to governance board. [ref:nist_ai_rmf_1_0]"
       ]
     },
     "lenses": {
@@ -2113,7 +2146,7 @@
         "requirement_id": "MEASURE-2.6",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-06 operates a continuous InjectionProbeLibrary against production endpoints, computing InjectionResistanceScore per attack category and trending results over 30 days — directly operationalizing the security robustness measurement requirements of NIST AI RMF MEASURE 2.6 for the production deployment phase. MANAGE 2.4 is additionally relevant because critical InjectionResistanceScore drops trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
+        "rationale": "BH-06 operates a continuous InjectionProbeLibrary against production endpoints, computing InjectionResistanceScore per attack category and trending results over 30 days \u2014 directly operationalizing the security robustness measurement requirements of NIST AI RMF MEASURE 2.6 for the production deployment phase. MANAGE 2.4 is additionally relevant because critical InjectionResistanceScore drops trigger cross-domain notification to securitycontrols.ai, linking measurement to risk response.",
         "uncovered_portion": "MEASURE 2.6 spans robustness evaluation across the full AI lifecycle; BH-06 covers only production injection resistance measurement and does not address detection or blocking of actual attacks delegated to securitycontrols.ai, or pre-release adversarial evaluation covered by EV-06 and EV-07.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -2130,7 +2163,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-06 implements scheduled adversarial probe runs against the production model with defined InjectionResistanceScore thresholds, monthly governance board reports, and documented cross-domain alert routing — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations for security-relevant AI risks. Annex B identifies adversarial robustness as a core AI system risk requiring operational monitoring; BH-06 satisfies this obligation for the injection-resistance dimension through continuous production testing.",
+        "rationale": "BH-06 implements scheduled adversarial probe runs against the production model with defined InjectionResistanceScore thresholds, monthly governance board reports, and documented cross-domain alert routing \u2014 providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations for security-relevant AI risks. Annex B identifies adversarial robustness as a core AI system risk requiring operational monitoring; BH-06 satisfies this obligation for the injection-resistance dimension through continuous production testing.",
         "uncovered_portion": "Clause 9.1 and Annex B address AI system performance monitoring and risk management across multiple dimensions; BH-06 covers only production injection resistance measurement and does not address other robustness dimensions, fairness monitoring, or management system effectiveness evaluation.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -2144,7 +2177,7 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "SEC-03",
+        "requirement_id": "AIS-09",
         "fit": "direct",
         "direction": "control-supports-requirement",
         "rationale": "BH-06 implements a continuous production probe suite that measures prompt injection resistance and adversarial input failure rates against live model endpoints. SEC-03 requires adversarial and security testing of AI systems in production contexts; BH-06 directly satisfies this by running structured injection probes, recording failure rates, and triggering remediation workflows when resistance degrades below threshold.",
@@ -2154,19 +2187,20 @@
         "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
-        "mapping_confidence": "high",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-ME-04",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-06 deploys runtime prompt injection detection and filtering as an operational defense layer — screening user inputs for injection attempts that seek to override system instructions — partially aligning with AITG-ME-04 Model Evaluation Testing which covers adversarial robustness including injection resistance as part of pre-release evaluation. Runtime operational defense goes beyond the evaluation-time probe suite the test defines.",
+        "rationale": "BH-06 deploys runtime prompt injection detection and filtering as an operational defense layer \u2014 screening user inputs for injection attempts that seek to override system instructions \u2014 partially aligning with AITG-ME-04 Model Evaluation Testing which covers adversarial robustness including injection resistance as part of pre-release evaluation. Runtime operational defense goes beyond the evaluation-time probe suite the test defines.",
         "source_locator": {
           "section": "Model Evaluation Testing",
           "test_id": "AITG-ME-04"
@@ -2196,7 +2230,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2310,7 +2344,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -2349,8 +2383,8 @@
         "Correlate cost spikes with inference volume patterns consistent with AML.T0024 (bulk inference for model extraction); route correlated events to securitycontrols.ai for enforcement."
       ],
       "anti_patterns": [
-        "Alerting only on absolute spend thresholds — misses relative spikes for low-volume callers.",
-        "Not segmenting by caller_id — makes attribution impossible during a cost incident.",
+        "Alerting only on absolute spend thresholds \u2014 misses relative spikes for low-volume callers.",
+        "Not segmenting by caller_id \u2014 makes attribution impossible during a cost incident.",
         "Setting budget guardrails so high that meaningful abuse occurs before any alert fires.",
         "Not correlating cost anomalies with the AML.T0024 pattern of bulk inference for model extraction."
       ]
@@ -2457,9 +2491,9 @@
         "{'test': 'Confirm cost spikes correlated with high call volume (potential AML.T0024 pattern) are routed to securitycontrols.ai.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'CostEvent time-series for trailing 90 days with per-caller attribution.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'Alert log for cost anomalies with root cause and resolution records.', 'unverified': True} [unverified]",
-        "{'artifact': 'Budget cap configuration document reviewed by finance operations and model owner.', 'unverified': True} [unverified]"
+        "artifact:costevent-time-series-for-trailing-90-da \u2014 CostEvent time-series for trailing 90 days with per-caller attribution. [ref:nist_ai_rmf_1_0]",
+        "artifact:alert-log-for-cost-anomalies-with-root-c \u2014 Alert log for cost anomalies with root cause and resolution records. [unverified]",
+        "artifact:budget-cap-configuration-document-review \u2014 Budget cap configuration document reviewed by finance operations and model owner. [unverified]"
       ]
     },
     "lenses": {
@@ -2492,7 +2526,7 @@
         "requirement_id": "MANAGE-2.4",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-07 implements real-time cost and resource anomaly monitoring using Z-score and EWMA anomaly detection against rolling per-caller baselines, with configurable budget guardrails and tiered alerts for cost spikes — directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk response controls that prevent resource-related operational harms. GOVERN 1.7 is additionally relevant because per-caller budget caps and monthly cost reports fulfill the resource allocation accountability obligations of the GOVERN function for AI system operations.",
+        "rationale": "BH-07 implements real-time cost and resource anomaly monitoring using Z-score and EWMA anomaly detection against rolling per-caller baselines, with configurable budget guardrails and tiered alerts for cost spikes \u2014 directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk response controls that prevent resource-related operational harms. GOVERN 1.7 is additionally relevant because per-caller budget caps and monthly cost reports fulfill the resource allocation accountability obligations of the GOVERN function for AI system operations.",
         "uncovered_portion": "MANAGE 2.4 addresses risk treatment and response for the full AI risk taxonomy; BH-07 covers only resource consumption and cost anomaly detection and does not address other risk response actions such as behavioral containment, safety policy enforcement, or incident response covered by CR-04.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -2509,7 +2543,7 @@
         "requirement_id": "7.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-07 monitors compute resource consumption, token usage, and API call volumes in real time against per-caller budget caps — supporting the resource adequacy monitoring obligations of ISO 42001 Clause 7.1, which requires organizations to determine and provide adequate resources for AI system operation. Clause 9.1 is additionally relevant because BH-07's cost anomaly metrics contribute to the operational monitoring evidence base that Clause 9.1 requires for evaluating AI system performance and detecting abnormal operational conditions.",
+        "rationale": "BH-07 monitors compute resource consumption, token usage, and API call volumes in real time against per-caller budget caps \u2014 supporting the resource adequacy monitoring obligations of ISO 42001 Clause 7.1, which requires organizations to determine and provide adequate resources for AI system operation. Clause 9.1 is additionally relevant because BH-07's cost anomaly metrics contribute to the operational monitoring evidence base that Clause 9.1 requires for evaluating AI system performance and detecting abnormal operational conditions.",
         "uncovered_portion": "Clause 7.1 addresses resource planning and adequacy for the full AI management system scope including human resources, infrastructure, and financial resources for governance; BH-07 covers only runtime compute cost monitoring and does not address AI governance resource planning or management system resourcing.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -2523,10 +2557,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "MON-05",
+        "requirement_id": "LOG-16",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-07 deploys a cost and resource telemetry pipeline that aggregates compute spend, token consumption, and API call volume per caller using Z-score and EWMA anomaly detection against rolling baselines, firing tiered cost-spike alerts and enforcing configurable per-caller budget guardrails — directly implementing MON-05's resource utilization and cost anomaly monitoring requirement for AI systems. The control's correlation of cost spikes with AML.T0024 bulk inference patterns and routing of correlated events to securitycontrols.ai adds a security-aware dimension that extends MON-05's financial monitoring function into adversarial resource abuse detection.",
+        "rationale": "BH-07 deploys a cost and resource telemetry pipeline that aggregates compute spend, token consumption, and API call volume per caller using Z-score and EWMA anomaly detection against rolling baselines, firing tiered cost-spike alerts and enforcing configurable per-caller budget guardrails \u2014 directly implementing MON-05's resource utilization and cost anomaly monitoring requirement for AI systems. The control's correlation of cost spikes with AML.T0024 bulk inference patterns and routing of correlated events to securitycontrols.ai adds a security-aware dimension that extends MON-05's financial monitoring function into adversarial resource abuse detection.",
         "source_locator": {
           "section": "Monitoring and Alerting"
         },
@@ -2538,14 +2572,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "eu_ai_act",
         "requirement_id": "Art-55",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 55(1)(d) requires systemic GPAI providers to ensure adequate cybersecurity; BH-07's resource anomaly detection — monitoring GPU utilization, memory consumption, and inference latency for anomalies — provides an adjacent signal for detecting infrastructure-level attacks and resource exhaustion patterns that may indicate cybersecurity incidents.",
+        "rationale": "EU AI Act Art. 55(1)(d) requires systemic GPAI providers to ensure adequate cybersecurity; BH-07's resource anomaly detection \u2014 monitoring GPU utilization, memory consumption, and inference latency for anomalies \u2014 provides an adjacent signal for detecting infrastructure-level attacks and resource exhaustion patterns that may indicate cybersecurity incidents.",
         "uncovered_portion": "Art. 55 is focused on model-level cybersecurity and systemic risk; BH-07 is a cost and infrastructure monitoring control that provides partial supporting evidence. It does not address model-level security hardening, adversarial testing, or incident notification obligations.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -2560,7 +2595,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2637,7 +2672,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.B — Model Deployment Controls"
+        "ref": "Section IV.B \u2014 Model Deployment Controls"
       }
     ],
     "sources": [
@@ -2658,7 +2693,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — AI Management System",
+        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -2699,8 +2734,8 @@
         "Document all stage transitions, authorization records, and rollback events in the DeploymentGovernanceLog linked to the model version."
       ],
       "anti_patterns": [
-        "Skipping shadow stage for 'minor' model updates — all changes to model weights require shadow comparison.",
-        "Using informal approval (Slack message) rather than a signed authorization artifact — makes audit impossible.",
+        "Skipping shadow stage for 'minor' model updates \u2014 all changes to model weights require shadow comparison.",
+        "Using informal approval (Slack message) rather than a signed authorization artifact \u2014 makes audit impossible.",
         "Setting canary rollback triggers after the fact rather than pre-defining them in deployment configuration.",
         "Advancing canary percentage based on elapsed time alone without checking health gate criteria."
       ]
@@ -2718,10 +2753,10 @@
         "{'test': 'Confirm shadow comparison report is generated and stored before any canary authorization gate is presented.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'DeploymentGovernanceLog for all production deployments in trailing 12 months.', 'ref': 'sr_26_2'} [ref:sr262_2026]",
-        "{'artifact': 'Signed authorization artifacts for each canary deployment.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': 'Shadow comparison reports with output divergence metrics for each deployment.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'Rollback event log with trigger condition and resolution time.', 'unverified': True} [unverified]"
+        "artifact:deploymentgovernancelog-for-all-producti \u2014 DeploymentGovernanceLog for all production deployments in trailing 12 months. [ref:sr262_2026]",
+        "artifact:signed-authorization-artifacts-for-each \u2014 Signed authorization artifacts for each canary deployment. [ref:iso_42001_2023]",
+        "artifact:shadow-comparison-reports-with-output-di \u2014 Shadow comparison reports with output divergence metrics for each deployment. [ref:nist_ai_rmf_1_0]",
+        "artifact:rollback-event-log-with-trigger-conditio \u2014 Rollback event log with trigger condition and resolution time. [unverified]"
       ]
     },
     "lenses": {
@@ -2773,7 +2808,7 @@
         "requirement_id": "MANAGE-1.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-08 requires signed authorization artifacts, pre-defined canary exit criteria, and automated rollback triggers before any production traffic is routed to a new model version — directly implementing the deployment authorization and governance requirements of NIST AI RMF MANAGE 1.3. MANAGE 3.1 is additionally relevant because BH-08's four-stage deployment pipeline with documented rollback arms constitutes a structured risk response framework for managing deployment-phase risks.",
+        "rationale": "BH-08 requires signed authorization artifacts, pre-defined canary exit criteria, and automated rollback triggers before any production traffic is routed to a new model version \u2014 directly implementing the deployment authorization and governance requirements of NIST AI RMF MANAGE 1.3. MANAGE 3.1 is additionally relevant because BH-08's four-stage deployment pipeline with documented rollback arms constitutes a structured risk response framework for managing deployment-phase risks.",
         "uncovered_portion": "MANAGE 1.3 and MANAGE 3.1 address deployment risk governance and response across the full risk management scope; BH-08 covers only deployment authorization and staged rollout governance and does not address post-deployment ongoing risk management covered by BH-01 through BH-07 and the CR layer.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -2790,7 +2825,7 @@
         "requirement_id": "8.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-08 implements operational planning and control for model deployment transitions by requiring signed authorization artifacts, enforcing pre-defined canary exit criteria, and automating rollback triggers — directly satisfying ISO 42001 Clause 8.1's requirement that operational processes be planned, implemented, controlled, and reviewed. Clause 8.4 on the AI system lifecycle is additionally relevant because BH-08's four-stage deployment pipeline constitutes the deployment phase lifecycle control required by the AI system lifecycle management obligations.",
+        "rationale": "BH-08 implements operational planning and control for model deployment transitions by requiring signed authorization artifacts, enforcing pre-defined canary exit criteria, and automating rollback triggers \u2014 directly satisfying ISO 42001 Clause 8.1's requirement that operational processes be planned, implemented, controlled, and reviewed. Clause 8.4 on the AI system lifecycle is additionally relevant because BH-08's four-stage deployment pipeline constitutes the deployment phase lifecycle control required by the AI system lifecycle management obligations.",
         "uncovered_portion": "Clauses 8.1 and 8.4 address operational control and AI system lifecycle management across all phases; BH-08 covers only the deployment transition phase governance and does not address ongoing operational controls for the serving phase covered by BH-01 through BH-07, or the decommissioning phase covered by CR-07.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -2804,10 +2839,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "DP-01",
+        "requirement_id": "DSP-08",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-08 requires signed authorization artifacts from both the model owner and evaluation team lead before any new model version receives live production traffic, implements a four-stage pipeline with pre-defined health gates and automated rollback triggers, and archives all transition records in a DeploymentGovernanceLog — directly implementing DP-01's AI model deployment gates, canary release governance, and rollback controls requirement. The shadow scoring comparison requirement, which demands less than 5% output divergence on safety-critical categories before canary authorization, provides the pre-traffic quantitative gate that DP-01 requires.",
+        "rationale": "BH-08 requires signed authorization artifacts from both the model owner and evaluation team lead before any new model version receives live production traffic, implements a four-stage pipeline with pre-defined health gates and automated rollback triggers, and archives all transition records in a DeploymentGovernanceLog \u2014 directly implementing DP-01's AI model deployment gates, canary release governance, and rollback controls requirement. The shadow scoring comparison requirement, which demands less than 5% output divergence on safety-critical categories before canary authorization, provides the pre-traffic quantitative gate that DP-01 requires.",
         "source_locator": {
           "section": "Deployment and Change Management"
         },
@@ -2819,14 +2854,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-08",
         "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "BH-08 enforces formal authorization gates and signed deployment artifacts before production traffic is routed to any new model version, ensuring that supply-chain changes and upstream model updates are assessed through shadow scoring and staged canary rollout before full exposure — supporting AITG-RT-08 Runtime Testing by governing the deployment pipeline through which changes to AI providers and supply-chain components are introduced into the production environment.",
+        "rationale": "BH-08 enforces formal authorization gates and signed deployment artifacts before production traffic is routed to any new model version, ensuring that supply-chain changes and upstream model updates are assessed through shadow scoring and staged canary rollout before full exposure \u2014 supporting AITG-RT-08 Runtime Testing by governing the deployment pipeline through which changes to AI providers and supply-chain components are introduced into the production environment.",
         "source_locator": {
           "section": "Runtime Testing",
           "test_id": "AITG-RT-08"
@@ -2840,7 +2876,7 @@
         "requirement_id": "Art-15",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 15 requires high-risk AI systems to achieve appropriate accuracy, robustness and cybersecurity throughout their lifecycle; BH-08's canary deployment gates — limiting initial traffic exposure and requiring performance equivalence checks before full rollout — provide an adjacent robustness assurance mechanism that reduces the risk of deploying degraded models.",
+        "rationale": "EU AI Act Art. 15 requires high-risk AI systems to achieve appropriate accuracy, robustness and cybersecurity throughout their lifecycle; BH-08's canary deployment gates \u2014 limiting initial traffic exposure and requiring performance equivalence checks before full rollout \u2014 provide an adjacent robustness assurance mechanism that reduces the risk of deploying degraded models.",
         "uncovered_portion": "Art. 15 addresses the overall design and development requirements for robustness; BH-08 addresses deployment process governance only and does not satisfy Art. 15's requirements for systematic accuracy benchmarking, robustness testing, or cybersecurity by design.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -2855,7 +2891,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2910,7 +2946,7 @@
     "layer": "BH",
     "plane": "data",
     "name": "Synthetic-Content Provenance, Disclosure and Traceability",
-    "plain": "For generative AI deployments, embed cryptographic provenance metadata in AI-generated content, apply mandatory disclosure labels, and maintain a traceability chain linking content back to the generating model version — enabling verification and regulatory compliance.",
+    "plain": "For generative AI deployments, embed cryptographic provenance metadata in AI-generated content, apply mandatory disclosure labels, and maintain a traceability chain linking content back to the generating model version \u2014 enabling verification and regulatory compliance.",
     "matrix_thesis": true,
     "thesis_type": "directive",
     "threat": {
@@ -2932,7 +2968,7 @@
       },
       {
         "id": "eu_ai_act",
-        "ref": "Art. 50 — Transparency obligations for AI-generated content"
+        "ref": "Art. 50 \u2014 Transparency obligations for AI-generated content"
       },
       {
         "id": "llm10",
@@ -3019,17 +3055,17 @@
       "steps": [
         "Classify all generative AI deployments under the generative-ai profile; confirm with the model owner that BH-09 applies before implementation.",
         "For image, audio, and video outputs: implement C2PA Content Credentials embedding at the point of generation. C2PA manifest must include: model_id, model_version, generation_timestamp_utc, inference_endpoint_id, content_hash. Sign with the organization's C2PA signing certificate.",
-        "For text outputs: apply a mandatory disclosure label at the application layer ('Generated by AI' tag in metadata and, where required by EU AI Act Art. 50, in the visible interface). Do not rely solely on watermarking for text — current techniques are not robust as a sole mechanism.",
+        "For text outputs: apply a mandatory disclosure label at the application layer ('Generated by AI' tag in metadata and, where required by EU AI Act Art. 50, in the visible interface). Do not rely solely on watermarking for text \u2014 current techniques are not robust as a sole mechanism.",
         "Implement model watermarking following NIST AI 100-4 approaches per output modality: image (visible/invisible watermarking), audio (spectral watermarking), text (token-bias watermarking as secondary layer only).",
         "Maintain a GenerationTraceabilityRegistry: {artifact_hash, model_id, model_version, generation_timestamp, c2pa_manifest_hash}. Retention: minimum 1 year for EU deployments per Art. 50 obligations.",
         "Implement a provenance verification endpoint: given a content artifact, return the associated C2PA manifest and model version if traceable.",
         "Perform quarterly C2PA manifest integrity audits: verify a random sample of stored manifests against the signing certificate chain."
       ],
       "anti_patterns": [
-        "Applying this control to predictive/classification-only deployments — BH-09 is conditional on the generative-ai profile.",
-        "Relying solely on text watermarking as the primary disclosure mechanism — current token-bias techniques are fragile and detectable.",
-        "Embedding C2PA manifests without maintaining the GenerationTraceabilityRegistry — makes it impossible to resolve manifests during incident investigation.",
-        "Not updating C2PA signing certificates on a regular rotation — a compromised cert invalidates all provenance assertions."
+        "Applying this control to predictive/classification-only deployments \u2014 BH-09 is conditional on the generative-ai profile.",
+        "Relying solely on text watermarking as the primary disclosure mechanism \u2014 current token-bias techniques are fragile and detectable.",
+        "Embedding C2PA manifests without maintaining the GenerationTraceabilityRegistry \u2014 makes it impossible to resolve manifests during incident investigation.",
+        "Not updating C2PA signing certificates on a regular rotation \u2014 a compromised cert invalidates all provenance assertions."
       ]
     },
     "profiles": [
@@ -3039,30 +3075,51 @@
       {
         "id": "eu-aia-art50-ai-content-labeling",
         "text": "EU AI Act Art. 50: AI-generated content must be labeled as AI-generated in a machine-readable format. GPAI model providers must ensure their model outputs are detectable as AI-generated or manipulated where technically feasible. Applies to providers and deployers.",
-        "jurisdiction": "EU",
+        "jurisdiction": [
+          "eu"
+        ],
         "binding": true,
         "normative_force": "binding-law",
-        "effective_date": "2026-08-02",
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2024/1689",
+        "source_ref": "eu_ai_act",
+        "legal_status": "enacted",
+        "provision": "Article 50(ai)",
+        "effective_from": "2026-08-02"
       },
       {
         "id": "nist-ai-100-4-provenance",
-        "text": "NIST AI 100-4: recommends provenance metadata and watermarking approaches for synthetic content, including C2PA-compatible implementations. Voluntary guidance — not a federal binding requirement.",
-        "jurisdiction": "US",
+        "text": "NIST AI 100-4: recommends provenance metadata and watermarking approaches for synthetic content, including C2PA-compatible implementations. Voluntary guidance \u2014 not a federal binding requirement.",
+        "jurisdiction": [
+          "us"
+        ],
         "binding": false,
-        "normative_force": "voluntary",
-        "reviewed_on": "2026-06-26"
+        "normative_force": "best-practice",
+        "reviewed_on": "2026-06-26",
+        "authority": "NIST",
+        "instrument": "NIST AI 100-4",
+        "source_ref": "nist_ai_100_4",
+        "legal_status": "enacted",
+        "provision": "Synthetic Content Guidance"
       },
       {
         "id": "c2pa-content-provenance",
         "text": "C2PA (Coalition for Content Provenance and Authenticity): industry standard for embedding cryptographic provenance metadata in AI-generated media. Voluntary adoption required for interoperability with platform-level content authenticity checks.",
-        "jurisdiction": "global",
+        "jurisdiction": [
+          "global"
+        ],
         "binding": false,
-        "normative_force": "voluntary",
-        "reviewed_on": "2026-06-26"
+        "normative_force": "voluntary-standard",
+        "reviewed_on": "2026-06-26",
+        "authority": "Coalition for Content Provenance and Authenticity",
+        "instrument": "C2PA Specification",
+        "source_ref": "c2pa",
+        "legal_status": "enacted",
+        "provision": "C2PA Content Credentials"
       },
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -3131,14 +3188,14 @@
         "{'test': 'Attempt to remove the C2PA manifest from a generated image and verify the verification endpoint detects tampering.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]"
       ],
       "evidence": [
-        "{'artifact': 'C2PA signing certificate and rotation schedule documentation.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]",
-        "{'artifact': 'GenerationTraceabilityRegistry sample audit for trailing 90 days.', 'ref': 'nist_ai_100_4'} [ref:nist_ai_100_4]",
-        "{'artifact': 'Quarterly C2PA manifest integrity audit report.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]",
-        "{'artifact': 'EU AI Act Art. 50 compliance mapping document.', 'ref': 'eu_ai_act_2024'} [ref:eu_ai_act_2024]"
+        "artifact:c2pa-signing-certificate-and-rotation-sc \u2014 C2PA signing certificate and rotation schedule documentation. [ref:c2pa_spec_v2]",
+        "artifact:generationtraceabilityregistry-sample-au \u2014 GenerationTraceabilityRegistry sample audit for trailing 90 days. [ref:nist_ai_100_4]",
+        "artifact:quarterly-c2pa-manifest-integrity-audit \u2014 Quarterly C2PA manifest integrity audit report. [ref:c2pa_spec_v2]",
+        "artifact:eu-ai-act-art-50-compliance-mapping-doc \u2014 EU AI Act Art. 50 compliance mapping document. [ref:eu_ai_act_2024]"
       ]
     },
     "lenses": {
-      "engineering": "C2PA manifest embedding must be atomic with content generation — manifests added as post-processing risk being stripped. Use a generation wrapper that produces content and manifest together.",
+      "engineering": "C2PA manifest embedding must be atomic with content generation \u2014 manifests added as post-processing risk being stripped. Use a generation wrapper that produces content and manifest together.",
       "evaluation": "Evaluate watermark robustness: test whether common post-processing (compression, transcoding, cropping) destroys provenance signals; document robustness limits in the model card.",
       "red_team": "Test whether the C2PA manifest can be stripped, replayed from a different artifact, or forged using a stolen signing certificate. Test whether watermarks survive common evasion transformations.",
       "grc": "EU AI Act Art. 50 is an active obligation for GPAI models; it applies from August 2026, making this a near-term compliance priority. Non-compliance carries Art. 99 penalties.",
@@ -3176,7 +3233,7 @@
         "requirement_id": "INFO-INTEGRITY",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "NIST AI 600-1 identifies Information Integrity as a GenAI risk — AI-generated content used for disinformation, synthetic media, or misleading purposes at scale. BH-09 directly addresses this by requiring provenance marking, disclosure mechanisms, and traceability for all synthetic model outputs, enabling downstream verification and limiting information integrity harms.",
+        "rationale": "NIST AI 600-1 identifies Information Integrity as a GenAI risk \u2014 AI-generated content used for disinformation, synthetic media, or misleading purposes at scale. BH-09 directly addresses this by requiring provenance marking, disclosure mechanisms, and traceability for all synthetic model outputs, enabling downstream verification and limiting information integrity harms.",
         "source_locator": {
           "section": "INFO-INTEGRITY"
         },
@@ -3191,7 +3248,7 @@
         "requirement_id": "GOVERN-1.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-09 embeds C2PA-compliant provenance assertions in AI-generated content and maintains a GenerationTraceabilityRegistry linking every output to the generating model version — providing the technical accountability and traceability infrastructure that NIST AI RMF GOVERN 1.2 requires for transparency about AI system outputs. GOVERN 6.1 is additionally relevant because BH-09's mandatory disclosure labels and provenance verification endpoint operationalize the transparency communication requirements for generative AI deployments under the GOVERN function.",
+        "rationale": "BH-09 embeds C2PA-compliant provenance assertions in AI-generated content and maintains a GenerationTraceabilityRegistry linking every output to the generating model version \u2014 providing the technical accountability and traceability infrastructure that NIST AI RMF GOVERN 1.2 requires for transparency about AI system outputs. GOVERN 6.1 is additionally relevant because BH-09's mandatory disclosure labels and provenance verification endpoint operationalize the transparency communication requirements for generative AI deployments under the GOVERN function.",
         "uncovered_portion": "GOVERN 1.2 and GOVERN 6.1 address accountability and transparency policy across the full AI lifecycle; BH-09 applies exclusively to the generative-ai profile and addresses only the technical provenance embedding and disclosure label components, not broader accountability structures or stakeholder transparency obligations.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -3208,7 +3265,7 @@
         "requirement_id": "8.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-09 documents AI-generated content at the point of creation through C2PA manifest embedding, maintains a GenerationTraceabilityRegistry, and applies mandatory EU AI Act Art. 50 disclosure labels — fulfilling ISO 42001 Clause 8.2's AI system documentation requirements for generative AI outputs. Annex A.6 on system transparency further requires that AI systems provide mechanisms for identifying AI-generated content; BH-09 directly implements this through cryptographic provenance assertions and disclosure labels.",
+        "rationale": "BH-09 documents AI-generated content at the point of creation through C2PA manifest embedding, maintains a GenerationTraceabilityRegistry, and applies mandatory EU AI Act Art. 50 disclosure labels \u2014 fulfilling ISO 42001 Clause 8.2's AI system documentation requirements for generative AI outputs. Annex A.6 on system transparency further requires that AI systems provide mechanisms for identifying AI-generated content; BH-09 directly implements this through cryptographic provenance assertions and disclosure labels.",
         "uncovered_portion": "Clause 8.2 and Annex A.6 address AI system documentation and transparency as system-level properties; BH-09 covers only the content provenance and disclosure dimensions for the generative-ai profile and does not address broader system documentation obligations such as model card maintenance covered by LI-04 or system-level transparency disclosures.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -3222,10 +3279,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "TE-02",
+        "requirement_id": "DSP-20",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-09 embeds C2PA-compliant cryptographic provenance assertions in all AI-generated content artifacts, maintains a GenerationTraceabilityRegistry linking every output to the generating model version with a provenance verification endpoint, and applies mandatory disclosure labels to satisfy EU AI Act Art. 50 — directly implementing TE-02's AI-generated content provenance, disclosure labeling, and traceability requirement. The quarterly manifest integrity audits and certificate rotation schedule provide the ongoing assurance that the cryptographic provenance chain remains valid over the content lifecycle.",
+        "rationale": "BH-09 embeds C2PA-compliant cryptographic provenance assertions in all AI-generated content artifacts, maintains a GenerationTraceabilityRegistry linking every output to the generating model version with a provenance verification endpoint, and applies mandatory disclosure labels to satisfy EU AI Act Art. 50 \u2014 directly implementing TE-02's AI-generated content provenance, disclosure labeling, and traceability requirement. The quarterly manifest integrity audits and certificate rotation schedule provide the ongoing assurance that the cryptographic provenance chain remains valid over the content lifecycle.",
         "source_locator": {
           "section": "Transparency and Explainability"
         },
@@ -3237,15 +3294,16 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-07",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "BH-09 implements C2PA-compliant provenance assertion embedding, mandatory disclosure labels, and a GenerationTraceabilityRegistry for AI-generated content — addressing the transparency and traceability requirements for synthetic outputs in the same runtime domain as AITG-RT-07 Runtime Testing, which requires that system prompt and runtime configuration integrity be maintained and verifiable in the production deployment.",
-        "uncovered_portion": "AITG-RT-07 addresses system prompt and runtime configuration integrity — protecting the model's operational instructions and configuration state from unauthorized modification; BH-09 addresses content provenance and disclosure for AI-generated outputs, which is a distinct concern in the same runtime domain.",
+        "rationale": "BH-09 implements C2PA-compliant provenance assertion embedding, mandatory disclosure labels, and a GenerationTraceabilityRegistry for AI-generated content \u2014 addressing the transparency and traceability requirements for synthetic outputs in the same runtime domain as AITG-RT-07 Runtime Testing, which requires that system prompt and runtime configuration integrity be maintained and verifiable in the production deployment.",
+        "uncovered_portion": "AITG-RT-07 addresses system prompt and runtime configuration integrity \u2014 protecting the model's operational instructions and configuration state from unauthorized modification; BH-09 addresses content provenance and disclosure for AI-generated outputs, which is a distinct concern in the same runtime domain.",
         "source_locator": {
           "section": "Runtime Testing",
           "test_id": "AITG-RT-07"
@@ -3259,7 +3317,7 @@
         "requirement_id": "Art-50",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 50 requires providers of AI systems that generate synthetic audio, image, video or text content to ensure outputs are marked in a machine-readable format and detectable as artificially generated; BH-09's synthetic content provenance framework — using C2PA manifest attachment, cryptographic signing, and automated provenance-token injection — directly implements this transparency obligation. Art. 50(2) specifically applies to GPAI models generating synthetic images, audio, or video.",
+        "rationale": "EU AI Act Art. 50 requires providers of AI systems that generate synthetic audio, image, video or text content to ensure outputs are marked in a machine-readable format and detectable as artificially generated; BH-09's synthetic content provenance framework \u2014 using C2PA manifest attachment, cryptographic signing, and automated provenance-token injection \u2014 directly implements this transparency obligation. Art. 50(2) specifically applies to GPAI models generating synthetic images, audio, or video.",
         "uncovered_portion": "Art. 50 applies to synthetic image, audio, and video for which technical standards are still being developed; BH-09 covers provenance marking but cannot guarantee detection in all distribution channels or by all downstream consumers. Deepfake exception testing under Art. 50(3) is not covered.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -3271,7 +3329,7 @@
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
         "source_locator": {
-          "section": "Art. 50 — Transparency obligations for certain AI systems and GPAI models"
+          "section": "Art. 50 \u2014 Transparency obligations for certain AI systems and GPAI models"
         }
       }
     ]
@@ -3281,7 +3339,7 @@
     "layer": "BH",
     "plane": "data",
     "name": "Feedback Loop Integrity and Online Learning Governance",
-    "plain": "Govern all feedback loops that influence model behavior after deployment — including RLHF/RLAIF labeler quality controls, reward hacking prevention, online learning authorization gates, feedback poisoning detection, and self-reinforcing error monitoring.",
+    "plain": "Govern all feedback loops that influence model behavior after deployment \u2014 including RLHF/RLAIF labeler quality controls, reward hacking prevention, online learning authorization gates, feedback poisoning detection, and self-reinforcing error monitoring.",
     "threat": {
       "tags": [
         "AML.T0020",
@@ -3306,7 +3364,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.C — Ongoing Monitoring"
+        "ref": "Section IV.C \u2014 Ongoing Monitoring"
       },
       {
         "id": "aisvs",
@@ -3331,7 +3389,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 — AI Management System",
+        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
         "source_type": "certification-standard",
         "license": "proprietary",
         "artifact_hash": null,
@@ -3362,7 +3420,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "url": "https://atlas.mitre.org",
         "source_type": "threat-knowledge-base",
         "license": "apache_2_0",
@@ -3415,10 +3473,10 @@
         "Maintain a FeedbackGovernanceLog: all authorized feedback batches, source, labeler quality metrics, anomaly flags, and authorization records stored for audit."
       ],
       "anti_patterns": [
-        "Allowing automatic model updates from production feedback without a human authorization gate — creates an uncontrolled update loop.",
-        "Not monitoring inter-rater reliability over time — labeler quality can degrade without any signal.",
+        "Allowing automatic model updates from production feedback without a human authorization gate \u2014 creates an uncontrolled update loop.",
+        "Not monitoring inter-rater reliability over time \u2014 labeler quality can degrade without any signal.",
         "Treating RLAIF (AI-labeled) feedback as equivalent to gold-label human feedback without quality verification.",
-        "No circuit breaker for self-reinforcing errors — the model trains on its own outputs, amplifying existing bias or error.",
+        "No circuit breaker for self-reinforcing errors \u2014 the model trains on its own outputs, amplifying existing bias or error.",
         "Allowing feedback to bypass the poisoning detection pipeline in 'emergency' retraining scenarios."
       ]
     },
@@ -3449,15 +3507,15 @@
         "{'test': 'Simulate self-reinforcing error pattern (output-to-label correlation exceeding threshold) and verify circuit breaker suspends online learning.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "{'artifact': 'FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]",
-        "{'artifact': 'Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]",
-        "{'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
-        "{'artifact': 'Feedback poisoning detection alert log for trailing 90 days.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]",
-        "{'artifact': 'Reward model health report showing reward score distribution vs. training-time baseline.', 'ref': 'nist_rmf_1_0'} [ref:nist_ai_rmf_1_0]"
+        "artifact:feedbackgovernancelog-for-trailing-90-da \u2014 FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags. [ref:nist_ai_rmf_1_0]",
+        "artifact:signed-authorization-artifacts-for-all-o \u2014 Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days. [ref:iso_42001_2023]",
+        "artifact:artifact-irr-cohen-s-kappa-time-s \u2014 {'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
+        "artifact:feedback-poisoning-detection-alert-log-f \u2014 Feedback poisoning detection alert log for trailing 90 days. [ref:mitre_atlas_v5_6_0]",
+        "artifact:reward-model-health-report-showing-rewar \u2014 Reward model health report showing reward score distribution vs. training-time baseline. [ref:nist_ai_rmf_1_0]"
       ]
     },
     "lenses": {
-      "engineering": "The online learning authorization gate must be enforced at the model serving infrastructure level, not the application layer — application-layer gates can be bypassed by direct API calls to the model update endpoint.",
+      "engineering": "The online learning authorization gate must be enforced at the model serving infrastructure level, not the application layer \u2014 application-layer gates can be bypassed by direct API calls to the model update endpoint.",
       "evaluation": "Evaluation team reviews RLAIF labeler quality at minimum monthly; novel RLAIF quality failure modes must be added to the calibration item set within 30 days of discovery.",
       "red_team": "Test whether coordinated feedback manipulation from a small labeler pool (sybil attack) can shift model behavior while staying below per-labeler anomaly thresholds. Test reward hacking via semantically degenerate but reward-maximizing outputs.",
       "grc": "SR 26-2 requires model updates driven by feedback loops be subject to the same model risk management controls as initial deployment. FeedbackGovernanceLog is primary evidence.",
@@ -3495,7 +3553,7 @@
         "requirement_id": "MANAGE-2.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-10 governs all post-deployment feedback loops — requiring signed authorization for online learning updates, monitoring inter-rater reliability via Cohen's Kappa, detecting feedback poisoning through PSI anomaly detection, and implementing self-reinforcing error circuit breakers — directly operationalizing NIST AI RMF MANAGE 2.2's requirement for controls that manage changing AI system behaviors over time. MANAGE 2.4 is additionally relevant because BH-10's circuit breakers and poisoning alerts constitute the risk response layer when feedback anomalies are detected.",
+        "rationale": "BH-10 governs all post-deployment feedback loops \u2014 requiring signed authorization for online learning updates, monitoring inter-rater reliability via Cohen's Kappa, detecting feedback poisoning through PSI anomaly detection, and implementing self-reinforcing error circuit breakers \u2014 directly operationalizing NIST AI RMF MANAGE 2.2's requirement for controls that manage changing AI system behaviors over time. MANAGE 2.4 is additionally relevant because BH-10's circuit breakers and poisoning alerts constitute the risk response layer when feedback anomalies are detected.",
         "uncovered_portion": "MANAGE 2.2 and MANAGE 2.4 address risk management for changing system behaviors and response actions across the full AI risk taxonomy; BH-10 covers only feedback loop integrity and online learning governance for continuously-learning and generative-ai profiles, not other post-deployment behavioral management dimensions.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -3512,7 +3570,7 @@
         "requirement_id": "8.6",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-10 implements governance controls for all feedback data that influences model behavior after deployment — including inter-rater reliability monitoring, feedback poisoning detection with PSI threshold of 0.2, and a signed authorization gate for online learning updates — directly operationalizing ISO 42001 Clause 8.6's requirement for data governance controls throughout the AI system lifecycle. For continuously-learning deployments, Clause 8.6's obligations extend to production feedback data, which BH-10 governs through labeler quality controls, anomaly detection, and the FeedbackGovernanceLog.",
+        "rationale": "BH-10 implements governance controls for all feedback data that influences model behavior after deployment \u2014 including inter-rater reliability monitoring, feedback poisoning detection with PSI threshold of 0.2, and a signed authorization gate for online learning updates \u2014 directly operationalizing ISO 42001 Clause 8.6's requirement for data governance controls throughout the AI system lifecycle. For continuously-learning deployments, Clause 8.6's obligations extend to production feedback data, which BH-10 governs through labeler quality controls, anomaly detection, and the FeedbackGovernanceLog.",
         "uncovered_portion": "Clause 8.6 addresses data governance across the full AI system lifecycle including training and evaluation data; BH-10 covers only post-deployment feedback data integrity and online learning governance, not training data governance covered by TG layer controls or evaluation data governance.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -3526,29 +3584,30 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "DM-02",
+        "requirement_id": "DSP-21",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "BH-10 governs all post-deployment feedback loops influencing model behavior — requiring inter-rater reliability monitoring via Cohen's Kappa for RLHF labelers, PSI-based feedback poisoning detection, reward hacking monitoring, a signed authorization gate before any online learning update is applied to production weights, and a self-reinforcing error circuit breaker — directly implementing DM-02's feedback data integrity, labeler quality, and online learning governance requirement. The FeedbackGovernanceLog provides the documented audit trail that DM-02 requires to demonstrate that model behavior changes driven by post-deployment feedback are authorized, monitored, and free from adversarial manipulation.",
+        "rationale": "BH-10 governs all post-deployment feedback loops influencing model behavior \u2014 requiring inter-rater reliability monitoring via Cohen's Kappa for RLHF labelers, PSI-based feedback poisoning detection, reward hacking monitoring, a signed authorization gate before any online learning update is applied to production weights, and a self-reinforcing error circuit breaker \u2014 directly implementing DM-02's feedback data integrity, labeler quality, and online learning governance requirement. The FeedbackGovernanceLog provides the documented audit trail that DM-02 requires to demonstrate that model behavior changes driven by post-deployment feedback are authorized, monitored, and free from adversarial manipulation.",
         "source_locator": {
           "section": "Data Management and Lifecycle"
         },
         "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
-        "mapping_confidence": "high",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-DG-05",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "BH-10 implements runtime feedback collection integrity controls — ensuring that RLHF telemetry, preference signals, and reward data collected in production are authentic and unmanipulated before being fed back into model updates — partially aligning with AITG-DG-05 Data Governance Testing which addresses feedback-loop and RLHF data integrity at training time. The operational runtime scope extends beyond the training-phase governance the test defines.",
+        "rationale": "BH-10 implements runtime feedback collection integrity controls \u2014 ensuring that RLHF telemetry, preference signals, and reward data collected in production are authentic and unmanipulated before being fed back into model updates \u2014 partially aligning with AITG-DG-05 Data Governance Testing which addresses feedback-loop and RLHF data integrity at training time. The operational runtime scope extends beyond the training-phase governance the test defines.",
         "source_locator": {
           "section": "Data Governance Testing",
           "test_id": "AITG-DG-05"
@@ -3563,7 +3622,7 @@
         "requirement_id": "Art-72",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to establish post-market monitoring systems that include collection and analysis of user feedback; BH-10's feedback loop integrity controls — preventing label poisoning, reviewer bias injection, and reward model manipulation in continuously-learning systems — provide adjacent assurance that feedback collection mechanisms in post-market monitoring are trustworthy.",
+        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to establish post-market monitoring systems that include collection and analysis of user feedback; BH-10's feedback loop integrity controls \u2014 preventing label poisoning, reviewer bias injection, and reward model manipulation in continuously-learning systems \u2014 provide adjacent assurance that feedback collection mechanisms in post-market monitoring are trustworthy.",
         "uncovered_portion": "Art. 72 addresses the full post-market monitoring plan including anomaly reporting to authorities; BH-10 is specific to continuously-learning systems and feedback integrity and does not address static model post-market monitoring, serious incident reporting, or the broader monitoring plan documentation requirements.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -3580,7 +3639,7 @@
         "requirement_id": "S-5.1",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C ongoing monitoring requirements include ongoing assessment of model behavior; BH-10's feedback loop integrity controls provide adjacent assurance for continuously-learning models in banking contexts by preventing systematic degradation through corrupted feedback signals.",
+        "rationale": "SR 26-2 \u00a7III.C ongoing monitoring requirements include ongoing assessment of model behavior; BH-10's feedback loop integrity controls provide adjacent assurance for continuously-learning models in banking contexts by preventing systematic degradation through corrupted feedback signals.",
         "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 does not specifically address continuously-learning AI systems or reinforcement learning from human feedback; this mapping is an interpretive analog.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -3595,7 +3654,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"

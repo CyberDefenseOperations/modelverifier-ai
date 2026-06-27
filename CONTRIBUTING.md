@@ -40,7 +40,7 @@ Never invent, guess, or paraphrase a framework requirement ID. This includes:
 - SR 26-2 section codes (S-1.1, S-3.2, etc.)
 - OWASP AISVS requirement IDs (C1.1, C5.3, etc.)
 - OWASP LLM Top 10 entries (LLM01:2025 through LLM10:2025)
-- CSA AICM control IDs (GOV-01, DM-01, MON-03, SEC-04, etc.)
+- CSA AICM control IDs (GRC-01, MDS-03, LOG-07, DSP-08, etc. — use official AICM v1.1 domain abbreviations)
 - MITRE ATLAS technique IDs (AML.T####)
 - OWASP AI Testing Guide requirement IDs (AITG-{DG|ME|RT|GV|IR}-NN format, e.g., AITG-GV-01, AITG-ME-03)
 
@@ -294,30 +294,36 @@ All `owasp_aitg` mappings must carry `mapping_confidence: medium` because the OW
 
 ### 4.7 AICM Domain Prefix Conventions
 
-CSA AICM v1.1 (247 control objectives, 18 domains) mappings span all 6 layers of this matrix. When adding or updating `aicm` mappings, follow these domain prefix conventions:
+CSA AICM v1.1 (247 control objectives, 18 domains) mappings span all 6 layers of this matrix. The AICM uses the following official domain abbreviations from the published spreadsheet (generated 2026-06-18):
 
-| Domain Prefix | Domain Name | mapping_confidence |
-|---|---|---|
-| GOV | Governance | high |
-| DM | Data Management | high |
-| EVA | Evaluation and Auditing | high |
-| SEC | Security Controls | high |
-| PRV | Privacy | high |
-| SUP | Supply Chain | high |
-| MON | Monitoring and Alerting | medium |
-| IR | Incident Response and Recovery | medium |
-| HO | Human Oversight and Control | medium |
-| TE | Transparency and Explainability | medium |
-| CL | Compliance and Legal Obligations | medium |
-| RM | Risk Management | medium |
-| DP | Deployment and Change Management | medium |
+| Domain Prefix | Domain Name |
+|---|---|
+| A&A | Audit & Assurance |
+| AIS | Application & Interface Security |
+| BCR | Business Continuity Management and Operational Resilience |
+| CCC | Change Control and Configuration Management |
+| CEK | Cryptography, Encryption & Key Management |
+| DCS | Datacenter Security |
+| DSP | Data Security and Privacy Lifecycle Management |
+| GRC | Governance, Risk and Compliance |
+| HRS | Human Resources |
+| IAM | Identity & Access Management |
+| IPY | Interoperability & Portability |
+| I&S | Infrastructure Security |
+| LOG | Logging and Monitoring |
+| MDS | Model Security |
+| SEF | Security Incident Management, E-Discovery, & Cloud Forensics |
+| STA | Supply Chain Management, Transparency, and Accountability |
+| TVM | Threat & Vulnerability Management |
+| UEM | Universal Endpoint Management |
+
+This matrix currently uses 10 of these 18 domains: A&A, AIS, CCC, DSP, GRC, LOG, MDS, SEF, STA, TVM.
 
 **Confidence rules:**
 
-- Use `mapping_confidence: "high"` for the six confirmed-domain prefixes (GOV, DM, EVA, SEC, PRV, SUP). These domains are well-established in the AICM v1.1 document and have been fully verified.
-- Use `mapping_confidence: "medium"` for the seven new v1.1 domain prefixes (MON, IR, HO, TE, CL, RM, DP) until each individual mapping has been fully verified against the published AICM v1.1 document.
+- All current AICM mappings carry `mapping_confidence: "medium"` and `provisional: true` because the semantic translation from our control objectives to CSA AICM cloud security controls involves interpretive judgment. These mappings should be reviewed by a CSA-certified assessor before claiming high confidence.
 - `source_locator.section` is required for every `fit: "direct"` AICM mapping.
-- Do not invent domain prefixes not listed in this table. If you believe a new domain prefix is warranted, add it to this table in the same PR and justify the mapping against the AICM v1.1 source document.
+- Only use domain prefixes from the 18-domain table above. Do not invent prefixes. If you believe a domain is missing, verify against the authoritative AICM v1.1 spreadsheet first.
 
 ---
 

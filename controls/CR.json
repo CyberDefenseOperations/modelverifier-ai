@@ -5,7 +5,7 @@
     "layer": "CR",
     "plane": "lifecycle",
     "name": "Continuous Production Monitoring and Risk Aggregation",
-    "plain": "Aggregate all runtime signals — performance, drift, fairness, safety, and incident flags — into a unified risk dashboard with automated alerting thresholds so degradation is detected within one operational window.",
+    "plain": "Aggregate all runtime signals \u2014 performance, drift, fairness, safety, and incident flags \u2014 into a unified risk dashboard with automated alerting thresholds so degradation is detected within one operational window.",
     "matrix_thesis": true,
     "thesis_type": "detective",
     "readiness": "approved",
@@ -16,7 +16,7 @@
         "compliance-gap",
         "late-incident-detection"
       ],
-      "desc": "Production models degrade silently. Without aggregated continuous monitoring, performance decay (AML.T0020 — Poison Training Data downstream effects), fairness regressions, and safety boundary violations accumulate undetected until regulatory examination or customer harm surfaces them. The risk aggregation gap means no single owner sees the full picture; individual teams observe local signals but the compound risk is invisible."
+      "desc": "Production models degrade silently. Without aggregated continuous monitoring, performance decay (AML.T0020 \u2014 Poison Training Data downstream effects), fairness regressions, and safety boundary violations accumulate undetected until regulatory examination or customer harm surfaces them. The risk aggregation gap means no single owner sees the full picture; individual teams observe local signals but the compound risk is invisible."
     },
     "standard": [
       {
@@ -71,7 +71,7 @@
       },
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
         "authority": "European Parliament and Council of the EU",
         "source_type": "binding-law",
         "normative_force": "binding-law",
@@ -84,20 +84,20 @@
       }
     ],
     "implementation": {
-      "pattern": "Instrument all production inference endpoints with structured metric emission. Route metrics to a time-series store. Define alert thresholds per metric type. Maintain a risk-aggregation dashboard that combines performance, drift, fairness, safety, and incident signals into a single risk score updated on each operational window (typically ≤24h).",
+      "pattern": "Instrument all production inference endpoints with structured metric emission. Route metrics to a time-series store. Define alert thresholds per metric type. Maintain a risk-aggregation dashboard that combines performance, drift, fairness, safety, and incident signals into a single risk score updated on each operational window (typically \u226424h).",
       "steps": [
         "Define metric taxonomy: performance (accuracy, latency, error rate), drift (PSI, KL-divergence on inputs), fairness (demographic parity delta), safety (refusal rate, toxicity flag rate), cost (inference cost per request) [ref:nist_ai_rmf_1_0]",
         "Instrument all serving endpoints with OpenTelemetry or equivalent to emit structured metric events at inference time",
         "Configure time-series retention: 90-day hot store, 3-year cold archive minimum for regulated contexts [ref:sr262_2026]",
-        "Implement alert rules: performance metric outside baseline ±2σ triggers P2 alert; fairness delta >0.05 triggers P1; safety metric exceeds threshold triggers immediate escalation [ref:eu_ai_act_2024]",
+        "Implement alert rules: performance metric outside baseline \u00b12\u03c3 triggers P2 alert; fairness delta >0.05 triggers P1; safety metric exceeds threshold triggers immediate escalation [ref:eu_ai_act_2024]",
         "Build aggregated risk dashboard combining all metric streams into a composite risk score; expose via read-only API to GRC consumers",
         "Test alert routing with synthetic anomaly injection quarterly; document test results as evidence artifact"
       ],
       "anti_patterns": [
-        "Monitoring only aggregate accuracy — misses subgroup regression and fairness drift",
+        "Monitoring only aggregate accuracy \u2014 misses subgroup regression and fairness drift",
         "Alert thresholds set once at deployment and never reviewed as baseline shifts",
         "Risk signals siloed per team with no cross-layer aggregation view",
-        "Sampling rate too low (e.g., 0.1%) on high-volume endpoints — statistical power insufficient to detect rare-but-critical failures"
+        "Sampling rate too low (e.g., 0.1%) on high-volume endpoints \u2014 statistical power insufficient to detect rare-but-critical failures"
       ]
     },
     "validation": {
@@ -112,9 +112,9 @@
         "Verify cold-archive retrieval for a 24-month-old metric batch completes within SLA [unverified]"
       ],
       "evidence": [
-        "Metric taxonomy document signed by model owner [unverified]",
-        "Alert threshold rationale document with review date [unverified]",
-        "Quarterly synthetic anomaly injection test report (artifact_hash: sha256:TBD) [unverified]"
+        "artifact:metric-taxonomy-document-signed-by-model \u2014 Metric taxonomy document signed by model owner [unverified]",
+        "artifact:alert-threshold-rationale-document-with \u2014 Alert threshold rationale document with review date [unverified]",
+        "artifact:quarterly-synthetic-anomaly-injection-te \u2014 Quarterly synthetic anomaly injection test report (artifact_hash: sha256:TBD) [unverified]"
       ]
     },
     "lenses": {
@@ -242,7 +242,6 @@
         "article": "Art-72",
         "requirement_summary": "Providers of high-risk AI systems must operate a post-market monitoring plan that actively collects, documents, and analyses data on the performance of AI systems throughout their lifetime.",
         "legal_status": "enacted",
-        "effective_date": "2026-08-02",
         "applicability_conditions": [
           {
             "field": "jurisdiction",
@@ -250,7 +249,16 @@
             "value": "EU"
           }
         ],
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2024/1689",
+        "source_ref": "eu_ai_act",
+        "normative_force": "binding-law",
+        "jurisdiction": [
+          "eu"
+        ],
+        "provision": "Art-72",
+        "effective_from": "2026-08-02"
       },
       {
         "id": "OB-CR-01-SR",
@@ -258,7 +266,6 @@
         "article": "S-5.1",
         "requirement_summary": "Ongoing monitoring must track model performance outcomes, input distributions, and material changes in the use environment. Results must be reviewed at a frequency commensurate with model risk.",
         "legal_status": "enacted",
-        "effective_date": "2026-04-01",
         "applicability_conditions": [
           {
             "field": "sector",
@@ -271,10 +278,19 @@
             "value": 30000000000
           }
         ],
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "Federal Reserve System",
+        "instrument": "SR 26-2",
+        "source_ref": "sr262_2026",
+        "normative_force": "supervisory-guidance",
+        "jurisdiction": [
+          "us"
+        ],
+        "provision": "S-5.1",
+        "effective_from": "2026-04-01"
       },
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -340,7 +356,7 @@
         "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, and cost — into a unified risk dashboard with automated alerting thresholds calibrated at ±2σ from baseline, directly operationalizing NIST AI RMF MEASURE 2.3's production monitoring requirement for AI systems. MANAGE 2.4 is additionally relevant because CR-01's tiered alert structure (P1 for safety threshold breaches, P2 for performance drift) constitutes the risk response triggering mechanism that routes monitoring signals to the appropriate risk treatment pathway.",
+        "rationale": "CR-01 aggregates all runtime risk signals \u2014 performance, drift, fairness, safety, and cost \u2014 into a unified risk dashboard with automated alerting thresholds calibrated at \u00b12\u03c3 from baseline, directly operationalizing NIST AI RMF MEASURE 2.3's production monitoring requirement for AI systems. MANAGE 2.4 is additionally relevant because CR-01's tiered alert structure (P1 for safety threshold breaches, P2 for performance drift) constitutes the risk response triggering mechanism that routes monitoring signals to the appropriate risk treatment pathway.",
         "uncovered_portion": "MEASURE 2.3 encompasses the full AI system monitoring scope including evaluation of management system effectiveness; CR-01 covers the aggregated runtime monitoring and alerting layer and does not address pre-deployment evaluation gates covered by the EV layer or the structured risk response actions covered by CR-04.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -357,7 +373,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-01 implements a comprehensive monitoring, measurement, analysis, and evaluation system covering five metric types — performance, drift, fairness, safety, and cost — with a composite risk score updated on each operational window and a read-only GRC access dashboard, directly fulfilling ISO 42001 Clause 9.1's requirement for systematic monitoring and evaluation of AI system performance. The quarterly synthetic anomaly injection test requirement and documented alert threshold rationale fulfill Clause 9.1's requirement for evidence of monitoring effectiveness and management review inputs.",
+        "rationale": "CR-01 implements a comprehensive monitoring, measurement, analysis, and evaluation system covering five metric types \u2014 performance, drift, fairness, safety, and cost \u2014 with a composite risk score updated on each operational window and a read-only GRC access dashboard, directly fulfilling ISO 42001 Clause 9.1's requirement for systematic monitoring and evaluation of AI system performance. The quarterly synthetic anomaly injection test requirement and documented alert threshold rationale fulfill Clause 9.1's requirement for evidence of monitoring effectiveness and management review inputs.",
         "uncovered_portion": "Clause 9.1 spans management system effectiveness evaluation and AI system performance monitoring across all risk dimensions; CR-01 addresses operational runtime signal aggregation and does not cover the management system evaluation or other lifecycle monitoring dimensions that Clause 9.1's full scope encompasses.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -371,10 +387,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "MON-06",
+        "requirement_id": "MDS-10",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, cost, and incident flags — into a unified composite risk dashboard with documented P1/P2 alerting thresholds calibrated at ±2σ from baseline, providing the continuous assurance posture view that MON-06's aggregated AI risk monitoring dashboard requirement specifies. The quarterly synthetic anomaly injection test and read-only GRC dashboard access ensure the risk aggregation function remains demonstrably operational and accessible to decision-makers throughout the model's production lifetime.",
+        "rationale": "CR-01 aggregates all runtime risk signals \u2014 performance, drift, fairness, safety, cost, and incident flags \u2014 into a unified composite risk dashboard with documented P1/P2 alerting thresholds calibrated at \u00b12\u03c3 from baseline, providing the continuous assurance posture view that MON-06's aggregated AI risk monitoring dashboard requirement specifies. The quarterly synthetic anomaly injection test and read-only GRC dashboard access ensure the risk aggregation function remains demonstrably operational and accessible to decision-makers throughout the model's production lifetime.",
         "source_locator": {
           "section": "Monitoring and Alerting"
         },
@@ -386,14 +402,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-02",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, cost, and incident flags — into a unified risk dashboard with documented thresholds and automated P1/P2 alerting, providing the continuous risk assessment infrastructure that directly implements AITG-IR-02 Incident Response Testing's requirement for structured AI system risk evaluation on a defined schedule with formally documented and auditable assessment processes.",
+        "rationale": "CR-01 aggregates all runtime risk signals \u2014 performance, drift, fairness, safety, cost, and incident flags \u2014 into a unified risk dashboard with documented thresholds and automated P1/P2 alerting, providing the continuous risk assessment infrastructure that directly implements AITG-IR-02 Incident Response Testing's requirement for structured AI system risk evaluation on a defined schedule with formally documented and auditable assessment processes.",
         "source_locator": {
           "section": "Incident Response Testing",
           "test_id": "AITG-IR-02"
@@ -407,7 +424,7 @@
         "requirement_id": "Art-72",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to establish, document, and implement a post-market monitoring plan; CR-01's continuous risk aggregation dashboard — collecting signals from BH-01 through BH-10 layers and applying tiered alerting calibrated at ±2σ from baseline — operationalizes the systematic performance collection and anomaly identification components of a post-market monitoring plan.",
+        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to establish, document, and implement a post-market monitoring plan; CR-01's continuous risk aggregation dashboard \u2014 collecting signals from BH-01 through BH-10 layers and applying tiered alerting calibrated at \u00b12\u03c3 from baseline \u2014 operationalizes the systematic performance collection and anomaly identification components of a post-market monitoring plan.",
         "uncovered_portion": "Art. 72 requires the post-market monitoring plan to be documented and submitted as part of conformity assessment, and to include systematic collection from market feedback channels; CR-01 addresses the technical monitoring aggregation layer only and does not cover documentation of the monitoring plan or feedback collection from external users.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -424,7 +441,7 @@
         "requirement_id": "S-5.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C requires ongoing model monitoring that aggregates performance signals and escalates material deterioration to appropriate stakeholders; CR-01's P1/P2/P3 tiered alert structure directly implements this requirement by routing critical threshold breaches to model owners and risk management.",
+        "rationale": "SR 26-2 \u00a7III.C requires ongoing model monitoring that aggregates performance signals and escalates material deterioration to appropriate stakeholders; CR-01's P1/P2/P3 tiered alert structure directly implements this requirement by routing critical threshold breaches to model owners and risk management.",
         "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. CR-01 does not address SR 26-2's back-testing requirements or qualitative model review components.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -482,7 +499,7 @@
     "sources": [
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
         "authority": "European Parliament and Council of the EU",
         "source_type": "binding-law",
         "normative_force": "binding-law",
@@ -510,7 +527,7 @@
       },
       {
         "id": "sigstore_rekor",
-        "title": "Sigstore Rekor — Immutable Transparency Log",
+        "title": "Sigstore Rekor \u2014 Immutable Transparency Log",
         "authority": "Sigstore Project (OpenSSF)",
         "source_type": "product-documentation",
         "normative_force": "informative",
@@ -535,9 +552,9 @@
       ],
       "anti_patterns": [
         "Storing evaluation records in a mutable database with no append-only enforcement",
-        "Using artifact_hash: 'TBD' in production records — TBD must fail the validate:schema check",
-        "Retention policy set per-team rather than at infrastructure level — inconsistent deletion risk",
-        "Skipping transparency log anchoring for 'internal only' evaluations — all artifacts must be anchored"
+        "Using artifact_hash: 'TBD' in production records \u2014 TBD must fail the validate:schema check",
+        "Retention policy set per-team rather than at infrastructure level \u2014 inconsistent deletion risk",
+        "Skipping transparency log anchoring for 'internal only' evaluations \u2014 all artifacts must be anchored"
       ]
     },
     "validation": {
@@ -552,14 +569,14 @@
         "Simulate a regulatory evidence request; confirm retrieval of all artifacts for a given model version within 4-hour SLA [unverified]"
       ],
       "evidence": [
-        "Object storage COMPLIANCE mode configuration screenshot or IaC code reference [unverified]",
-        "Rekor anchoring integration test results (artifact_hash: sha256:TBD) [unverified]",
-        "Annual evidence retrieval test report [unverified]"
+        "artifact:object-storage-compliance-mode-configura \u2014 Object storage COMPLIANCE mode configuration screenshot or IaC code reference [unverified]",
+        "artifact:rekor-anchoring-integration-test-results \u2014 Rekor anchoring integration test results (artifact_hash: sha256:TBD) [unverified]",
+        "artifact:annual-evidence-retrieval-test-report \u2014 Annual evidence retrieval test report [unverified]"
       ]
     },
     "lenses": {
       "engineering": "Implement append-only S3 bucket with Object Lock COMPLIANCE; integrate Rekor client in the evaluation pipeline at artifact emit time.",
-      "evaluation": "Every evaluation result — benchmark score, red-team report, bias audit — must generate a signed artifact before the evaluation is considered complete.",
+      "evaluation": "Every evaluation result \u2014 benchmark score, red-team report, bias audit \u2014 must generate a signed artifact before the evaluation is considered complete.",
       "red_team": "Attempt to retrieve an un-anchored artifact or forge an artifact_hash; verify the retrieval API rejects or flags tampered hashes.",
       "grc": "Evidence archive is the primary record for regulatory examinations under EU AI Act Art. 12 and SR 26-2 S-5.2. GRC must review the retention schedule annually.",
       "mlops": "Build evidence emission into the CD pipeline: artifact creation, hash computation, Rekor anchoring, and index write must all complete before deployment gate passes."
@@ -642,7 +659,6 @@
         "article": "Art-12",
         "requirement_summary": "Providers of high-risk AI systems shall keep logs generated automatically by the AI system to the extent such logs are under their control, for a period appropriate to the intended purpose of the AI system.",
         "legal_status": "enacted",
-        "effective_date": "2026-08-02",
         "applicability_conditions": [
           {
             "field": "jurisdiction",
@@ -650,10 +666,19 @@
             "value": "EU"
           }
         ],
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2024/1689",
+        "source_ref": "eu_ai_act",
+        "normative_force": "binding-law",
+        "jurisdiction": [
+          "eu"
+        ],
+        "provision": "Art-12",
+        "effective_from": "2026-08-02"
       },
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -719,7 +744,7 @@
         "requirement_id": "GOVERN-6.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-02 implements an immutable, content-addressed evidence archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage and a read-only retrieval API accessible to auditors — directly operationalizing NIST AI RMF GOVERN 6.2's requirement for records management and accountability documentation that supports oversight of AI systems throughout their lifecycle. MANAGE 2.4 is additionally relevant because the CR-02 archive is the primary source of artifacts for post-incident investigation and corrective action verification.",
+        "rationale": "CR-02 implements an immutable, content-addressed evidence archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage and a read-only retrieval API accessible to auditors \u2014 directly operationalizing NIST AI RMF GOVERN 6.2's requirement for records management and accountability documentation that supports oversight of AI systems throughout their lifecycle. MANAGE 2.4 is additionally relevant because the CR-02 archive is the primary source of artifacts for post-incident investigation and corrective action verification.",
         "uncovered_portion": "GOVERN 6.2 addresses accountability and transparency information requirements across the full AI system scope including real-time accountability disclosures; CR-02 covers only the records retention and evidence archival dimension and does not address real-time transparency reporting or stakeholder communication obligations.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -736,7 +761,7 @@
         "requirement_id": "7.5",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-02 creates and maintains documented information for every AI system lifecycle event — evaluation manifests, monitoring snapshots, incident records, and regulatory submissions — in an immutable, content-addressed archive with SHA-256 hash verification and defined retention schedules of 3-year default and 10-year banking, directly satisfying ISO 42001 Clause 7.5's requirements for documented information necessary for the effectiveness of the AI management system. The Sigstore Rekor transparency-log anchoring provides the integrity assurance that Clause 7.5 requires for retained documented information.",
+        "rationale": "CR-02 creates and maintains documented information for every AI system lifecycle event \u2014 evaluation manifests, monitoring snapshots, incident records, and regulatory submissions \u2014 in an immutable, content-addressed archive with SHA-256 hash verification and defined retention schedules of 3-year default and 10-year banking, directly satisfying ISO 42001 Clause 7.5's requirements for documented information necessary for the effectiveness of the AI management system. The Sigstore Rekor transparency-log anchoring provides the integrity assurance that Clause 7.5 requires for retained documented information.",
         "uncovered_portion": "Clause 7.5 encompasses the full documented information lifecycle including creation, update, distribution, and disposal of management system documentation; CR-02 covers only the evidence retention and tamper-evident archival dimension and does not address creation and update governance for management system documents such as policies and procedures.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -750,29 +775,30 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "GOV-07",
+        "requirement_id": "SEF-07",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-02 maintains an immutable, content-addressed archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage — covering all evaluation manifests, monitoring snapshots, incident records, and regulatory submissions with retention schedules of 3 years (default) and 10 years (regulated banking) — directly implementing GOV-07's model evidence archival, audit trail, and records management requirement. The evidence retrieval API with auditor read-only access and annual retrieval testing fulfill GOV-07's expectation that archived evidence is verifiably accessible and tamper-evident throughout the retention period.",
+        "rationale": "CR-02 maintains an immutable, content-addressed archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage \u2014 covering all evaluation manifests, monitoring snapshots, incident records, and regulatory submissions with retention schedules of 3 years (default) and 10 years (regulated banking) \u2014 directly implementing GOV-07's model evidence archival, audit trail, and records management requirement. The evidence retrieval API with auditor read-only access and annual retrieval testing fulfill GOV-07's expectation that archived evidence is verifiably accessible and tamper-evident throughout the retention period.",
         "source_locator": {
           "section": "Governance and Organizational Accountability"
         },
         "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
-        "mapping_confidence": "high",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-01",
         "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "CR-02 maintains an immutable, content-addressed evidence archive with Sigstore Rekor transparency-log anchoring — providing the evidentiary foundation that supports AITG-IR-01 Incident Response Testing by ensuring that all artifacts required for incident detection, investigation, and response are retained in a tamper-evident store accessible to auditors, and that incident detection capability is demonstrably operational through retrieval of archived monitoring snapshots.",
+        "rationale": "CR-02 maintains an immutable, content-addressed evidence archive with Sigstore Rekor transparency-log anchoring \u2014 providing the evidentiary foundation that supports AITG-IR-01 Incident Response Testing by ensuring that all artifacts required for incident detection, investigation, and response are retained in a tamper-evident store accessible to auditors, and that incident detection capability is demonstrably operational through retrieval of archived monitoring snapshots.",
         "source_locator": {
           "section": "Incident Response Testing",
           "test_id": "AITG-IR-01"
@@ -786,7 +812,7 @@
         "requirement_id": "Art-11",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 11 requires providers of high-risk AI systems to draw up technical documentation that includes records of evaluation results and post-market monitoring findings; CR-02's immutable content-addressed evidence archive — anchored to Sigstore Rekor and locked with S3 Object Lock COMPLIANCE mode — provides the tamper-evident records infrastructure required to produce and maintain the Art. 11 technical documentation over the required retention period.",
+        "rationale": "EU AI Act Art. 11 requires providers of high-risk AI systems to draw up technical documentation that includes records of evaluation results and post-market monitoring findings; CR-02's immutable content-addressed evidence archive \u2014 anchored to Sigstore Rekor and locked with S3 Object Lock COMPLIANCE mode \u2014 provides the tamper-evident records infrastructure required to produce and maintain the Art. 11 technical documentation over the required retention period.",
         "uncovered_portion": "Art. 11 requires a structured technical documentation package covering model description, general information, capability and limitations, training data, design specifications, and post-market monitoring results; CR-02 addresses archival and integrity of evidence artifacts but does not generate the technical documentation package itself.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -803,8 +829,8 @@
         "requirement_id": "S-4.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §IV.D requires banking organizations to maintain comprehensive model documentation and records that support ongoing monitoring, audit, and supervisory examination; CR-02's immutable evidence archive with read-only audit API provides the records infrastructure required for examiner access to model validation and performance documentation.",
-        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §IV.D also requires documentation of model development theory and validation methodology, which is covered by LI-04 and EV-06, not CR-02.",
+        "rationale": "SR 26-2 \u00a7IV.D requires banking organizations to maintain comprehensive model documentation and records that support ongoing monitoring, audit, and supervisory examination; CR-02's immutable evidence archive with read-only audit API provides the records infrastructure required for examiner access to model validation and performance documentation.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 \u00a7IV.D also requires documentation of model development theory and validation methodology, which is covered by LI-04 and EV-06, not CR-02.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -823,7 +849,7 @@
     "layer": "CR",
     "plane": "lifecycle",
     "name": "Scheduled Model Re-validation",
-    "plain": "Run full benchmark, bias, and safety evaluation suites on a defined schedule — not only at deployment — so that performance changes that occur post-deployment due to distribution shift, world-knowledge changes, or infrastructure updates are caught before they reach harm thresholds.",
+    "plain": "Run full benchmark, bias, and safety evaluation suites on a defined schedule \u2014 not only at deployment \u2014 so that performance changes that occur post-deployment due to distribution shift, world-knowledge changes, or infrastructure updates are caught before they reach harm thresholds.",
     "thesis_type": "corrective",
     "readiness": "approved",
     "threat": {
@@ -854,7 +880,7 @@
       {
         "id": "iso_42001",
         "section": "A.6.2",
-        "title": "AI system lifecycle — verification and validation"
+        "title": "AI system lifecycle \u2014 verification and validation"
       }
     ],
     "sources": [
@@ -874,7 +900,7 @@
       },
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
         "authority": "European Parliament and Council of the EU",
         "source_type": "binding-law",
         "normative_force": "binding-law",
@@ -912,7 +938,7 @@
       "anti_patterns": [
         "Treating initial deployment evaluation as sufficient for the model lifecycle",
         "Risk tier assignment done once and never reviewed as the use case expands",
-        "Re-validation pipeline different from pre-deployment pipeline — inconsistent baselines",
+        "Re-validation pipeline different from pre-deployment pipeline \u2014 inconsistent baselines",
         "Skipping re-validation when the model weights haven't changed but serving infrastructure has"
       ]
     },
@@ -928,9 +954,9 @@
         "Verify delta report is automatically archived in CR-02 and retrievable [unverified]"
       ],
       "evidence": [
-        "Risk tier assignment register with rationale (artifact_hash: sha256:TBD) [unverified]",
-        "Quarterly re-validation pipeline execution logs for all Tier-1 models [unverified]",
-        "Delta reports for last two re-validation cycles per deployed model [unverified]"
+        "artifact:risk-tier-assignment-register-with-ratio \u2014 Risk tier assignment register with rationale (artifact_hash: sha256:TBD) [unverified]",
+        "artifact:quarterly-re-validation-pipeline-executi \u2014 Quarterly re-validation pipeline execution logs for all Tier-1 models [unverified]",
+        "artifact:delta-reports-for-last-two-re-validation \u2014 Delta reports for last two re-validation cycles per deployed model [unverified]"
       ]
     },
     "lenses": {
@@ -1028,7 +1054,7 @@
         "requirement_id": "MEASURE-2.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-03 runs full benchmark, bias, and safety evaluation suites on a defined schedule — quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 — with delta reports comparing current performance against the release baseline, directly operationalizing NIST AI RMF MEASURE 2.2's requirement for periodic measurement of AI system performance to verify that systems continue to meet their stated objectives post-deployment. MANAGE 3.1 is additionally relevant because CR-03's threshold breach triggers automatically initiate CR-04 incident response and, for EU high-risk systems, the conformity re-assessment process.",
+        "rationale": "CR-03 runs full benchmark, bias, and safety evaluation suites on a defined schedule \u2014 quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 \u2014 with delta reports comparing current performance against the release baseline, directly operationalizing NIST AI RMF MEASURE 2.2's requirement for periodic measurement of AI system performance to verify that systems continue to meet their stated objectives post-deployment. MANAGE 3.1 is additionally relevant because CR-03's threshold breach triggers automatically initiate CR-04 incident response and, for EU high-risk systems, the conformity re-assessment process.",
         "uncovered_portion": "MEASURE 2.2 encompasses the full measurement scope for verifying AI systems meet their objectives including real-time performance monitoring; CR-03 addresses only the scheduled re-validation evaluation dimension and does not cover continuous runtime monitoring covered by BH-01 through BH-07 or the incident response framework covered by CR-04.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -1045,7 +1071,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-03 implements a scheduled AI system evaluation program with risk-tier-conditional cadences and produces signed delta reports comparing re-validation results against the pre-deployment baseline, reviewed by the model owner before archiving in CR-02 — directly fulfilling ISO 42001 Clause 9.1's requirement for monitoring, measurement, analysis, and evaluation of AI system performance on a defined schedule. The re-validation pipeline is required to be identical to the pre-deployment evaluation pipeline, satisfying Clause 9.1's comparability requirement for performance measurement.",
+        "rationale": "CR-03 implements a scheduled AI system evaluation program with risk-tier-conditional cadences and produces signed delta reports comparing re-validation results against the pre-deployment baseline, reviewed by the model owner before archiving in CR-02 \u2014 directly fulfilling ISO 42001 Clause 9.1's requirement for monitoring, measurement, analysis, and evaluation of AI system performance on a defined schedule. The re-validation pipeline is required to be identical to the pre-deployment evaluation pipeline, satisfying Clause 9.1's comparability requirement for performance measurement.",
         "uncovered_portion": "Clause 9.1 spans the full monitoring scope including management system effectiveness evaluation and all AI system performance dimensions; CR-03 covers only the scheduled re-validation cadence and does not address continuous runtime monitoring or management system effectiveness evaluation encompassed by Clause 9.1's full scope.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -1059,29 +1085,30 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "EVA-06",
+        "requirement_id": "A&A-02",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-03 runs the full benchmark, bias, and safety evaluation suite on a defined schedule — quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 — with delta reports comparing current performance against the pre-deployment baseline and archived in CR-02, directly implementing EVA-06's scheduled post-deployment model re-validation and periodic evaluation requirement. The trigger mechanism for unscheduled re-validation on CR-01 P1 alerts, PSI exceeding 0.25, or provider-announced model updates ensures that re-validation occurs whenever material risk signals emerge rather than only on the calendar schedule.",
+        "rationale": "CR-03 runs the full benchmark, bias, and safety evaluation suite on a defined schedule \u2014 quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 \u2014 with delta reports comparing current performance against the pre-deployment baseline and archived in CR-02, directly implementing EVA-06's scheduled post-deployment model re-validation and periodic evaluation requirement. The trigger mechanism for unscheduled re-validation on CR-01 P1 alerts, PSI exceeding 0.25, or provider-announced model updates ensures that re-validation occurs whenever material risk signals emerge rather than only on the calendar schedule.",
         "source_locator": {
           "section": "Evaluation and Validation"
         },
         "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
-        "mapping_confidence": "high",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-03",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-03 executes the full benchmark, bias, and safety evaluation suite on a defined schedule and produces signed delta reports comparing current AI system state against the release baseline — directly implementing AITG-IR-03 Incident Response Testing's requirement that the AI system state be reconstructable and comparable to historical reference states to support post-incident forensic analysis and root-cause determination.",
+        "rationale": "CR-03 executes the full benchmark, bias, and safety evaluation suite on a defined schedule and produces signed delta reports comparing current AI system state against the release baseline \u2014 directly implementing AITG-IR-03 Incident Response Testing's requirement that the AI system state be reconstructable and comparable to historical reference states to support post-incident forensic analysis and root-cause determination.",
         "source_locator": {
           "section": "Incident Response Testing",
           "test_id": "AITG-IR-03"
@@ -1112,8 +1139,8 @@
         "requirement_id": "S-3.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C.2 requires periodic re-validation triggered by material changes, performance deterioration, or the passage of time; CR-03's material-change detection triggers and scheduled re-evaluation cadence directly operationalize this SR 26-2 requirement for banking models.",
-        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §III.C.2 also requires qualitative re-assessment of conceptual soundness, which is not addressed by CR-03's quantitative trigger mechanisms.",
+        "rationale": "SR 26-2 \u00a7III.C.2 requires periodic re-validation triggered by material changes, performance deterioration, or the passage of time; CR-03's material-change detection triggers and scheduled re-evaluation cadence directly operationalize this SR 26-2 requirement for banking models.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 \u00a7III.C.2 also requires qualitative re-assessment of conceptual soundness, which is not addressed by CR-03's quantitative trigger mechanisms.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -1127,7 +1154,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1183,7 +1210,7 @@
     "layer": "CR",
     "plane": "lifecycle",
     "name": "AI Incident Response Management",
-    "plain": "Define, test, and execute a documented AI-specific incident response plan that covers model-caused harms, safety threshold breaches, and adversarial attack events — with clear escalation paths, containment playbooks, and post-incident review requirements.",
+    "plain": "Define, test, and execute a documented AI-specific incident response plan that covers model-caused harms, safety threshold breaches, and adversarial attack events \u2014 with clear escalation paths, containment playbooks, and post-incident review requirements.",
     "thesis_type": "corrective",
     "readiness": "approved",
     "threat": {
@@ -1214,13 +1241,13 @@
       {
         "id": "iso_42001",
         "section": "A.10.1",
-        "title": "Incident management — AI systems"
+        "title": "Incident management \u2014 AI systems"
       }
     ],
     "sources": [
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
         "authority": "European Parliament and Council of the EU",
         "source_type": "binding-law",
         "normative_force": "binding-law",
@@ -1248,7 +1275,7 @@
       },
       {
         "id": "mitre_atlas_v5_6_0",
-        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
+        "title": "MITRE ATLAS v5.6.0 \u2014 Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "normative_force": "informative",
@@ -1284,9 +1311,9 @@
       ],
       "anti_patterns": [
         "Using a generic IT security incident response plan without AI-specific containment options",
-        "Severity classification that requires human judgment without defined criteria — leads to inconsistent escalation",
-        "Post-incident review conducted only after P1 events — P2 and P3 reviews often reveal systemic patterns",
-        "No pre-defined fallback path for full model shutdown — results in extended harm while engineering implements a workaround"
+        "Severity classification that requires human judgment without defined criteria \u2014 leads to inconsistent escalation",
+        "Post-incident review conducted only after P1 events \u2014 P2 and P3 reviews often reveal systemic patterns",
+        "No pre-defined fallback path for full model shutdown \u2014 results in extended harm while engineering implements a workaround"
       ]
     },
     "validation": {
@@ -1301,9 +1328,9 @@
         "Simulate a P1 severity event in staging; confirm CR-05 notification workflow is triggered [unverified]"
       ],
       "evidence": [
-        "Current AI Incident Response Plan (version-controlled, signed by CISO/AI risk owner) [unverified]",
-        "Last 4 tabletop exercise reports (artifact_hash: sha256:TBD) [unverified]",
-        "Post-incident reports for any P1 events in last 12 months [unverified]"
+        "artifact:current-ai-incident-response-plan-versi \u2014 Current AI Incident Response Plan (version-controlled, signed by CISO/AI risk owner) [unverified]",
+        "artifact:last-4-tabletop-exercise-reports-artifa \u2014 Last 4 tabletop exercise reports (artifact_hash: sha256:TBD) [unverified]",
+        "artifact:post-incident-reports-for-any-p1-events \u2014 Post-incident reports for any P1 events in last 12 months [unverified]"
       ]
     },
     "lenses": {
@@ -1354,7 +1381,7 @@
         "requirement_id": "MANAGE-4.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan with four severity levels, AI-specific containment playbooks covering model rollback, output-filter enforcement, traffic shaping, and full model shutdown, plus regulatory notification triggers and quarterly MITRE ATLAS tabletop exercises — directly operationalizing NIST AI RMF MANAGE 4.1's requirement for risk treatment plans that include incident response and corrective action capabilities for AI systems. RESPOND 1.1 is additionally relevant because CR-04's AIRP and playbooks constitute the organizational AI incident response capability required under the RESPOND function.",
+        "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan with four severity levels, AI-specific containment playbooks covering model rollback, output-filter enforcement, traffic shaping, and full model shutdown, plus regulatory notification triggers and quarterly MITRE ATLAS tabletop exercises \u2014 directly operationalizing NIST AI RMF MANAGE 4.1's requirement for risk treatment plans that include incident response and corrective action capabilities for AI systems. RESPOND 1.1 is additionally relevant because CR-04's AIRP and playbooks constitute the organizational AI incident response capability required under the RESPOND function.",
         "uncovered_portion": "MANAGE 4.1 addresses risk treatment planning across the full AI risk taxonomy including preventive and continuous controls; CR-04 covers only the incident response and corrective action dimension and does not address preventive risk treatment or the ongoing risk monitoring covered by CR-01 and BH layer controls.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -1371,7 +1398,7 @@
         "requirement_id": "10.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-04 establishes a documented AI Incident Response Plan with defined severity classification criteria, model-specific containment playbooks, and a 5-day post-incident review requirement for P1/P2 events — directly fulfilling ISO 42001 Clause 10.1's requirement for documented processes for identifying and responding to nonconformities and implementing corrective actions. Quarterly tabletop exercises using MITRE ATLAS adversarial scenarios fulfill Clause 10.1's requirement for verifying the effectiveness of corrective action processes through regular testing.",
+        "rationale": "CR-04 establishes a documented AI Incident Response Plan with defined severity classification criteria, model-specific containment playbooks, and a 5-day post-incident review requirement for P1/P2 events \u2014 directly fulfilling ISO 42001 Clause 10.1's requirement for documented processes for identifying and responding to nonconformities and implementing corrective actions. Quarterly tabletop exercises using MITRE ATLAS adversarial scenarios fulfill Clause 10.1's requirement for verifying the effectiveness of corrective action processes through regular testing.",
         "uncovered_portion": "Clause 10.1 addresses nonconformity and corrective action across the full AI management system scope including systemic improvement; CR-04 covers only the incident response and immediate corrective action dimension and does not address continual improvement of the management system or preventive action processes encompassed by Clause 10.1's full scope.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -1385,10 +1412,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "IR-02",
+        "requirement_id": "SEF-03",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan covering four severity levels with model-specific containment playbooks for rollback, output-filter enforcement, traffic shaping, and full shutdown with fallback — mapping P1 events to EU AI Act Art. 73 notification triggers in CR-05 and requiring 5-day post-incident reviews for P1/P2 events — directly implementing IR-02's AI-specific incident response plan requirement for detection, containment, remediation, and recovery. The quarterly MITRE ATLAS tabletop exercises with signed results archives provide the testing evidence that IR-02 requires to demonstrate the plan is operationally viable.",
+        "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan covering four severity levels with model-specific containment playbooks for rollback, output-filter enforcement, traffic shaping, and full shutdown with fallback \u2014 mapping P1 events to EU AI Act Art. 73 notification triggers in CR-05 and requiring 5-day post-incident reviews for P1/P2 events \u2014 directly implementing IR-02's AI-specific incident response plan requirement for detection, containment, remediation, and recovery. The quarterly MITRE ATLAS tabletop exercises with signed results archives provide the testing evidence that IR-02 requires to demonstrate the plan is operationally viable.",
         "source_locator": {
           "section": "Incident Response and Recovery"
         },
@@ -1400,14 +1427,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-04",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-04 defines, tests, and requires exercise of AI-specific incident response procedures — including model rollback to prior versions via LI-06, output-filter enforcement, traffic shaping, and full model shutdown with fallback — and mandates quarterly tabletop exercises with signed results archives, directly implementing AITG-IR-04 Incident Response Testing's requirement that rollback and recovery procedures for AI systems be formally defined and validated through regular exercise.",
+        "rationale": "CR-04 defines, tests, and requires exercise of AI-specific incident response procedures \u2014 including model rollback to prior versions via LI-06, output-filter enforcement, traffic shaping, and full model shutdown with fallback \u2014 and mandates quarterly tabletop exercises with signed results archives, directly implementing AITG-IR-04 Incident Response Testing's requirement that rollback and recovery procedures for AI systems be formally defined and validated through regular exercise.",
         "source_locator": {
           "section": "Incident Response Testing",
           "test_id": "AITG-IR-04"
@@ -1421,7 +1449,7 @@
         "requirement_id": "Art-73",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 73 requires providers of high-risk AI systems to report serious incidents to national market surveillance authorities without undue delay; CR-04's model-specific incident response management — including P1/P2/P3 severity classification, mean-time-to-respond SLAs, and structured incident post-mortems — supports the incident triage and escalation processes required upstream of regulatory notification.",
+        "rationale": "EU AI Act Art. 73 requires providers of high-risk AI systems to report serious incidents to national market surveillance authorities without undue delay; CR-04's model-specific incident response management \u2014 including P1/P2/P3 severity classification, mean-time-to-respond SLAs, and structured incident post-mortems \u2014 supports the incident triage and escalation processes required upstream of regulatory notification.",
         "uncovered_portion": "Art. 73 specifies notification must go to national competent authorities within defined timeframes and include prescribed content; CR-04 addresses internal incident management and does not implement the regulatory notification workflow, which is addressed by CR-06.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -1438,7 +1466,7 @@
         "requirement_id": "S-5.1",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C requires escalation procedures for material model performance issues; CR-04's incident management framework provides adjacent coverage of the escalation and remediation requirements in the SR 26-2 ongoing monitoring section.",
+        "rationale": "SR 26-2 \u00a7III.C requires escalation procedures for material model performance issues; CR-04's incident management framework provides adjacent coverage of the escalation and remediation requirements in the SR 26-2 ongoing monitoring section.",
         "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 does not specifically address AI model-specific incident response; this is an interpretive analog.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -1453,7 +1481,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1509,7 +1537,7 @@
     "layer": "CR",
     "plane": "lifecycle",
     "name": "Regulatory Notification and Statutory Reporting",
-    "plain": "Execute mandatory regulatory notifications and statutory disclosures within prescribed timelines whenever an AI system incident, substantial modification, or capability threshold event occurs — with pre-drafted templates, a designated regulatory liaison, and a notification audit trail.",
+    "plain": "Execute mandatory regulatory notifications and statutory disclosures within prescribed timelines whenever an AI system incident, substantial modification, or capability threshold event occurs \u2014 with pre-drafted templates, a designated regulatory liaison, and a notification audit trail.",
     "thesis_type": "directive",
     "readiness": "approved",
     "threat": {
@@ -1541,7 +1569,7 @@
     "sources": [
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
         "authority": "European Parliament and Council of the EU",
         "source_type": "binding-law",
         "normative_force": "binding-law",
@@ -1579,10 +1607,10 @@
         "Archive notification submission, delivery confirmation, and any regulatory response in CR-02 with artifact_hash"
       ],
       "anti_patterns": [
-        "Relying on legal team to know when notifications are required — notification triggers must be pre-defined, not situation-dependent",
-        "Single regulatory liaison with no backup — key person dependency in a time-sensitive workflow",
-        "Notification matrix not reviewed after new regulations take effect — stale matrix is a compliance gap",
-        "Treating SR 26-2 as binding law in the notification matrix — it is supervisory guidance (legal_status: enacted, normative_force: guidance)"
+        "Relying on legal team to know when notifications are required \u2014 notification triggers must be pre-defined, not situation-dependent",
+        "Single regulatory liaison with no backup \u2014 key person dependency in a time-sensitive workflow",
+        "Notification matrix not reviewed after new regulations take effect \u2014 stale matrix is a compliance gap",
+        "Treating SR 26-2 as binding law in the notification matrix \u2014 it is supervisory guidance (legal_status: enacted, normative_force: guidance)"
       ]
     },
     "validation": {
@@ -1597,9 +1625,9 @@
         "Confirm notification matrix was updated within 30 days of EU AI Act Art. 50 effective date (August 2026) [unverified]"
       ],
       "evidence": [
-        "Current regulatory notification matrix (version-controlled, legal-reviewed, dated) [unverified]",
-        "All notification submissions and delivery confirmations in CR-02 archive [unverified]",
-        "Legal counsel review sign-off on notification triggers (annual) [unverified]"
+        "artifact:current-regulatory-notification-matrix \u2014 Current regulatory notification matrix (version-controlled, legal-reviewed, dated) [unverified]",
+        "artifact:all-notification-submissions-and-deliver \u2014 All notification submissions and delivery confirmations in CR-02 archive [unverified]",
+        "artifact:legal-counsel-review-sign-off-on-notific \u2014 Legal counsel review sign-off on notification triggers (annual) [unverified]"
       ]
     },
     "lenses": {
@@ -1621,7 +1649,6 @@
         "article": "Art-73",
         "requirement_summary": "Providers of high-risk AI systems shall report any serious incident to the market surveillance authorities of the Member States where that incident occurred without undue delay and, in any event, immediately after the provider has established a causal link.",
         "legal_status": "enacted",
-        "effective_date": "2026-08-02",
         "applicability_conditions": [
           {
             "field": "jurisdiction",
@@ -1629,10 +1656,19 @@
             "value": "EU"
           }
         ],
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2024/1689",
+        "source_ref": "eu_ai_act",
+        "normative_force": "binding-law",
+        "jurisdiction": [
+          "eu"
+        ],
+        "provision": "Art-73",
+        "effective_from": "2026-08-02"
       },
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1717,7 +1753,7 @@
         "requirement_id": "GOVERN-1.4",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events to jurisdictions, notification timelines, and designated liaison contacts, with automated countdown timer creation integrated into the CR-04 P1 incident escalation path — directly addressing NIST AI RMF GOVERN 1.4's requirement that organizations identify and meet their legal and regulatory accountability obligations for AI systems. GOVERN 4.1 is additionally relevant because CR-05's legal-counsel-reviewed notification matrix and countdown mechanism operationalize the organizational policies for satisfying external regulatory accountability requirements.",
+        "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events to jurisdictions, notification timelines, and designated liaison contacts, with automated countdown timer creation integrated into the CR-04 P1 incident escalation path \u2014 directly addressing NIST AI RMF GOVERN 1.4's requirement that organizations identify and meet their legal and regulatory accountability obligations for AI systems. GOVERN 4.1 is additionally relevant because CR-05's legal-counsel-reviewed notification matrix and countdown mechanism operationalize the organizational policies for satisfying external regulatory accountability requirements.",
         "uncovered_portion": "GOVERN 1.4 and GOVERN 4.1 address the full accountability and regulatory obligation scope for AI systems including internal governance structures; CR-05 covers only the statutory regulatory notification and reporting dimension and does not address internal governance accountability obligations or the broader transparency requirements encompassed by GOVERN 1.4's full scope.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -1734,7 +1770,7 @@
         "requirement_id": "5.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-05 implements organization-wide accountability for regulatory notification obligations by integrating statutory reporting requirements into the incident response workflow and designating a regulatory liaison role responsible for timely submission — partially fulfilling ISO 42001 Clause 5.2's requirement that AI policy includes commitments to meeting applicable requirements and that leadership ensures these commitments are operationalized. The legal-counsel-reviewed notification matrix and annual review requirement fulfill Clause 5.2's management commitment and documented policy obligations.",
+        "rationale": "CR-05 implements organization-wide accountability for regulatory notification obligations by integrating statutory reporting requirements into the incident response workflow and designating a regulatory liaison role responsible for timely submission \u2014 partially fulfilling ISO 42001 Clause 5.2's requirement that AI policy includes commitments to meeting applicable requirements and that leadership ensures these commitments are operationalized. The legal-counsel-reviewed notification matrix and annual review requirement fulfill Clause 5.2's management commitment and documented policy obligations.",
         "uncovered_portion": "Clause 5.2 addresses the full leadership commitment scope including AI policy definition, resource commitment, and strategic direction for the AI management system; CR-05 covers only the regulatory notification dimension of leadership accountability and does not address broader AI policy commitments, resource direction, or strategic AI management system leadership obligations.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -1748,10 +1784,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "CL-02",
+        "requirement_id": "CCC-01",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events across jurisdictions to notification timelines, designated liaison contacts, and pre-approved templates — integrating automated countdown timer creation into the CR-04 P1 incident escalation path and archiving all notification submissions with delivery confirmations in CR-02 — directly implementing CL-02's regulatory notification obligations and statutory AI incident reporting requirement. Legal-counsel annual review of the notification matrix ensures that statutory reporting obligations remain current as the regulatory landscape evolves.",
+        "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events across jurisdictions to notification timelines, designated liaison contacts, and pre-approved templates \u2014 integrating automated countdown timer creation into the CR-04 P1 incident escalation path and archiving all notification submissions with delivery confirmations in CR-02 \u2014 directly implementing CL-02's regulatory notification obligations and statutory AI incident reporting requirement. Legal-counsel annual review of the notification matrix ensures that statutory reporting obligations remain current as the regulatory landscape evolves.",
         "source_locator": {
           "section": "Compliance and Legal Obligations"
         },
@@ -1763,15 +1799,16 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-05",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "CR-05 establishes statutory reporting obligations and regulatory notification procedures for AI incidents — maintaining a pre-approved notification matrix, countdown timers, and a notification archive in CR-02 — addressing the regulatory accountability dimension in the same incident response domain as AITG-IR-05 Incident Response Testing, which requires that audit trail integrity be maintained and verifiable for AI system accountability purposes.",
-        "uncovered_portion": "AITG-IR-05 requires that audit trail integrity be maintained and verifiable for AI system accountability; CR-05 addresses the regulatory notification and statutory disclosure dimension of incident accountability, which is a related but distinct concern — the audit trail integrity requirements of AITG-IR-05 are addressed by CR-02's immutable evidence archive and Sigstore transparency anchoring.",
+        "rationale": "CR-05 establishes statutory reporting obligations and regulatory notification procedures for AI incidents \u2014 maintaining a pre-approved notification matrix, countdown timers, and a notification archive in CR-02 \u2014 addressing the regulatory accountability dimension in the same incident response domain as AITG-IR-05 Incident Response Testing, which requires that audit trail integrity be maintained and verifiable for AI system accountability purposes.",
+        "uncovered_portion": "AITG-IR-05 requires that audit trail integrity be maintained and verifiable for AI system accountability; CR-05 addresses the regulatory notification and statutory disclosure dimension of incident accountability, which is a related but distinct concern \u2014 the audit trail integrity requirements of AITG-IR-05 are addressed by CR-02's immutable evidence archive and Sigstore transparency anchoring.",
         "source_locator": {
           "section": "Incident Response Testing",
           "test_id": "AITG-IR-05"
@@ -1785,7 +1822,7 @@
         "requirement_id": "Art-72",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 72 requires post-market monitoring to cover systematic collection and analysis of user feedback and actual model performance outcomes; CR-05's outcomes and disparate impact analysis — comparing actual decisions against predicted outcomes and testing for differential impact across demographic cohorts — directly implements the outcome analysis component of post-market monitoring.",
+        "rationale": "EU AI Act Art. 72 requires post-market monitoring to cover systematic collection and analysis of user feedback and actual model performance outcomes; CR-05's outcomes and disparate impact analysis \u2014 comparing actual decisions against predicted outcomes and testing for differential impact across demographic cohorts \u2014 directly implements the outcome analysis component of post-market monitoring.",
         "uncovered_portion": "Art. 72 addresses the full post-market monitoring plan; CR-05 covers outcomes and disparate impact analysis only and does not address the documentation of monitoring results in technical documentation or their submission to conformity assessment bodies.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -1802,8 +1839,8 @@
         "requirement_id": "S-5.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C requires ongoing monitoring including outcomes analysis to compare model predictions against realized results; CR-05's systematic outcomes analysis and back-testing framework directly implements this SR 26-2 requirement for banking models.",
-        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §III.C outcomes analysis is focused on model accuracy rather than demographic disparate impact, which is addressed by CR-05 as a supplementary dimension.",
+        "rationale": "SR 26-2 \u00a7III.C requires ongoing monitoring including outcomes analysis to compare model predictions against realized results; CR-05's systematic outcomes analysis and back-testing framework directly implements this SR 26-2 requirement for banking models.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 \u00a7III.C outcomes analysis is focused on model accuracy rather than demographic disparate impact, which is addressed by CR-05 as a supplementary dimension.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -1822,7 +1859,7 @@
     "layer": "CR",
     "plane": "lifecycle",
     "name": "Post-Market Surveillance",
-    "plain": "Implement a structured post-market surveillance program that actively seeks user harm reports, adverse outcome data, and external security disclosures beyond the passive monitoring covered by CR-01 — using feedback channels, vulnerability disclosure programs, and literature monitoring.",
+    "plain": "Implement a structured post-market surveillance program that actively seeks user harm reports, adverse outcome data, and external security disclosures beyond the passive monitoring covered by CR-01 \u2014 using feedback channels, vulnerability disclosure programs, and literature monitoring.",
     "thesis_type": "detective",
     "readiness": "approved",
     "threat": {
@@ -1854,7 +1891,7 @@
     "sources": [
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
         "authority": "European Parliament and Council of the EU",
         "source_type": "binding-law",
         "normative_force": "binding-law",
@@ -1891,7 +1928,7 @@
         "Annual summary of surveillance findings included in EU high-risk AI technical documentation (LI-04) [ref:eu_ai_act_2024]"
       ],
       "anti_patterns": [
-        "Treating CR-01 runtime monitoring as sufficient for post-market surveillance — passive metrics miss user-reported harms",
+        "Treating CR-01 runtime monitoring as sufficient for post-market surveillance \u2014 passive metrics miss user-reported harms",
         "CVD program that routes to a generic security inbox with no AI-specific triage criteria",
         "Literature monitoring done ad hoc by individual engineers without systematic coverage or archival",
         "User harm reports siloed in customer support systems with no aggregation to the AI risk function"
@@ -1909,14 +1946,14 @@
         "Review last 12 monthly surveillance reports; confirm consistent production and review sign-off [unverified]"
       ],
       "evidence": [
-        "User feedback mechanism screenshot and archive path [unverified]",
-        "Published CVD policy URL and last review date [unverified]",
-        "Last 12 monthly post-market surveillance reports (artifact_hash: sha256:TBD each) [unverified]"
+        "artifact:user-feedback-mechanism-screenshot-and-a \u2014 User feedback mechanism screenshot and archive path [unverified]",
+        "artifact:published-cvd-policy-url-and-last-review \u2014 Published CVD policy URL and last review date [unverified]",
+        "artifact:last-12-monthly-post-market-surveillance \u2014 Last 12 monthly post-market surveillance reports (artifact_hash: sha256:TBD each) [unverified]"
       ]
     },
     "lenses": {
       "engineering": "Build harm reporting endpoint that writes structured records directly to CR-02 archive. CVD submission should also go directly to archive with automatic acknowledgement email.",
-      "evaluation": "Literature monitoring findings should be assessed by the evaluation team for benchmark relevance — third-party findings often reveal evaluation gaps.",
+      "evaluation": "Literature monitoring findings should be assessed by the evaluation team for benchmark relevance \u2014 third-party findings often reveal evaluation gaps.",
       "red_team": "CVD submissions from external researchers are a primary red-team intelligence source. Route to red-team function for reproduction attempts before archiving findings.",
       "grc": "Post-market surveillance program is required by EU AI Act Art. 72 for high-risk systems. Annual surveillance summary must be included in technical documentation. GRC owns the monthly report review.",
       "mlops": "No MLOps-specific implementation beyond ensuring the harm reporting API endpoint is maintained in production and not deprecated without replacement."
@@ -1999,7 +2036,6 @@
         "article": "Art-72",
         "requirement_summary": "Providers of high-risk AI systems shall establish and document a post-market monitoring system that actively collects, documents, and analyses data on the performance of high-risk AI systems throughout their lifetime.",
         "legal_status": "enacted",
-        "effective_date": "2026-08-02",
         "applicability_conditions": [
           {
             "field": "jurisdiction",
@@ -2007,10 +2043,19 @@
             "value": "EU"
           }
         ],
-        "reviewed_on": "2026-06-26"
+        "reviewed_on": "2026-06-26",
+        "authority": "European Union",
+        "instrument": "Regulation (EU) 2024/1689",
+        "source_ref": "eu_ai_act",
+        "normative_force": "binding-law",
+        "jurisdiction": [
+          "eu"
+        ],
+        "provision": "Art-72",
+        "effective_from": "2026-08-02"
       },
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2076,7 +2121,7 @@
         "requirement_id": "MEASURE-2.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-06 establishes three proactive surveillance channels — user-facing harm reporting, coordinated vulnerability disclosure, and quarterly literature monitoring — that extend AI system monitoring beyond passive runtime metrics to capture harm data that internal instrumentation alone cannot detect, directly supporting NIST AI RMF MEASURE 2.3's production monitoring obligation. MANAGE 4.1 is additionally relevant because CR-06's monthly surveillance report feeds the risk treatment process, triggering CR-04 incident response when surveillance signals meet P1/P2 severity criteria.",
+        "rationale": "CR-06 establishes three proactive surveillance channels \u2014 user-facing harm reporting, coordinated vulnerability disclosure, and quarterly literature monitoring \u2014 that extend AI system monitoring beyond passive runtime metrics to capture harm data that internal instrumentation alone cannot detect, directly supporting NIST AI RMF MEASURE 2.3's production monitoring obligation. MANAGE 4.1 is additionally relevant because CR-06's monthly surveillance report feeds the risk treatment process, triggering CR-04 incident response when surveillance signals meet P1/P2 severity criteria.",
         "uncovered_portion": "MEASURE 2.3 encompasses the full AI system monitoring scope including runtime statistical monitoring and performance regression detection; CR-06 covers only the proactive surveillance channels for externally-reported harms and third-party research findings, not the runtime instrumentation dimension covered by CR-01 and the BH layer.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -2093,7 +2138,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-06 implements a structured post-market surveillance program with three proactive input channels — user harm reporting, CVD submissions, and literature monitoring — aggregated into a monthly report reviewed by the AI risk function, fulfilling ISO 42001 Clause 9.1's requirement for monitoring and evaluation that captures AI system performance signals from the operating environment beyond internal instrumentation. Annex B's risk monitoring obligations for deployed AI systems are additionally addressed because CR-06 captures external risk signals and escalates qualifying findings to the incident response process.",
+        "rationale": "CR-06 implements a structured post-market surveillance program with three proactive input channels \u2014 user harm reporting, CVD submissions, and literature monitoring \u2014 aggregated into a monthly report reviewed by the AI risk function, fulfilling ISO 42001 Clause 9.1's requirement for monitoring and evaluation that captures AI system performance signals from the operating environment beyond internal instrumentation. Annex B's risk monitoring obligations for deployed AI systems are additionally addressed because CR-06 captures external risk signals and escalates qualifying findings to the incident response process.",
         "uncovered_portion": "Clause 9.1 spans systematic monitoring including internal performance measurement and management system effectiveness evaluation; CR-06 covers only the external surveillance and feedback channel dimension of production monitoring and does not address internal runtime metric monitoring covered by CR-01 or re-validation covered by CR-03.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -2107,10 +2152,10 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "MON-07",
+        "requirement_id": "TVM-08",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-06 establishes three structured post-market surveillance channels — in-product user harm reporting with structured fields, a coordinated vulnerability disclosure program with a monitored security alias, and quarterly AI research literature monitoring — aggregated into a monthly report reviewed by the AI risk function, directly implementing MON-07's post-deployment surveillance and external harm signal collection requirement. The annual surveillance summary included in EU high-risk AI technical documentation fulfills MON-07's expectation that surveillance findings are formally documented and incorporated into the model's assurance record.",
+        "rationale": "CR-06 establishes three structured post-market surveillance channels \u2014 in-product user harm reporting with structured fields, a coordinated vulnerability disclosure program with a monitored security alias, and quarterly AI research literature monitoring \u2014 aggregated into a monthly report reviewed by the AI risk function, directly implementing MON-07's post-deployment surveillance and external harm signal collection requirement. The annual surveillance summary included in EU high-risk AI technical documentation fulfills MON-07's expectation that surveillance findings are formally documented and incorporated into the model's assurance record.",
         "source_locator": {
           "section": "Monitoring and Alerting"
         },
@@ -2122,14 +2167,15 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-02",
         "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "CR-06 establishes proactive post-market surveillance channels — user harm reporting, coordinated vulnerability disclosure, and literature monitoring — that aggregate external harm and vulnerability signals into a monthly risk report reviewed by the AI risk function, supporting AITG-IR-02 Incident Response Testing by providing externally-sourced evidence that informs risk assessment and ensures the evaluation process captures harm signals that passive internal monitoring cannot detect.",
+        "rationale": "CR-06 establishes proactive post-market surveillance channels \u2014 user harm reporting, coordinated vulnerability disclosure, and literature monitoring \u2014 that aggregate external harm and vulnerability signals into a monthly risk report reviewed by the AI risk function, supporting AITG-IR-02 Incident Response Testing by providing externally-sourced evidence that informs risk assessment and ensures the evaluation process captures harm signals that passive internal monitoring cannot detect.",
         "source_locator": {
           "section": "Incident Response Testing",
           "test_id": "AITG-IR-02"
@@ -2155,7 +2201,7 @@
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
         "source_locator": {
-          "section": "Art. 73 — Reporting of serious incidents and malfunctioning"
+          "section": "Art. 73 \u2014 Reporting of serious incidents and malfunctioning"
         }
       },
       {
@@ -2163,7 +2209,7 @@
         "requirement_id": "S-5.1",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §III.C escalation procedures include notifying senior management and relevant risk functions; CR-06's regulatory notification procedures provide adjacent coverage of the formal escalation requirements in SR 26-2, though they are oriented toward regulatory authorities rather than internal escalation.",
+        "rationale": "SR 26-2 \u00a7III.C escalation procedures include notifying senior management and relevant risk functions; CR-06's regulatory notification procedures provide adjacent coverage of the formal escalation requirements in SR 26-2, though they are oriented toward regulatory authorities rather than internal escalation.",
         "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 focuses on internal escalation and supervisory examination support, not formal regulatory notification; CR-06's primary driver is EU AI Act Art. 73 and Art. 55(c).",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -2183,7 +2229,7 @@
     "layer": "CR",
     "plane": "lifecycle",
     "name": "Model Retirement and Evidence Archival",
-    "plain": "Execute a formal model retirement process that decommissions serving infrastructure, enforces data retention obligations, migrates assurance evidence to long-term archive, and produces a final retirement record — so that retired models leave no orphaned risk exposure.",
+    "plain": "Execute a formal model retirement process that decommissions serving infrastructure, enforces data retention obligations, migrates assurance evidence to long-term archive, and produces a final retirement record \u2014 so that retired models leave no orphaned risk exposure.",
     "thesis_type": "corrective",
     "readiness": "approved",
     "threat": {
@@ -2193,13 +2239,13 @@
         "data-retention-violation",
         "ghost-endpoint-attack-surface"
       ],
-      "desc": "Retired models that leave orphaned inference endpoints, stale credentials, or incomplete evidence handoff create persistent attack surface (AML.T0044 — Full ML Model Access via forgotten endpoints) and regulatory liability. EU AI Act Art. 13 and ISO 42001 A.6.3 require that end-of-life AI systems are decommissioned in a documented manner. SR 26-2 S-5.3 requires that model documentation be retained for the statutory period after retirement."
+      "desc": "Retired models that leave orphaned inference endpoints, stale credentials, or incomplete evidence handoff create persistent attack surface (AML.T0044 \u2014 Full ML Model Access via forgotten endpoints) and regulatory liability. EU AI Act Art. 13 and ISO 42001 A.6.3 require that end-of-life AI systems are decommissioned in a documented manner. SR 26-2 S-5.3 requires that model documentation be retained for the statutory period after retirement."
     },
     "standard": [
       {
         "id": "iso_42001",
         "section": "A.6.3",
-        "title": "AI system lifecycle — decommissioning"
+        "title": "AI system lifecycle \u2014 decommissioning"
       },
       {
         "id": "sr262",
@@ -2220,7 +2266,7 @@
     "sources": [
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
         "authority": "European Parliament and Council of the EU",
         "source_type": "binding-law",
         "normative_force": "binding-law",
@@ -2260,10 +2306,10 @@
       }
     ],
     "implementation": {
-      "pattern": "Retirement checklist driven by a signed retirement decision record. Steps: (1) announce retirement with notice period (≥30 days for external users); (2) drain traffic; (3) revoke all API credentials; (4) decommission serving infrastructure; (5) confirm evidence archive completeness; (6) move all CR-02 artifacts to long-term cold archive; (7) produce final retirement record. GDPR Art. 17 right-to-erasure compliance for any training data linked to the retired model must be evaluated at retirement.",
+      "pattern": "Retirement checklist driven by a signed retirement decision record. Steps: (1) announce retirement with notice period (\u226530 days for external users); (2) drain traffic; (3) revoke all API credentials; (4) decommission serving infrastructure; (5) confirm evidence archive completeness; (6) move all CR-02 artifacts to long-term cold archive; (7) produce final retirement record. GDPR Art. 17 right-to-erasure compliance for any training data linked to the retired model must be evaluated at retirement.",
       "steps": [
         "Designate model for retirement; obtain approval from model owner and AI risk function; produce signed retirement decision record [ref:nist_ai_rmf_1_0]",
-        "Issue retirement notice to affected users/deployers with ≥30-day notice period and migration path documentation",
+        "Issue retirement notice to affected users/deployers with \u226530-day notice period and migration path documentation",
         "Execute traffic drain: route traffic to successor model or return 410 Gone; verify zero traffic on retired endpoint for 7 days before decommission",
         "Revoke all API keys, service accounts, and OAuth credentials associated with the retired model; audit IAM for orphaned permissions",
         "Decommission serving infrastructure: destroy VM/container images, delete endpoints, remove DNS records [ref:sr262_2026]",
@@ -2272,10 +2318,10 @@
         "Produce final retirement record archived in CR-02 with artifact_hash; mark model as 'retired' in model registry (LI-01)"
       ],
       "anti_patterns": [
-        "Informal retirement — endpoint left running with no monitoring, traffic fades to zero, credentials remain active",
-        "Evidence archive not audited at retirement — artifacts for the retired model may be missing from CR-02",
-        "No notice period — users encounter unexpected 404/500 errors and lose access without migration path",
-        "GDPR right-to-erasure not evaluated at retirement — unresolved erasure obligations become a post-retirement liability"
+        "Informal retirement \u2014 endpoint left running with no monitoring, traffic fades to zero, credentials remain active",
+        "Evidence archive not audited at retirement \u2014 artifacts for the retired model may be missing from CR-02",
+        "No notice period \u2014 users encounter unexpected 404/500 errors and lose access without migration path",
+        "GDPR right-to-erasure not evaluated at retirement \u2014 unresolved erasure obligations become a post-retirement liability"
       ]
     },
     "validation": {
@@ -2290,9 +2336,9 @@
         "Confirm a retired model's CR-02 evidence is accessible 12 months after retirement [unverified]"
       ],
       "evidence": [
-        "Signed retirement decision records for all retired models [unverified]",
-        "Final retirement records in CR-02 with artifact_hash for each retired model [unverified]",
-        "GDPR Art. 17 evaluation records for models with personal data in training set [unverified]"
+        "artifact:signed-retirement-decision-records-for-a \u2014 Signed retirement decision records for all retired models [unverified]",
+        "artifact:final-retirement-records-in-cr-02-with-a \u2014 Final retirement records in CR-02 with artifact_hash for each retired model [unverified]",
+        "artifact:gdpr-art-17-evaluation-records-for-mode \u2014 GDPR Art. 17 evaluation records for models with personal data in training set [unverified]"
       ]
     },
     "lenses": {
@@ -2300,7 +2346,7 @@
       "evaluation": "At retirement, produce a final evaluation snapshot (re-run last benchmark suite) for the historical record. This provides a definitive final state for the retired model.",
       "red_team": "Attempt to reach retired model endpoints 30 days after decommission; verify all return 410 or connection refused. Check for orphaned credentials in secret management system.",
       "grc": "Retirement decision requires AI risk function sign-off. Final retirement record is a regulatory document under SR 26-2 S-5.3. GDPR Art. 17 evaluation must be conducted by legal/privacy function.",
-      "mlops": "Retire models via pipeline, not manually. Evidence archive verification step must complete before infrastructure destroy scripts execute — order enforced by pipeline dependency."
+      "mlops": "Retire models via pipeline, not manually. Evidence archive verification step must complete before infrastructure destroy scripts execute \u2014 order enforced by pipeline dependency."
     },
     "maturity": {
       "current": "none",
@@ -2343,7 +2389,7 @@
         "requirement_id": "MANAGE-2.4",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-07 implements a formal model retirement process with a signed retirement decision record, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 evaluation, and a final retirement record — directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk treatment actions that include decommissioning and end-of-life disposal of AI systems. MANAGE 4.2 is additionally relevant because CR-07's GDPR Art. 17 evaluation constitutes the post-retirement risk treatment for any remaining data subject rights obligations linked to the retired model.",
+        "rationale": "CR-07 implements a formal model retirement process with a signed retirement decision record, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 evaluation, and a final retirement record \u2014 directly operationalizing NIST AI RMF MANAGE 2.4's requirement for risk treatment actions that include decommissioning and end-of-life disposal of AI systems. MANAGE 4.2 is additionally relevant because CR-07's GDPR Art. 17 evaluation constitutes the post-retirement risk treatment for any remaining data subject rights obligations linked to the retired model.",
         "uncovered_portion": "MANAGE 2.4 and MANAGE 4.2 address risk treatment and disposal across the full AI risk taxonomy including active runtime risk responses; CR-07 covers only the end-of-life retirement and decommissioning dimension and does not address ongoing risk treatment for active deployments covered by BH layer controls and CR-04.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -2360,7 +2406,7 @@
         "requirement_id": "8.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-07 implements operational planning and control for the AI system decommissioning phase — requiring a signed retirement decision record, minimum 30-day notice period, evidence archive completeness verification, and a final retirement record — directly satisfying ISO 42001 Clause 8.1's requirement that all AI system lifecycle phases be planned, implemented, controlled, and reviewed. Clause A.6.3 on AI system lifecycle decommissioning is additionally fulfilled because CR-07's retirement checklist ensures decommissioning is conducted in a documented and auditable manner with appropriate stakeholder notification.",
+        "rationale": "CR-07 implements operational planning and control for the AI system decommissioning phase \u2014 requiring a signed retirement decision record, minimum 30-day notice period, evidence archive completeness verification, and a final retirement record \u2014 directly satisfying ISO 42001 Clause 8.1's requirement that all AI system lifecycle phases be planned, implemented, controlled, and reviewed. Clause A.6.3 on AI system lifecycle decommissioning is additionally fulfilled because CR-07's retirement checklist ensures decommissioning is conducted in a documented and auditable manner with appropriate stakeholder notification.",
         "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases including development, deployment, and operation; CR-07 covers only the decommissioning and end-of-life phase and does not address operational controls for the active deployment phase covered by BH layer controls.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -2374,29 +2420,30 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "GOV-08",
+        "requirement_id": "TVM-04",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-07 executes a formal model retirement checklist encompassing retirement decision approval, minimum 30-day user notice, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 right-to-erasure evaluation, and a final retirement record — directly implementing GOV-08's AI model retirement, lifecycle closure, and evidence archival obligations requirement. Marking the model as retired in the model registry and archiving all assurance evidence before infrastructure destruction ensures that regulatory obligations do not outlast the model's serving infrastructure.",
+        "rationale": "CR-07 executes a formal model retirement checklist encompassing retirement decision approval, minimum 30-day user notice, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 right-to-erasure evaluation, and a final retirement record \u2014 directly implementing GOV-08's AI model retirement, lifecycle closure, and evidence archival obligations requirement. Marking the model as retired in the model registry and archiving all assurance evidence before infrastructure destruction ensures that regulatory obligations do not outlast the model's serving infrastructure.",
         "source_locator": {
           "section": "Governance and Organizational Accountability"
         },
         "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
-        "mapping_confidence": "high",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-06",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "CR-07 executes a formal model retirement process that notifies affected users and stakeholders with at minimum 30 days' advance notice, provides migration path documentation, produces a final retirement record, and ensures all evidence is archived before infrastructure decommission — directly implementing AITG-IR-06 Incident Response Testing's requirement that communication procedures for AI system changes and decommissioning be formally defined and that appropriate stakeholders are notified in a timely manner.",
+        "rationale": "CR-07 executes a formal model retirement process that notifies affected users and stakeholders with at minimum 30 days' advance notice, provides migration path documentation, produces a final retirement record, and ensures all evidence is archived before infrastructure decommission \u2014 directly implementing AITG-IR-06 Incident Response Testing's requirement that communication procedures for AI system changes and decommissioning be formally defined and that appropriate stakeholders are notified in a timely manner.",
         "source_locator": {
           "section": "Incident Response Testing",
           "test_id": "AITG-IR-06"
@@ -2410,7 +2457,7 @@
         "requirement_id": "Art-16",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art. 16 specifies obligations of providers of high-risk AI systems throughout the system's lifecycle, including maintaining technical documentation and post-market monitoring; CR-07's structured decommissioning process — including traffic drain, data retention, dependency notification, and evidence archival — implements the lifecycle-end obligations implied by Art. 16's scope.",
+        "rationale": "EU AI Act Art. 16 specifies obligations of providers of high-risk AI systems throughout the system's lifecycle, including maintaining technical documentation and post-market monitoring; CR-07's structured decommissioning process \u2014 including traffic drain, data retention, dependency notification, and evidence archival \u2014 implements the lifecycle-end obligations implied by Art. 16's scope.",
         "uncovered_portion": "Art. 16 does not explicitly address decommissioning procedures; CR-07's coverage is an interpretive extension of the lifecycle scope to include end-of-life governance. Explicit decommissioning requirements may be imposed by sectoral law or by the deployer's own governance obligations.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -2427,8 +2474,8 @@
         "requirement_id": "S-4.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §IV.A requires model governance to cover the full model lifecycle including retirement; CR-07's decommissioning checklist — covering traffic drain, evidence archival, dependent-system notification, and 7-year post-retirement evidence retention — directly supports the lifecycle governance requirement.",
-        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §IV.A is general governance rather than a detailed decommissioning procedure; the specific decommissioning process is organizationally defined.",
+        "rationale": "SR 26-2 \u00a7IV.A requires model governance to cover the full model lifecycle including retirement; CR-07's decommissioning checklist \u2014 covering traffic drain, evidence archival, dependent-system notification, and 7-year post-retirement evidence retention \u2014 directly supports the lifecycle governance requirement.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 \u00a7IV.A is general governance rather than a detailed decommissioning procedure; the specific decommissioning process is organizationally defined.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -2442,7 +2489,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2508,7 +2555,7 @@
         "siloed-compliance-view",
         "inter-domain-control-overlap"
       ],
-      "desc": "Apeiris is a multi-domain assurance federation. Controls in modelverifier.ai (BH-04, BH-06) reference evidence artifacts in securitycontrols.ai via apeiris:// URIs. Without coordinated resolution, these references become dangling pointers — an auditor sees a cross-domain evidence claim that cannot be verified. The gap is systemic: as more Apeiris domains are added (privacy, compliance, finance), the number of cross-domain dependencies grows and the risk of uncoordinated gaps compounds. Gap 3 (cross-domain assurance federation) is explicitly unresolved at v1 and is compensated by this control."
+      "desc": "Apeiris is a multi-domain assurance federation. Controls in modelverifier.ai (BH-04, BH-06) reference evidence artifacts in securitycontrols.ai via apeiris:// URIs. Without coordinated resolution, these references become dangling pointers \u2014 an auditor sees a cross-domain evidence claim that cannot be verified. The gap is systemic: as more Apeiris domains are added (privacy, compliance, finance), the number of cross-domain dependencies grows and the risk of uncoordinated gaps compounds. Gap 3 (cross-domain assurance federation) is explicitly unresolved at v1 and is compensated by this control."
     },
     "standard": [
       {
@@ -2519,7 +2566,7 @@
       {
         "id": "iso_42001",
         "section": "A.4.2",
-        "title": "AI risk management — organizational context"
+        "title": "AI risk management \u2014 organizational context"
       }
     ],
     "sources": [
@@ -2552,20 +2599,20 @@
       }
     ],
     "implementation": {
-      "pattern": "At build time, the audit:cross-domain check (audit-mappings.mjs) resolves all apeiris:// URIs against the namespace-registry.json resolver_map. At audit time, cross-domain evidence references are resolved to their canonical HTTP URLs or flagged as unresolved. Maintain a cross-domain dependency map (model→security, model→privacy) updated when any control gains a cross-domain reference. Gap 3 is tracked as an open finding until a dedicated cross-domain federation protocol is implemented.",
+      "pattern": "At build time, the audit:cross-domain check (audit-mappings.mjs) resolves all apeiris:// URIs against the namespace-registry.json resolver_map. At audit time, cross-domain evidence references are resolved to their canonical HTTP URLs or flagged as unresolved. Maintain a cross-domain dependency map (model\u2192security, model\u2192privacy) updated when any control gains a cross-domain reference. Gap 3 is tracked as an open finding until a dedicated cross-domain federation protocol is implemented.",
       "steps": [
-        "Enumerate all cross_domain.references[] fields across all 54 controls; build a dependency map (source_control → target_domain → target_control) [ref:apeiris_thesis]",
+        "Enumerate all cross_domain.references[] fields across all 54 controls; build a dependency map (source_control \u2192 target_domain \u2192 target_control) [ref:apeiris_thesis]",
         "For each apeiris:// URI, resolve against namespace-registry.json resolver_map; any URI with no resolver entry must be flagged as unresolved and documented as a gap finding [ref:nist_ai_rmf_1_0]",
         "Establish a quarterly cross-domain sync review: model-domain owners and security-domain owners review mutual evidence references for staleness",
-        "For gap3 (cross-domain assurance federation): document compensating measures — all cross-domain references in BH-04 and BH-06 are additionally verified by the security-domain owner at each quarterly sync",
+        "For gap3 (cross-domain assurance federation): document compensating measures \u2014 all cross-domain references in BH-04 and BH-06 are additionally verified by the security-domain owner at each quarterly sync",
         "As new Apeiris domains are added, run namespace-registry.json update before adding cross_domain.references[] in controls",
         "Build audit:cross-domain check output into the release manifest so every release documents which cross-domain URIs were resolved vs. flagged"
       ],
       "anti_patterns": [
         "Adding cross_domain.references[] without first verifying the target URI is registered in namespace-registry.json",
-        "Cross-domain sync reviews conducted only at major releases — quarterly cadence required to catch drift",
+        "Cross-domain sync reviews conducted only at major releases \u2014 quarterly cadence required to catch drift",
         "Treating gap3 as permanently acceptable without a roadmap to full federation protocol implementation",
-        "Siloing the cross-domain dependency map in one team's documentation — it must be a first-class artifact in the release manifest"
+        "Siloing the cross-domain dependency map in one team's documentation \u2014 it must be a first-class artifact in the release manifest"
       ]
     },
     "validation": {
@@ -2580,26 +2627,23 @@
         "Verify gap3 is documented as an open finding in the release manifest with compensating control reference (this control, CR-08) [unverified]"
       ],
       "evidence": [
-        "Cross-domain dependency map (produced by audit:cross-domain, archived in CR-02) [unverified]",
-        "Last 4 quarterly cross-domain sync review records [unverified]",
-        "Gap3 open finding documentation with compensating control reference [unverified]"
+        "artifact:cross-domain-dependency-map-produced-by \u2014 Cross-domain dependency map (produced by audit:cross-domain, archived in CR-02) [unverified]",
+        "artifact:last-4-quarterly-cross-domain-sync-revie \u2014 Last 4 quarterly cross-domain sync review records [unverified]",
+        "artifact:gap3-open-finding-documentation-with-com \u2014 Gap3 open finding documentation with compensating control reference [unverified]"
       ]
     },
     "lenses": {
-      "engineering": "The audit:cross-domain check is the primary implementation artifact. Maintain namespace-registry.json as a first-class schema file in apeiris-control-core/. URI resolution is offline — no HTTP calls; resolver_map provides the canonical mapping.",
+      "engineering": "The audit:cross-domain check is the primary implementation artifact. Maintain namespace-registry.json as a first-class schema file in apeiris-control-core/. URI resolution is offline \u2014 no HTTP calls; resolver_map provides the canonical mapping.",
       "evaluation": "No evaluation-specific implementation. Cross-domain references to evaluation artifacts (e.g., securitycontrols.ai evidence for BH-06) must be included in the evidence package for any evaluation that cites them.",
       "red_team": "Test cross-domain URI resolution in an adversarial manner: can a false reference be added that passes the namespace check but resolves to an empty or incorrect artifact? Verify the audit check validates the artifact hash, not just the URI.",
-      "grc": "Cross-domain assurance coordination is a governance obligation — no single domain's compliance picture is complete without resolving its dependencies. Gap3 must appear in the AI risk register as an open finding until federation protocol is implemented.",
+      "grc": "Cross-domain assurance coordination is a governance obligation \u2014 no single domain's compliance picture is complete without resolving its dependencies. Gap3 must appear in the AI risk register as an open finding until federation protocol is implemented.",
       "mlops": "Namespace-registry.json must be pinned by commit hash in CI to prevent silent resolver_map changes from breaking URI resolution without a pipeline failure."
     },
     "cross_domain": {
       "references": [
         {
-          "target_domain": "security",
-          "target_control": "apeiris://security/controls/NET-07",
-          "relationship": "depends-on",
-          "resolution_status": "registered",
-          "last_verified": "2026-06-26"
+          "relationship": "requires",
+          "uri": "apeiris://security/controls/NET-07"
         }
       ],
       "evidence_artifacts": []
@@ -2608,7 +2652,7 @@
       "current": "none",
       "target": "initial"
     },
-    "coverage_note": "Compensates gap3 (cross-domain assurance federation). References BH-04, BH-06 (controls with cross-domain references). Reads namespace-registry.json. Output consumed by sign-release-manifest.mjs. Is itself a continuous-assurance control — it is always in scope regardless of profile.",
+    "coverage_note": "Compensates gap3 (cross-domain assurance federation). References BH-04, BH-06 (controls with cross-domain references). Reads namespace-registry.json. Output consumed by sign-release-manifest.mjs. Is itself a continuous-assurance control \u2014 it is always in scope regardless of profile.",
     "canonical_id": "apeiris://model/controls/CR-08",
     "capability_risk": {
       "capability_level": "none",
@@ -2645,7 +2689,7 @@
         "requirement_id": "GOVERN-2.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners — directly addressing NIST AI RMF GOVERN 2.2's requirement for organizational practices that establish accountability and coordination for AI risk management across functional and organizational boundaries. GOVERN 6.1 is additionally relevant because CR-08 implements the inter-domain policies and procedures needed to ensure that no cross-domain assurance gap creates an uncompensated blind spot.",
+        "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners \u2014 directly addressing NIST AI RMF GOVERN 2.2's requirement for organizational practices that establish accountability and coordination for AI risk management across functional and organizational boundaries. GOVERN 6.1 is additionally relevant because CR-08 implements the inter-domain policies and procedures needed to ensure that no cross-domain assurance gap creates an uncompensated blind spot.",
         "uncovered_portion": "GOVERN 2.2 and GOVERN 6.1 address organizational accountability and inter-organizational AI risk governance across the full governance scope; CR-08 covers only the cross-domain evidence reference resolution and coordination dimension and does not address single-domain governance accountability covered by OA layer controls.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
@@ -2662,7 +2706,7 @@
         "requirement_id": "8.3",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "CR-08 implements governance for cross-domain evidence references through the audit:cross-domain build check, namespace-registry.json resolver validation, and quarterly cross-domain sync reviews — supporting ISO 42001 Clause 8.3's requirement for processes that govern AI system design activities including coordination across organizational and domain boundaries. Annex A.4.2 on organizational context for AI risk management is additionally addressed because CR-08 explicitly compensates the gap3 cross-domain federation finding through structured inter-domain accountability and documented open findings.",
+        "rationale": "CR-08 implements governance for cross-domain evidence references through the audit:cross-domain build check, namespace-registry.json resolver validation, and quarterly cross-domain sync reviews \u2014 supporting ISO 42001 Clause 8.3's requirement for processes that govern AI system design activities including coordination across organizational and domain boundaries. Annex A.4.2 on organizational context for AI risk management is additionally addressed because CR-08 explicitly compensates the gap3 cross-domain federation finding through structured inter-domain accountability and documented open findings.",
         "uncovered_portion": "Clause 8.3 addresses AI system design and development process governance across the full system scope; CR-08 covers only the cross-domain assurance coordination dimension and does not address intra-domain design and development governance covered by other controls.",
         "source_version": "2023",
         "reviewed_on": "2026-06-26",
@@ -2676,27 +2720,28 @@
       },
       {
         "framework": "aicm",
-        "requirement_id": "GOV-09",
+        "requirement_id": "A&A-04",
         "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners — providing the technical evidence synchronization and reference resolution mechanism that supports GOV-09's cross-domain AI assurance coordination and evidence synchronization requirement. GOV-09's broader organizational governance coordination scope extends beyond the technical inter-domain evidence linkage that this control directly implements.",
-        "uncovered_portion": "GOV-09 covers the full organizational AI governance coordination framework including policy alignment, reporting lines, and cross-functional accountability structures; CR-08 addresses only the technical evidence synchronization and reference resolution mechanism between Apeiris verifier domains — organizational governance coordination is addressed by OA-03 (governance committee) and OA-07 (escalation authority chain).",
+        "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners \u2014 providing the technical evidence synchronization and reference resolution mechanism that supports GOV-09's cross-domain AI assurance coordination and evidence synchronization requirement. GOV-09's broader organizational governance coordination scope extends beyond the technical inter-domain evidence linkage that this control directly implements.",
+        "uncovered_portion": "GOV-09 covers the full organizational AI governance coordination framework including policy alignment, reporting lines, and cross-functional accountability structures; CR-08 addresses only the technical evidence synchronization and reference resolution mechanism between Apeiris verifier domains \u2014 organizational governance coordination is addressed by OA-03 (governance committee) and OA-07 (escalation authority chain).",
         "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
-        "mapping_confidence": "high",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "provisional": true
       },
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-05",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "CR-08 resolves cross-domain apeiris:// evidence references, maintains a cross-domain dependency map, and coordinates inter-domain assurance reviews — addressing multi-domain audit trail integrity in the same evidence accountability domain as AITG-IR-05 Incident Response Testing, which requires that audit trail integrity be maintained and verifiable for AI system accountability purposes.",
+        "rationale": "CR-08 resolves cross-domain apeiris:// evidence references, maintains a cross-domain dependency map, and coordinates inter-domain assurance reviews \u2014 addressing multi-domain audit trail integrity in the same evidence accountability domain as AITG-IR-05 Incident Response Testing, which requires that audit trail integrity be maintained and verifiable for AI system accountability purposes.",
         "uncovered_portion": "AITG-IR-05 addresses audit trail integrity for a single AI system's evidence chain; CR-08 addresses cross-domain evidence reference resolution and inter-domain assurance coordination across multiple Apeiris domain boundaries, which is a distinct concern in the same evidence accountability domain that AITG-IR-05 does not prescribe solutions for.",
         "source_locator": {
           "section": "Incident Response Testing",
@@ -2728,7 +2773,7 @@
         "requirement_id": "S-4.2",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 §IV.D requires comprehensive records that support supervisory examination; CR-08's cross-domain compliance evidence collection provides adjacent coverage of the records management requirement by assembling evidence from multiple control domains.",
+        "rationale": "SR 26-2 \u00a7IV.D requires comprehensive records that support supervisory examination; CR-08's cross-domain compliance evidence collection provides adjacent coverage of the records management requirement by assembling evidence from multiple control domains.",
         "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2's records requirement is focused on model-specific documentation rather than cross-domain compliance evidence aggregation.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
@@ -2743,7 +2788,7 @@
     ],
     "obligations": [
       {
-        "authority": "European Union — European Parliament and Council",
+        "authority": "European Union \u2014 European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
