@@ -641,7 +641,138 @@
       margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
     }
 
+    /* ── Assess bar (below header, visible in assess mode) ── */
+    .assess-bar {
+      display: none; align-items: center; gap: 10px; flex-shrink: 0;
+      padding: 6px 16px;
+      background: rgba(16,185,129,0.05); border-bottom: 1px solid rgba(16,185,129,0.2);
+      font-size: 0.73rem;
+    }
+    body.assess-mode .assess-bar { display: flex; }
+    .assess-bar-track { flex: 1; max-width: 180px; height: 4px; border-radius: 2px; background: var(--border2); overflow: hidden; flex-shrink: 0; }
+    .assess-bar-fill  { height: 100%; background: var(--success); border-radius: 2px; transition: width 0.4s; }
+    .assess-bar-label { color: var(--muted); white-space: nowrap; }
+    .assess-bar-label strong { color: var(--success); }
+    .assess-bar-sep { color: var(--border2); }
+    .assess-bar-actions { display: flex; gap: 6px; margin-left: auto; }
+    .assess-act-btn {
+      font-size: 0.68rem; font-weight: 600; padding: 3px 9px; border-radius: 5px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; transition: all 0.15s; line-height: 1.4;
+    }
+    .assess-act-btn:hover { color: var(--text); border-color: var(--accent); }
+    .assess-act-btn.success { border-color: rgba(16,185,129,0.3); color: var(--success); }
+    .assess-act-btn.success:hover { background: rgba(16,185,129,0.1); }
+    .assess-act-btn.danger:hover  { border-color: var(--danger); color: var(--danger); }
+
+    /* ── Assessment Summary Panel ── */
+    .asm-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.55); overflow-y: auto;
+      padding: 32px 16px;
+    }
+    .asm-overlay.open { display: block; }
+    .asm-panel {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; width: min(920px, calc(100vw - 32px));
+      margin: 0 auto;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    }
+    .asm-hd {
+      padding: 15px 20px 13px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .asm-hd-title { font-size: 0.95rem; font-weight: 700; flex: 1; min-width: 120px; }
+    .asm-hd-btn {
+      font-size: 0.7rem; font-weight: 600; padding: 4px 11px; border-radius: 6px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+    }
+    .asm-hd-btn:hover { color: var(--text); border-color: var(--accent); }
+    .asm-hd-btn.primary { background: var(--accent-glow); border-color: rgba(59,130,246,0.35); color: var(--accent); }
+    .asm-hd-btn.success { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.35); color: var(--success); }
+    .asm-hd-btn.danger  { border-color: rgba(239,68,68,0.3); color: var(--danger); }
+    .asm-hd-btn.danger:hover { background: rgba(239,68,68,0.08); }
+
+    .asm-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+
+    .asm-top { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+    .asm-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 9px; padding: 14px 16px;
+    }
+    .asm-card-label {
+      font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px;
+    }
+    .asm-big { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+    .asm-big-sub { font-size: 0.76rem; color: var(--text2); margin-top: 4px; }
+    .asm-prog-bar { height: 5px; border-radius: 3px; background: var(--border2); overflow: hidden; margin: 8px 0 5px; }
+    .asm-prog-fill { height: 100%; border-radius: 3px; background: var(--success); transition: width 0.5s ease; }
+    .asm-sub-stats { font-size: 0.72rem; color: var(--muted); display: flex; flex-direction: column; gap: 2px; margin-top: 6px; }
+    .asm-sub-stats span strong { color: var(--text2); }
+
+    .asm-score-arrow { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+    .asm-score-next  { color: var(--accent); font-weight: 600; }
+
+    .asm-layer-list { display: flex; flex-direction: column; gap: 7px; }
+    .asm-layer-row { display: flex; align-items: center; gap: 8px; }
+    .asm-layer-lbl {
+      font-family: monospace; font-size: 0.65rem; font-weight: 700;
+      padding: 1px 5px; border-radius: 3px; width: 26px; text-align: center; flex-shrink: 0;
+    }
+    .asm-layer-track { flex: 1; height: 5px; border-radius: 3px; background: var(--border2); overflow: hidden; }
+    .asm-layer-bar   { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+    .asm-layer-score { font-size: 0.68rem; font-weight: 600; color: var(--muted); width: 26px; text-align: right; flex-shrink: 0; }
+    .asm-layer-none  { font-size: 0.68rem; color: var(--border2); }
+
+    .asm-section-label {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--muted); margin-bottom: 10px;
+    }
+    .asm-dist { display: flex; flex-direction: column; gap: 5px; }
+    .asm-dist-row { display: flex; align-items: center; gap: 8px; font-size: 0.74rem; }
+    .asm-dist-lbl  { width: 84px; color: var(--muted); flex-shrink: 0; }
+    .asm-dist-track { flex: 1; height: 13px; border-radius: 3px; background: var(--border2); overflow: hidden; }
+    .asm-dist-bar   { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+    .asm-dist-ct   { font-size: 0.7rem; color: var(--muted); min-width: 20px; text-align: right; }
+    .asm-dist-none .asm-dist-bar       { background: var(--border2); }
+    .asm-dist-initial .asm-dist-bar    { background: var(--danger); opacity: 0.7; }
+    .asm-dist-developing .asm-dist-bar { background: var(--warn); }
+    .asm-dist-defined .asm-dist-bar    { background: var(--accent); }
+    .asm-dist-managed .asm-dist-bar    { background: var(--success); }
+    .asm-dist-optimizing .asm-dist-bar { background: var(--li); }
+
+    .asm-gaps { display: flex; flex-direction: column; gap: 6px; }
+    .asm-gap-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 7px;
+      background: var(--surface2); border: 1px solid var(--border);
+      cursor: pointer; transition: border-color 0.15s;
+    }
+    .asm-gap-item:hover { border-color: var(--accent); background: var(--surface); }
+    .asm-gap-rank { font-size: 0.65rem; color: var(--border2); min-width: 14px; text-align: center; }
+    .asm-gap-id   {
+      font-family: monospace; font-size: 0.7rem; font-weight: 700;
+      padding: 2px 6px; border-radius: 4px; flex-shrink: 0;
+    }
+    .asm-gap-body { flex: 1; min-width: 0; }
+    .asm-gap-name { font-size: 0.79rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .asm-gap-meta { font-size: 0.69rem; color: var(--muted); margin-top: 2px; }
+    .asm-gap-size {
+      font-size: 0.67rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; flex-shrink: 0;
+    }
+    .asm-gap-size.g-far  { background: rgba(239,68,68,0.12); color: var(--danger); }
+    .asm-gap-size.g-near { background: rgba(245,158,11,0.12); color: var(--warn); }
+    .asm-gap-size.g-none { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+    .asm-empty { font-size: 0.82rem; color: var(--muted); text-align: center; padding: 24px 0; }
+
     /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .asm-top { grid-template-columns: 1fr; }
+    }
     @media (max-width: 600px) {
       .sidebar { display: none; }
       .drawer { width: 100vw; }
@@ -749,6 +880,20 @@
 
   <!-- Main content -->
   <main class="main">
+    <!-- Assess mode bar — shows when Assess is active -->
+    <div class="assess-bar" id="assessBar">
+      <div class="assess-bar-track"><div class="assess-bar-fill" id="assessBarFill" style="width:0%"></div></div>
+      <span class="assess-bar-label" id="assessBarLabel"><strong>0</strong> of 54 rated</span>
+      <span class="assess-bar-sep">·</span>
+      <span class="assess-bar-label" id="assessBarScore">Score: —</span>
+      <span class="assess-bar-sep">·</span>
+      <span class="assess-bar-label" id="assessBarTarget">0 at target</span>
+      <div class="assess-bar-actions">
+        <button class="assess-act-btn success" id="summaryBtn">⊞ Summary</button>
+        <button class="assess-act-btn" id="copyLinkBtn" title="Copy a shareable link with your assessment encoded in the URL">⛓ Share</button>
+        <button class="assess-act-btn" id="clearBtn" title="Clear all ratings">✕ Clear</button>
+      </div>
+    </div>
     <div class="stats-bar">
       <div class="stat-item"><div class="stat-num" id="statControls">54</div><div class="stat-label" id="statControlsLabel">of 54 shown</div></div>
       <div class="stat-item"><div class="stat-num" id="statFrameworks">8</div><div class="stat-label">frameworks</div></div>
@@ -849,6 +994,40 @@
         <div><span class="mat-level-badge mlb-optimizing">optimizing</span></div>
         <div class="mat-level-desc">Continuous improvement. Outcomes data drives automated process changes. The control evolves as the threat landscape and requirements change.</div>
         <div class="mat-level-how">Maintain and evolve. Share learnings. Review when framework requirements, model types, or threat models change significantly.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Assessment Summary Panel -->
+<div class="asm-overlay" id="asmOverlay">
+  <div class="asm-panel">
+    <div class="asm-hd">
+      <div class="asm-hd-title">⊕ Assessment Summary</div>
+      <button class="asm-hd-btn success" id="asmExportJson" title="Download assessment as JSON">↓ JSON</button>
+      <button class="asm-hd-btn primary" id="asmExportMd"   title="Download assessment as Markdown table">↓ Markdown</button>
+      <button class="asm-hd-btn primary" id="asmExportCsv"  title="Download assessment as CSV">↓ CSV</button>
+      <button class="asm-hd-btn" id="asmCopyLink" title="Copy a shareable URL with your ratings">⛓ Share</button>
+      <label class="asm-hd-btn" id="asmImportLbl" title="Import a previously saved assessment JSON" style="cursor:pointer">↑ Import<input type="file" id="asmImportFile" accept=".json" style="display:none"></label>
+      <button class="asm-hd-btn danger" id="asmClear">✕ Clear all</button>
+      <button class="asm-hd-btn" id="asmClose">✕ Close</button>
+    </div>
+    <div class="asm-body">
+      <!-- Top row: progress · score · layer -->
+      <div class="asm-top">
+        <div class="asm-card" id="asmProgress"></div>
+        <div class="asm-card" id="asmScore"></div>
+        <div class="asm-card" id="asmLayers"></div>
+      </div>
+      <!-- Distribution -->
+      <div>
+        <div class="asm-section-label">Maturity Distribution</div>
+        <div class="asm-dist" id="asmDist"></div>
+      </div>
+      <!-- Priority gaps -->
+      <div>
+        <div class="asm-section-label">Priority Gaps — controls furthest from target</div>
+        <div class="asm-gaps" id="asmGaps"></div>
       </div>
     </div>
   </div>
@@ -1011,6 +1190,7 @@ function loadAssessState() {
 function saveAssessState() {
   try { localStorage.setItem(LS_KEY, JSON.stringify(assessState)); } catch {}
   updateAssessCount();
+  updateAssessBar();
 }
 function updateAssessCount() {
   const n = Object.values(assessState).filter(v => v && v !== '').length;
@@ -1111,6 +1291,7 @@ async function load() {
 
     document.getElementById('statControls').textContent = controls.length;
     render();
+    updateAssessBar();
   } catch (e) {
     document.getElementById('controlList').innerHTML =
       `<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">Failed to load: ${esc(e.message)}</div></div>`;
@@ -1795,6 +1976,372 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   URL.revokeObjectURL(url);
 });
 
+// ── Assessment scoring helpers ─────────────────────────────────────────────────
+const MAT_SCORE = { none: 0, initial: 1, developing: 2, defined: 3, managed: 4, optimizing: 5 };
+function matScore(lvl) { return MAT_SCORE[lvl] ?? 0; }
+function scoreToLevel(s) {
+  // Round to nearest level
+  const rounded = Math.round(s);
+  return MATURITY[Math.min(rounded, MATURITY.length - 1)] ?? 'none';
+}
+const DIST_COLORS = {
+  none: 'var(--border2)', initial: 'var(--danger)', developing: 'var(--warn)',
+  defined: 'var(--accent)', managed: 'var(--success)', optimizing: 'var(--li)',
+};
+
+function computeAssessSummary() {
+  const rated   = controls.filter(c => assessState[c.id]);
+  const unrated = controls.filter(c => !assessState[c.id]);
+  const total   = controls.length;
+
+  // Overall score (avg over rated)
+  const totalS  = rated.reduce((s, c) => s + matScore(assessState[c.id]), 0);
+  const avgScore = rated.length ? totalS / rated.length : 0;
+  const scoreLevel = scoreToLevel(avgScore);
+  const scoreIdx   = MATURITY.indexOf(scoreLevel);
+  const nextLevel  = scoreIdx >= 0 && scoreIdx < MATURITY.length - 1 ? MATURITY[scoreIdx + 1] : null;
+
+  // At / below target
+  const atTarget = rated.filter(c => {
+    const si = matScore(assessState[c.id]);
+    const ti = matScore(c.maturity?.target ?? c.maturity?.current ?? 'none');
+    return si >= ti;
+  });
+  const belowTarget = rated.filter(c => {
+    const si = matScore(assessState[c.id]);
+    const ti = matScore(c.maturity?.target ?? c.maturity?.current ?? 'none');
+    return si < ti;
+  });
+
+  // Per-layer
+  const layerSummary = {};
+  for (const layer of LAYER_ORDER) {
+    const lc = controls.filter(c => c.layer === layer && assessState[c.id]);
+    const ls = lc.reduce((s, c) => s + matScore(assessState[c.id]), 0);
+    layerSummary[layer] = { count: lc.length, total: controls.filter(c => c.layer === layer).length, score: lc.length ? ls / lc.length : null };
+  }
+
+  // Distribution of rated controls by level
+  const dist = {};
+  for (const lvl of MATURITY) dist[lvl] = 0;
+  for (const c of rated) { const l = assessState[c.id]; if (l in dist) dist[l]++; }
+
+  // Priority gaps: below-target rated (biggest gap first) + unrated baseline
+  const gapRated = belowTarget
+    .map(c => ({
+      c,
+      gap: matScore(c.maturity?.target ?? c.maturity?.current ?? 'none') - matScore(assessState[c.id]),
+      self: assessState[c.id],
+      target: c.maturity?.target ?? c.maturity?.current ?? 'none',
+      type: 'gap',
+    }))
+    .sort((a, b) => b.gap - a.gap);
+
+  const gapUnrated = unrated
+    .filter(c => baselineSet.has(c.id))
+    .map(c => ({ c, gap: null, self: null, target: c.maturity?.target ?? c.maturity?.current ?? 'none', type: 'unrated' }));
+
+  const gaps = [...gapRated, ...gapUnrated].slice(0, 12);
+
+  return { rated, unrated, total, avgScore, scoreLevel, nextLevel, atTarget, belowTarget, layerSummary, dist, gaps };
+}
+
+function updateAssessBar() {
+  if (!controls.length) return;
+  const s = computeAssessSummary();
+  const pct = Math.round(s.rated.length / s.total * 100);
+  document.getElementById('assessBarFill').style.width  = pct + '%';
+  document.getElementById('assessBarLabel').innerHTML   = `<strong>${s.rated.length}</strong> of ${s.total} rated`;
+  document.getElementById('assessBarScore').textContent = s.rated.length
+    ? `Score: ${s.avgScore.toFixed(1)} (${s.scoreLevel})`
+    : 'Score: —';
+  document.getElementById('assessBarTarget').textContent = `${s.atTarget.length} at target`;
+}
+
+// ── Assessment Summary Panel ───────────────────────────────────────────────────
+function openSummary() {
+  renderSummary();
+  document.getElementById('asmOverlay').classList.add('open');
+}
+function closeSummary() {
+  document.getElementById('asmOverlay').classList.remove('open');
+}
+
+function renderSummary() {
+  const s = computeAssessSummary();
+  const pct = s.total ? Math.round(s.rated.length / s.total * 100) : 0;
+
+  // Progress card
+  document.getElementById('asmProgress').innerHTML = `
+    <div class="asm-card-label">Progress</div>
+    <div class="asm-big" style="color:var(--success)">${s.rated.length}<span style="font-size:1rem;font-weight:600;color:var(--muted)"> / ${s.total}</span></div>
+    <div class="asm-big-sub">${pct}% rated</div>
+    <div class="asm-prog-bar"><div class="asm-prog-fill" style="width:${pct}%"></div></div>
+    <div class="asm-sub-stats">
+      <span>At or above target: <strong>${s.atTarget.length}</strong></span>
+      <span>Below target: <strong>${s.belowTarget.length}</strong></span>
+      <span>Not yet rated: <strong>${s.unrated.length}</strong></span>
+    </div>`;
+
+  // Score card
+  const scoreColor = s.rated.length
+    ? (s.avgScore >= 4 ? 'var(--success)' : s.avgScore >= 3 ? 'var(--accent)' : s.avgScore >= 2 ? 'var(--warn)' : 'var(--danger)')
+    : 'var(--muted)';
+  document.getElementById('asmScore').innerHTML = `
+    <div class="asm-card-label">Maturity Score</div>
+    <div class="asm-big" style="color:${scoreColor}">${s.rated.length ? s.avgScore.toFixed(1) : '—'}<span style="font-size:1rem;font-weight:400;color:var(--muted)"> / 5.0</span></div>
+    <div class="asm-big-sub" style="text-transform:capitalize">${s.scored ? '' : ''}${s.scoreLevel}</div>
+    ${s.nextLevel && s.rated.length ? `<div class="asm-score-arrow">→ Next: <span class="asm-score-next">${s.nextLevel}</span></div>` : ''}
+    <div class="asm-sub-stats" style="margin-top:8px">
+      <span>0 = none &nbsp; 3 = defined &nbsp; 5 = optimizing</span>
+    </div>`;
+
+  // Layer card
+  const maxScore = 5;
+  const layerRows = LAYER_ORDER.map(layer => {
+    const ld = s.layerSummary[layer];
+    const lm = LAYER_META[layer];
+    const pctBar = ld.score !== null ? (ld.score / maxScore * 100).toFixed(0) : 0;
+    const color = `var(--${layer.toLowerCase()})`;
+    return `<div class="asm-layer-row">
+      <span class="asm-layer-lbl layer-badge ${layer}">${layer}</span>
+      <div class="asm-layer-track"><div class="asm-layer-bar" style="width:${pctBar}%;background:${color}"></div></div>
+      <span class="asm-layer-score">${ld.score !== null ? ld.score.toFixed(1) : '<span class="asm-layer-none">—</span>'}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('asmLayers').innerHTML = `
+    <div class="asm-card-label">By Layer</div>
+    <div class="asm-layer-list">${layerRows}</div>`;
+
+  // Distribution
+  const ratedCount = s.rated.length || 1; // avoid /0
+  const distRows = MATURITY.map(lvl => {
+    const ct = s.dist[lvl] ?? 0;
+    const pctW = (ct / ratedCount * 100).toFixed(0);
+    return `<div class="asm-dist-row asm-dist-${lvl}">
+      <span class="asm-dist-lbl">${lvl}</span>
+      <div class="asm-dist-track"><div class="asm-dist-bar" style="width:${pctW}%"></div></div>
+      <span class="asm-dist-ct">${ct}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('asmDist').innerHTML = distRows;
+
+  // Priority gaps
+  if (!s.gaps.length) {
+    document.getElementById('asmGaps').innerHTML = `<div class="asm-empty">${s.rated.length === 0 ? 'Rate controls in Assess mode to see your priority gaps.' : '✓ All rated controls are at or above their target.'}</div>`;
+  } else {
+    const gapItems = s.gaps.map((g, i) => {
+      const gapLabel = g.type === 'unrated'
+        ? '<span class="asm-gap-size g-none">Unrated baseline</span>'
+        : g.gap >= 3
+          ? `<span class="asm-gap-size g-far">${g.gap} levels to target</span>`
+          : `<span class="asm-gap-size g-near">${g.gap} level${g.gap > 1 ? 's' : ''} to target</span>`;
+      const metaText = g.type === 'unrated'
+        ? `Not yet rated · Target: ${esc(g.target)}`
+        : `You: ${esc(g.self)} · Industry: ${esc(g.c.maturity?.current ?? 'none')} · Target: ${esc(g.target)}`;
+      const advNote = g.c.maturity?.notes && g.type !== 'unrated'
+        ? `<div class="asm-gap-meta" style="margin-top:3px;font-style:italic">${esc(g.c.maturity.notes.substring(0,100))}${g.c.maturity.notes.length > 100 ? '…' : ''}</div>`
+        : '';
+      return `<div class="asm-gap-item" data-gap-id="${esc(g.c.id)}">
+        <span class="asm-gap-rank">${i + 1}</span>
+        <span class="asm-gap-id ${g.c.layer}">${esc(g.c.id)}</span>
+        <div class="asm-gap-body">
+          <div class="asm-gap-name">${esc(g.c.name)}</div>
+          <div class="asm-gap-meta">${metaText}</div>
+          ${advNote}
+        </div>
+        ${gapLabel}
+      </div>`;
+    }).join('');
+    document.getElementById('asmGaps').innerHTML = gapItems;
+
+    // Click gap item → close summary, open drawer
+    document.querySelectorAll('.asm-gap-item').forEach(el => {
+      el.addEventListener('click', () => {
+        closeSummary();
+        openDrawer(el.dataset.gapId);
+      });
+    });
+  }
+}
+
+document.getElementById('summaryBtn').addEventListener('click', openSummary);
+document.getElementById('asmClose').addEventListener('click', closeSummary);
+document.getElementById('asmOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('asmOverlay')) closeSummary();
+});
+
+// ── Share link ─────────────────────────────────────────────────────────────────
+function getShareUrl() {
+  if (!Object.keys(assessState).length) return window.location.href.split('#')[0];
+  const enc = btoa(unescape(encodeURIComponent(JSON.stringify(assessState))));
+  return window.location.href.split('#')[0] + '#a=' + enc;
+}
+
+function copyShareUrl(btnEl) {
+  const url = getShareUrl();
+  navigator.clipboard?.writeText(url).then(() => {
+    const orig = btnEl.textContent;
+    btnEl.textContent = '✓ Copied!';
+    setTimeout(() => { btnEl.textContent = orig; }, 2000);
+  }).catch(() => {
+    prompt('Copy this link:', url);
+  });
+}
+
+document.getElementById('copyLinkBtn').addEventListener('click', e => copyShareUrl(e.currentTarget));
+document.getElementById('asmCopyLink').addEventListener('click', e => copyShareUrl(e.currentTarget));
+
+function loadFromHash() {
+  const match = window.location.hash.match(/a=([^&]+)/);
+  if (!match) return;
+  try {
+    const decoded = JSON.parse(decodeURIComponent(escape(atob(match[1]))));
+    if (decoded && typeof decoded === 'object') {
+      Object.assign(assessState, decoded);
+      localStorage.setItem(LS_KEY, JSON.stringify(assessState));
+      updateAssessCount();
+      updateAssessBar();
+      // Auto-enter assess mode
+      if (!assessMode) {
+        assessMode = true;
+        document.body.classList.add('assess-mode');
+        document.getElementById('assessToggle').textContent = '✓ Assessing';
+      }
+    }
+  } catch (e) {}
+}
+
+// ── Clear assessment ───────────────────────────────────────────────────────────
+function clearAssessment() {
+  if (!Object.keys(assessState).length) return;
+  if (!confirm('Clear all your ratings? This cannot be undone.')) return;
+  assessState = {};
+  saveAssessState();
+  updateAssessBar();
+  render();
+  // If summary is open, refresh it
+  if (document.getElementById('asmOverlay').classList.contains('open')) renderSummary();
+  // Clear URL hash
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+}
+
+document.getElementById('clearBtn').addEventListener('click', clearAssessment);
+document.getElementById('asmClear').addEventListener('click', () => { closeSummary(); clearAssessment(); });
+
+// ── Export: Markdown ───────────────────────────────────────────────────────────
+function exportMarkdown() {
+  const s = computeAssessSummary();
+  const now = new Date().toISOString();
+  const dateStr = now.slice(0, 10);
+  const scoreStr = s.rated.length ? `${s.avgScore.toFixed(1)}/5.0 (${s.scoreLevel})` : 'None rated';
+
+  let md = `# AI Model Assurance — Self-Assessment Report\n\n`;
+  md += `**Date:** ${dateStr}  \n`;
+  md += `**Controls rated:** ${s.rated.length} of ${s.total} (${Math.round(s.rated.length / s.total * 100)}%)  \n`;
+  md += `**Maturity score:** ${scoreStr}  \n`;
+  md += `**At or above target:** ${s.atTarget.length} controls  \n`;
+  if (filters.profile) md += `**Profile filter:** ${filters.profile}  \n`;
+  md += `\n## Ratings by Layer\n\n`;
+
+  for (const layer of LAYER_ORDER) {
+    const lm = LAYER_META[layer];
+    const ld = s.layerSummary[layer];
+    const sc = ld.score !== null ? ld.score.toFixed(1) : '—';
+    md += `### ${layer} — ${lm.name} (score: ${sc})\n\n`;
+    md += `| ID | Control | Your Level | Target | Gap |\n`;
+    md += `|----|---------|------------|--------|-----|\n`;
+    controls.filter(c => c.layer === layer).forEach(c => {
+      const self = assessState[c.id] ?? '—';
+      const tgt  = c.maturity?.target ?? c.maturity?.current ?? 'none';
+      const si   = matScore(self === '—' ? 'none' : self);
+      const ti   = matScore(tgt);
+      const gap  = self === '—' ? 'Not rated' : si >= ti ? '✓ At target' : `${ti - si} level${ti - si > 1 ? 's' : ''}`;
+      md += `| ${c.id} | ${c.name} | ${self} | ${tgt} | ${gap} |\n`;
+    });
+    md += `\n`;
+  }
+
+  if (s.gaps.length) {
+    md += `## Priority Gaps\n\n`;
+    md += `| # | ID | Control | Your Level | Target | Gap |\n`;
+    md += `|---|----|---------||------------|--------|-----|\n`;
+    s.gaps.forEach((g, i) => {
+      const gapStr = g.type === 'unrated' ? 'Not rated' : `${g.gap} level${g.gap > 1 ? 's' : ''}`;
+      md += `| ${i+1} | ${g.c.id} | ${g.c.name} | ${g.self ?? '—'} | ${g.target} | ${gapStr} |\n`;
+    });
+  }
+
+  md += `\n---\n*Generated by [modelverifier.ai](https://modelverifier.ai) — AI Model & System Assurance Control Matrix*\n`;
+
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const url  = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `modelverifier-assessment-${dateStr}.md`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Export: CSV ────────────────────────────────────────────────────────────────
+function exportCsv() {
+  const now = new Date().toISOString().slice(0, 10);
+  const header = 'ID,Layer,Control Name,Your Level,Industry Baseline,Target,Gap Levels,At Target';
+  const rows = controls.map(c => {
+    const self = assessState[c.id] ?? '';
+    const base = c.maturity?.current ?? 'none';
+    const tgt  = c.maturity?.target ?? base;
+    const si   = self ? matScore(self) : -1;
+    const ti   = matScore(tgt);
+    const gap  = si >= 0 ? (ti - si) : '';
+    const atT  = si >= 0 ? (si >= ti ? 'yes' : 'no') : '';
+    return [c.id, c.layer, `"${c.name.replace(/"/g, '""')}"`, self, base, tgt, gap, atT].join(',');
+  });
+  const csv = [header, ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `modelverifier-assessment-${now}.csv`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('asmExportJson').addEventListener('click', () => {
+  document.getElementById('exportBtn').click();
+});
+document.getElementById('asmExportMd').addEventListener('click', exportMarkdown);
+document.getElementById('asmExportCsv').addEventListener('click', exportCsv);
+
+// ── Import assessment ──────────────────────────────────────────────────────────
+document.getElementById('asmImportFile').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      // Support both: raw {id: level} map or exported payload with controls[]
+      let newState = {};
+      if (data.schema?.startsWith('apeiris://')) {
+        // Exported payload format
+        for (const c of (data.controls ?? [])) {
+          if (c.id && c.self_assessed) newState[c.id] = c.self_assessed;
+        }
+      } else if (typeof data === 'object' && !Array.isArray(data)) {
+        newState = data; // raw map
+      }
+      const count = Object.keys(newState).length;
+      if (!count) { alert('No ratings found in this file.'); return; }
+      if (!confirm(`Import ${count} rating${count > 1 ? 's' : ''}? This will merge with your current assessment.`)) return;
+      Object.assign(assessState, newState);
+      localStorage.setItem(LS_KEY, JSON.stringify(assessState));
+      updateAssessCount();
+      updateAssessBar();
+      render();
+      renderSummary();
+    } catch { alert('Could not parse the file. Make sure it is a valid modelverifier.ai assessment export.'); }
+  };
+  reader.readAsText(file);
+  e.target.value = ''; // reset so same file can be re-imported
+});
+
 // ── Maturity guide modal ────────────────────────────────────────────────────────
 function openMatModal() { document.getElementById('matModal').classList.add('open'); }
 function closeMatModal() { document.getElementById('matModal').classList.remove('open'); }
@@ -1845,6 +2392,7 @@ document.addEventListener('keydown', e => {
 
 // ── Init ───────────────────────────────────────────────────────────────────────
 loadAssessState();
+loadFromHash();
 load();
 </script>
 </body>
