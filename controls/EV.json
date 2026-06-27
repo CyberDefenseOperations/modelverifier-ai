@@ -71,7 +71,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "sources": [
@@ -522,6 +527,17 @@
         "rationale": "MITRE ATLAS v5.6.0 addresses adversarial ML attack tactics; pre-deployment fitness/safety evaluation is not an adversarial threat category.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "nist_ai_600_1",
+        "requirement_id": "CONFABULATION",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-02 requires structured evaluation of generative model output quality, safety, and policy conformance. NIST AI 600-1 identifies Confabulation as a primary GenAI risk — models producing false, hallucinated, or ungrounded outputs — and calls for systematic evaluation to measure and reduce confabulation rates before deployment. This control directly supports that outcome by establishing the evaluation gate and criteria.",
+        "source_locator": {"section": "CONFABULATION"},
+        "source_version": "1.0",
+        "reviewed_on": "2026-06-26",
+        "mapping_confidence": "high"
       }
     ],
     "profiles": [
@@ -595,7 +611,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -837,6 +858,17 @@
         "uncovered_portion": "N/A \u2014 no false mapping applied.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "nist_ai_600_1",
+        "requirement_id": "CBRN",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "NIST AI 600-1 identifies CBRN (Chemical, Biological, Radiological, Nuclear) information or capabilities as a critical GenAI risk \u2014 models that can provide meaningful uplift for weapons of mass destruction. EV-03 establishes the structured dangerous-capability assessment process that directly addresses this risk by requiring systematic evaluation before any elevated-capability model is deployed.",
+        "source_locator": {"section": "CBRN"},
+        "source_version": "1.0",
+        "reviewed_on": "2026-06-26",
+        "mapping_confidence": "high"
       }
     ],
     "assurance_target": {
@@ -890,7 +922,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-51",
         "mapping_fit": "partial",
-        "notes": "Art-51 applies to general-purpose AI models (GPAI) with systemic risk \u2014 requires providers to perform adversarial testing and report serious incidents."
+        "notes": "Art-51 applies to general-purpose AI models (GPAI) with systemic risk \u2014 requires providers to perform adversarial testing and report serious incidents.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -1124,6 +1161,17 @@
         "uncovered_portion": "MITRE ATLAS describes attack techniques; it does not specify evaluation methodology for pre-deployment red-teaming.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "nist_ai_600_1",
+        "requirement_id": "INFO-SECURITY",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "NIST AI 600-1 identifies Information Security as a GenAI risk category covering adversarial attacks, prompt injection, extraction of training data, and supply chain threats against AI systems. EV-04 red-team testing directly addresses this by requiring structured adversarial probing before deployment.",
+        "uncovered_portion": "NIST AI 600-1 INFO-SECURITY also covers runtime detection and incident response to adversarial attacks — those aspects are owned by securitycontrols.ai runtime controls, not by this pre-deployment evaluation control.",
+        "source_version": "1.0",
+        "reviewed_on": "2026-06-26",
+        "mapping_confidence": "high"
       }
     ],
     "profiles": [
@@ -1194,7 +1242,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-55",
         "mapping_fit": "partial",
-        "notes": "Art-55 requires providers of GPAI models with systemic risk to perform model evaluation including adversarial testing to identify and mitigate systemic risks."
+        "notes": "Art-55 requires providers of GPAI models with systemic risk to perform model evaluation including adversarial testing to identify and mitigate systemic risks.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -1428,6 +1481,17 @@
         "rationale": "MITRE ATLAS v5.6.0 does not address fairness and bias evaluation methodology.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "nist_ai_600_1",
+        "requirement_id": "HUMAN-AI-CONFIG",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "NIST AI 600-1 identifies Human-AI Configuration as a GenAI risk encompassing automation bias, over-reliance, and the erosion of human oversight capacity — dynamics that intensify when models produce systematically biased outputs across demographic groups. EV-05 fairness evaluation supports this risk category by measuring demographic performance disparities that can exacerbate biased automated decisions.",
+        "uncovered_portion": "HUMAN-AI-CONFIG addresses the full human-oversight configuration problem beyond just measurement of bias; interface design, user calibration, and override mechanisms are not covered by EV-05.",
+        "source_version": "1.0",
+        "reviewed_on": "2026-06-26",
+        "mapping_confidence": "medium"
       }
     ],
     "profiles": [
@@ -1498,7 +1562,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -1784,7 +1853,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -2192,7 +2266,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -2266,7 +2345,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "sources": [
@@ -2577,7 +2661,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-6",
         "mapping_fit": "partial",
-        "notes": "Art-6 defines the classification criteria for high-risk AI systems. The assurance target classification drives which Article 9-15 requirements apply."
+        "notes": "Art-6 defines the classification criteria for high-risk AI systems. The assurance target classification drives which Article 9-15 requirements apply.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "sources": [
@@ -3137,7 +3226,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-12",
         "mapping_fit": "partial",
-        "notes": "Art-12 requires high-risk AI systems to be designed and developed with logging capabilities to enable automatic recording of events during operation."
+        "notes": "Art-12 requires high-risk AI systems to be designed and developed with logging capabilities to enable automatic recording of events during operation.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   }

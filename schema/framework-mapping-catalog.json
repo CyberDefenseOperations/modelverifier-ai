@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://schemas.apeiris.io/model-assurance/v1/framework-mapping-catalog.json",
   "title": "Model Assurance Framework Mapping Catalog",
-  "description": "Authoritative catalog of the 8 frameworks used in modelverifier.ai mappings. Each entry defines: source metadata (version, authority, normative force, license), the allowed requirement_id pattern for validation, the requirement_id enumeration where the set is bounded (llm10), coverage guidance, and known mapping caveats. The build pipeline (validate:sources, audit:mappings) reads this catalog to validate all mapping entries in control records.",
+  "description": "Authoritative catalog of the 10 frameworks used in modelverifier.ai mappings. Each entry defines: source metadata (version, authority, normative force, license), the allowed requirement_id pattern for validation, the requirement_id enumeration where the set is bounded (llm10), coverage guidance, and known mapping caveats. The build pipeline (validate:sources, audit:mappings) reads this catalog to validate all mapping entries in control records.",
   "version": "1.0.0",
   "generated_on": "2026-06-26",
   "frameworks": {
@@ -476,6 +476,88 @@
         "ATLAS is a threat taxonomy, not a control framework — mappings describe the threat a control mitigates, not a requirement the control satisfies. Adjust mapping rationale language accordingly.",
         "Version 5.5.0 was released February 2026; 5.6.0 was released May 4, 2026. Always cite 5.6.0 or later.",
         "MITRE ATLAS covers technique-level threat mapping. securitycontrols.ai owns runtime threat detection and prevention; Model Assurance owns evaluation of resistance to these techniques."
+      ]
+    },
+    "nist_ai_600_1": {
+      "id": "nist_ai_600_1",
+      "title": "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile",
+      "short_name": "NIST AI 600-1",
+      "authority": "National Institute of Standards and Technology (NIST)",
+      "source_type": "voluntary-standard",
+      "normative_force": "voluntary",
+      "version": "1.0",
+      "document_id": "NIST AI 600-1",
+      "published_on": "2024-07-26",
+      "retrieved_on": "2026-06-26",
+      "canonical_url": "https://doi.org/10.6028/NIST.AI.600-1",
+      "license": "public-domain",
+      "supersedes": null,
+      "status": "current",
+      "companion_documents": [
+        "NIST AI 100-1 (AI RMF 1.0, Jan 2023) — parent framework",
+        "NIST AI 100-4 (Reducing Risks Posed by Synthetic Content, March 2024)"
+      ],
+      "requirement_id_pattern": "^(CBRN|CONFABULATION|DATA-PRIVACY|HUMAN-AI-CONFIG|INFO-INTEGRITY|INFO-SECURITY|IP|OBSCENE-DEGRADING)$",
+      "requirement_id_examples": [
+        "CBRN",
+        "CONFABULATION",
+        "DATA-PRIVACY",
+        "HUMAN-AI-CONFIG",
+        "INFO-INTEGRITY",
+        "INFO-SECURITY",
+        "IP",
+        "OBSCENE-DEGRADING"
+      ],
+      "structure": {
+        "description": "Twelve GenAI-specific risk categories, each mapped to the four AI RMF functions (GOVERN, MAP, MEASURE, MANAGE). Requirement IDs in this catalog use the risk category name as a stable section-level identifier. Finer-grained action references use the rationale and source_locator fields.",
+        "risk_categories": [
+          "CBRN — Chemical, Biological, Radiological, Nuclear capability uplift",
+          "CONFABULATION — hallucination, false or ungrounded model outputs",
+          "DATA-PRIVACY — personal data memorization, membership inference, inference-time exposure",
+          "HUMAN-AI-CONFIG — over-reliance, automation bias, degraded human oversight",
+          "INFO-INTEGRITY — disinformation, synthetic media, misleading AI-generated content at scale",
+          "INFO-SECURITY — adversarial attacks, prompt injection, supply chain, exfiltration",
+          "IP — intellectual property, copyright, training data rights violations",
+          "OBSCENE-DEGRADING — harmful, abusive, non-consensual, or exploitative content"
+        ]
+      },
+      "coverage_guidance": "Primary alignment to EV layer (evaluation controls for GenAI risks) and BH layer (runtime behavior). CONFABULATION maps to EV-02 (GenAI evaluation). CBRN maps to EV-03 (dangerous capability). INFO-SECURITY maps to EV-04 (red-team) and BH-04 (runtime injection monitoring). INFO-INTEGRITY maps to BH-09 (synthetic content provenance). DATA-PRIVACY maps to TG-03 (training data). IP maps to TG-01 (data authorization). HUMAN-AI-CONFIG maps to OA-02 (meaningful human oversight).",
+      "mapping_caveats": [
+        "NIST AI 600-1 is a voluntary companion to AI RMF 1.0, not a separate compliance certification.",
+        "Requirement IDs in this catalog reference risk category names. Source locators should reference the document section (e.g., section: 'CONFABULATION'). Full action-level granularity (GV-1.1, etc.) will be added in a future mapping pass.",
+        "Many controls address multiple 600-1 risk categories. Map to the primary category; note secondary categories in rationale.",
+        "Runtime enforcement of 600-1 risks (prompt injection detection, output filtering) is owned by securitycontrols.ai. Model Assurance owns evaluation of resistance and measurement of risk."
+      ]
+    },
+    "owasp_aitg": {
+      "id": "owasp_aitg",
+      "title": "OWASP AI Testing Guide",
+      "short_name": "OWASP AI Testing Guide",
+      "authority": "OWASP Foundation",
+      "source_type": "industry-framework",
+      "normative_force": "informative",
+      "version": "1.0",
+      "document_id": "OWASP AI Testing Guide v1",
+      "published_on": "2024-01-01",
+      "retrieved_on": "2026-06-26",
+      "canonical_url": "https://owasp.org/www-project-ai-testing-guide/",
+      "license": "CC BY-SA 4.0",
+      "supersedes": null,
+      "status": "current",
+      "companion_documents": [
+        "OWASP AISVS v1.0 (AI Security Verification Standard)",
+        "OWASP LLM Top 10 2025"
+      ],
+      "requirement_id_pattern": "^AITG-[A-Z]{2}-\\d+(\\.\\d+)?$",
+      "requirement_id_examples": [],
+      "structure": {
+        "description": "Structured testing methodology for AI trustworthiness across security, robustness, fairness, and explainability dimensions. Maps to evaluation (EV), deployment (BH), and continuous assurance (CR) layers."
+      },
+      "coverage_guidance": "Primary alignment to EV layer (structured evaluation and testing methodology) and BH/CR layers (runtime testing and evidence). Complements AISVS requirements with specific testing procedures. Full systematic mapping to controls is in progress.",
+      "mapping_caveats": [
+        "OWASP AI Testing Guide is CC BY-SA 4.0 (ShareAlike). Do not reproduce requirement text verbatim — map by identifier and write independent rationale, same as for AISVS.",
+        "Full systematic mapping to modelverifier.ai controls is in progress. Initial mappings use broad category references.",
+        "OWASP AI Testing Guide requirement IDs use the AITG-XX-N format. Verify IDs against the canonical document before mapping."
       ]
     }
   },

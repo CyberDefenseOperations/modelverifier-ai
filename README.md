@@ -1,6 +1,6 @@
 # modelverifier.ai — AI Model & System Assurance Control Matrix
 
-**Version:** 1.0.0 | **Status:** Public Beta | **Controls:** 54 across 6 layers | **Profiles:** 8
+**Version:** 1.0.0 | **Status:** Public Beta | **Controls:** 54 across 6 layers | **Frameworks:** 9 | **Profiles:** 11
 
 The AI Model & System Assurance Control Matrix is the second Apeiris public knowledge domain, complementing [securitycontrols.ai](https://securitycontrols.ai). It provides a machine-readable, citation-backed corpus of controls for assessing, evaluating, and governing AI models and AI systems across their full lifecycle — from lineage and training data governance through deployment, runtime assurance, and continuous evidence collection.
 
@@ -12,9 +12,9 @@ This matrix feeds the **Model Assurance Verifier** in the Apeiris runtime. The s
 
 modelverifier.ai is a structured, citable, machine-consumable corpus of AI model assurance controls. Each of the 54 controls is:
 
-- **Citation-backed.** Every control traces to at least one verifiable source: NIST AI RMF, ISO/IEC 42001, EU AI Act, SR 26-2, OWASP AISVS v1.0, OWASP LLM Top 10 2025, CSA AICM, or MITRE ATLAS v5.6.0. No control may exist without a supporting source or an explicit `apeiris-thesis` source type.
+- **Citation-backed.** Every control traces to at least one verifiable source: NIST AI RMF, NIST AI 600-1, ISO/IEC 42001, EU AI Act, SR 26-2, OWASP AISVS v1.0, OWASP LLM Top 10 2025, CSA AICM v1.1, or MITRE ATLAS v5.6.0. No control may exist without a supporting source or an explicit `apeiris-thesis` source type.
 - **Multi-lens.** Each control includes five stakeholder views: engineering (ML engineers, platform engineers), evaluation (independent validators), red_team (adversarial testers), grc (governance, risk, compliance officers), and mlops (ML operations engineers).
-- **Profile-aware.** Controls are tagged to one or more of the 8 deployment profiles. The baseline 15-control set applies to every deployment regardless of profile.
+- **Profile-aware.** Controls are tagged to one or more of the 11 deployment profiles. The baseline 15-control set applies to every deployment regardless of profile.
 - **Obligation-linked.** Controls with EU AI Act or SR 26-2 mappings carry structured `obligations[]` objects with machine-evaluable applicability predicates — the Apeiris runtime evaluates these against your `assurance_target` without requiring legal re-interpretation.
 - **Integration-ready.** The `/integration/` endpoint serves all 54 controls as CORS-enabled JSON. Any runtime, CI pipeline, or GRC tool can consume the matrix without installation.
 
@@ -33,7 +33,7 @@ Click **◑ Dark** in the header to toggle light mode. The preference is persist
 ### Filtering and Search
 
 - **Profile** — filter to controls required by a specific deployment profile (e.g. `eu-high-risk`, `frontier-capability`)
-- **Framework** — show only controls mapped to a specific standard (NIST AI RMF, ISO 42001, EU AI Act, SR 26-2, AISVS, LLM Top 10, AICM, MITRE ATLAS)
+- **Framework** — show only controls mapped to a specific standard (NIST AI RMF, NIST AI 600-1, ISO 42001, EU AI Act, SR 26-2, AISVS, LLM Top 10, AICM, MITRE ATLAS)
 - **Layer** — jump to a specific layer (LI, TG, EV, OA, BH, CR)
 - **Search** — full-text search across control names, descriptions, and framework IDs
 
@@ -300,14 +300,14 @@ modelverifier.ai introduces the following schema extensions beyond the shared `a
 | Feature | securitycontrols.ai | modelverifier.ai |
 |---|---|---|
 | **Lenses** | engineering, detection, secops, grc, architect | engineering, evaluation, red_team, grc, mlops |
-| **Framework set** | nist_rmf, iso_42001, eu_ai_act, aisvs, llm10, aicm, mitre, imda_mgf, aws_agentic | nist_rmf, iso_42001, eu_ai_act, sr262, aisvs, llm10, aicm, mitre |
+| **Framework set** | nist_rmf, iso_42001, eu_ai_act, aisvs, llm10, aicm, mitre, imda_mgf, aws_agentic | nist_rmf, nist_ai_600_1, iso_42001, eu_ai_act, sr262, aisvs, llm10, aicm, mitre |
 | **Obligation model** | Not used | `obligations[]` array with `applicability` predicates; replaces `regulatory_scope` string |
 | **Capability classification** | `capability_tier` string | `capability_risk` object (capability_level, capability_domains, access_mode, autonomy, irreversibility, deployment_scale, affected_party_impact) |
 | **Monitoring spec** | `detection_schema` (log-centric) | `monitoring_schema` with structured `metric_object[]`, `sampling_rate`, `window_context` |
 | **Status fields** | Single `status` field | 7 split status fields per mapping: source_status, mapping_confidence, legal_status, control_readiness, implementation_maturity, assurance_result, evidence_status |
 | **Source objects** | Basic source references | Rich source objects with authority, source_type, artifact_hash, license, supersedes |
 | **Mapping objects** | Direction + rationale | Direction, rationale, uncovered_portion, source_locator, source_version, source_hash, plus 7 split status fields |
-| **Profiles** | 3 blast-radius tiers | 8 deployment profiles with machine-executable trigger_conditions |
+| **Profiles** | 3 blast-radius tiers | 11 deployment profiles with machine-executable trigger_conditions |
 | **Assurance target** | Not used | `assurance_target` object binding model to use case, deployment context, affected parties, and jurisdiction |
 | **Cross-domain** | Not used | `cross_domain.references[]` navigation pointers + `evidence_artifacts[]` sharing declarations |
 

@@ -275,7 +275,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-16",
         "mapping_fit": "partial",
-        "notes": "Art-16 lists obligations of providers of high-risk AI systems, including establishing quality management systems and maintaining technical documentation."
+        "notes": "Art-16 lists obligations of providers of high-risk AI systems, including establishing quality management systems and maintaining technical documentation.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -357,7 +362,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-14",
         "mapping_fit": "partial",
-        "notes": "Art-14 requires high-risk AI systems to allow natural persons to oversee their operation effectively, including the ability to override, interrupt or stop operation."
+        "notes": "Art-14 requires high-risk AI systems to allow natural persons to oversee their operation effectively, including the ability to override, interrupt or stop operation.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "standard": [
@@ -909,7 +919,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -1182,7 +1197,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "standard": [
@@ -1919,7 +1939,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-73",
         "mapping_fit": "partial",
-        "notes": "Art-73 requires market surveillance authorities to be notified of serious incidents; providers of high-risk systems must report to authorities."
+        "notes": "Art-73 requires market surveillance authorities to be notified of serious incidents; providers of high-risk systems must report to authorities.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -2025,7 +2050,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-13",
         "mapping_fit": "partial",
-        "notes": "Art-13 requires providers to design high-risk AI systems to be sufficiently transparent to enable deployers to understand capabilities and limitations."
+        "notes": "Art-13 requires providers to design high-risk AI systems to be sufficiently transparent to enable deployers to understand capabilities and limitations.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "standard": [
