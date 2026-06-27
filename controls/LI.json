@@ -2824,7 +2824,7 @@
         "fit": "direct",
         "direction": "control-supports-requirement",
         "rationale": "CSA AICM GOV-02 addresses AI governance requirements for legal compliance and IP management. LI-08's license chain record and compatibility analysis directly implement GOV-02's IP management requirement for AI systems.",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",

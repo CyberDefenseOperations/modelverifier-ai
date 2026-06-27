@@ -336,7 +336,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Data quality gates are a core AICM data management control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
@@ -741,7 +741,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Subgroup analysis is a core AICM fairness control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "GOV-04"
@@ -1129,7 +1129,7 @@
         "direction": "control-supports-requirement",
         "rationale": "DRR is the primary data rights governance control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
@@ -1499,7 +1499,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Data integrity controls are a primary AICM supply chain security mechanism",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
@@ -1756,7 +1756,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Train/eval separation is a core AICM evaluation control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "EVA-01"
@@ -2162,7 +2162,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Data minimization and necessity controls are core AICM privacy controls",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "PRV-01"
@@ -2471,7 +2471,7 @@
         "direction": "control-supports-requirement",
         "rationale": "TPDR is the primary AICM third-party data supply chain control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
@@ -2901,7 +2901,7 @@
         "direction": "control-supports-requirement",
         "rationale": "Lifecycle policy is a core AICM data governance control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"

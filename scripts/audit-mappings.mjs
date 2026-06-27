@@ -197,7 +197,7 @@ const FRAMEWORK_SOURCE_VERSIONS = {
   sr262:         'SR 26-2',
   aisvs:         '1.0',
   llm10:         '2025',
-  aicm:          '1.0.3',
+  aicm:          '1.1',
   mitre:         '5.6.0',
   owasp_aitg:    '1.0',
 };

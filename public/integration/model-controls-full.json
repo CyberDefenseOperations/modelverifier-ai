@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T04:30:28.244Z",
+      "generated_at": "2026-06-27T04:35:48.346Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:aa04e1738823826ca428b9cec93a127ba4a112ebecb66d18b9b4ba6d101fe963"
+      "content_hash": "sha256:8954d7c9ed0422084e37f8dccf7a8d862949fe2e9a60a37c6d14aff245f2b624"
     },
     "controls": [
       {
@@ -2892,7 +2892,7 @@
             "fit": "direct",
             "direction": "control-supports-requirement",
             "rationale": "CSA AICM GOV-02 addresses AI governance requirements for legal compliance and IP management. LI-08's license chain record and compatibility analysis directly implement GOV-02's IP management requirement for AI systems.",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -4051,7 +4051,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Data quality gates are a core AICM data management control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
@@ -4455,7 +4455,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Subgroup analysis is a core AICM fairness control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "GOV-04"
@@ -4842,7 +4842,7 @@
             "direction": "control-supports-requirement",
             "rationale": "DRR is the primary data rights governance control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
@@ -5211,7 +5211,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Data integrity controls are a primary AICM supply chain security mechanism",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "SUP-01"
@@ -5467,7 +5467,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Train/eval separation is a core AICM evaluation control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "EVA-01"
@@ -5872,7 +5872,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Data minimization and necessity controls are core AICM privacy controls",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "PRV-01"
@@ -6180,7 +6180,7 @@
             "direction": "control-supports-requirement",
             "rationale": "TPDR is the primary AICM third-party data supply chain control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "SUP-01"
@@ -6609,7 +6609,7 @@
             "direction": "control-supports-requirement",
             "rationale": "Lifecycle policy is a core AICM data governance control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
               "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
@@ -6942,7 +6942,7 @@
             "rationale": "AI Control Matrix general governance controls align with the requirement for documented deployment decisions.",
             "uncovered_portion": "AICM does not specify technical gate enforcement or signing requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -7211,7 +7211,7 @@
             "rationale": "AICM EV-1 aligns with structured model evaluation before deployment.",
             "uncovered_portion": "AICM does not specify dimension isolation or pre-specified threshold requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -7558,7 +7558,7 @@
             "direction": "out-of-scope",
             "rationale": "AI Control Matrix does not currently include frontier dangerous capability assessment controls.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -7878,7 +7878,7 @@
             "rationale": "AICM adversarial testing controls align with structured red-team exercise requirements.",
             "uncovered_portion": "AICM does not specify threat model documentation or deployment gate integration.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -8214,7 +8214,7 @@
             "rationale": "AICM bias and fairness assessment controls align with structured fairness evaluation requirements.",
             "uncovered_portion": "AICM does not specify pre-specification of thresholds or metric trade-off documentation requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -8528,7 +8528,7 @@
             "rationale": "AICM evaluation integrity controls align with reproducible design requirements.",
             "uncovered_portion": "AICM does not specify contamination screening or artifact signing.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -8954,7 +8954,7 @@
             "rationale": "AICM regression testing controls align with structured regression evaluation on model updates.",
             "uncovered_portion": "AICM does not specify monitoring schema structure or safety regression zero-tolerance policy.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -9323,7 +9323,7 @@
             "rationale": "AICM separation of duties controls align with independent validation requirements.",
             "uncovered_portion": "AICM does not specify the organizational depth of independence required for effective challenge.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -9682,7 +9682,7 @@
             "rationale": "AICM risk classification controls align with the structured classification process.",
             "uncovered_portion": "AICM does not specify EU AI Act Article 6 / Annex III classification methodology.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -9956,7 +9956,7 @@
             "rationale": "AICM evaluation records controls align with content-addressed, signed evaluation result provenance requirements.",
             "uncovered_portion": "AICM does not specify tamper-evident log technology or provenance chain traversal tooling.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
