@@ -283,7 +283,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Quality gate operationalizes Art. 10(2) data governance requirements for high-risk AI",
-        "uncovered_portion": "Art. 10(3) examination for biases is covered by DT-02",
+        "uncovered_portion": "Art. 10(3) examination for biases is covered by TG-02",
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689"
       },
@@ -319,7 +319,7 @@
         "fit": "partial",
         "direction": "control-mitigates-risk",
         "rationale": "Quality gates reduce poisoning attack surface by enforcing provenance and integrity checks",
-        "uncovered_portion": "Active adversarial poisoning detection is addressed in DT-04",
+        "uncovered_portion": "Active adversarial poisoning detection is addressed in TG-04",
         "reviewed_on": "2026-06-26",
         "source_version": "2025"
       },
@@ -330,9 +330,9 @@
         "direction": "control-supports-requirement",
         "rationale": "Data quality gates are a core AICM data management control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
         }
       },
@@ -342,7 +342,7 @@
         "fit": "partial",
         "direction": "control-mitigates-risk",
         "rationale": "Quality gates reduce the effectiveness of poisoning by requiring signed provenance chains",
-        "uncovered_portion": "Cryptographic integrity of individual shards is covered in DT-04",
+        "uncovered_portion": "Cryptographic integrity of individual shards is covered in TG-04",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
       }
@@ -574,7 +574,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers training-data representativeness. Post-deployment subgroup performance monitoring is addressed in BH-05 and CA-01. Does not cover fairness of synthetic data augmentation \u2014 that requires separate treatment.",
+    "coverage_note": "Covers training-data representativeness. Post-deployment subgroup performance monitoring is addressed in BH-05 and CR-01. Does not cover fairness of synthetic data augmentation \u2014 that requires separate treatment.",
     "obligations": [
       {
         "id": "eu_ai_act_art10_3",
@@ -715,9 +715,9 @@
         "direction": "control-supports-requirement",
         "rationale": "Subgroup analysis is a core AICM fairness control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "GOV-04"
         }
       },
@@ -727,7 +727,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Representativeness analysis can surface adversarially injected demographic skew in training data",
-        "uncovered_portion": "Active poisoning detection is DT-04",
+        "uncovered_portion": "Active poisoning detection is TG-04",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
       }
@@ -1078,9 +1078,9 @@
         "direction": "control-supports-requirement",
         "rationale": "DRR is the primary data rights governance control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
         }
       },
@@ -1090,7 +1090,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Verifying data provenance and legal authority reduces supply chain compromise risk",
-        "uncovered_portion": "Active supply chain integrity checks are in DT-04 and DT-07",
+        "uncovered_portion": "Active supply chain integrity checks are in TG-04 and TG-07",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
       }
@@ -1223,7 +1223,7 @@
         "Verify stored hashes before every training run; hash mismatch blocks training with no bypass except CISO approval and a logged incident record.",
         "Implement chain-of-custody logging: record every transformation, merge, filter, and augmentation applied to each dataset with the identity of the executing process, inputs, outputs, and timestamp.",
         "Deploy adversarial input screening at ingestion: statistical anomaly detection for label flips, outlier injection, and distributional shifts in newly ingested data batches.",
-        "For externally sourced data (see also DT-07): verify vendor-provided checksums and independently re-derive hashes from source downloads; do not rely on CDN or mirror copies without re-verification.",
+        "For externally sourced data (see also TG-07): verify vendor-provided checksums and independently re-derive hashes from source downloads; do not rely on CDN or mirror copies without re-verification.",
         "Implement write-once / append-only storage for training datasets; restrict mutation access to privileged accounts subject to dual-approval workflow.",
         "Conduct periodic integrity audits: re-verify stored hashes against archives on a scheduled basis and on any suspicion of compromise.",
         "Define and exercise a poisoning incident response playbook: detection \u2192 quarantine \u2192 root cause \u2192 retraining assessment \u2192 recovery."
@@ -1415,9 +1415,9 @@
         "direction": "control-supports-requirement",
         "rationale": "Data integrity controls are a primary AICM supply chain security mechanism",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
         }
       },
@@ -1657,9 +1657,9 @@
         "direction": "control-supports-requirement",
         "rationale": "Train/eval separation is a core AICM evaluation control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "EVA-01"
         }
       },
@@ -1669,7 +1669,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Detecting contamination provides signal that training data may have been adversarially manipulated",
-        "uncovered_portion": "Active poisoning attack detection is DT-04",
+        "uncovered_portion": "Active poisoning attack detection is TG-04",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
       }
@@ -1839,7 +1839,7 @@
         "Conduct a data necessity assessment: for each field/feature, document whether its inclusion in training is strictly necessary for model performance. Default to exclusion for PII and protected-class attributes.",
         "Apply de-identification to PII fields: direct identifiers removed or pseudonymized; quasi-identifiers assessed for re-identification risk (k-anonymity, l-diversity, or differential privacy metrics).",
         "For NLP/LLM training corpora: run PII scanning (names, addresses, SSNs, health data, financial account numbers) using automated scanners; manually review samples; define redaction or replacement policy.",
-        "When protected attributes (race, gender, disability status, etc.) are needed for bias auditing (DT-02, BH-05): store them in a fairness audit vault with role-based access control, logging, and time-bounded access grants.",
+        "When protected attributes (race, gender, disability status, etc.) are needed for bias auditing (TG-02, BH-05): store them in a fairness audit vault with role-based access control, logging, and time-bounded access grants.",
         "Implement synthetic data replacement for scenarios where real PII is currently used; document the synthetic generation approach and validate that synthetic data does not re-introduce re-identification risk.",
         "Apply EU AI Act Art. 10(5) carve-out: if protected attributes must be processed for bias detection and correction, document the explicit legal basis and implement additional safeguards.",
         "Run minimization review at each data refresh cycle; re-assess necessity as model capabilities and use cases evolve."
@@ -2036,9 +2036,9 @@
         "direction": "control-supports-requirement",
         "rationale": "Data minimization and necessity controls are core AICM privacy controls",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "PRV-01"
         }
       },
@@ -2203,7 +2203,7 @@
         "Conduct legal due diligence: review license terms for AI training permissions, sublicensing rights, attribution requirements, and any use-case restrictions.",
         "Pin to a specific versioned release; block training pipelines from pulling 'latest' from external sources without a new TPDR review.",
         "Establish update notification agreements with vendors; define SLAs for reviewing and approving dataset updates before they enter training.",
-        "Apply the same DT-04 integrity controls (hash pinning, chain-of-custody) to all third-party dataset shards without exception.",
+        "Apply the same TG-04 integrity controls (hash pinning, chain-of-custody) to all third-party dataset shards without exception.",
         "Monitor vendor security posture and supply chain integrity; subscribe to vendor security advisories.",
         "Conduct annual re-review of all active third-party dataset TPDR entries."
       ],
@@ -2220,12 +2220,12 @@
         "TPDR exists and has entries for all third-party datasets; entries include version pin, license terms, provenance claims, and security/legal review sign-offs. [ref:iso42001]",
         "Training pipelines are configured to pull only pinned versioned releases; 'latest' references are blocked at the pipeline gate. [ref:nist_ai_rmf]",
         "Update notification process is established with vendors; pipeline blocks updated dataset versions pending re-review. [ref:mitre_atlas_t0018]",
-        "DT-04 integrity controls (hash pinning, chain-of-custody) are applied to all third-party dataset shards without exception. [ref:mitre_atlas_t0018]"
+        "TG-04 integrity controls (hash pinning, chain-of-custody) are applied to all third-party dataset shards without exception. [ref:mitre_atlas_t0018]"
       ],
       "runtime_test": [
         "Attempt to add an unpinned ('latest') dataset reference to the training pipeline; verify the gate blocks submission. [ref:nist_ai_rmf]",
         "Simulate a dataset update from a vendor (new version with modified records); verify pipeline detects version mismatch and requires re-review before training. [ref:mitre_atlas_t0018]",
-        "Substitute a third-party dataset shard with a modified version and verify DT-04 hash verification catches the substitution. [ref:mitre_atlas_t0018]"
+        "Substitute a third-party dataset shard with a modified version and verify TG-04 hash verification catches the substitution. [ref:mitre_atlas_t0018]"
       ],
       "evidence": [
         "{'artifact': 'Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates.', 'ref': 'iso42001'} [ref:iso42001]",
@@ -2331,9 +2331,9 @@
         "direction": "control-supports-requirement",
         "rationale": "TPDR is the primary AICM third-party data supply chain control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
         }
       },
@@ -2570,7 +2570,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers training-data and training-artifact lifecycle. Inference log retention is addressed in the CA layer. Machine unlearning is an emerging technical area; this control documents the obligation and current technical limitations but does not specify implementation \u2014 see cross_domain pointer to privacy controls domain.",
+    "coverage_note": "Covers training-data and training-artifact lifecycle. Inference log retention is addressed in the CR layer. Machine unlearning is an emerging technical area; this control documents the obligation and current technical limitations but does not specify implementation \u2014 see cross_domain pointer to privacy controls domain.",
     "obligations": [
       {
         "id": "gdpr_art5_1e",
@@ -2732,9 +2732,9 @@
         "direction": "control-supports-requirement",
         "rationale": "Lifecycle policy is a core AICM data governance control",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "source_locator": {
-          "section": "CSA AI Controls Matrix v1.0.3",
+          "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
         }
       },
@@ -2773,7 +2773,7 @@
     "cross_domain": {
       "pointer": "privacy-controls:PC-08",
       "relationship": "machine_unlearning_technical_implementation",
-      "note": "Machine unlearning technical implementation standards are defined in the privacy-controls domain. DT-08 documents the obligation; PC-08 specifies the implementation pattern."
+      "note": "Machine unlearning technical implementation standards are defined in the privacy-controls domain. TG-08 documents the obligation; PC-08 specifies the implementation pattern."
     },
     "enforcement_point": "data-catalog and storage-management",
     "canonical_id": "apeiris://model/controls/TG-08",

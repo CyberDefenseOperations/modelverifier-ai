@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T01:42:56.120Z",
+      "generated_at": "2026-06-27T02:41:27.355Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -70,7 +70,7 @@
       ],
       "has_warnings": true,
       "warning_count": 1,
-      "content_hash": "sha256:72ad18414cffffa07f9d4b782470ba8ef938034d46e2141f6cc81609f771cc9e"
+      "content_hash": "sha256:db258f154a5931703ad1b931caf808e7b1cccc37771f62859476d1509fccb503"
     },
     "controls": [
       {
@@ -517,7 +517,7 @@
         "implementation": {
           "pattern": "Record a structured provenance graph for every registered model artifact: document the base model (with artifact hash and provider version), each fine-tuning step, any merge operations with constituent model hashes, and all attached adapters (LoRA, prefix tuning, etc.) — link the provenance record to the LI-01 registry entry.",
           "steps": [
-            "For every model artifact, require a provenance manifest at registration time listing: base model ID and artifact hash, provider and version, fine-tuning dataset reference (pointer to DT-layer record), fine-tuning configuration, and any merge contributors with their hashes.",
+            "For every model artifact, require a provenance manifest at registration time listing: base model ID and artifact hash, provider and version, fine-tuning dataset reference (pointer to TG-layer record), fine-tuning configuration, and any merge contributors with their hashes.",
             "Track LoRA adapter and other PEFT component lineage separately: record adapter source, version, base model compatibility hash, and purpose alongside the main model registry entry.",
             "For merged models (e.g., model soup, SLERP, TIES merging), enumerate all constituent model artifact hashes and merge parameters in the provenance record so the merge is reproducible and auditable.",
             "Automate provenance graph propagation: when a derived model is registered, automatically copy base-model provenance entries and append the derivation step rather than requiring manual re-entry."
@@ -618,7 +618,7 @@
           "target": "defined",
           "notes": "Most organizations track immediate parent models in training logs but lack structured, queryable provenance graphs covering adapters and merge contributors. Achieving 'defined' requires machine-readable provenance manifests enforced at registration."
         },
-        "coverage_note": "LI-02 covers model artifact lineage. Training data lineage (pointer to DT-layer dataset records) is covered by LI-05. License and IP obligations inherited through the provenance chain are addressed in LI-08. Supply-chain integrity verification of third-party base models is covered by LI-03.",
+        "coverage_note": "LI-02 covers model artifact lineage. Training data lineage (pointer to TG-layer dataset records) is covered by LI-05. License and IP obligations inherited through the provenance chain are addressed in LI-08. Supply-chain integrity verification of third-party base models is covered by LI-03.",
         "capability_risk": {
           "capability_level": "low",
           "access_mode": "api",
@@ -701,7 +701,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "MITRE ATLAS AML.T0018 (Backdoor ML Model) describes adversaries embedding trigger-activated behaviors into a model artifact that propagate to downstream fine-tunes. A queryable provenance graph enables organizations to identify all models derived from a suspected base model and initiate targeted re-evaluation. LI-02 is a detective and scoping control; mitigation of active backdoor injection requires DT and EV layer controls.",
-            "uncovered_portion": "AML.T0018 mitigation requires backdoor detection during evaluation (EV-04) and training data verification (DT-04); LI-02 only enables impact scoping after a compromise is detected.",
+            "uncovered_portion": "AML.T0018 mitigation requires backdoor detection during evaluation (EV-04) and training data verification (TG-04); LI-02 only enables impact scoping after a compromise is detected.",
             "source_version": "5.6.0",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
@@ -917,7 +917,7 @@
           "target": "defined",
           "notes": "Most organizations perform informal checksum verification for some models but lack formal mSBOM generation, systematic coverage of all third-party models, and automated pipeline gates. Achieving 'defined' requires automated verification and mSBOM generation for all third-party acquisitions."
         },
-        "coverage_note": "LI-03 covers supply chain integrity for model artifacts. Training data supply chain verification is covered by DT-01. License obligations identified in the mSBOM are governed by LI-08. Runtime integrity monitoring (detecting post-deployment artifact changes) is a cross-domain concern addressed in collaboration with securitycontrols.ai.",
+        "coverage_note": "LI-03 covers supply chain integrity for model artifacts. Training data supply chain verification is covered by TG-01. License obligations identified in the mSBOM are governed by LI-08. Runtime integrity monitoring (detecting post-deployment artifact changes) is a cross-domain concern addressed in collaboration with securitycontrols.ai.",
         "capability_risk": {
           "capability_level": "low",
           "access_mode": "api",
@@ -1415,7 +1415,7 @@
         "id": "LI-05",
         "layer": "LI",
         "plane": "control",
-        "name": "Training Data Lineage Pointer — Link from Model Registry to DT-Layer Dataset...",
+        "name": "Training Data Lineage Pointer — Link from Model Registry to TG-Layer Dataset...",
         "plain": "Each registered model includes a reference to the official dataset record that documents what training data was used, so that data governance and model governance are connected rather than siloed.",
         "threat": {
           "tags": [
@@ -1504,71 +1504,71 @@
           }
         ],
         "implementation": {
-          "pattern": "At model registration, require one or more DT-layer dataset record IDs as mandatory foreign-key references in the model registry entry; validate that each referenced dataset record exists and is current; reject registration if any reference is invalid or if the dataset record has been flagged for disqualifying issues.",
+          "pattern": "At model registration, require one or more TG-layer dataset record IDs as mandatory foreign-key references in the model registry entry; validate that each referenced dataset record exists and is current; reject registration if any reference is invalid or if the dataset record has been flagged for disqualifying issues.",
           "steps": [
-            "Define a structured training-data reference field in the model registry schema that accepts one or more DT-layer dataset record IDs (covering pre-training corpus, fine-tuning dataset, RLHF preference dataset separately if applicable). The field is mandatory and must be non-empty for all non-API-hosted models.",
+            "Define a structured training-data reference field in the model registry schema that accepts one or more TG-layer dataset record IDs (covering pre-training corpus, fine-tuning dataset, RLHF preference dataset separately if applicable). The field is mandatory and must be non-empty for all non-API-hosted models.",
             "At registration time, resolve each dataset record reference and validate: the record exists, its status is not flagged as disqualified or recalled, and the dataset version matches the version used during training. Reject registration if any reference is invalid.",
             "For third-party hosted models where training data details are unknown, document the limitation explicitly: record the provider, provider-stated training data description, and the knowledge gap — do not leave the field empty or omit it.",
-            "When a DT-layer dataset record is subsequently flagged for contamination, consent withdrawal, or data quality failure, trigger an automated alert to all model registry entries that reference that dataset record to initiate impact assessment."
+            "When a TG-layer dataset record is subsequently flagged for contamination, consent withdrawal, or data quality failure, trigger an automated alert to all model registry entries that reference that dataset record to initiate impact assessment."
           ],
           "anti_patterns": [
-            "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative DT-layer record — free text cannot be queried when a dataset is recalled.",
+            "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative TG-layer record — free text cannot be queried when a dataset is recalled.",
             "Using a dataset name or filename as the reference rather than a stable dataset record ID — names and filenames are not unique across versions and can refer to different dataset contents.",
             "Omitting fine-tuning dataset references and recording only the pre-training corpus — incomplete references mislead independent validators about the full data inputs."
           ]
         },
         "validation": {
           "design_check": [
-            "Confirm that the model registry schema includes a structured training-data reference field that accepts DT-layer record IDs and that the field is mandatory and validated at registration [ref:sr_26_2].",
-            "Verify that the model registry enforces referential integrity: a model cannot be registered with a dataset reference that does not resolve to a valid, non-flagged DT-layer record [ref:iso_42001_2023].",
-            "Review the dataset recall alert mechanism: confirm that when a DT-layer dataset record status changes to flagged or recalled, all model registry entries referencing that record receive an automated impact alert [ref:nist_rmf_100_1]."
+            "Confirm that the model registry schema includes a structured training-data reference field that accepts TG-layer record IDs and that the field is mandatory and validated at registration [ref:sr_26_2].",
+            "Verify that the model registry enforces referential integrity: a model cannot be registered with a dataset reference that does not resolve to a valid, non-flagged TG-layer record [ref:iso_42001_2023].",
+            "Review the dataset recall alert mechanism: confirm that when a TG-layer dataset record status changes to flagged or recalled, all model registry entries referencing that record receive an automated impact alert [ref:nist_rmf_100_1]."
           ],
           "runtime_test": [
-            "Attempt to register a model with a dataset reference pointing to a non-existent DT-layer record ID; confirm the pipeline blocks registration [ref:sr_26_2].",
-            "Manually flag a DT-layer dataset record as recalled and verify that an automated alert is generated to all model registry entries referencing that dataset within the defined SLA [ref:nist_rmf_100_1].",
-            "For a production model, trace the training-data pointer to the DT-layer record and verify the record is accessible to the independent validation team without escalation [ref:owasp_aisvs_v1]."
+            "Attempt to register a model with a dataset reference pointing to a non-existent TG-layer record ID; confirm the pipeline blocks registration [ref:sr_26_2].",
+            "Manually flag a TG-layer dataset record as recalled and verify that an automated alert is generated to all model registry entries referencing that dataset within the defined SLA [ref:nist_rmf_100_1].",
+            "For a production model, trace the training-data pointer to the TG-layer record and verify the record is accessible to the independent validation team without escalation [ref:owasp_aisvs_v1]."
           ],
           "evidence": [
-            "model:registry-entry — model registry entry with one or more DT-layer dataset record ID references, validated at registration time [unverified]",
+            "model:registry-entry — model registry entry with one or more TG-layer dataset record ID references, validated at registration time [unverified]",
             "model:dataset-reference-validation-log — automated validation log confirming each dataset reference resolved to a valid, non-flagged record at registration [unverified]",
             "model:dataset-recall-alert-record — evidence that dataset recall alerting is operational, showing an alert sent to affected model registry entries for a test or real recall event [unverified]"
           ]
         },
         "lenses": {
           "engineering": {
-            "summary": "The training-data pointer is a foreign-key constraint between the model registry and the DT-layer dataset catalog. Engineering must implement it as a schema-level constraint with referential integrity enforcement — not as a documentation convention.",
+            "summary": "The training-data pointer is a foreign-key constraint between the model registry and the TG-layer dataset catalog. Engineering must implement it as a schema-level constraint with referential integrity enforcement — not as a documentation convention.",
             "actions": [
               "Implement the training-data reference field as a foreign key with registry-level referential integrity validation",
               "Build the dataset recall alert notification mechanism to query model registry references when a dataset record status changes",
-              "Extend the model registration API to accept and validate one or more DT-layer record IDs for each training phase (pre-training, fine-tuning, RLHF)"
+              "Extend the model registration API to accept and validate one or more TG-layer record IDs for each training phase (pre-training, fine-tuning, RLHF)"
             ],
             "tools": [
               "Model registry with foreign-key support",
-              "DT-layer dataset catalog with webhook or event-based status change notifications",
+              "TG-layer dataset catalog with webhook or event-based status change notifications",
               "Apache Atlas or similar data governance catalog"
             ],
             "failure_signals": [
               "Training data is documented only as free text in the model card — no machine-resolvable reference",
-              "Model registry has no connection to the DT-layer dataset catalog",
+              "Model registry has no connection to the TG-layer dataset catalog",
               "No alerting mechanism when a training dataset is retroactively flagged"
             ]
           },
           "evaluation": {
             "summary": "Independent validation (SR 26-2 S-3) requires access to training data inputs. The training-data pointer enables validators to retrieve the authoritative dataset record without relying on developer-provided summaries.",
             "actions": [
-              "Use the training-data pointer to retrieve the DT-layer record during independent validation scoping",
+              "Use the training-data pointer to retrieve the TG-layer record during independent validation scoping",
               "Verify that the dataset record referenced matches the training data described in the model card (LI-04 section 6)",
               "Flag any model where the training-data pointer is absent, invalid, or acknowledges unknown provenance as having incomplete validation coverage"
             ],
             "failure_signals": [
               "Independent validation report cannot trace training data inputs to an authoritative record",
-              "Training data described in model card does not match the DT-layer record referenced in the registry"
+              "Training data described in model card does not match the TG-layer record referenced in the registry"
             ]
           },
           "red_team": {
             "summary": "The training-data pointer enables red teams to assess training data attack surface: knowing the specific dataset version and source, red teams can research known contamination, biases, or adversarial examples in that dataset that may have influenced model behavior.",
             "actions": [
-              "Retrieve the training-data pointer and DT-layer record before red-team scoping to identify known dataset quality issues or contamination events",
+              "Retrieve the training-data pointer and TG-layer record before red-team scoping to identify known dataset quality issues or contamination events",
               "Test whether the model exhibits behaviors consistent with identified dataset artifacts or known contamination in the referenced training data"
             ],
             "failure_signals": [
@@ -1580,7 +1580,7 @@
             "summary": "SR 26-2 requires model validators to assess training data inputs. The training-data pointer is the mechanism that makes this assessment possible without organizational barriers. For EU AI Act in-scope systems, Art-10 data governance requirements apply to the training data — the pointer creates the audit linkage between model documentation and data governance records.",
             "actions": [
               "Confirm that all models subject to SR 26-2 independent validation have valid training-data pointers accessible to the validation team",
-              "Verify that EU AI Act in-scope systems have training-data pointers linking to DT-layer records that satisfy Art-10 data governance documentation",
+              "Verify that EU AI Act in-scope systems have training-data pointers linking to TG-layer records that satisfy Art-10 data governance documentation",
               "Establish a process to review all model registry entries whose training-data pointers reference datasets that have been flagged or recalled since the model was deployed"
             ],
             "failure_signals": [
@@ -1592,7 +1592,7 @@
             "summary": "MLOps teams use the training-data pointer to scope retraining: understanding the current training dataset version enables a determination of whether a proposed dataset update constitutes a material change (LI-09) requiring a new authorization cycle.",
             "actions": [
               "Reference the training-data pointer when evaluating whether a dataset update triggers a material-change determination under LI-09",
-              "Update the training-data pointer when a model is retrained on a new dataset version and confirm the new pointer resolves to a valid DT-layer record"
+              "Update the training-data pointer when a model is retrained on a new dataset version and confirm the new pointer resolves to a valid TG-layer record"
             ],
             "failure_signals": [
               "Model retrained on updated data but registry training-data pointer still references the prior dataset version",
@@ -1605,7 +1605,7 @@
           "target": "defined",
           "notes": "Most organizations maintain model registries and dataset catalogs as separate, unconnected systems. Achieving 'defined' requires a schema-level foreign key from the model registry to the dataset catalog with automated referential integrity enforcement."
         },
-        "coverage_note": "LI-05 requires only a pointer — a machine-resolvable reference — to the DT-layer dataset record. It does not require the training data itself to be present in the model registry or to be reproduced here. The substantive content of training data governance (quality, consent, bias screening, contamination detection) is owned by the DT layer. LI-05 is the linkage control that ensures model governance and data governance are connected.",
+        "coverage_note": "LI-05 requires only a pointer — a machine-resolvable reference — to the TG-layer dataset record. It does not require the training data itself to be present in the model registry or to be reproduced here. The substantive content of training data governance (quality, consent, bias screening, contamination detection) is owned by the TG layer. LI-05 is the linkage control that ensures model governance and data governance are connected.",
         "capability_risk": {
           "capability_level": "low",
           "access_mode": "api",
@@ -1685,7 +1685,7 @@
             "requirement_id": "AML.T0020",
             "fit": "adjacent",
             "direction": "control-supports-requirement",
-            "rationale": "MITRE ATLAS AML.T0020 (Poison Training Data) is adjacently relevant: the training-data pointer enables impact scoping when a dataset is found to have been poisoned — all models trained on the contaminated dataset can be identified quickly. LI-05 is a scoping and traceability control, not a poisoning prevention control. Prevention is owned by DT-04.",
+            "rationale": "MITRE ATLAS AML.T0020 (Poison Training Data) is adjacently relevant: the training-data pointer enables impact scoping when a dataset is found to have been poisoned — all models trained on the contaminated dataset can be identified quickly. LI-05 is a scoping and traceability control, not a poisoning prevention control. Prevention is owned by TG-04.",
             "source_version": "5.6.0",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
@@ -2028,7 +2028,7 @@
             "requirement_id": "Art-12",
             "fit": "partial",
             "direction": "control-supports-requirement",
-            "rationale": "EU AI Act Art-12 requires providers of high-risk AI systems to maintain logging capabilities that ensure traceability of system behavior and enable post-market monitoring. LI-06's immutable deployment log and version records directly support Art-12's traceability requirement. Art-12 also requires logs to be retained for a defined period; LI-06 does not independently specify retention — that is addressed in CA layer controls.",
+            "rationale": "EU AI Act Art-12 requires providers of high-risk AI systems to maintain logging capabilities that ensure traceability of system behavior and enable post-market monitoring. LI-06's immutable deployment log and version records directly support Art-12's traceability requirement. Art-12 also requires logs to be retained for a defined period; LI-06 does not independently specify retention — that is addressed in CR layer controls.",
             "uncovered_portion": "Art-12 specifies logging content requirements (inputs, outputs, period) beyond version transition records; inference-level logging is addressed in BH-05.",
             "source_version": "2024/1689",
             "reviewed_on": "2026-06-26",
@@ -2066,7 +2066,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "SR 26-2 S-5.1 requires ongoing monitoring to detect unauthorized or unexpected model changes and to ensure model behavior remains consistent with approved documentation. The version drift monitoring metrics in LI-06's monitoring_schema directly support S-5.1's change detection requirement. SR 26-2 is supervisory guidance, not binding law.",
-            "uncovered_portion": "S-5.1 also covers outcomes analysis and behavioral drift monitoring beyond artifact-hash monitoring; those are addressed in BH-03 and CA-01.",
+            "uncovered_portion": "S-5.1 also covers outcomes analysis and behavioral drift monitoring beyond artifact-hash monitoring; those are addressed in BH-03 and CR-01.",
             "source_version": "SR 26-2",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
@@ -2593,11 +2593,11 @@
           },
           {
             "id": "csa_aicm_v1",
-            "title": "Cloud Security Alliance AI Controls Matrix v1.0.3",
+            "title": "Cloud Security Alliance AI Controls Matrix v1.1",
             "authority": "Cloud Security Alliance (CSA)",
             "source_type": "industry-framework",
             "normative_force": "voluntary",
-            "version": "1.0.3",
+            "version": "1.1",
             "published_on": "2024-06-01",
             "retrieved_on": "2026-06-26",
             "canonical_url": "https://cloudsecurityalliance.org/research/topics/ai-controls-matrix",
@@ -2606,9 +2606,9 @@
           }
         ],
         "implementation": {
-          "pattern": "Build a license chain record for each model artifact that enumerates the licenses of all training datasets (per DT-layer records), the base model license, and any adapter or merged model licenses; perform automated compatibility analysis against the declared deployment use type (commercial, internal, research, distribution); block deployment when incompatibilities are found.",
+          "pattern": "Build a license chain record for each model artifact that enumerates the licenses of all training datasets (per TG-layer records), the base model license, and any adapter or merged model licenses; perform automated compatibility analysis against the declared deployment use type (commercial, internal, research, distribution); block deployment when incompatibilities are found.",
           "steps": [
-            "At model registration, generate a license chain record by aggregating: (a) dataset licenses from the DT-layer records referenced in LI-05; (b) the base model license from the LI-02 provenance record; (c) any adapter or merged model component licenses. Store all license identifiers using SPDX license identifiers where available.",
+            "At model registration, generate a license chain record by aggregating: (a) dataset licenses from the TG-layer records referenced in LI-05; (b) the base model license from the LI-02 provenance record; (c) any adapter or merged model component licenses. Store all license identifiers using SPDX license identifiers where available.",
             "Implement automated license compatibility analysis: for each license in the chain, evaluate compatibility against the declared deployment use type (commercial production, internal use, research, distribution/resale). Define clear compatibility rules for common conflicts (CC BY-NC in commercial deployment, CC BY-SA propagation to derivative models, no-derivatives clauses on base models with fine-tunes).",
             "Block deployment when the compatibility analysis identifies a hard incompatibility (e.g., non-commercial training data in commercial deployment, no-derivatives base model with a fine-tune intended for distribution). Log compatibility analysis results in the model registry entry.",
             "Require legal review sign-off for any deployment where the compatibility analysis returns ambiguous or contested results — particularly for novel license combinations or for licenses with AI-specific use-restriction clauses introduced after the license was written."
@@ -2638,9 +2638,9 @@
         },
         "lenses": {
           "engineering": {
-            "summary": "License chain tracking is a data quality problem that engineering must solve with tooling: automated aggregation of dataset licenses from the DT-layer catalog, base model licenses from the LI-02 provenance record, and compatibility analysis as a pipeline gate.",
+            "summary": "License chain tracking is a data quality problem that engineering must solve with tooling: automated aggregation of dataset licenses from the TG-layer catalog, base model licenses from the LI-02 provenance record, and compatibility analysis as a pipeline gate.",
             "actions": [
-              "Build automated license chain aggregation from DT-layer dataset records and LI-02 provenance records at model registration time",
+              "Build automated license chain aggregation from TG-layer dataset records and LI-02 provenance records at model registration time",
               "Integrate license compatibility analysis as a blocking gate in the deployment pipeline for declared deployment use types",
               "Implement SPDX license identifier normalization to enable automated compatibility reasoning"
             ],
@@ -2706,7 +2706,7 @@
           "target": "defined",
           "notes": "Most organizations have no automated license chain tracking for ML models. Training data and base model licenses are typically not aggregated into a machine-readable record. Achieving 'defined' requires automated aggregation, SPDX normalization, and a deployment-blocking compatibility gate."
         },
-        "coverage_note": "LI-08 covers license and IP governance at the model artifact level. Data consent and personal data rights obligations (distinct from license obligations) are addressed in the DT layer. Export control and national security restrictions on model distribution are out of scope for LI-08 and require separate legal review.",
+        "coverage_note": "LI-08 covers license and IP governance at the model artifact level. Data consent and personal data rights obligations (distinct from license obligations) are addressed in the TG layer. Export control and national security restrictions on model distribution are out of scope for LI-08 and require separate legal review.",
         "capability_risk": {
           "capability_level": "low",
           "access_mode": "api",
@@ -2790,7 +2790,7 @@
             "fit": "direct",
             "direction": "control-supports-requirement",
             "rationale": "CSA AICM GOV-02 addresses AI governance requirements for legal compliance and IP management. LI-08's license chain record and compatibility analysis directly implement GOV-02's IP management requirement for AI systems.",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -3104,7 +3104,7 @@
           "target": "defined",
           "notes": "Most organizations have IT change management covering code and infrastructure changes but do not apply it to system prompt, RAG corpus, or guardrail modifications. Achieving 'defined' requires a written taxonomy with thresholds, a mandatory classification gate, and an immutable change log."
         },
-        "coverage_note": "LI-09 covers the materiality determination and authorization gate. The specific re-evaluation and re-validation activities triggered for material changes are owned by EV-01 (pre-deployment evaluation), EV-06 (independent validation), and EV-07 (ongoing validation). Provider-version change detection is addressed in BH-10. For continuously-learning systems, the threshold between routine learning updates and material behavioral changes is defined in LI-09 and enforced by CA-03.",
+        "coverage_note": "LI-09 covers the materiality determination and authorization gate. The specific re-evaluation and re-validation activities triggered for material changes are owned by EV-01 (pre-deployment evaluation), EV-06 (independent validation), and EV-07 (ongoing validation). Provider-version change detection is addressed in BH-10. For continuously-learning systems, the threshold between routine learning updates and material behavioral changes is defined in LI-09 and enforced by CR-03.",
         "capability_risk": {
           "capability_level": "low",
           "access_mode": "api",
@@ -3410,7 +3410,7 @@
           "target": "defined",
           "notes": "Model retirement is the most commonly ungoverned lifecycle phase in enterprise AI programs. Most organizations retire models informally by stopping deployments without retirement workflows, dependent-system impact assessment, or evidence archiving. Achieving 'defined' requires an authorized retirement workflow and a durable evidence archive."
         },
-        "coverage_note": "LI-10 covers model retirement at the artifact and registry level. Evidence retention requirements for specific evidence types (evaluation reports, audit logs) are specified in the producing controls (EV-01, BH-05, CA-01). Long-term evidence archiving infrastructure is a cross-domain concern; LI-10 specifies the model governance requirements for what must be archived and for how long. Data deletion obligations arising from training data personal data rights (applicable when the training data is deleted but the model artifact must be retained) are a tension addressed in the DT layer.",
+        "coverage_note": "LI-10 covers model retirement at the artifact and registry level. Evidence retention requirements for specific evidence types (evaluation reports, audit logs) are specified in the producing controls (EV-01, BH-05, CR-01). Long-term evidence archiving infrastructure is a cross-domain concern; LI-10 specifies the model governance requirements for what must be archived and for how long. Data deletion obligations arising from training data personal data rights (applicable when the training data is deleted but the model artifact must be retained) are a tension addressed in the TG layer.",
         "capability_risk": {
           "capability_level": "low",
           "access_mode": "api",
@@ -3843,7 +3843,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Quality gate operationalizes Art. 10(2) data governance requirements for high-risk AI",
-            "uncovered_portion": "Art. 10(3) examination for biases is covered by DT-02",
+            "uncovered_portion": "Art. 10(3) examination for biases is covered by TG-02",
             "reviewed_on": "2026-06-26",
             "source_version": "2024/1689"
           },
@@ -3879,7 +3879,7 @@
             "fit": "partial",
             "direction": "control-mitigates-risk",
             "rationale": "Quality gates reduce poisoning attack surface by enforcing provenance and integrity checks",
-            "uncovered_portion": "Active adversarial poisoning detection is addressed in DT-04",
+            "uncovered_portion": "Active adversarial poisoning detection is addressed in TG-04",
             "reviewed_on": "2026-06-26",
             "source_version": "2025"
           },
@@ -3890,9 +3890,9 @@
             "direction": "control-supports-requirement",
             "rationale": "Data quality gates are a core AICM data management control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
             }
           },
@@ -3902,7 +3902,7 @@
             "fit": "partial",
             "direction": "control-mitigates-risk",
             "rationale": "Quality gates reduce the effectiveness of poisoning by requiring signed provenance chains",
-            "uncovered_portion": "Cryptographic integrity of individual shards is covered in DT-04",
+            "uncovered_portion": "Cryptographic integrity of individual shards is covered in TG-04",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
           }
@@ -4133,7 +4133,7 @@
           "current": "initial",
           "target": "defined"
         },
-        "coverage_note": "Covers training-data representativeness. Post-deployment subgroup performance monitoring is addressed in BH-05 and CA-01. Does not cover fairness of synthetic data augmentation — that requires separate treatment.",
+        "coverage_note": "Covers training-data representativeness. Post-deployment subgroup performance monitoring is addressed in BH-05 and CR-01. Does not cover fairness of synthetic data augmentation — that requires separate treatment.",
         "obligations": [
           {
             "id": "eu_ai_act_art10_3",
@@ -4274,9 +4274,9 @@
             "direction": "control-supports-requirement",
             "rationale": "Subgroup analysis is a core AICM fairness control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "GOV-04"
             }
           },
@@ -4286,7 +4286,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Representativeness analysis can surface adversarially injected demographic skew in training data",
-            "uncovered_portion": "Active poisoning detection is DT-04",
+            "uncovered_portion": "Active poisoning detection is TG-04",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
           }
@@ -4636,9 +4636,9 @@
             "direction": "control-supports-requirement",
             "rationale": "DRR is the primary data rights governance control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
             }
           },
@@ -4648,7 +4648,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Verifying data provenance and legal authority reduces supply chain compromise risk",
-            "uncovered_portion": "Active supply chain integrity checks are in DT-04 and DT-07",
+            "uncovered_portion": "Active supply chain integrity checks are in TG-04 and TG-07",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
           }
@@ -4780,7 +4780,7 @@
             "Verify stored hashes before every training run; hash mismatch blocks training with no bypass except CISO approval and a logged incident record.",
             "Implement chain-of-custody logging: record every transformation, merge, filter, and augmentation applied to each dataset with the identity of the executing process, inputs, outputs, and timestamp.",
             "Deploy adversarial input screening at ingestion: statistical anomaly detection for label flips, outlier injection, and distributional shifts in newly ingested data batches.",
-            "For externally sourced data (see also DT-07): verify vendor-provided checksums and independently re-derive hashes from source downloads; do not rely on CDN or mirror copies without re-verification.",
+            "For externally sourced data (see also TG-07): verify vendor-provided checksums and independently re-derive hashes from source downloads; do not rely on CDN or mirror copies without re-verification.",
             "Implement write-once / append-only storage for training datasets; restrict mutation access to privileged accounts subject to dual-approval workflow.",
             "Conduct periodic integrity audits: re-verify stored hashes against archives on a scheduled basis and on any suspicion of compromise.",
             "Define and exercise a poisoning incident response playbook: detection → quarantine → root cause → retraining assessment → recovery."
@@ -4972,9 +4972,9 @@
             "direction": "control-supports-requirement",
             "rationale": "Data integrity controls are a primary AICM supply chain security mechanism",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "SUP-01"
             }
           },
@@ -5213,9 +5213,9 @@
             "direction": "control-supports-requirement",
             "rationale": "Train/eval separation is a core AICM evaluation control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "EVA-01"
             }
           },
@@ -5225,7 +5225,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Detecting contamination provides signal that training data may have been adversarially manipulated",
-            "uncovered_portion": "Active poisoning attack detection is DT-04",
+            "uncovered_portion": "Active poisoning attack detection is TG-04",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
           }
@@ -5394,7 +5394,7 @@
             "Conduct a data necessity assessment: for each field/feature, document whether its inclusion in training is strictly necessary for model performance. Default to exclusion for PII and protected-class attributes.",
             "Apply de-identification to PII fields: direct identifiers removed or pseudonymized; quasi-identifiers assessed for re-identification risk (k-anonymity, l-diversity, or differential privacy metrics).",
             "For NLP/LLM training corpora: run PII scanning (names, addresses, SSNs, health data, financial account numbers) using automated scanners; manually review samples; define redaction or replacement policy.",
-            "When protected attributes (race, gender, disability status, etc.) are needed for bias auditing (DT-02, BH-05): store them in a fairness audit vault with role-based access control, logging, and time-bounded access grants.",
+            "When protected attributes (race, gender, disability status, etc.) are needed for bias auditing (TG-02, BH-05): store them in a fairness audit vault with role-based access control, logging, and time-bounded access grants.",
             "Implement synthetic data replacement for scenarios where real PII is currently used; document the synthetic generation approach and validate that synthetic data does not re-introduce re-identification risk.",
             "Apply EU AI Act Art. 10(5) carve-out: if protected attributes must be processed for bias detection and correction, document the explicit legal basis and implement additional safeguards.",
             "Run minimization review at each data refresh cycle; re-assess necessity as model capabilities and use cases evolve."
@@ -5591,9 +5591,9 @@
             "direction": "control-supports-requirement",
             "rationale": "Data minimization and necessity controls are core AICM privacy controls",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "PRV-01"
             }
           },
@@ -5757,7 +5757,7 @@
             "Conduct legal due diligence: review license terms for AI training permissions, sublicensing rights, attribution requirements, and any use-case restrictions.",
             "Pin to a specific versioned release; block training pipelines from pulling 'latest' from external sources without a new TPDR review.",
             "Establish update notification agreements with vendors; define SLAs for reviewing and approving dataset updates before they enter training.",
-            "Apply the same DT-04 integrity controls (hash pinning, chain-of-custody) to all third-party dataset shards without exception.",
+            "Apply the same TG-04 integrity controls (hash pinning, chain-of-custody) to all third-party dataset shards without exception.",
             "Monitor vendor security posture and supply chain integrity; subscribe to vendor security advisories.",
             "Conduct annual re-review of all active third-party dataset TPDR entries."
           ],
@@ -5774,12 +5774,12 @@
             "TPDR exists and has entries for all third-party datasets; entries include version pin, license terms, provenance claims, and security/legal review sign-offs. [ref:iso42001]",
             "Training pipelines are configured to pull only pinned versioned releases; 'latest' references are blocked at the pipeline gate. [ref:nist_ai_rmf]",
             "Update notification process is established with vendors; pipeline blocks updated dataset versions pending re-review. [ref:mitre_atlas_t0018]",
-            "DT-04 integrity controls (hash pinning, chain-of-custody) are applied to all third-party dataset shards without exception. [ref:mitre_atlas_t0018]"
+            "TG-04 integrity controls (hash pinning, chain-of-custody) are applied to all third-party dataset shards without exception. [ref:mitre_atlas_t0018]"
           ],
           "runtime_test": [
             "Attempt to add an unpinned ('latest') dataset reference to the training pipeline; verify the gate blocks submission. [ref:nist_ai_rmf]",
             "Simulate a dataset update from a vendor (new version with modified records); verify pipeline detects version mismatch and requires re-review before training. [ref:mitre_atlas_t0018]",
-            "Substitute a third-party dataset shard with a modified version and verify DT-04 hash verification catches the substitution. [ref:mitre_atlas_t0018]"
+            "Substitute a third-party dataset shard with a modified version and verify TG-04 hash verification catches the substitution. [ref:mitre_atlas_t0018]"
           ],
           "evidence": [
             "{'artifact': 'Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates.', 'ref': 'iso42001'} [ref:iso42001]",
@@ -5885,9 +5885,9 @@
             "direction": "control-supports-requirement",
             "rationale": "TPDR is the primary AICM third-party data supply chain control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "SUP-01"
             }
           },
@@ -6123,7 +6123,7 @@
           "current": "initial",
           "target": "defined"
         },
-        "coverage_note": "Covers training-data and training-artifact lifecycle. Inference log retention is addressed in the CA layer. Machine unlearning is an emerging technical area; this control documents the obligation and current technical limitations but does not specify implementation — see cross_domain pointer to privacy controls domain.",
+        "coverage_note": "Covers training-data and training-artifact lifecycle. Inference log retention is addressed in the CR layer. Machine unlearning is an emerging technical area; this control documents the obligation and current technical limitations but does not specify implementation — see cross_domain pointer to privacy controls domain.",
         "obligations": [
           {
             "id": "gdpr_art5_1e",
@@ -6285,9 +6285,9 @@
             "direction": "control-supports-requirement",
             "rationale": "Lifecycle policy is a core AICM data governance control",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3",
+            "source_version": "1.1",
             "source_locator": {
-              "section": "CSA AI Controls Matrix v1.0.3",
+              "section": "CSA AI Controls Matrix v1.1",
               "clause": "DM-01"
             }
           },
@@ -6326,7 +6326,7 @@
         "cross_domain": {
           "pointer": "privacy-controls:PC-08",
           "relationship": "machine_unlearning_technical_implementation",
-          "note": "Machine unlearning technical implementation standards are defined in the privacy-controls domain. DT-08 documents the obligation; PC-08 specifies the implementation pattern."
+          "note": "Machine unlearning technical implementation standards are defined in the privacy-controls domain. TG-08 documents the obligation; PC-08 specifies the implementation pattern."
         },
         "enforcement_point": "data-catalog and storage-management",
         "canonical_id": "apeiris://model/controls/TG-08",
@@ -6598,7 +6598,7 @@
             "rationale": "AI Control Matrix general governance controls align with the requirement for documented deployment decisions.",
             "uncovered_portion": "AICM does not specify technical gate enforcement or signing requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -6853,7 +6853,7 @@
             "rationale": "AICM EV-1 aligns with structured model evaluation before deployment.",
             "uncovered_portion": "AICM does not specify dimension isolation or pre-specified threshold requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -7166,7 +7166,7 @@
             "direction": "out-of-scope",
             "rationale": "AI Control Matrix does not currently include frontier dangerous capability assessment controls.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -7452,7 +7452,7 @@
             "rationale": "AICM adversarial testing controls align with structured red-team exercise requirements.",
             "uncovered_portion": "AICM does not specify threat model documentation or deployment gate integration.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -7680,13 +7680,13 @@
           "evaluation": "Own metric selection and rationale documentation; identify population group coverage gaps; ensure pre-specification of thresholds; document all trade-offs honestly including where fairness constraints conflict.",
           "red_team": "Probe for demographic disparities not covered by the selected metrics; test edge cases for specific subpopulations; attempt to identify proxy discrimination through correlated features.",
           "grc": "Map fairness evaluation to EU AI Act Art. 9(7) and Annex III; obtain legal review for protected characteristic decisions; track fairness disparity rates as governance KRIs; ensure impact assessment under ISO 42005:2025 for high-impact deployments.",
-          "mlops": "Surface disaggregated fairness metrics on model registry cards; alert on fairness metric drift in production (see CA layer); track metric trends across model versions."
+          "mlops": "Surface disaggregated fairness metrics on model registry cards; alert on fairness metric drift in production (see CR layer); track metric trends across model versions."
         },
         "maturity": {
           "current": "initial",
           "target": "defined"
         },
-        "coverage_note": "EV-05 covers pre-deployment fairness and bias evaluation. Ongoing fairness monitoring in production is covered in the CA layer. EV-09 determines which deployment risk classification triggers mandatory fairness evaluation.",
+        "coverage_note": "EV-05 covers pre-deployment fairness and bias evaluation. Ongoing fairness monitoring in production is covered in the CR layer. EV-09 determines which deployment risk classification triggers mandatory fairness evaluation.",
         "frameworks": [
           {
             "framework": "nist_rmf",
@@ -7756,7 +7756,7 @@
             "rationale": "AICM bias and fairness assessment controls align with structured fairness evaluation requirements.",
             "uncovered_portion": "AICM does not specify pre-specification of thresholds or metric trade-off documentation requirements.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -8038,7 +8038,7 @@
             "rationale": "AICM evaluation integrity controls align with reproducible design requirements.",
             "uncovered_portion": "AICM does not specify contamination screening or artifact signing.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -8375,7 +8375,7 @@
           "current": "initial",
           "target": "defined"
         },
-        "coverage_note": "EV-07 covers pre-deployment regression testing on updates. Ongoing production monitoring for regression is covered in the CA layer. EV-06 (reproducible evaluation design) provides the baseline design that makes regression comparison valid.",
+        "coverage_note": "EV-07 covers pre-deployment regression testing on updates. Ongoing production monitoring for regression is covered in the CR layer. EV-06 (reproducible evaluation design) provides the baseline design that makes regression comparison valid.",
         "frameworks": [
           {
             "framework": "nist_rmf",
@@ -8445,7 +8445,7 @@
             "rationale": "AICM regression testing controls align with structured regression evaluation on model updates.",
             "uncovered_portion": "AICM does not specify monitoring schema structure or safety regression zero-tolerance policy.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -8789,7 +8789,7 @@
             "rationale": "AICM separation of duties controls align with independent validation requirements.",
             "uncovered_portion": "AICM does not specify the organizational depth of independence required for effective challenge.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -9127,7 +9127,7 @@
             "rationale": "AICM risk classification controls align with the structured classification process.",
             "uncovered_portion": "AICM does not specify EU AI Act Article 6 / Annex III classification methodology.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -9387,7 +9387,7 @@
             "rationale": "AICM evaluation records controls align with content-addressed, signed evaluation result provenance requirements.",
             "uncovered_portion": "AICM does not specify tamper-evident log technology or provenance chain traversal tooling.",
             "reviewed_on": "2026-06-26",
-            "source_version": "1.0.3"
+            "source_version": "1.1"
           },
           {
             "framework": "mitre",
@@ -10070,7 +10070,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Art-14 mandates human oversight design for high-risk AI. The five-factor framework operationalizes Art-14(3) requirements.",
-            "uncovered_portion": "Art-14(4) self-monitoring provisions require additional instrumentation addressed in CA layer.",
+            "uncovered_portion": "Art-14(4) self-monitoring provisions require additional instrumentation addressed in CR layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "2024/1689"
           },
@@ -10761,7 +10761,7 @@
           "current": "initial",
           "target": "defined"
         },
-        "coverage_note": "Covers regulatory and legal review at the deployment gate. Ongoing regulatory compliance monitoring is covered in CA layer. Technical documentation requirements for EU AI Act Annex IV are covered in LI layer.",
+        "coverage_note": "Covers regulatory and legal review at the deployment gate. Ongoing regulatory compliance monitoring is covered in CR layer. Technical documentation requirements for EU AI Act Annex IV are covered in LI layer.",
         "profiles": [
           {
             "profile": "general-predictive-ml",
@@ -10806,7 +10806,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Art-43 requires conformity assessment; Art-47 requires EU Declaration of Conformity for high-risk AI before market placement.",
-            "uncovered_portion": "Post-market monitoring obligations addressed in CA layer.",
+            "uncovered_portion": "Post-market monitoring obligations addressed in CR layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "2024/1689"
           },
@@ -10816,7 +10816,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "SR 26-2 requires model validation documentation to be reviewed by model risk function before deployment.",
-            "uncovered_portion": "Ongoing monitoring and annual validation requirements addressed in CA layer.",
+            "uncovered_portion": "Ongoing monitoring and annual validation requirements addressed in CR layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "SR 26-2"
           },
@@ -10988,7 +10988,7 @@
           "current": "initial",
           "target": "defined"
         },
-        "coverage_note": "Covers governance and contractual aspects of third-party model risk. Technical supply chain security controls (artifact verification, SBOM, model card review) are covered in DT layer.",
+        "coverage_note": "Covers governance and contractual aspects of third-party model risk. Technical supply chain security controls (artifact verification, SBOM, model card review) are covered in TG layer.",
         "profiles": [
           {
             "profile": "general-predictive-ml",
@@ -11038,7 +11038,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "OWASP LLM03:2025 Supply Chain addresses third-party model risk through dependency management and vendor governance.",
-            "uncovered_portion": "Technical supply chain artifact verification addressed in DT layer.",
+            "uncovered_portion": "Technical supply chain artifact verification addressed in TG layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "2025"
           },
@@ -11048,7 +11048,7 @@
             "fit": "partial",
             "direction": "control-mitigates-risk",
             "rationale": "AML.T0018 Supply Chain Compromise is mitigated by vendor due diligence, version pinning, and behavioral monitoring.",
-            "uncovered_portion": "Technical artifact integrity checks addressed in DT layer.",
+            "uncovered_portion": "Technical artifact integrity checks addressed in TG layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
           },
@@ -11251,7 +11251,7 @@
           "current": "initial",
           "target": "defined"
         },
-        "coverage_note": "In the 15-control baseline. Covers escalation authority and decision rights. Incident detection and monitoring triggering escalation is covered in CA layer. Incident response procedures (what to do operationally) are distinct from escalation authority (who can authorize which actions).",
+        "coverage_note": "In the 15-control baseline. Covers escalation authority and decision rights. Incident detection and monitoring triggering escalation is covered in CR layer. Incident response procedures (what to do operationally) are distinct from escalation authority (who can authorize which actions).",
         "profiles": [
           {
             "profile": "general-predictive-ml",
@@ -11296,7 +11296,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "NIST AI RMF RESPOND function requires defined incident response roles and decision authorities.",
-            "uncovered_portion": "Technical incident response procedures addressed in CA layer.",
+            "uncovered_portion": "Technical incident response procedures addressed in CR layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "1.0"
           },
@@ -11306,7 +11306,7 @@
             "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Art-73 requires providers to notify market surveillance authorities of serious incidents — the escalation chain must ensure this notification obligation is met within the 15-day window.",
-            "uncovered_portion": "Post-incident corrective action requirements addressed in CA layer.",
+            "uncovered_portion": "Post-incident corrective action requirements addressed in CR layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "2024/1689"
           },
@@ -13908,7 +13908,7 @@
           "current": "none",
           "target": "defined"
         },
-        "coverage_note": "Covers post-deployment feedback loop integrity for RLHF, RLAIF, and online learning. Training-time data poisoning is addressed in the DT layer. Drift driven by feedback loop effects is addressed in BH-02. This control was moved from the training lifecycle to the behavior layer because the threat surface is active and continuous during deployment.",
+        "coverage_note": "Covers post-deployment feedback loop integrity for RLHF, RLAIF, and online learning. Training-time data poisoning is addressed in the TG layer. Drift driven by feedback loop effects is addressed in BH-02. This control was moved from the training lifecycle to the behavior layer because the threat surface is active and continuous during deployment.",
         "canonical_id": "apeiris://model/controls/BH-10",
         "monitoring_schema": {
           "metrics": [
@@ -14167,7 +14167,7 @@
         "coverage_note": "Aggregates signals from BH-01, BH-02, BH-03, EV-05, EV-06, EV-07, TG-05. Cross-references OA-04 escalation paths. Feeds CR-02 evidence archive.",
         "obligations": [
           {
-            "id": "OB-CA-01-EU",
+            "id": "OB-CR-01-EU",
             "framework": "eu_ai_act",
             "article": "Art-72",
             "requirement_summary": "Providers of high-risk AI systems must operate a post-market monitoring plan that actively collects, documents, and analyses data on the performance of AI systems throughout their lifetime.",
@@ -14182,7 +14182,7 @@
             ]
           },
           {
-            "id": "OB-CA-01-SR",
+            "id": "OB-CR-01-SR",
             "framework": "sr262",
             "article": "S-5.1",
             "requirement_summary": "Ongoing monitoring must track model performance outcomes, input distributions, and material changes in the use environment. Results must be reviewed at a frequency commensurate with model risk.",
@@ -14412,7 +14412,7 @@
         "coverage_note": "Receives artifacts from all 53 other controls. Is cited as the primary evidence store by LI-01, LI-06, EV-01, EV-03, EV-08, OA-07, BH-01, BH-09. Feeds CR-05 regulatory submissions.",
         "obligations": [
           {
-            "id": "OB-CA-02-EU",
+            "id": "OB-CR-02-EU",
             "framework": "eu_ai_act",
             "article": "Art-12",
             "requirement_summary": "Providers of high-risk AI systems shall keep logs generated automatically by the AI system to the extent such logs are under their control, for a period appropriate to the intended purpose of the AI system.",
@@ -14927,7 +14927,7 @@
         "coverage_note": "Triggered by CR-04. Notification submissions archived in CR-02. For EU high-risk systems, links to LI-04 model card and EV-03 dangerous capability registry as potential attachments. Cross-references OA-05 (human oversight escalation) for incident narrative.",
         "obligations": [
           {
-            "id": "OB-CA-05-EU",
+            "id": "OB-CR-05-EU",
             "framework": "eu_ai_act",
             "article": "Art-73",
             "requirement_summary": "Providers of high-risk AI systems shall report any serious incident to the market surveillance authorities of the Member States where that incident occurred without undue delay and, in any event, immediately after the provider has established a causal link.",
@@ -15150,7 +15150,7 @@
         "coverage_note": "Complements CR-01 (runtime signals). Feeds CR-04 (incident response) and CR-05 (regulatory notifications). Annual surveillance summary feeds LI-04 (model card). Third-party research findings may trigger CR-03 (re-validation).",
         "obligations": [
           {
-            "id": "OB-CA-06-EU",
+            "id": "OB-CR-06-EU",
             "framework": "eu_ai_act",
             "article": "Art-72",
             "requirement_summary": "Providers of high-risk AI systems shall establish and document a post-market monitoring system that actively collects, documents, and analyses data on the performance of high-risk AI systems throughout their lifetime.",
@@ -15594,11 +15594,11 @@
       },
       {
         "id": "csa_aicm_v1",
-        "title": "Cloud Security Alliance AI Controls Matrix v1.0.3",
+        "title": "Cloud Security Alliance AI Controls Matrix v1.1",
         "authority": "Cloud Security Alliance (CSA)",
         "source_type": "industry-framework",
         "normative_force": "voluntary",
-        "version": "1.0.3",
+        "version": "1.1",
         "published_on": "2024-06-01",
         "retrieved_on": "2026-06-26",
         "artifact_hash": null,
@@ -16667,7 +16667,7 @@
             "framework": "mitre",
             "requirement_id": "AML.T0018",
             "fit": "partial",
-            "uncovered_portion": "AML.T0018 mitigation requires backdoor detection during evaluation (EV-04) and training data verification (DT-04); LI-02 only enables impact scoping after a compromise is detected."
+            "uncovered_portion": "AML.T0018 mitigation requires backdoor detection during evaluation (EV-04) and training data verification (TG-04); LI-02 only enables impact scoping after a compromise is detected."
           }
         ]
       },
@@ -16718,7 +16718,7 @@
       },
       {
         "control_id": "LI-05",
-        "control_name": "Training Data Lineage Pointer — Link from Model Registry to DT-Layer Dataset...",
+        "control_name": "Training Data Lineage Pointer — Link from Model Registry to TG-Layer Dataset...",
         "layer": "LI",
         "gaps": [
           {
@@ -16757,7 +16757,7 @@
             "framework": "sr262",
             "requirement_id": "S-5.1",
             "fit": "partial",
-            "uncovered_portion": "S-5.1 also covers outcomes analysis and behavioral drift monitoring beyond artifact-hash monitoring; those are addressed in BH-03 and CA-01."
+            "uncovered_portion": "S-5.1 also covers outcomes analysis and behavioral drift monitoring beyond artifact-hash monitoring; those are addressed in BH-03 and CR-01."
           },
           {
             "framework": "mitre",
@@ -16859,19 +16859,19 @@
             "framework": "eu_ai_act",
             "requirement_id": "Art-10",
             "fit": "partial",
-            "uncovered_portion": "Art. 10(3) examination for biases is covered by DT-02"
+            "uncovered_portion": "Art. 10(3) examination for biases is covered by TG-02"
           },
           {
             "framework": "llm10",
             "requirement_id": "LLM04:2025",
             "fit": "partial",
-            "uncovered_portion": "Active adversarial poisoning detection is addressed in DT-04"
+            "uncovered_portion": "Active adversarial poisoning detection is addressed in TG-04"
           },
           {
             "framework": "mitre",
             "requirement_id": "AML.T0020",
             "fit": "partial",
-            "uncovered_portion": "Cryptographic integrity of individual shards is covered in DT-04"
+            "uncovered_portion": "Cryptographic integrity of individual shards is covered in TG-04"
           }
         ]
       },
@@ -16884,7 +16884,7 @@
             "framework": "mitre",
             "requirement_id": "AML.T0020",
             "fit": "partial",
-            "uncovered_portion": "Active poisoning detection is DT-04"
+            "uncovered_portion": "Active poisoning detection is TG-04"
           }
         ]
       },
@@ -16897,7 +16897,7 @@
             "framework": "mitre",
             "requirement_id": "AML.T0018",
             "fit": "partial",
-            "uncovered_portion": "Active supply chain integrity checks are in DT-04 and DT-07"
+            "uncovered_portion": "Active supply chain integrity checks are in TG-04 and TG-07"
           }
         ]
       },
@@ -16929,7 +16929,7 @@
             "framework": "mitre",
             "requirement_id": "AML.T0020",
             "fit": "partial",
-            "uncovered_portion": "Active poisoning attack detection is DT-04"
+            "uncovered_portion": "Active poisoning attack detection is TG-04"
           }
         ]
       },
@@ -17567,7 +17567,7 @@
             "framework": "eu_ai_act",
             "requirement_id": "Art-14",
             "fit": "partial",
-            "uncovered_portion": "Art-14(4) self-monitoring provisions require additional instrumentation addressed in CA layer."
+            "uncovered_portion": "Art-14(4) self-monitoring provisions require additional instrumentation addressed in CR layer."
           },
           {
             "framework": "nist_rmf",
@@ -17648,13 +17648,13 @@
             "framework": "eu_ai_act",
             "requirement_id": "Art-9",
             "fit": "partial",
-            "uncovered_portion": "Post-market monitoring obligations addressed in CA layer."
+            "uncovered_portion": "Post-market monitoring obligations addressed in CR layer."
           },
           {
             "framework": "sr262",
             "requirement_id": "S-2.1",
             "fit": "partial",
-            "uncovered_portion": "Ongoing monitoring and annual validation requirements addressed in CA layer."
+            "uncovered_portion": "Ongoing monitoring and annual validation requirements addressed in CR layer."
           },
           {
             "framework": "iso_42001",
@@ -17679,13 +17679,13 @@
             "framework": "llm10",
             "requirement_id": "LLM10:2025",
             "fit": "partial",
-            "uncovered_portion": "Technical supply chain artifact verification addressed in DT layer."
+            "uncovered_portion": "Technical supply chain artifact verification addressed in TG layer."
           },
           {
             "framework": "mitre",
             "requirement_id": "AML.T0043",
             "fit": "partial",
-            "uncovered_portion": "Technical artifact integrity checks addressed in DT layer."
+            "uncovered_portion": "Technical artifact integrity checks addressed in TG layer."
           },
           {
             "framework": "sr262",
@@ -17710,13 +17710,13 @@
             "framework": "nist_rmf",
             "requirement_id": "MANAGE-2.4",
             "fit": "partial",
-            "uncovered_portion": "Technical incident response procedures addressed in CA layer."
+            "uncovered_portion": "Technical incident response procedures addressed in CR layer."
           },
           {
             "framework": "eu_ai_act",
             "requirement_id": "Art-73",
             "fit": "partial",
-            "uncovered_portion": "Post-incident corrective action requirements addressed in CA layer."
+            "uncovered_portion": "Post-incident corrective action requirements addressed in CR layer."
           },
           {
             "framework": "iso_42001",
@@ -18663,10 +18663,10 @@
       {
         "control_id": "LI-05",
         "layer": "LI",
-        "name": "Training Data Lineage Pointer — Link from Model Registry to DT-Layer Dataset...",
-        "pattern": "At model registration, require one or more DT-layer dataset record IDs as mandatory foreign-key references in the model registry entry; validate that each referenced dataset record exists and is current; reject registration if any reference is invalid or if the dataset record has been flagged for disqualifying issues.",
+        "name": "Training Data Lineage Pointer — Link from Model Registry to TG-Layer Dataset...",
+        "pattern": "At model registration, require one or more TG-layer dataset record IDs as mandatory foreign-key references in the model registry entry; validate that each referenced dataset record exists and is current; reject registration if any reference is invalid or if the dataset record has been flagged for disqualifying issues.",
         "anti_patterns": [
-          "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative DT-layer record — free text cannot be queried when a dataset is recalled.",
+          "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative TG-layer record — free text cannot be queried when a dataset is recalled.",
           "Using a dataset name or filename as the reference rather than a stable dataset record ID — names and filenames are not unique across versions and can refer to different dataset contents.",
           "Omitting fine-tuning dataset references and recording only the pre-training corpus — incomplete references mislead independent validators about the full data inputs."
         ],
@@ -18715,7 +18715,7 @@
         "control_id": "LI-08",
         "layer": "LI",
         "name": "License and IP Governance — Dataset License Tracking, Derivative Work...",
-        "pattern": "Build a license chain record for each model artifact that enumerates the licenses of all training datasets (per DT-layer records), the base model license, and any adapter or merged model licenses; perform automated compatibility analysis against the declared deployment use type (commercial, internal, research, distribution); block deployment when incompatibilities are found.",
+        "pattern": "Build a license chain record for each model artifact that enumerates the licenses of all training datasets (per TG-layer records), the base model license, and any adapter or merged model licenses; perform automated compatibility analysis against the declared deployment use type (commercial, internal, research, distribution); block deployment when incompatibilities are found.",
         "anti_patterns": [
           "Assuming that because a dataset is publicly available it is freely usable for commercial training — many open datasets carry non-commercial, ShareAlike, or research-only restrictions that are violated by commercial deployment.",
           "Performing license review only for the final model artifact and ignoring the base model license chain — ShareAlike and derivative work restrictions propagate from base models to all fine-tunes and derivatives.",

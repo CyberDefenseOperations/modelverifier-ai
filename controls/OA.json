@@ -597,7 +597,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Art-14 mandates human oversight design for high-risk AI. The five-factor framework operationalizes Art-14(3) requirements.",
-        "uncovered_portion": "Art-14(4) self-monitoring provisions require additional instrumentation addressed in CA layer.",
+        "uncovered_portion": "Art-14(4) self-monitoring provisions require additional instrumentation addressed in CR layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689"
       },
@@ -1291,7 +1291,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers regulatory and legal review at the deployment gate. Ongoing regulatory compliance monitoring is covered in CA layer. Technical documentation requirements for EU AI Act Annex IV are covered in LI layer.",
+    "coverage_note": "Covers regulatory and legal review at the deployment gate. Ongoing regulatory compliance monitoring is covered in CR layer. Technical documentation requirements for EU AI Act Annex IV are covered in LI layer.",
     "profiles": [
       {
         "profile": "general-predictive-ml",
@@ -1336,7 +1336,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Art-43 requires conformity assessment; Art-47 requires EU Declaration of Conformity for high-risk AI before market placement.",
-        "uncovered_portion": "Post-market monitoring obligations addressed in CA layer.",
+        "uncovered_portion": "Post-market monitoring obligations addressed in CR layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689"
       },
@@ -1346,7 +1346,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "SR 26-2 requires model validation documentation to be reviewed by model risk function before deployment.",
-        "uncovered_portion": "Ongoing monitoring and annual validation requirements addressed in CA layer.",
+        "uncovered_portion": "Ongoing monitoring and annual validation requirements addressed in CR layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
       },
@@ -1519,7 +1519,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers governance and contractual aspects of third-party model risk. Technical supply chain security controls (artifact verification, SBOM, model card review) are covered in DT layer.",
+    "coverage_note": "Covers governance and contractual aspects of third-party model risk. Technical supply chain security controls (artifact verification, SBOM, model card review) are covered in TG layer.",
     "profiles": [
       {
         "profile": "general-predictive-ml",
@@ -1569,7 +1569,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "OWASP LLM03:2025 Supply Chain addresses third-party model risk through dependency management and vendor governance.",
-        "uncovered_portion": "Technical supply chain artifact verification addressed in DT layer.",
+        "uncovered_portion": "Technical supply chain artifact verification addressed in TG layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2025"
       },
@@ -1579,7 +1579,7 @@
         "fit": "partial",
         "direction": "control-mitigates-risk",
         "rationale": "AML.T0018 Supply Chain Compromise is mitigated by vendor due diligence, version pinning, and behavioral monitoring.",
-        "uncovered_portion": "Technical artifact integrity checks addressed in DT layer.",
+        "uncovered_portion": "Technical artifact integrity checks addressed in TG layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
       },
@@ -1783,7 +1783,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "In the 15-control baseline. Covers escalation authority and decision rights. Incident detection and monitoring triggering escalation is covered in CA layer. Incident response procedures (what to do operationally) are distinct from escalation authority (who can authorize which actions).",
+    "coverage_note": "In the 15-control baseline. Covers escalation authority and decision rights. Incident detection and monitoring triggering escalation is covered in CR layer. Incident response procedures (what to do operationally) are distinct from escalation authority (who can authorize which actions).",
     "profiles": [
       {
         "profile": "general-predictive-ml",
@@ -1828,7 +1828,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "NIST AI RMF RESPOND function requires defined incident response roles and decision authorities.",
-        "uncovered_portion": "Technical incident response procedures addressed in CA layer.",
+        "uncovered_portion": "Technical incident response procedures addressed in CR layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "1.0"
       },
@@ -1838,7 +1838,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Art-73 requires providers to notify market surveillance authorities of serious incidents \u2014 the escalation chain must ensure this notification obligation is met within the 15-day window.",
-        "uncovered_portion": "Post-incident corrective action requirements addressed in CA layer.",
+        "uncovered_portion": "Post-incident corrective action requirements addressed in CR layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689"
       },

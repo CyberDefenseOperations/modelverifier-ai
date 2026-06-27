@@ -82,7 +82,7 @@
         "description": "Four core functions: GOVERN (culture, policies, processes), MAP (context and categorization), MEASURE (analysis and assessment), MANAGE (risk treatment and improvement). Each function has numbered categories (e.g., GOVERN-1) and subcategories (e.g., GOVERN-1.1).",
         "functions": ["GOVERN", "MAP", "MEASURE", "MANAGE"]
       },
-      "coverage_guidance": "Strong alignment with OA (governance), EV (measurement), and CA (manage/improve) layers. MAP aligns to LI and EV-09 (applicability). MEASURE aligns to monitoring and evaluation controls. MANAGE aligns to incident response and continuous improvement.",
+      "coverage_guidance": "Strong alignment with OA (governance), EV (measurement), and CR (manage/improve) layers. MAP aligns to LI and EV-09 (applicability). MEASURE aligns to monitoring and evaluation controls. MANAGE aligns to incident response and continuous improvement.",
       "mapping_caveats": [
         "NIST AI RMF is voluntary and not a compliance certification — do not imply mandatory compliance in mapping rationale.",
         "The Playbook subcategories are action-oriented guidance, not normative requirements — map to core framework categories when in doubt.",
@@ -285,7 +285,7 @@
         "description": "Main sections covering: model definition and inventory, model risk taxonomy, model development and implementation, validation (conceptual soundness, ongoing monitoring, outcomes analysis), governance and controls. Appendices on specific model types and AI/ML considerations.",
         "key_sections": ["S-1 (Model Definition)", "S-2 (Model Development)", "S-3 (Model Validation)", "S-4 (Governance)", "S-5 (Ongoing Monitoring)", "S-6 (AI/ML Considerations)"]
       },
-      "coverage_guidance": "Strong alignment with LI (model inventory), EV (independent validation), OA (governance), BH (ongoing monitoring), CA (outcomes analysis). S-3 (validation) aligns closely to EV-01, EV-06, EV-07, EV-09. S-4 (governance) aligns to OA-01, OA-07.",
+      "coverage_guidance": "Strong alignment with LI (model inventory), EV (independent validation), OA (governance), BH (ongoing monitoring), CR (outcomes analysis). S-3 (validation) aligns closely to EV-01, EV-06, EV-07, EV-09. S-4 (governance) aligns to OA-01, OA-07.",
       "mapping_caveats": [
         "CRITICAL: SR 26-2 is supervisory guidance, not binding law. Always set legal_status: 'guidance' in obligation objects. Do not represent compliance with SR 26-2 as legal compliance.",
         "SR 26-2 supersedes SR 11-7 and SR 21-8 — do not cite the superseded letters as sources.",
@@ -333,7 +333,7 @@
         "C9.1", "C9.2", "C9.3",
         "C10.1", "C10.2", "C10.3"
       ],
-      "coverage_guidance": "C1 aligns to LI and OA. C2 aligns to TG. C3-C4 align to DT and EV. C5 aligns to EV. C6 aligns to BH. C7 aligns to BH and CR. C8 aligns to EV-04 (red team), BH-04, and cross-domain security controls. C9 aligns to TG-03. C10 aligns to OA and LI-09.",
+      "coverage_guidance": "C1 aligns to LI and OA. C2 aligns to TG. C3-C4 align to TG and EV. C5 aligns to EV. C6 aligns to BH. C7 aligns to BH and CR. C8 aligns to EV-04 (red team), BH-04, and cross-domain security controls. C9 aligns to TG-03. C10 aligns to OA and LI-09.",
       "mapping_caveats": [
         "CRITICAL LICENSE: AISVS is CC BY-SA 4.0 (ShareAlike). If this control matrix is published under a non-SA license (e.g., CC BY-NC 4.0), requirement text must NOT be copied verbatim — map by requirement_id and independent rationale only.",
         "Pin source_version to a commit hash since there is no formal release tag at initial authoring time.",
@@ -380,7 +380,7 @@
         "LLM09:2025": "Misinformation",
         "LLM10:2025": "Unbounded Consumption"
       },
-      "coverage_guidance": "LLM01 aligns to EV-04 (injection resistance evaluation) — enforcement owned by securitycontrols.ai. LLM03 aligns to DT supply chain controls. LLM04 aligns to TG-04 (data poisoning). LLM06 aligns to OA-04 (autonomy and agency controls). LLM09 aligns to EV-02 (misinformation / factual accuracy evaluation). LLM10 aligns to BH rate and cost controls.",
+      "coverage_guidance": "LLM01 aligns to EV-04 (injection resistance evaluation) — enforcement owned by securitycontrols.ai. LLM03 aligns to TG supply chain controls. LLM04 aligns to TG-04 (data poisoning). LLM06 aligns to OA-04 (autonomy and agency controls). LLM09 aligns to EV-02 (misinformation / factual accuracy evaluation). LLM10 aligns to BH rate and cost controls.",
       "mapping_caveats": [
         "CRITICAL: LLM09:2025 is Misinformation, not concept drift or statistical distribution shift. Do not map performance drift controls to LLM09.",
         "CRITICAL: LLM03:2025 is Supply Chain, not Training Data Poisoning. Training data poisoning is LLM04:2025.",

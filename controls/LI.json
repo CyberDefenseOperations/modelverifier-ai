@@ -445,7 +445,7 @@
     "implementation": {
       "pattern": "Record a structured provenance graph for every registered model artifact: document the base model (with artifact hash and provider version), each fine-tuning step, any merge operations with constituent model hashes, and all attached adapters (LoRA, prefix tuning, etc.) \u2014 link the provenance record to the LI-01 registry entry.",
       "steps": [
-        "For every model artifact, require a provenance manifest at registration time listing: base model ID and artifact hash, provider and version, fine-tuning dataset reference (pointer to DT-layer record), fine-tuning configuration, and any merge contributors with their hashes.",
+        "For every model artifact, require a provenance manifest at registration time listing: base model ID and artifact hash, provider and version, fine-tuning dataset reference (pointer to TG-layer record), fine-tuning configuration, and any merge contributors with their hashes.",
         "Track LoRA adapter and other PEFT component lineage separately: record adapter source, version, base model compatibility hash, and purpose alongside the main model registry entry.",
         "For merged models (e.g., model soup, SLERP, TIES merging), enumerate all constituent model artifact hashes and merge parameters in the provenance record so the merge is reproducible and auditable.",
         "Automate provenance graph propagation: when a derived model is registered, automatically copy base-model provenance entries and append the derivation step rather than requiring manual re-entry."
@@ -546,7 +546,7 @@
       "target": "defined",
       "notes": "Most organizations track immediate parent models in training logs but lack structured, queryable provenance graphs covering adapters and merge contributors. Achieving 'defined' requires machine-readable provenance manifests enforced at registration."
     },
-    "coverage_note": "LI-02 covers model artifact lineage. Training data lineage (pointer to DT-layer dataset records) is covered by LI-05. License and IP obligations inherited through the provenance chain are addressed in LI-08. Supply-chain integrity verification of third-party base models is covered by LI-03.",
+    "coverage_note": "LI-02 covers model artifact lineage. Training data lineage (pointer to TG-layer dataset records) is covered by LI-05. License and IP obligations inherited through the provenance chain are addressed in LI-08. Supply-chain integrity verification of third-party base models is covered by LI-03.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",
@@ -629,7 +629,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "MITRE ATLAS AML.T0018 (Backdoor ML Model) describes adversaries embedding trigger-activated behaviors into a model artifact that propagate to downstream fine-tunes. A queryable provenance graph enables organizations to identify all models derived from a suspected base model and initiate targeted re-evaluation. LI-02 is a detective and scoping control; mitigation of active backdoor injection requires DT and EV layer controls.",
-        "uncovered_portion": "AML.T0018 mitigation requires backdoor detection during evaluation (EV-04) and training data verification (DT-04); LI-02 only enables impact scoping after a compromise is detected.",
+        "uncovered_portion": "AML.T0018 mitigation requires backdoor detection during evaluation (EV-04) and training data verification (TG-04); LI-02 only enables impact scoping after a compromise is detected.",
         "source_version": "5.6.0",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -846,7 +846,7 @@
       "target": "defined",
       "notes": "Most organizations perform informal checksum verification for some models but lack formal mSBOM generation, systematic coverage of all third-party models, and automated pipeline gates. Achieving 'defined' requires automated verification and mSBOM generation for all third-party acquisitions."
     },
-    "coverage_note": "LI-03 covers supply chain integrity for model artifacts. Training data supply chain verification is covered by DT-01. License obligations identified in the mSBOM are governed by LI-08. Runtime integrity monitoring (detecting post-deployment artifact changes) is a cross-domain concern addressed in collaboration with securitycontrols.ai.",
+    "coverage_note": "LI-03 covers supply chain integrity for model artifacts. Training data supply chain verification is covered by TG-01. License obligations identified in the mSBOM are governed by LI-08. Runtime integrity monitoring (detecting post-deployment artifact changes) is a cross-domain concern addressed in collaboration with securitycontrols.ai.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",
@@ -1346,7 +1346,7 @@
     "id": "LI-05",
     "layer": "LI",
     "plane": "control",
-    "name": "Training Data Lineage Pointer \u2014 Link from Model Registry to DT-Layer Dataset...",
+    "name": "Training Data Lineage Pointer \u2014 Link from Model Registry to TG-Layer Dataset...",
     "plain": "Each registered model includes a reference to the official dataset record that documents what training data was used, so that data governance and model governance are connected rather than siloed.",
     "threat": {
       "tags": [
@@ -1435,71 +1435,71 @@
       }
     ],
     "implementation": {
-      "pattern": "At model registration, require one or more DT-layer dataset record IDs as mandatory foreign-key references in the model registry entry; validate that each referenced dataset record exists and is current; reject registration if any reference is invalid or if the dataset record has been flagged for disqualifying issues.",
+      "pattern": "At model registration, require one or more TG-layer dataset record IDs as mandatory foreign-key references in the model registry entry; validate that each referenced dataset record exists and is current; reject registration if any reference is invalid or if the dataset record has been flagged for disqualifying issues.",
       "steps": [
-        "Define a structured training-data reference field in the model registry schema that accepts one or more DT-layer dataset record IDs (covering pre-training corpus, fine-tuning dataset, RLHF preference dataset separately if applicable). The field is mandatory and must be non-empty for all non-API-hosted models.",
+        "Define a structured training-data reference field in the model registry schema that accepts one or more TG-layer dataset record IDs (covering pre-training corpus, fine-tuning dataset, RLHF preference dataset separately if applicable). The field is mandatory and must be non-empty for all non-API-hosted models.",
         "At registration time, resolve each dataset record reference and validate: the record exists, its status is not flagged as disqualified or recalled, and the dataset version matches the version used during training. Reject registration if any reference is invalid.",
         "For third-party hosted models where training data details are unknown, document the limitation explicitly: record the provider, provider-stated training data description, and the knowledge gap \u2014 do not leave the field empty or omit it.",
-        "When a DT-layer dataset record is subsequently flagged for contamination, consent withdrawal, or data quality failure, trigger an automated alert to all model registry entries that reference that dataset record to initiate impact assessment."
+        "When a TG-layer dataset record is subsequently flagged for contamination, consent withdrawal, or data quality failure, trigger an automated alert to all model registry entries that reference that dataset record to initiate impact assessment."
       ],
       "anti_patterns": [
-        "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative DT-layer record \u2014 free text cannot be queried when a dataset is recalled.",
+        "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative TG-layer record \u2014 free text cannot be queried when a dataset is recalled.",
         "Using a dataset name or filename as the reference rather than a stable dataset record ID \u2014 names and filenames are not unique across versions and can refer to different dataset contents.",
         "Omitting fine-tuning dataset references and recording only the pre-training corpus \u2014 incomplete references mislead independent validators about the full data inputs."
       ]
     },
     "validation": {
       "design_check": [
-        "Confirm that the model registry schema includes a structured training-data reference field that accepts DT-layer record IDs and that the field is mandatory and validated at registration [ref:sr_26_2].",
-        "Verify that the model registry enforces referential integrity: a model cannot be registered with a dataset reference that does not resolve to a valid, non-flagged DT-layer record [ref:iso_42001_2023].",
-        "Review the dataset recall alert mechanism: confirm that when a DT-layer dataset record status changes to flagged or recalled, all model registry entries referencing that record receive an automated impact alert [ref:nist_rmf_100_1]."
+        "Confirm that the model registry schema includes a structured training-data reference field that accepts TG-layer record IDs and that the field is mandatory and validated at registration [ref:sr_26_2].",
+        "Verify that the model registry enforces referential integrity: a model cannot be registered with a dataset reference that does not resolve to a valid, non-flagged TG-layer record [ref:iso_42001_2023].",
+        "Review the dataset recall alert mechanism: confirm that when a TG-layer dataset record status changes to flagged or recalled, all model registry entries referencing that record receive an automated impact alert [ref:nist_rmf_100_1]."
       ],
       "runtime_test": [
-        "Attempt to register a model with a dataset reference pointing to a non-existent DT-layer record ID; confirm the pipeline blocks registration [ref:sr_26_2].",
-        "Manually flag a DT-layer dataset record as recalled and verify that an automated alert is generated to all model registry entries referencing that dataset within the defined SLA [ref:nist_rmf_100_1].",
-        "For a production model, trace the training-data pointer to the DT-layer record and verify the record is accessible to the independent validation team without escalation [ref:owasp_aisvs_v1]."
+        "Attempt to register a model with a dataset reference pointing to a non-existent TG-layer record ID; confirm the pipeline blocks registration [ref:sr_26_2].",
+        "Manually flag a TG-layer dataset record as recalled and verify that an automated alert is generated to all model registry entries referencing that dataset within the defined SLA [ref:nist_rmf_100_1].",
+        "For a production model, trace the training-data pointer to the TG-layer record and verify the record is accessible to the independent validation team without escalation [ref:owasp_aisvs_v1]."
       ],
       "evidence": [
-        "model:registry-entry \u2014 model registry entry with one or more DT-layer dataset record ID references, validated at registration time [unverified]",
+        "model:registry-entry \u2014 model registry entry with one or more TG-layer dataset record ID references, validated at registration time [unverified]",
         "model:dataset-reference-validation-log \u2014 automated validation log confirming each dataset reference resolved to a valid, non-flagged record at registration [unverified]",
         "model:dataset-recall-alert-record \u2014 evidence that dataset recall alerting is operational, showing an alert sent to affected model registry entries for a test or real recall event [unverified]"
       ]
     },
     "lenses": {
       "engineering": {
-        "summary": "The training-data pointer is a foreign-key constraint between the model registry and the DT-layer dataset catalog. Engineering must implement it as a schema-level constraint with referential integrity enforcement \u2014 not as a documentation convention.",
+        "summary": "The training-data pointer is a foreign-key constraint between the model registry and the TG-layer dataset catalog. Engineering must implement it as a schema-level constraint with referential integrity enforcement \u2014 not as a documentation convention.",
         "actions": [
           "Implement the training-data reference field as a foreign key with registry-level referential integrity validation",
           "Build the dataset recall alert notification mechanism to query model registry references when a dataset record status changes",
-          "Extend the model registration API to accept and validate one or more DT-layer record IDs for each training phase (pre-training, fine-tuning, RLHF)"
+          "Extend the model registration API to accept and validate one or more TG-layer record IDs for each training phase (pre-training, fine-tuning, RLHF)"
         ],
         "tools": [
           "Model registry with foreign-key support",
-          "DT-layer dataset catalog with webhook or event-based status change notifications",
+          "TG-layer dataset catalog with webhook or event-based status change notifications",
           "Apache Atlas or similar data governance catalog"
         ],
         "failure_signals": [
           "Training data is documented only as free text in the model card \u2014 no machine-resolvable reference",
-          "Model registry has no connection to the DT-layer dataset catalog",
+          "Model registry has no connection to the TG-layer dataset catalog",
           "No alerting mechanism when a training dataset is retroactively flagged"
         ]
       },
       "evaluation": {
         "summary": "Independent validation (SR 26-2 S-3) requires access to training data inputs. The training-data pointer enables validators to retrieve the authoritative dataset record without relying on developer-provided summaries.",
         "actions": [
-          "Use the training-data pointer to retrieve the DT-layer record during independent validation scoping",
+          "Use the training-data pointer to retrieve the TG-layer record during independent validation scoping",
           "Verify that the dataset record referenced matches the training data described in the model card (LI-04 section 6)",
           "Flag any model where the training-data pointer is absent, invalid, or acknowledges unknown provenance as having incomplete validation coverage"
         ],
         "failure_signals": [
           "Independent validation report cannot trace training data inputs to an authoritative record",
-          "Training data described in model card does not match the DT-layer record referenced in the registry"
+          "Training data described in model card does not match the TG-layer record referenced in the registry"
         ]
       },
       "red_team": {
         "summary": "The training-data pointer enables red teams to assess training data attack surface: knowing the specific dataset version and source, red teams can research known contamination, biases, or adversarial examples in that dataset that may have influenced model behavior.",
         "actions": [
-          "Retrieve the training-data pointer and DT-layer record before red-team scoping to identify known dataset quality issues or contamination events",
+          "Retrieve the training-data pointer and TG-layer record before red-team scoping to identify known dataset quality issues or contamination events",
           "Test whether the model exhibits behaviors consistent with identified dataset artifacts or known contamination in the referenced training data"
         ],
         "failure_signals": [
@@ -1511,7 +1511,7 @@
         "summary": "SR 26-2 requires model validators to assess training data inputs. The training-data pointer is the mechanism that makes this assessment possible without organizational barriers. For EU AI Act in-scope systems, Art-10 data governance requirements apply to the training data \u2014 the pointer creates the audit linkage between model documentation and data governance records.",
         "actions": [
           "Confirm that all models subject to SR 26-2 independent validation have valid training-data pointers accessible to the validation team",
-          "Verify that EU AI Act in-scope systems have training-data pointers linking to DT-layer records that satisfy Art-10 data governance documentation",
+          "Verify that EU AI Act in-scope systems have training-data pointers linking to TG-layer records that satisfy Art-10 data governance documentation",
           "Establish a process to review all model registry entries whose training-data pointers reference datasets that have been flagged or recalled since the model was deployed"
         ],
         "failure_signals": [
@@ -1523,7 +1523,7 @@
         "summary": "MLOps teams use the training-data pointer to scope retraining: understanding the current training dataset version enables a determination of whether a proposed dataset update constitutes a material change (LI-09) requiring a new authorization cycle.",
         "actions": [
           "Reference the training-data pointer when evaluating whether a dataset update triggers a material-change determination under LI-09",
-          "Update the training-data pointer when a model is retrained on a new dataset version and confirm the new pointer resolves to a valid DT-layer record"
+          "Update the training-data pointer when a model is retrained on a new dataset version and confirm the new pointer resolves to a valid TG-layer record"
         ],
         "failure_signals": [
           "Model retrained on updated data but registry training-data pointer still references the prior dataset version",
@@ -1536,7 +1536,7 @@
       "target": "defined",
       "notes": "Most organizations maintain model registries and dataset catalogs as separate, unconnected systems. Achieving 'defined' requires a schema-level foreign key from the model registry to the dataset catalog with automated referential integrity enforcement."
     },
-    "coverage_note": "LI-05 requires only a pointer \u2014 a machine-resolvable reference \u2014 to the DT-layer dataset record. It does not require the training data itself to be present in the model registry or to be reproduced here. The substantive content of training data governance (quality, consent, bias screening, contamination detection) is owned by the DT layer. LI-05 is the linkage control that ensures model governance and data governance are connected.",
+    "coverage_note": "LI-05 requires only a pointer \u2014 a machine-resolvable reference \u2014 to the TG-layer dataset record. It does not require the training data itself to be present in the model registry or to be reproduced here. The substantive content of training data governance (quality, consent, bias screening, contamination detection) is owned by the TG layer. LI-05 is the linkage control that ensures model governance and data governance are connected.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",
@@ -1616,7 +1616,7 @@
         "requirement_id": "AML.T0020",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "MITRE ATLAS AML.T0020 (Poison Training Data) is adjacently relevant: the training-data pointer enables impact scoping when a dataset is found to have been poisoned \u2014 all models trained on the contaminated dataset can be identified quickly. LI-05 is a scoping and traceability control, not a poisoning prevention control. Prevention is owned by DT-04.",
+        "rationale": "MITRE ATLAS AML.T0020 (Poison Training Data) is adjacently relevant: the training-data pointer enables impact scoping when a dataset is found to have been poisoned \u2014 all models trained on the contaminated dataset can be identified quickly. LI-05 is a scoping and traceability control, not a poisoning prevention control. Prevention is owned by TG-04.",
         "source_version": "5.6.0",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -1960,7 +1960,7 @@
         "requirement_id": "Art-12",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art-12 requires providers of high-risk AI systems to maintain logging capabilities that ensure traceability of system behavior and enable post-market monitoring. LI-06's immutable deployment log and version records directly support Art-12's traceability requirement. Art-12 also requires logs to be retained for a defined period; LI-06 does not independently specify retention \u2014 that is addressed in CA layer controls.",
+        "rationale": "EU AI Act Art-12 requires providers of high-risk AI systems to maintain logging capabilities that ensure traceability of system behavior and enable post-market monitoring. LI-06's immutable deployment log and version records directly support Art-12's traceability requirement. Art-12 also requires logs to be retained for a defined period; LI-06 does not independently specify retention \u2014 that is addressed in CR layer controls.",
         "uncovered_portion": "Art-12 specifies logging content requirements (inputs, outputs, period) beyond version transition records; inference-level logging is addressed in BH-05.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -1998,7 +1998,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "SR 26-2 S-5.1 requires ongoing monitoring to detect unauthorized or unexpected model changes and to ensure model behavior remains consistent with approved documentation. The version drift monitoring metrics in LI-06's monitoring_schema directly support S-5.1's change detection requirement. SR 26-2 is supervisory guidance, not binding law.",
-        "uncovered_portion": "S-5.1 also covers outcomes analysis and behavioral drift monitoring beyond artifact-hash monitoring; those are addressed in BH-03 and CA-01.",
+        "uncovered_portion": "S-5.1 also covers outcomes analysis and behavioral drift monitoring beyond artifact-hash monitoring; those are addressed in BH-03 and CR-01.",
         "source_version": "SR 26-2",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -2527,11 +2527,11 @@
       },
       {
         "id": "csa_aicm_v1",
-        "title": "Cloud Security Alliance AI Controls Matrix v1.0.3",
+        "title": "Cloud Security Alliance AI Controls Matrix v1.1",
         "authority": "Cloud Security Alliance (CSA)",
         "source_type": "industry-framework",
         "normative_force": "voluntary",
-        "version": "1.0.3",
+        "version": "1.1",
         "published_on": "2024-06-01",
         "retrieved_on": "2026-06-26",
         "canonical_url": "https://cloudsecurityalliance.org/research/topics/ai-controls-matrix",
@@ -2540,9 +2540,9 @@
       }
     ],
     "implementation": {
-      "pattern": "Build a license chain record for each model artifact that enumerates the licenses of all training datasets (per DT-layer records), the base model license, and any adapter or merged model licenses; perform automated compatibility analysis against the declared deployment use type (commercial, internal, research, distribution); block deployment when incompatibilities are found.",
+      "pattern": "Build a license chain record for each model artifact that enumerates the licenses of all training datasets (per TG-layer records), the base model license, and any adapter or merged model licenses; perform automated compatibility analysis against the declared deployment use type (commercial, internal, research, distribution); block deployment when incompatibilities are found.",
       "steps": [
-        "At model registration, generate a license chain record by aggregating: (a) dataset licenses from the DT-layer records referenced in LI-05; (b) the base model license from the LI-02 provenance record; (c) any adapter or merged model component licenses. Store all license identifiers using SPDX license identifiers where available.",
+        "At model registration, generate a license chain record by aggregating: (a) dataset licenses from the TG-layer records referenced in LI-05; (b) the base model license from the LI-02 provenance record; (c) any adapter or merged model component licenses. Store all license identifiers using SPDX license identifiers where available.",
         "Implement automated license compatibility analysis: for each license in the chain, evaluate compatibility against the declared deployment use type (commercial production, internal use, research, distribution/resale). Define clear compatibility rules for common conflicts (CC BY-NC in commercial deployment, CC BY-SA propagation to derivative models, no-derivatives clauses on base models with fine-tunes).",
         "Block deployment when the compatibility analysis identifies a hard incompatibility (e.g., non-commercial training data in commercial deployment, no-derivatives base model with a fine-tune intended for distribution). Log compatibility analysis results in the model registry entry.",
         "Require legal review sign-off for any deployment where the compatibility analysis returns ambiguous or contested results \u2014 particularly for novel license combinations or for licenses with AI-specific use-restriction clauses introduced after the license was written."
@@ -2572,9 +2572,9 @@
     },
     "lenses": {
       "engineering": {
-        "summary": "License chain tracking is a data quality problem that engineering must solve with tooling: automated aggregation of dataset licenses from the DT-layer catalog, base model licenses from the LI-02 provenance record, and compatibility analysis as a pipeline gate.",
+        "summary": "License chain tracking is a data quality problem that engineering must solve with tooling: automated aggregation of dataset licenses from the TG-layer catalog, base model licenses from the LI-02 provenance record, and compatibility analysis as a pipeline gate.",
         "actions": [
-          "Build automated license chain aggregation from DT-layer dataset records and LI-02 provenance records at model registration time",
+          "Build automated license chain aggregation from TG-layer dataset records and LI-02 provenance records at model registration time",
           "Integrate license compatibility analysis as a blocking gate in the deployment pipeline for declared deployment use types",
           "Implement SPDX license identifier normalization to enable automated compatibility reasoning"
         ],
@@ -2640,7 +2640,7 @@
       "target": "defined",
       "notes": "Most organizations have no automated license chain tracking for ML models. Training data and base model licenses are typically not aggregated into a machine-readable record. Achieving 'defined' requires automated aggregation, SPDX normalization, and a deployment-blocking compatibility gate."
     },
-    "coverage_note": "LI-08 covers license and IP governance at the model artifact level. Data consent and personal data rights obligations (distinct from license obligations) are addressed in the DT layer. Export control and national security restrictions on model distribution are out of scope for LI-08 and require separate legal review.",
+    "coverage_note": "LI-08 covers license and IP governance at the model artifact level. Data consent and personal data rights obligations (distinct from license obligations) are addressed in the TG layer. Export control and national security restrictions on model distribution are out of scope for LI-08 and require separate legal review.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",
@@ -2724,7 +2724,7 @@
         "fit": "direct",
         "direction": "control-supports-requirement",
         "rationale": "CSA AICM GOV-02 addresses AI governance requirements for legal compliance and IP management. LI-08's license chain record and compatibility analysis directly implement GOV-02's IP management requirement for AI systems.",
-        "source_version": "1.0.3",
+        "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",
@@ -3039,7 +3039,7 @@
       "target": "defined",
       "notes": "Most organizations have IT change management covering code and infrastructure changes but do not apply it to system prompt, RAG corpus, or guardrail modifications. Achieving 'defined' requires a written taxonomy with thresholds, a mandatory classification gate, and an immutable change log."
     },
-    "coverage_note": "LI-09 covers the materiality determination and authorization gate. The specific re-evaluation and re-validation activities triggered for material changes are owned by EV-01 (pre-deployment evaluation), EV-06 (independent validation), and EV-07 (ongoing validation). Provider-version change detection is addressed in BH-10. For continuously-learning systems, the threshold between routine learning updates and material behavioral changes is defined in LI-09 and enforced by CA-03.",
+    "coverage_note": "LI-09 covers the materiality determination and authorization gate. The specific re-evaluation and re-validation activities triggered for material changes are owned by EV-01 (pre-deployment evaluation), EV-06 (independent validation), and EV-07 (ongoing validation). Provider-version change detection is addressed in BH-10. For continuously-learning systems, the threshold between routine learning updates and material behavioral changes is defined in LI-09 and enforced by CR-03.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",
@@ -3346,7 +3346,7 @@
       "target": "defined",
       "notes": "Model retirement is the most commonly ungoverned lifecycle phase in enterprise AI programs. Most organizations retire models informally by stopping deployments without retirement workflows, dependent-system impact assessment, or evidence archiving. Achieving 'defined' requires an authorized retirement workflow and a durable evidence archive."
     },
-    "coverage_note": "LI-10 covers model retirement at the artifact and registry level. Evidence retention requirements for specific evidence types (evaluation reports, audit logs) are specified in the producing controls (EV-01, BH-05, CA-01). Long-term evidence archiving infrastructure is a cross-domain concern; LI-10 specifies the model governance requirements for what must be archived and for how long. Data deletion obligations arising from training data personal data rights (applicable when the training data is deleted but the model artifact must be retained) are a tension addressed in the DT layer.",
+    "coverage_note": "LI-10 covers model retirement at the artifact and registry level. Evidence retention requirements for specific evidence types (evaluation reports, audit logs) are specified in the producing controls (EV-01, BH-05, CR-01). Long-term evidence archiving infrastructure is a cross-domain concern; LI-10 specifies the model governance requirements for what must be archived and for how long. Data deletion obligations arising from training data personal data rights (applicable when the training data is deleted but the model artifact must be retained) are a tension addressed in the TG layer.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",

@@ -256,7 +256,7 @@
         "rationale": "AI Control Matrix general governance controls align with the requirement for documented deployment decisions.",
         "uncovered_portion": "AICM does not specify technical gate enforcement or signing requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -512,7 +512,7 @@
         "rationale": "AICM EV-1 aligns with structured model evaluation before deployment.",
         "uncovered_portion": "AICM does not specify dimension isolation or pre-specified threshold requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -826,7 +826,7 @@
         "direction": "out-of-scope",
         "rationale": "AI Control Matrix does not currently include frontier dangerous capability assessment controls.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -1113,7 +1113,7 @@
         "rationale": "AICM adversarial testing controls align with structured red-team exercise requirements.",
         "uncovered_portion": "AICM does not specify threat model documentation or deployment gate integration.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -1342,13 +1342,13 @@
       "evaluation": "Own metric selection and rationale documentation; identify population group coverage gaps; ensure pre-specification of thresholds; document all trade-offs honestly including where fairness constraints conflict.",
       "red_team": "Probe for demographic disparities not covered by the selected metrics; test edge cases for specific subpopulations; attempt to identify proxy discrimination through correlated features.",
       "grc": "Map fairness evaluation to EU AI Act Art. 9(7) and Annex III; obtain legal review for protected characteristic decisions; track fairness disparity rates as governance KRIs; ensure impact assessment under ISO 42005:2025 for high-impact deployments.",
-      "mlops": "Surface disaggregated fairness metrics on model registry cards; alert on fairness metric drift in production (see CA layer); track metric trends across model versions."
+      "mlops": "Surface disaggregated fairness metrics on model registry cards; alert on fairness metric drift in production (see CR layer); track metric trends across model versions."
     },
     "maturity": {
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "EV-05 covers pre-deployment fairness and bias evaluation. Ongoing fairness monitoring in production is covered in the CA layer. EV-09 determines which deployment risk classification triggers mandatory fairness evaluation.",
+    "coverage_note": "EV-05 covers pre-deployment fairness and bias evaluation. Ongoing fairness monitoring in production is covered in the CR layer. EV-09 determines which deployment risk classification triggers mandatory fairness evaluation.",
     "frameworks": [
       {
         "framework": "nist_rmf",
@@ -1418,7 +1418,7 @@
         "rationale": "AICM bias and fairness assessment controls align with structured fairness evaluation requirements.",
         "uncovered_portion": "AICM does not specify pre-specification of thresholds or metric trade-off documentation requirements.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -1701,7 +1701,7 @@
         "rationale": "AICM evaluation integrity controls align with reproducible design requirements.",
         "uncovered_portion": "AICM does not specify contamination screening or artifact signing.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -2039,7 +2039,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "EV-07 covers pre-deployment regression testing on updates. Ongoing production monitoring for regression is covered in the CA layer. EV-06 (reproducible evaluation design) provides the baseline design that makes regression comparison valid.",
+    "coverage_note": "EV-07 covers pre-deployment regression testing on updates. Ongoing production monitoring for regression is covered in the CR layer. EV-06 (reproducible evaluation design) provides the baseline design that makes regression comparison valid.",
     "frameworks": [
       {
         "framework": "nist_rmf",
@@ -2109,7 +2109,7 @@
         "rationale": "AICM regression testing controls align with structured regression evaluation on model updates.",
         "uncovered_portion": "AICM does not specify monitoring schema structure or safety regression zero-tolerance policy.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -2454,7 +2454,7 @@
         "rationale": "AICM separation of duties controls align with independent validation requirements.",
         "uncovered_portion": "AICM does not specify the organizational depth of independence required for effective challenge.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -2793,7 +2793,7 @@
         "rationale": "AICM risk classification controls align with the structured classification process.",
         "uncovered_portion": "AICM does not specify EU AI Act Article 6 / Annex III classification methodology.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
@@ -3054,7 +3054,7 @@
         "rationale": "AICM evaluation records controls align with content-addressed, signed evaluation result provenance requirements.",
         "uncovered_portion": "AICM does not specify tamper-evident log technology or provenance chain traversal tooling.",
         "reviewed_on": "2026-06-26",
-        "source_version": "1.0.3"
+        "source_version": "1.1"
       },
       {
         "framework": "mitre",
