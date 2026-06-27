@@ -10,7 +10,7 @@
         "MR-DEV",
         "EU-AIA-AnnexIII"
       ],
-      "desc": "Unowned models accumulate silent risk \u2014 no one monitors drift, responds to incidents, or gates scope changes. Absent clear accountability, high-impact failures have no clear owner for remediation or regulatory response."
+      "desc": "Unowned models accumulate silent risk — no one monitors drift, responds to incidents, or gates scope changes. Absent clear accountability, high-impact failures have no clear owner for remediation or regulatory response."
     },
     "standard": [
       "Every production model MUST have a named owner who is a current employee with performance accountability for model outcomes.",
@@ -38,7 +38,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "url": "https://www.iso.org/standard/81230.html",
         "license": "proprietary",
@@ -69,7 +69,7 @@
       {
         "id": "sr_26_2",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -96,7 +96,7 @@
         "For high-impact models, require executive sponsor sign-off on the owner nomination."
       ],
       "anti_patterns": [
-        "Listing a team or committee as owner with no named individual \u2014 diffuse accountability is equivalent to no accountability.",
+        "Listing a team or committee as owner with no named individual — diffuse accountability is equivalent to no accountability.",
         "Ownership records that live only in a spreadsheet outside the model registry.",
         "Allowing ownership to lapse during organizational restructuring without a documented interim owner."
       ]
@@ -108,7 +108,7 @@
         "HR integration or manual process exists to trigger ownership reassignment on employee departure. [ref:iso_42001_2023]"
       ],
       "runtime_test": [
-        "Query model registry \u2014 every production model must return a non-null owner with a current employee ID. [unverified]",
+        "Query model registry — every production model must return a non-null owner with a current employee ID. [unverified]",
         "Simulate owner departure; verify reassignment workflow triggers within ten business days SLA. [unverified]",
         "Verify annual review completion rate across all production models. [unverified]"
       ],
@@ -129,7 +129,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers human accountability assignment. Does not cover the substantive quality of oversight \u2014 see OA-02 for meaningful human oversight requirements.",
+    "coverage_note": "Covers human accountability assignment. Does not cover the substantive quality of oversight — see OA-02 for meaningful human oversight requirements.",
     "profiles": [
       {
         "profile": "general-predictive-ml",
@@ -212,6 +212,20 @@
         "uncovered_portion": "Validation independence requirements covered in EV layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-03",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-01 defines and assigns clear accountability structures for AI system ownership, including model owner roles, decision authority, and escalation paths, directly implementing AITG-GV-03 Governance Testing which requires that accountable parties and their responsibilities be formally designated and verifiable for each deployed AI system.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-03"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "assurance_target": {
@@ -220,7 +234,7 @@
       "review_cadence": "annual-or-on-change"
     },
     "canonical_id": "apeiris://model/controls/OA-01",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -233,7 +247,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -289,7 +303,7 @@
     "layer": "OA",
     "plane": "control",
     "name": "Meaningful Human Oversight for High-Stakes Decisions",
-    "plain": "When an AI model produces outputs that affect significant decisions about people's lives, liberty, finances, or safety, a human must be in a position to understand, evaluate, and override that output before it takes effect. A human being physically present is not sufficient \u2014 they must have the time, information, authority, competence, and genuine ability to override.",
+    "plain": "When an AI model produces outputs that affect significant decisions about people's lives, liberty, finances, or safety, a human must be in a position to understand, evaluate, and override that output before it takes effect. A human being physically present is not sufficient — they must have the time, information, authority, competence, and genuine ability to override.",
     "threat": {
       "tags": [
         "EU-AIA-AnnexIII",
@@ -313,14 +327,14 @@
         "id": "eu-ai-act-art-14-sub3",
         "regulation": "EU AI Act",
         "article": "Article 14(3)",
-        "title": "Human Oversight \u2014 Operator Obligations",
+        "title": "Human Oversight — Operator Obligations",
         "requirement": "Operators of high-risk AI systems shall assign the oversight to natural persons who have the necessary competence, training and authority to carry out that role.",
-        "applicability": "eu-high-risk profile \u2014 deployer obligation",
+        "applicability": "eu-high-risk profile — deployer obligation",
         "deadline": "2027-12-02",
         "enforcement_body": "National market surveillance authority"
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -412,7 +426,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "url": "https://www.iso.org/standard/81230.html",
         "license": "proprietary",
@@ -428,11 +442,11 @@
     "implementation": {
       "pattern": "Five-factor oversight design: for each high-stakes use case, document and validate all five factors (time, information, authority, competence, override mechanism) before deployment.",
       "steps": [
-        "Map each model use case against the high-stakes threshold \u2014 document the decision type, affected population, and consequence severity.",
+        "Map each model use case against the high-stakes threshold — document the decision type, affected population, and consequence severity.",
         "For qualifying use cases, conduct a five-factor oversight design review: (1) specify minimum review time per decision, (2) design the information display for reviewers, (3) confirm reviewer authority chain, (4) define competence requirements and training program, (5) build and test the override workflow.",
         "Instrument override rate tracking per reviewer and per model; set governance review thresholds.",
         "Establish reviewer training and annual recertification program with attendance records.",
-        "Conduct quarterly automation bias simulation exercises \u2014 present reviewers with seeded incorrect outputs and measure detection rate."
+        "Conduct quarterly automation bias simulation exercises — present reviewers with seeded incorrect outputs and measure detection rate."
       ],
       "anti_patterns": [
         "Declaring human-in-the-loop because a human can technically click a button in under three seconds with no context.",
@@ -445,9 +459,9 @@
     "validation": {
       "design_check": [
         "Five-factor oversight design document exists for each high-stakes use case. [ref:eu_ai_act_2024]",
-        "Override mechanism is technically implemented and tested \u2014 confirm override propagates correctly through downstream systems. [ref:eu_ai_act_2024]",
+        "Override mechanism is technically implemented and tested — confirm override propagates correctly through downstream systems. [ref:eu_ai_act_2024]",
         "Reviewer competence requirements and training curriculum are documented. [ref:eu_ai_act_2024]",
-        "Information display design provides model inputs, confidence, and reasoning \u2014 not only the final output. [ref:nist_rmf_1_0]"
+        "Information display design provides model inputs, confidence, and reasoning — not only the final output. [ref:nist_rmf_1_0]"
       ],
       "runtime_test": [
         "Inject seeded incorrect model outputs into the review queue; measure reviewer detection rate. [unverified]",
@@ -464,7 +478,7 @@
     },
     "lenses": {
       "engineering": "Instrument every model output that enters a human review queue with timing data, reviewer ID, and override flag. Build override mechanism as a first-class workflow action, not an edge-case UI element.",
-      "evaluation": "Evaluate oversight effectiveness as part of model validation \u2014 not only model accuracy. Seeded-output detection rate is a key evaluation metric.",
+      "evaluation": "Evaluate oversight effectiveness as part of model validation — not only model accuracy. Seeded-output detection rate is a key evaluation metric.",
       "red_team": "Probe for automation bias paths: can a reviewer approve an output without seeing the inputs? Is there time pressure that incentivizes approval? Are override paths technically obstructed?",
       "grc": "EU AI Act Art-14 compliance requires documented oversight design per use case. Oversight records are primary evidence in conformity assessment and supervisory examination.",
       "mlops": "Surface override rate alongside model performance metrics in operational dashboards. Implement alerts for override rate anomalies."
@@ -572,7 +586,7 @@
       {
         "profile": "hosted-api",
         "applicability": "conditional",
-        "tailoring": "Deployer must implement oversight mechanism even when using hosted model \u2014 provider technical capability does not substitute for deployer oversight obligation."
+        "tailoring": "Deployer must implement oversight mechanism even when using hosted model — provider technical capability does not substitute for deployer oversight obligation."
       },
       {
         "profile": "continuously-learning",
@@ -640,6 +654,21 @@
         "uncovered_portion": "None significant.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-03",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-02 assesses whether the level of human oversight is adequate relative to the model's capability tier and deployment risk profile, partially aligning with AITG-GV-03 Governance Testing which addresses accountability assignment and human oversight mechanisms. Adequacy assessment of oversight levels relative to capability and context extends beyond the accountability designation scope of the test.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-03"
+        },
+        "uncovered_portion": "AITG-GV-03 addresses accountability assignment and human oversight mechanisms; adequacy assessment of oversight levels relative to capability tiers and deployment contexts extends beyond the accountability designation scope of the test.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "assurance_target": {
@@ -648,7 +677,7 @@
       "reviewer_competence": "documented-and-certified"
     },
     "canonical_id": "apeiris://model/controls/OA-02",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json"
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json"
   },
   {
     "id": "OA-03",
@@ -690,7 +719,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "url": "https://www.iso.org/standard/81230.html",
         "license": "proprietary",
@@ -721,7 +750,7 @@
       {
         "id": "sr_26_2",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -743,13 +772,13 @@
       "steps": [
         "Draft and approve a committee charter covering: purpose, membership, roles, decision rights, quorum, meeting cadence, and escalation paths.",
         "Appoint a committee chair with sufficient organizational authority to enforce decisions across business units.",
-        "Establish a model risk register as the committee's primary working document \u2014 all production models above the materiality threshold appear on it.",
+        "Establish a model risk register as the committee's primary working document — all production models above the materiality threshold appear on it.",
         "Define a decision rights matrix: distinguish what the committee decides versus what it reviews versus what it is only notified of.",
         "Set up a secure meeting management system for minutes, votes, and document retention with defined access controls."
       ],
       "anti_patterns": [
-        "Committee membership that excludes legal, compliance, or risk \u2014 resulting in blind spots on regulatory and ethical issues.",
-        "Advisory-only committee with no binding authority \u2014 governance becomes theater.",
+        "Committee membership that excludes legal, compliance, or risk — resulting in blind spots on regulatory and ethical issues.",
+        "Advisory-only committee with no binding authority — governance becomes theater.",
         "Meeting cadence that is too infrequent to respond to a rapidly changing model portfolio.",
         "Quorum rules so loose that a two-person majority can approve high-stakes model deployments."
       ]
@@ -861,10 +890,24 @@
         "uncovered_portion": "Technical documentation requirements addressed in LI layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-05",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-03 establishes the governance decision-making structure for AI systems including approval authorities, policy ownership, and cross-functional governance bodies, directly implementing AITG-GV-05 Governance Testing which requires that AI governance decision authority be formally established and that the governance structure be verifiable through documented policies and roles.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-05"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "canonical_id": "apeiris://model/controls/OA-03",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -877,7 +920,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -933,19 +976,19 @@
     "layer": "OA",
     "plane": "control",
     "name": "Delegated Autonomy Tier Governance",
-    "plain": "AI models must be assigned to an autonomy tier that defines the scope of actions the model may take without human approval. The Security Verifier domain owns the tier taxonomy definition and technical enforcement. The Model Assurance domain consumes tier assignments to calibrate evaluation requirements and evidence standards \u2014 it does not duplicate tier enforcement. This control governs the governance process for requesting, approving, and reviewing tier assignments.",
+    "plain": "AI models must be assigned to an autonomy tier that defines the scope of actions the model may take without human approval. The Security Verifier domain owns the tier taxonomy definition and technical enforcement. The Model Assurance domain consumes tier assignments to calibrate evaluation requirements and evidence standards — it does not duplicate tier enforcement. This control governs the governance process for requesting, approving, and reviewing tier assignments.",
     "threat": {
       "tags": [
         "MR-DEV",
         "MR-MONITORING"
       ],
-      "desc": "Unconstrained autonomy scope expansion \u2014 models gradually acquiring the ability to take irreversible actions beyond their original charter \u2014 creates compounding risk. Without formal tier governance, autonomy scope creep occurs through infrastructure convenience rather than deliberate risk decision."
+      "desc": "Unconstrained autonomy scope expansion — models gradually acquiring the ability to take irreversible actions beyond their original charter — creates compounding risk. Without formal tier governance, autonomy scope creep occurs through infrastructure convenience rather than deliberate risk decision."
     },
     "standard": [
       "Every AI model or agent MUST have an explicit autonomy tier assignment documented in the model register.",
       "Tier assignment MUST be approved by the AI Governance Committee for Tier 3 and above.",
-      "The Security Verifier domain owns the autonomy tier taxonomy and enforcement controls \u2014 this control governs the governance process for requesting and approving tier assignments only. Model Assurance does not duplicate tier enforcement.",
-      "Model Assurance evaluation requirements MUST be calibrated to the assigned tier \u2014 higher tiers require more rigorous pre-deployment evaluation and monitoring evidence.",
+      "The Security Verifier domain owns the autonomy tier taxonomy and enforcement controls — this control governs the governance process for requesting and approving tier assignments only. Model Assurance does not duplicate tier enforcement.",
+      "Model Assurance evaluation requirements MUST be calibrated to the assigned tier — higher tiers require more rigorous pre-deployment evaluation and monitoring evidence.",
       "Tier escalation (upgrading to a higher autonomy tier) MUST go through formal change control and AIGC approval.",
       "Tier assignment MUST be reviewed when the model's action scope, data access, or operational context changes materially."
     ],
@@ -968,7 +1011,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "url": "https://www.iso.org/standard/81230.html",
         "license": "proprietary",
@@ -983,17 +1026,17 @@
       }
     ],
     "implementation": {
-      "pattern": "Consumer-producer split: Security Verifier domain defines and enforces the tier taxonomy and technical controls; Model Assurance domain reads tier from the model register and uses it as an input to evaluation scoping \u2014 never as a control surface to duplicate.",
+      "pattern": "Consumer-producer split: Security Verifier domain defines and enforces the tier taxonomy and technical controls; Model Assurance domain reads tier from the model register and uses it as an input to evaluation scoping — never as a control surface to duplicate.",
       "steps": [
         "Confirm the autonomy tier taxonomy is defined and maintained in the Security Verifier domain (see cross_domain reference).",
         "Add autonomy_tier field to the model registry schema, populated from the Security Verifier's tier registry.",
         "Define an evaluation requirement lookup table: for each tier level, specify the minimum evaluation evidence required (e.g., Tier 1 = standard benchmark; Tier 3 = red team + containment test).",
         "Integrate tier escalation requests into the AIGC approval workflow (OA-03).",
-        "Implement monitoring alert for tier-action scope mismatches \u2014 where a model's observed action surface exceeds its assigned tier.",
+        "Implement monitoring alert for tier-action scope mismatches — where a model's observed action surface exceeds its assigned tier.",
         "Review all tier assignments annually as part of the model register review."
       ],
       "anti_patterns": [
-        "Duplicating tier enforcement in Model Assurance \u2014 creating two competing tier control surfaces with potential for inconsistency.",
+        "Duplicating tier enforcement in Model Assurance — creating two competing tier control surfaces with potential for inconsistency.",
         "Allowing development teams to self-assign autonomy tiers without governance approval.",
         "Using tier solely as a label without calibrating evaluation requirements to tier level.",
         "Treating tier escalation as a routine model update rather than a governance decision requiring AIGC approval."
@@ -1006,7 +1049,7 @@
         "AIGC decision rights matrix includes tier escalation approval authority. [ref:iso_42001_2023]"
       ],
       "runtime_test": [
-        "Query model registry \u2014 every production model must have a non-null tier assignment. [unverified]",
+        "Query model registry — every production model must have a non-null tier assignment. [unverified]",
         "Select a sample of Tier 3+ models; verify AIGC approval records exist for their tier assignments. [unverified]",
         "Check for tier-action scope mismatches: verify models are not observed taking actions outside their tier-permitted scope. [unverified]"
       ],
@@ -1018,8 +1061,8 @@
       ]
     },
     "lenses": {
-      "engineering": "Tier assignment is read from the model registry by evaluation tooling to determine required test suite configuration. Derive tier-based logic from registry \u2014 never hardcode.",
-      "evaluation": "Tier level drives evaluation scope \u2014 evaluation team uses tier assignment to select benchmark suites, red team requirements, and evidence standards.",
+      "engineering": "Tier assignment is read from the model registry by evaluation tooling to determine required test suite configuration. Derive tier-based logic from registry — never hardcode.",
+      "evaluation": "Tier level drives evaluation scope — evaluation team uses tier assignment to select benchmark suites, red team requirements, and evidence standards.",
       "red_team": "Test whether a model can be induced to take actions outside its assigned tier scope; probe for tier escalation paths not gated by governance.",
       "grc": "Tier assignment records document the organization's deliberate risk decisions about AI autonomy scope. These are primary governance artifacts for regulatory inquiry.",
       "mlops": "Instrument action logs to detect tier boundary violations; alert when a model's observed action surface exceeds its tier permission set."
@@ -1027,9 +1070,9 @@
     "cross_domain": {
       "domain": "securitycontrols.ai",
       "layer": "IA",
-      "relationship": "Security Verifier domain owns the autonomy tier taxonomy, technical enforcement controls, and tier registry. Model Assurance consumes tier assignments as a read-only input \u2014 this is a one-way dependency. Tier changes in Security Verifier domain trigger evaluation re-scoping in Model Assurance.",
+      "relationship": "Security Verifier domain owns the autonomy tier taxonomy, technical enforcement controls, and tier registry. Model Assurance consumes tier assignments as a read-only input — this is a one-way dependency. Tier changes in Security Verifier domain trigger evaluation re-scoping in Model Assurance.",
       "navigation": "See securitycontrols.ai IA layer for Identity and Access controls governing agent action scope enforcement.",
-      "evidence_artifact_pattern": "tier_assignment_{model_id}_{version}.json \u2014 produced by Security Verifier domain, consumed by Model Assurance evaluation pipeline as an input to evaluation scoping"
+      "evidence_artifact_pattern": "tier_assignment_{model_id}_{version}.json — produced by Security Verifier domain, consumed by Model Assurance evaluation pipeline as an input to evaluation scoping"
     },
     "maturity": {
       "current": "initial",
@@ -1088,6 +1131,20 @@
         "uncovered_portion": "None significant for the governance aspect of tier management.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-07",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-04 implements controls for human override and intervention in AI-driven decisions — including override procedures, audit logging of overrides, and escalation triggers — directly implementing AITG-GV-07 Governance Testing which requires that human override mechanisms for AI decisions be defined, accessible, and operationally tested.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-07"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "assurance_target": {
@@ -1097,7 +1154,7 @@
       "boundary": "Model Assurance consumes tier; Security Verifier enforces tier"
     },
     "canonical_id": "apeiris://model/controls/OA-04",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1114,7 +1171,7 @@
     "layer": "OA",
     "plane": "control",
     "name": "Regulatory and Legal Review Sign-Off",
-    "plain": "Before deploying AI models in regulated use cases, compliance counsel must review and sign off on regulatory applicability, legal risk, and required documentation. For EU high-risk AI systems, a conformity assessment must be completed before market placement. Sign-off is a hard deployment gate \u2014 not a post-hoc review.",
+    "plain": "Before deploying AI models in regulated use cases, compliance counsel must review and sign off on regulatory applicability, legal risk, and required documentation. For EU high-risk AI systems, a conformity assessment must be completed before market placement. Sign-off is a hard deployment gate — not a post-hoc review.",
     "threat": {
       "tags": [
         "EU-AIA-AnnexIII",
@@ -1155,7 +1212,7 @@
         "enforcement_body": "National market surveillance authority"
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1233,7 +1290,7 @@
       {
         "id": "sr_26_2",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -1252,7 +1309,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "url": "https://www.iso.org/standard/81230.html",
         "license": "proprietary",
@@ -1276,7 +1333,7 @@
         "Set up a regulatory monitoring process to detect changes in applicable law and trigger re-review."
       ],
       "anti_patterns": [
-        "Treating legal review as a formality to be obtained after deployment \u2014 post-hoc reviews do not satisfy EU AI Act conformity assessment requirements.",
+        "Treating legal review as a formality to be obtained after deployment — post-hoc reviews do not satisfy EU AI Act conformity assessment requirements.",
         "Using legal sign-off from a prior deployment as a blanket approval for expanded scope without re-review.",
         "Allowing business units to self-certify regulatory applicability without compliance counsel involvement.",
         "Conflating OCC 2026-13 (non-binding supervisory guidance) with binding regulatory requirements."
@@ -1302,7 +1359,7 @@
     },
     "lenses": {
       "engineering": "Pipeline gate must require a sign-off artifact ID from the legal registry before promoting a regulated-use model to production.",
-      "evaluation": "Evaluation documentation must be structured to support regulatory review \u2014 evaluation reports feed the legal sign-off process.",
+      "evaluation": "Evaluation documentation must be structured to support regulatory review — evaluation reports feed the legal sign-off process.",
       "red_team": "Test whether deployment automation can bypass legal sign-off gates for models meeting the materiality threshold.",
       "grc": "Legal sign-off is primary compliance evidence. Maintain a regulatory calendar to track review expiry and trigger re-reviews on schedule.",
       "mlops": "Surface legal sign-off status in the model registry dashboard; flag models with expired or missing sign-off for compliance review."
@@ -1389,10 +1446,25 @@
         "uncovered_portion": "None significant.",
         "reviewed_on": "2026-06-26",
         "source_version": "1.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-04",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-05 defines and enforces a deployed model use policy specifying permitted and prohibited use patterns, user obligations, and deployment constraints, partially aligning with AITG-GV-04 Governance Testing which defines use-case risk classification and policy requirements. The deployed use policy is a downstream governance artifact that extends beyond the risk classification and tier assignment that the test validates.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-04"
+        },
+        "uncovered_portion": "AITG-GV-04 defines use-case risk classification and policy requirements; a deployed model use policy that specifies permitted and prohibited use patterns is a downstream governance artifact that goes beyond the classification and risk-tier assignment the test validates.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "canonical_id": "apeiris://model/controls/OA-05",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1409,7 +1481,7 @@
     "layer": "OA",
     "plane": "control",
     "name": "Third-Party Model and Vendor Risk Oversight",
-    "plain": "When the organization uses AI models or components from third parties \u2014 including foundation model providers, model-as-a-service APIs, and fine-tuned model vendors \u2014 it must apply proportionate vendor governance: risk-based due diligence before first use, contract terms covering model change notification and audit rights, and ongoing performance and risk monitoring.",
+    "plain": "When the organization uses AI models or components from third parties — including foundation model providers, model-as-a-service APIs, and fine-tuned model vendors — it must apply proportionate vendor governance: risk-based due diligence before first use, contract terms covering model change notification and audit rights, and ongoing performance and risk monitoring.",
     "threat": {
       "tags": [
         "LLM03:2025",
@@ -1424,7 +1496,7 @@
       "Vendor contracts MUST include: (1) model change notification with minimum 30-day advance notice for material changes, (2) right to audit or acceptance of third-party audit, (3) SLA for incident notification (maximum 24 hours for security incidents), (4) data residency and confidentiality terms.",
       "Vendor risk MUST be reviewed annually and upon material vendor incidents or model version changes.",
       "For high-risk use cases, vendor evaluation MUST include assessment of the vendor's own AI governance and safety practices.",
-      "Organizations MUST maintain the ability to substitute a critical third-party model \u2014 single-vendor lock-in for critical AI functions is a governance risk requiring documented mitigation."
+      "Organizations MUST maintain the ability to substitute a critical third-party model — single-vendor lock-in for critical AI functions is a governance risk requiring documented mitigation."
     ],
     "sources": [
       {
@@ -1475,7 +1547,7 @@
       {
         "id": "sr_26_2",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -1494,20 +1566,20 @@
       }
     ],
     "implementation": {
-      "pattern": "Vendor risk lifecycle: pre-contract due diligence \u2192 contract terms \u2192 version pinning \u2192 ongoing monitoring \u2192 periodic re-assessment \u2192 exit planning.",
+      "pattern": "Vendor risk lifecycle: pre-contract due diligence → contract terms → version pinning → ongoing monitoring → periodic re-assessment → exit planning.",
       "steps": [
-        "Create a third-party AI model inventory as part of the model register \u2014 include vendor, model name, version pinned, use cases, and risk tier.",
+        "Create a third-party AI model inventory as part of the model register — include vendor, model name, version pinned, use cases, and risk tier.",
         "Develop a vendor due diligence questionnaire covering: training data governance, security practices, model change management, incident history, and safety evaluations.",
         "Establish a contract review checklist for AI vendor agreements covering the required clauses (notification, audit, SLA, confidentiality).",
-        "Set up vendor model version monitoring \u2014 alert when a vendor releases a new model version that affects production integrations.",
+        "Set up vendor model version monitoring — alert when a vendor releases a new model version that affects production integrations.",
         "Conduct annual vendor risk reviews including performance data, incident history, and governance practice reassessment.",
         "For critical vendors, document a substitution plan and test it annually."
       ],
       "anti_patterns": [
         "Relying solely on vendor self-attestation for security and governance practices without independent verification.",
-        "Accepting vendor contracts with no model change notification obligation \u2014 silent updates can break production behavior.",
+        "Accepting vendor contracts with no model change notification obligation — silent updates can break production behavior.",
         "Treating foundation model APIs as commodity infrastructure without AI-specific risk assessment.",
-        "No version pinning \u2014 allowing vendor to silently update model version without triggering internal review."
+        "No version pinning — allowing vendor to silently update model version without triggering internal review."
       ]
     },
     "validation": {
@@ -1518,7 +1590,7 @@
       ],
       "runtime_test": [
         "Select a sample of active third-party model vendors; verify annual risk review records exist. [unverified]",
-        "Verify version pinning is implemented for production API integrations \u2014 confirm model version in use matches registry record. [unverified]",
+        "Verify version pinning is implemented for production API integrations — confirm model version in use matches registry record. [unverified]",
         "Simulate vendor incident notification: verify internal escalation path and response SLA. [unverified]"
       ],
       "evidence": [
@@ -1530,7 +1602,7 @@
     },
     "lenses": {
       "engineering": "Implement version pinning for all vendor model API integrations; instrument vendor model response logging to detect silent behavioral changes.",
-      "evaluation": "Vendor model evaluation must include testing against the organization's specific use cases \u2014 vendor benchmarks are not sufficient for use-case-specific validation.",
+      "evaluation": "Vendor model evaluation must include testing against the organization's specific use cases — vendor benchmarks are not sufficient for use-case-specific validation.",
       "red_team": "Test vendor model behavior for prompt injection vulnerabilities (AML.T0051), data exfiltration via inference (AML.T0024), and supply chain manipulation risks (AML.T0018).",
       "grc": "Vendor governance is a third-party risk management function. AI vendor risk must be integrated into the enterprise TPRM program with AI-specific criteria.",
       "mlops": "Monitor vendor model version in production; trigger review workflow when vendor announces deprecation or update. Track vendor SLA compliance against contractual terms."
@@ -1549,17 +1621,17 @@
       {
         "profile": "generative-ai",
         "applicability": "required",
-        "tailoring": "Most generative AI deployments rely on foundation model vendors \u2014 vendor governance is critical."
+        "tailoring": "Most generative AI deployments rely on foundation model vendors — vendor governance is critical."
       },
       {
         "profile": "hosted-api",
         "applicability": "required",
-        "tailoring": "This profile is the vendor risk scenario \u2014 all controls apply at maximum rigor."
+        "tailoring": "This profile is the vendor risk scenario — all controls apply at maximum rigor."
       },
       {
         "profile": "continuously-learning",
         "applicability": "required",
-        "tailoring": "Vendor-side continuous learning may change model behavior without notice \u2014 contractual notification requirements are essential."
+        "tailoring": "Vendor-side continuous learning may change model behavior without notice — contractual notification requirements are essential."
       },
       {
         "profile": "high-impact-decision",
@@ -1574,7 +1646,7 @@
       {
         "profile": "eu-high-risk",
         "applicability": "required",
-        "tailoring": "EU AI Act places obligations on deployers even when using third-party AI \u2014 contract must address these obligations."
+        "tailoring": "EU AI Act places obligations on deployers even when using third-party AI — contract must address these obligations."
       },
       {
         "profile": "frontier-capability",
@@ -1622,10 +1694,25 @@
         "uncovered_portion": "None significant.",
         "reviewed_on": "2026-06-26",
         "source_version": "1.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-IR-01",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-06 assigns authority for incident response decisions — designating who can declare an AI incident, authorize emergency interventions, and approve remediation actions — partially aligning with AITG-IR-01 Incident Response Testing which covers incident detection, investigation, and corrective action procedures. Authority assignment is a governance precondition that the test does not directly assess.",
+        "source_locator": {
+          "section": "Incident Response Testing",
+          "test_id": "AITG-IR-01"
+        },
+        "uncovered_portion": "AITG-IR-01 covers incident detection, investigation, and corrective action procedures; authority assignment for incident response decisions is a governance precondition that the test does not directly assess.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "canonical_id": "apeiris://model/controls/OA-06",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1651,7 +1738,7 @@
       "desc": "During an active incident, decision latency caused by unclear authority chains causes harm to accumulate. Absent defined escalation authority, teams default to waiting for consensus that never arrives, or taking uncoordinated actions that compound the incident. Regulatory notification obligations have time bounds that cannot be met without pre-defined escalation paths."
     },
     "standard": [
-      "A documented incident escalation authority chain MUST exist for AI model incidents, covering: (1) Level 1 \u2014 operational response (model owner plus on-call team), (2) Level 2 \u2014 model governance committee engagement, (3) Level 3 \u2014 executive decision-making authority, (4) Level 4 \u2014 board or equivalent notification.",
+      "A documented incident escalation authority chain MUST exist for AI model incidents, covering: (1) Level 1 — operational response (model owner plus on-call team), (2) Level 2 — model governance committee engagement, (3) Level 3 — executive decision-making authority, (4) Level 4 — board or equivalent notification.",
       "Decision rights at each level MUST be explicitly documented: what can each level authorize without escalating further?",
       "Time bounds MUST be specified for each escalation step: the maximum time at Level 1 before Level 2 must be notified.",
       "Board-level notification threshold MUST be defined: events that automatically require board notification (e.g., regulatory notice issued, significant customer harm, public safety risk).",
@@ -1693,7 +1780,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management System",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "certification-standard",
         "url": "https://www.iso.org/standard/81230.html",
         "license": "proprietary",
@@ -1709,18 +1796,18 @@
     "implementation": {
       "pattern": "Tiered escalation authority with pre-defined decision rights: document who can authorize what at each level, with time-triggered automatic escalation if the current level does not resolve or escalate within the defined window.",
       "steps": [
-        "Define incident severity tiers (e.g., S1\u2013S4) with criteria for each tier relevant to AI model incidents.",
+        "Define incident severity tiers (e.g., S1–S4) with criteria for each tier relevant to AI model incidents.",
         "For each severity tier, document: who owns the response, what decisions they can make without escalating, when they must escalate, and to whom.",
-        "Map regulatory notification obligations to severity tiers \u2014 identify which incidents trigger mandatory notification and within what timeframe.",
+        "Map regulatory notification obligations to severity tiers — identify which incidents trigger mandatory notification and within what timeframe.",
         "Define the board-level visibility threshold: criteria for incidents requiring board notification.",
         "Conduct an annual tabletop exercise simulating a S1 AI model incident; document gaps and remediate within 90 days.",
-        "Integrate the escalation chain with the model owner register (OA-01) \u2014 owner is always the starting point for escalation."
+        "Integrate the escalation chain with the model owner register (OA-01) — owner is always the starting point for escalation."
       ],
       "anti_patterns": [
-        "Escalation chain that lists committees rather than named individuals with authority \u2014 during an incident, committees cannot make real-time decisions.",
-        "No time bounds on escalation steps \u2014 allowing indefinite dwell at Level 1 while harm accumulates.",
-        "Regulatory notification obligations not mapped to the escalation chain \u2014 compliance team learns about notifications after the time window has closed.",
-        "Escalation chains that are documented but never tested \u2014 untested chains fail at the moment of an actual incident."
+        "Escalation chain that lists committees rather than named individuals with authority — during an incident, committees cannot make real-time decisions.",
+        "No time bounds on escalation steps — allowing indefinite dwell at Level 1 while harm accumulates.",
+        "Regulatory notification obligations not mapped to the escalation chain — compliance team learns about notifications after the time window has closed.",
+        "Escalation chains that are documented but never tested — untested chains fail at the moment of an actual incident."
       ]
     },
     "validation": {
@@ -1733,7 +1820,7 @@
       "runtime_test": [
         "Conduct annual tabletop exercise; verify all levels of the escalation chain respond within defined time bounds. [unverified]",
         "Review past 12 months of incidents; verify escalation chain was followed and time bounds were met. [unverified]",
-        "Verify escalation contact list is current \u2014 no departed employees or invalid contact information. [unverified]"
+        "Verify escalation contact list is current — no departed employees or invalid contact information. [unverified]"
       ],
       "evidence": [
         "{'artifact': 'Escalation authority chain document (current version, with approval date).', 'unverified': True} [unverified]",
@@ -1744,7 +1831,7 @@
     },
     "lenses": {
       "engineering": "Instrument model incident detection to automatically page the relevant owner based on model ID. Integrate with on-call tooling with escalation rules mirroring the authority chain.",
-      "evaluation": "Evaluation team is a key resource during incidents \u2014 their model knowledge informs rapid impact assessment. Ensure evaluation team is explicitly named in Level 1 or Level 2 response.",
+      "evaluation": "Evaluation team is a key resource during incidents — their model knowledge informs rapid impact assessment. Ensure evaluation team is explicitly named in Level 1 or Level 2 response.",
       "red_team": "Test incident response by simulating a significant model failure; verify escalation chain activates correctly and within defined time bounds.",
       "grc": "Escalation chain is a key governance artifact. Regulatory notification mapping is a compliance obligation under EU AI Act Art-73 and sector-specific incident reporting requirements.",
       "mlops": "MLOps on-call is typically Level 1 responder. Ensure on-call rotation is integrated with the model owner register and model-specific runbooks exist for each production model."
@@ -1813,7 +1900,7 @@
       {
         "profile": "generative-ai",
         "applicability": "required",
-        "tailoring": "Generative AI incidents may require rapid public communications \u2014 add communications team to escalation chain at Level 2."
+        "tailoring": "Generative AI incidents may require rapid public communications — add communications team to escalation chain at Level 2."
       },
       {
         "profile": "hosted-api",
@@ -1823,7 +1910,7 @@
       {
         "profile": "high-impact-decision",
         "applicability": "required",
-        "tailoring": "Board notification threshold must be set lower \u2014 consumer harm incidents require rapid board visibility."
+        "tailoring": "Board notification threshold must be set lower — consumer harm incidents require rapid board visibility."
       },
       {
         "profile": "us-regulated-banking",
@@ -1857,7 +1944,7 @@
         "requirement_id": "Art-73",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "Art-73 requires providers to notify market surveillance authorities of serious incidents \u2014 the escalation chain must ensure this notification obligation is met within the 15-day window.",
+        "rationale": "Art-73 requires providers to notify market surveillance authorities of serious incidents — the escalation chain must ensure this notification obligation is met within the 15-day window.",
         "uncovered_portion": "Post-incident corrective action requirements addressed in CR layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689"
@@ -1881,10 +1968,25 @@
         "uncovered_portion": "None significant.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-05",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-07 defines escalation paths and cross-functional authority resolution mechanisms for AI governance decisions that span multiple teams or organizational boundaries, partially aligning with AITG-GV-05 Governance Testing which validates the existence and structure of AI governance decision authority. Escalation path definitions and cross-functional resolution mechanisms extend into organizational process territory beyond what the governance structure test checks.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-05"
+        },
+        "uncovered_portion": "AITG-GV-05 validates the existence and structure of AI governance decision authority; escalation path definitions and cross-functional authority resolution mechanisms extend into organizational process territory beyond what the governance structure test checks.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "canonical_id": "apeiris://model/controls/OA-07",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1897,7 +1999,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1953,7 +2055,7 @@
     "layer": "OA",
     "plane": "control",
     "name": "Notice, Explanation Support, Human Review and Contestability",
-    "plain": "Where required by applicable law or where AI outputs materially affect individuals, the organization must provide affected parties with: (1) notice that an AI system was used, (2) a meaningful explanation of the basis for the decision, (3) access to genuine human review, and (4) a process to contest the outcome. This control is conditionally applicable \u2014 the specific obligations vary by jurisdiction, use case, and applicable legal framework. Not all deployments require all four elements.",
+    "plain": "Where required by applicable law or where AI outputs materially affect individuals, the organization must provide affected parties with: (1) notice that an AI system was used, (2) a meaningful explanation of the basis for the decision, (3) access to genuine human review, and (4) a process to contest the outcome. This control is conditionally applicable — the specific obligations vary by jurisdiction, use case, and applicable legal framework. Not all deployments require all four elements.",
     "matrix_thesis": true,
     "thesis_type": "directive",
     "threat": {
@@ -1979,7 +2081,7 @@
         "id": "eu-ai-act-art-50",
         "regulation": "EU AI Act",
         "article": "Article 50",
-        "title": "Transparency Obligations \u2014 AI Interaction Notice",
+        "title": "Transparency Obligations — AI Interaction Notice",
         "requirement": "Providers of AI systems intended to interact with natural persons shall design and develop systems such that persons are notified that they are interacting with an AI system.",
         "applicability": "AI systems interacting directly with natural persons",
         "deadline": "2025-08-02",
@@ -1991,24 +2093,24 @@
         "article": "Article 22",
         "title": "Automated Individual Decision-Making",
         "requirement": "Data subjects shall have the right not to be subject to a decision based solely on automated processing which produces legal or similarly significant effects, and where the right applies, the right to human review and meaningful information about the logic involved.",
-        "applicability": "EU data subjects; solely automated decisions with legal or similarly significant effects \u2014 NOT all AI use cases",
+        "applicability": "EU data subjects; solely automated decisions with legal or similarly significant effects — NOT all AI use cases",
         "deadline": "in effect",
         "enforcement_body": "National data protection authority",
-        "note": "GDPR Art-22 is specifically scoped. It does not apply to all AI decisions \u2014 only those that are solely automated and produce legal or similarly significant effects."
+        "note": "GDPR Art-22 is specifically scoped. It does not apply to all AI decisions — only those that are solely automated and produce legal or similarly significant effects."
       },
       {
         "id": "us-fcra-adverse-action",
         "regulation": "Fair Credit Reporting Act (US)",
-        "article": "15 U.S.C. \u00a7 1681m",
+        "article": "15 U.S.C. § 1681m",
         "title": "Adverse Action Notice",
         "requirement": "Creditors must provide adverse action notices explaining the reasons for adverse credit decisions, including those based on AI models.",
-        "applicability": "US consumer credit decisions \u2014 jurisdiction-specific",
+        "applicability": "US consumer credit decisions — jurisdiction-specific",
         "deadline": "in effect",
         "enforcement_body": "CFPB and FTC",
         "note": "AI-generated reasons must be translatable to human-interpretable adverse action codes. OCC 2026-13 provides non-binding guidance on this translation."
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2061,10 +2163,10 @@
     "standard": [
       "Where required by applicable law or governance policy, affected individuals MUST receive notice that an AI system materially influenced a decision affecting them.",
       "For regulated decisions (credit, employment, insurance, benefits), the explanation provided MUST be sufficient for the affected individual to understand the basis of the decision and take meaningful action in response.",
-      "Human review access MUST be a genuine option \u2014 not a nominal right obstructed by procedure, cost, or delay. The human reviewer must have the authority and information to change the outcome.",
-      "A contestability process MUST exist with defined response timelines and a genuine re-evaluation mechanism \u2014 a process structurally designed to always confirm the original decision is not compliant.",
+      "Human review access MUST be a genuine option — not a nominal right obstructed by procedure, cost, or delay. The human reviewer must have the authority and information to change the outcome.",
+      "A contestability process MUST exist with defined response timelines and a genuine re-evaluation mechanism — a process structurally designed to always confirm the original decision is not compliant.",
       "Applicability of each element (notice, explanation, human review, contestability) MUST be determined per use case based on applicable jurisdiction, use case type, and legal framework. Not all four elements apply universally.",
-      "Explanation mechanisms for regulated models MUST be validated for accuracy \u2014 inaccurate explanations create additional legal and ethical liability beyond the original decision."
+      "Explanation mechanisms for regulated models MUST be validated for accuracy — inaccurate explanations create additional legal and ethical liability beyond the original decision."
     ],
     "sources": [
       {
@@ -2147,29 +2249,29 @@
       "steps": [
         "For each AI use case, complete an applicability assessment: (1) jurisdiction of affected individuals, (2) applicable legal framework, (3) decision type and effect severity, (4) whether the decision is solely automated or involves genuine human review.",
         "For use cases where obligations apply: design notice, explanation, human review, and contestability mechanisms appropriate to the decision context.",
-        "Implement explanation mechanisms that are technically accurate \u2014 validate that explanations correctly describe the factors that influenced the model output, not post-hoc rationalization.",
+        "Implement explanation mechanisms that are technically accurate — validate that explanations correctly describe the factors that influenced the model output, not post-hoc rationalization.",
         "Design the contestability process with defined timelines and a genuine re-evaluation workflow; document reviewer authority to change outcomes.",
-        "Maintain an applicability determination log \u2014 document the assessment for each use case, including legal basis, conclusions, and reviewing counsel.",
+        "Maintain an applicability determination log — document the assessment for each use case, including legal basis, conclusions, and reviewing counsel.",
         "Review applicability determinations when law changes or use case scope changes materially."
       ],
       "anti_patterns": [
-        "Treating this control as universally applicable without per-use-case assessment \u2014 imposes unnecessary burden on low-stakes deployments and may misrepresent legal obligations.",
-        "Providing explanation outputs that are technically inaccurate \u2014 post-hoc rationalization that does not reflect actual model attribution.",
-        "Human review process that requires the individual to bear unreasonable cost or delay \u2014 nominal access that is practically unavailable is not genuine access.",
-        "Contestability process structurally designed to always confirm the original decision \u2014 provides false assurance and does not satisfy rights-based obligations.",
-        "Treating GDPR Art-22 as applying to all AI use cases \u2014 it is specifically scoped to solely automated decisions with legal or similarly significant effects."
+        "Treating this control as universally applicable without per-use-case assessment — imposes unnecessary burden on low-stakes deployments and may misrepresent legal obligations.",
+        "Providing explanation outputs that are technically inaccurate — post-hoc rationalization that does not reflect actual model attribution.",
+        "Human review process that requires the individual to bear unreasonable cost or delay — nominal access that is practically unavailable is not genuine access.",
+        "Contestability process structurally designed to always confirm the original decision — provides false assurance and does not satisfy rights-based obligations.",
+        "Treating GDPR Art-22 as applying to all AI use cases — it is specifically scoped to solely automated decisions with legal or similarly significant effects."
       ]
     },
     "validation": {
       "design_check": [
         "Per-use-case applicability determination exists, documenting which obligations apply and the legal basis. [ref:eu_ai_act_2024]",
-        "Explanation mechanism has been technically validated to confirm accuracy against model behavior \u2014 not visual inspection only. [ref:eu_ai_act_2024]",
+        "Explanation mechanism has been technically validated to confirm accuracy against model behavior — not visual inspection only. [ref:eu_ai_act_2024]",
         "Human review process design verified to provide genuine access (cost, timeline, reviewer authority). [ref:eu_ai_act_2024]",
         "Contestability process design reviewed by legal counsel to confirm it meets applicable legal requirements. [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
         "For regulated decision use cases, sample decisions and verify notice was provided to affected individuals. [unverified]",
-        "Verify explanation outputs against model feature attributions for a sample of decisions \u2014 confirm factual accuracy. [unverified]",
+        "Verify explanation outputs against model feature attributions for a sample of decisions — confirm factual accuracy. [unverified]",
         "Review contestability requests in the past 12 months; verify response timelines were met and re-evaluations were substantive. [unverified]",
         "Audit human review requests; verify reviewers had authority and information to change outcomes. [ref:eu_ai_act_2024]"
       ],
@@ -2182,11 +2284,11 @@
       ]
     },
     "lenses": {
-      "engineering": "Build notice delivery, explanation generation, human review routing, and contestability tracking as platform capabilities \u2014 not one-off per-use-case implementations. Explanation accuracy validation must be automated where possible.",
-      "evaluation": "Evaluate explanation mechanism accuracy as part of model evaluation \u2014 not only model performance metrics. Inaccurate explanations are a model quality defect, not only a compliance issue.",
-      "red_team": "Probe for explanation gaming \u2014 can model behavior be designed to generate favorable-looking explanations that do not reflect actual decision factors? Test whether contestability process can be exploited to extract model internals.",
+      "engineering": "Build notice delivery, explanation generation, human review routing, and contestability tracking as platform capabilities — not one-off per-use-case implementations. Explanation accuracy validation must be automated where possible.",
+      "evaluation": "Evaluate explanation mechanism accuracy as part of model evaluation — not only model performance metrics. Inaccurate explanations are a model quality defect, not only a compliance issue.",
+      "red_team": "Probe for explanation gaming — can model behavior be designed to generate favorable-looking explanations that do not reflect actual decision factors? Test whether contestability process can be exploited to extract model internals.",
       "grc": "Applicability determination log is primary compliance evidence. Legal review of applicability determinations is required for regulated use cases. Track jurisdiction-specific obligation timelines and review cycles.",
-      "mlops": "Monitor contestability request volume and response time SLA compliance. Sudden increases in contestability requests may indicate model quality degradation \u2014 surface as a model health signal."
+      "mlops": "Monitor contestability request volume and response time SLA compliance. Sudden increases in contestability requests may indicate model quality degradation — surface as a model health signal."
     },
     "monitoring_schema": {
       "metrics": [
@@ -2292,12 +2394,12 @@
       {
         "profile": "hosted-api",
         "applicability": "conditional",
-        "tailoring": "Deployer retains obligation even when using hosted model. Notice must reflect actual AI involvement \u2014 vendor branding does not satisfy disclosure requirements."
+        "tailoring": "Deployer retains obligation even when using hosted model. Notice must reflect actual AI involvement — vendor branding does not satisfy disclosure requirements."
       },
       {
         "profile": "continuously-learning",
         "applicability": "conditional",
-        "tailoring": "Explanation mechanisms must remain valid as model updates \u2014 validate explanation accuracy after each significant model update."
+        "tailoring": "Explanation mechanisms must remain valid as model updates — validate explanation accuracy after each significant model update."
       },
       {
         "profile": "high-impact-decision",
@@ -2370,6 +2472,20 @@
         "uncovered_portion": "Factual accuracy of model outputs is a separate concern addressed in EV layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2025"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-06",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-08 implements audit logging and accountability trail requirements for all AI-driven decisions and human interventions, ensuring that a complete, tamper-evident record of model actions and oversight events is maintained — directly implementing AITG-GV-06 Governance Testing which requires that accountability audit trails for AI decisions be maintained and verifiable.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-06"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "assurance_target": {
@@ -2379,6 +2495,6 @@
       "contestability": "re-evaluation-capable-with-authority-to-change"
     },
     "canonical_id": "apeiris://model/controls/OA-08",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json"
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json"
   }
 ]

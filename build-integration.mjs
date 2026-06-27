@@ -30,7 +30,7 @@
  *   2  Validation warnings present and --strict was set
  */
 
-import { createHash } from 'node:crypto';
+import { createHash, sign as cryptoSign } from 'node:crypto';
 import { readFile, writeFile, readdir, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { resolve, dirname, join, basename } from 'node:path';
@@ -176,7 +176,7 @@ const BASELINE_CONTROLS = [
   'CR-01', 'CR-02',
 ];
 
-const FRAMEWORK_KEYS = ['nist_rmf', 'nist_ai_600_1', 'iso_42001', 'eu_ai_act', 'sr262', 'aisvs', 'llm10', 'aicm', 'mitre'];
+const FRAMEWORK_KEYS = ['nist_rmf', 'nist_ai_600_1', 'iso_42001', 'eu_ai_act', 'sr262', 'aisvs', 'llm10', 'aicm', 'mitre', 'owasp_aitg'];
 
 const FRAMEWORK_DISPLAY = {
   nist_rmf:       { name: 'NIST AI RMF 1.0',                           authority: 'NIST' },
@@ -188,6 +188,7 @@ const FRAMEWORK_DISPLAY = {
   llm10:          { name: 'OWASP LLM Top 10 2025',                      authority: 'OWASP' },
   aicm:           { name: 'CSA AI Controls Matrix v1.1',                authority: 'Cloud Security Alliance' },
   mitre:          { name: 'MITRE ATLAS v5.6.0',                         authority: 'MITRE Corporation' },
+  owasp_aitg:     { name: 'OWASP AI Testing Guide v1',                  authority: 'OWASP' },
 };
 
 const PROFILE_IDS = [
@@ -867,7 +868,7 @@ async function build(args) {
       schema_version: SCHEMA_VERSION,
       generated_at: generatedAt,
       generated_by: 'build-integration.mjs',
-      source_schema: 'https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json',
+      source_schema: 'https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json',
       license: 'CC BY-NC 4.0',
       license_url: 'https://creativecommons.org/licenses/by-nc/4.0/',
       aisvs_compatibility_note:
@@ -936,7 +937,22 @@ async function build(args) {
   await writeFile(outPath, finalJson, 'utf8');
   console.log(`[build-integration] Written: ${outPath}`);
 
-  // 8. Write release manifest
+  // 8. Sign the content hash with the Ed25519 release key (if available)
+  let signature = null;
+  const privKeyPem = process.env.MODEL_VERIFIER_SIGNING_KEY;
+  if (privKeyPem) {
+    try {
+      const sigBuffer = cryptoSign(null, Buffer.from(finalHash, 'utf8'), privKeyPem.trim());
+      signature = sigBuffer.toString('base64');
+      console.log(`[sign] Manifest signed with Ed25519. Sig: ${signature.substring(0, 20)}...`);
+    } catch (e) {
+      console.warn(`[sign] WARNING: Ed25519 signing failed: ${e.message}`);
+    }
+  } else {
+    console.log('[sign] MODEL_VERIFIER_SIGNING_KEY not set — unsigned build (normal for local dev).');
+  }
+
+  // 9. Write release manifest
   const manifest = {
     manifest_version: '1.0.0',
     domain: 'model',
@@ -944,6 +960,7 @@ async function build(args) {
     generated_at: generatedAt,
     artifacts: [
       {
+        artifact_id: 'model-controls-full.json',
         filename: 'model-controls-full.json',
         url: 'https://modelverifier.ai/integration/model-controls-full.json',
         content_hash: finalHash,
@@ -952,10 +969,13 @@ async function build(args) {
         media_type: 'application/json',
       },
     ],
-    signing_note:
-      'Production releases are signed with the Apeiris release key. Verify the ' +
-      'signature at https://modelverifier.ai/integration/release-manifest.json.sig ' +
-      'using the public key published at https://modelverifier.ai/.well-known/apeiris-release.pub',
+    signature: signature ? {
+      algorithm: 'Ed25519',
+      signed_field: 'content_hash',
+      value: signature,
+      public_key_url: 'https://modelverifier.ai/.well-known/apeiris-release.pub',
+      signed_at: generatedAt,
+    } : null,
     warnings: warnings.length > 0 ? warnings : null,
   };
   const manifestPath = join(args.outDir, 'release-manifest.json');

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+  "$id": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
   "title": "Model Controls Schema — AI Model & System Assurance Control Matrix",
   "description": "Full domain schema for modelverifier.ai — the AI Model & System Assurance Control Matrix. This is the schema validate.mjs uses to validate all 54 control records across 6 layers (LI, TG, EV, OA, BH, CR). Composition approach: rather than allOf with control-core.schema.json (which uses additionalProperties: false at root, making additive allOf extension invalid in JSON Schema draft-07), this schema explicitly declares the union of core fields + model-assurance extension fields. Core field definitions are reproduced from control-core.schema.json v1 with their original constraints preserved. Model-assurance extension fields (monitoring_schema, capability_risk, assurance_target) are added. All field semantics are governed by the source schema $id where applicable.",
   "type": "object",
@@ -23,7 +23,7 @@
   "properties": {
     "$schema": {
       "type": "string",
-      "description": "JSON Schema URI. Set to https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json in all model-assurance control files."
+      "description": "JSON Schema URI. Set to https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json in all model-assurance control files."
     },
     "id": {
       "type": "string",

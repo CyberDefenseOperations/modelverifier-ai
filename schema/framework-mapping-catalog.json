@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schemas.apeiris.io/model-assurance/v1/framework-mapping-catalog.json",
+  "$id": "https://schemas.apeiris.ai/model-assurance/v1/framework-mapping-catalog.json",
   "title": "Model Assurance Framework Mapping Catalog",
   "description": "Authoritative catalog of the 10 frameworks used in modelverifier.ai mappings. Each entry defines: source metadata (version, authority, normative force, license), the allowed requirement_id pattern for validation, the requirement_id enumeration where the set is bounded (llm10), coverage guidance, and known mapping caveats. The build pipeline (validate:sources, audit:mappings) reads this catalog to validate all mapping entries in control records.",
   "version": "1.0.0",

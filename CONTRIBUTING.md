@@ -412,7 +412,7 @@ npm install
 
 Control records are stored as JSON arrays in `controls/<LAYER>.json`. Each file contains all controls for that layer ordered by sequence number. Do not split controls into individual files — the per-layer file structure matches securitycontrols.ai.
 
-The `$schema` field at the top of each control object must reference `https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json`. This enables IDE validation via the schema file at `schema/model-controls.schema.json`.
+The `$schema` field at the top of each control object must reference `https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json`. This enables IDE validation via the schema file at `schema/model-controls.schema.json`.
 
 ### 8.4 Schema Files
 

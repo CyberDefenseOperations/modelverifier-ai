@@ -402,7 +402,7 @@ The modelverifier.ai control matrix is published under **Creative Commons Attrib
 
 - **Free to use** for non-commercial research, education, compliance programme development, and internal enterprise use.
 - **Attribution required.** Cite as: "AI Model & System Assurance Control Matrix, Apeiris (modelverifier.ai), version 1.0.0."
-- **Commercial use** — including embedding the matrix in commercial products, SaaS platforms, or professional services — requires a RiskOne commercial license. Contact licensing@apeiris.io.
+- **Commercial use** — including embedding the matrix in commercial products, SaaS platforms, or professional services — requires a RiskOne commercial license. Contact licensing@apeiris.ai.
 
 AISVS (CC BY-SA 4.0) mappings in this matrix are by requirement_id and independently authored rationale only. No AISVS requirement text is reproduced verbatim. Framework mapping rationale is original editorial work and is not a derivative of AISVS content.
 

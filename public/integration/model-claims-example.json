@@ -1,0 +1,325 @@
+{
+  "meta": {
+    "title": "AI Model Assurance — Example Claim Graph",
+    "schema": "apeiris://model/claims/v1",
+    "status": "example",
+    "note": "These are illustrative examples only. Replace with your organization's actual test results before using in production.",
+    "generated_by": "modelverifier.ai",
+    "schema_url": "https://modelverifier.ai/integration/claim.schema.json",
+    "claim_count": 5
+  },
+  "claims": [
+    {
+      "schema": "apeiris://model/claims/v1",
+      "claim_id": "apeiris://model/claims/EV-04/injection-resistance",
+      "claim": "The model blocks >= 95% of adversarial prompt injection attempts across the approved probe suite under production system prompt configuration.",
+      "control_ref": "EV-04",
+      "control_name": "Adversarial Testing & Red-Team Evaluation",
+      "layer": "EV",
+      "test_method": "adversarial_probe_suite",
+      "test_method_version": "apeiris-probe-suite-v3.1.0",
+      "threshold": ">= 95% block rate over minimum 1,000 adversarial probes",
+      "observed_result": "97.2% block rate over 1,000 adversarial probes (direct injection: 98.1%, indirect injection: 95.8%, multi-turn extraction: 97.7%)",
+      "confidence": "high",
+      "evidence_artifacts": [
+        {
+          "artifact_id": "ev04-probe-report-2026-q2",
+          "artifact_type": "test_report",
+          "description": "Structured adversarial probe report covering 1,000 injection attempts across three attack categories, with per-category breakdown and failure mode analysis.",
+          "location": "s3://acme-ai-evidence/ev04/probe-report-2026-q2.json",
+          "hash": "sha256:a3f8c1d94e2b57f0c6a8e9d3b1f2a4c5e6d7f8a9b0c1d2e3f4a5b6c7d8e9f0a1",
+          "collected_at": "2026-06-01T14:30:00Z"
+        },
+        {
+          "artifact_id": "ev04-probe-suite-config",
+          "artifact_type": "policy_document",
+          "description": "Versioned configuration of the adversarial probe suite used, including probe categories, attack templates, and pass/fail criteria.",
+          "location": "s3://acme-ai-evidence/ev04/probe-suite-config-v3.1.0.yaml",
+          "hash": "sha256:b4d9e2a1f3c6b7e8d9a0f1c2b3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2",
+          "collected_at": "2026-05-15T09:00:00Z"
+        }
+      ],
+      "obligation_links": [
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 9",
+          "jurisdiction": "eu",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 15",
+          "jurisdiction": "eu",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "aisvs",
+          "provision": "LLM-2.1",
+          "jurisdiction": "global",
+          "actor_role": "deployer"
+        }
+      ],
+      "assurance_target": {
+        "model_provider": "anthropic",
+        "model_id": "claude-sonnet-4-20260601",
+        "deployment_context": "production-eu-west-1 — customer support automation, internal knowledge retrieval",
+        "use_case": "Enterprise customer support automation with access to internal knowledge base and CRM read API"
+      },
+      "tested_by": "independent-auditor",
+      "tested_at": "2026-06-01T17:45:00Z",
+      "expires_at": "2026-12-01T00:00:00Z",
+      "decision": "pass",
+      "decision_rationale": "Observed block rate of 97.2% exceeds the 95% threshold across all three attack categories. The worst-performing category (indirect injection) scored 95.8%, still above threshold. No critical failure modes identified that would materially affect the use case. Independent auditor confirmed methodology and result.",
+      "claim_version": "1.0.0",
+      "produced_by": "modelverifier.ai"
+    },
+    {
+      "schema": "apeiris://model/claims/v1",
+      "claim_id": "apeiris://model/claims/EV-02/safety-refusal-rate",
+      "claim": "The model refuses >= 98% of requests that violate the safety policy in the production use case context, measured over the approved safety evaluation benchmark.",
+      "control_ref": "EV-02",
+      "control_name": "Safety Evaluation & Harm Potential Assessment",
+      "layer": "EV",
+      "test_method": "automated_benchmark",
+      "test_method_version": "apeiris-safety-bench-v2.4.0",
+      "threshold": ">= 98% refusal rate on policy-violating requests across the safety benchmark",
+      "observed_result": "99.1% refusal rate over 2,400 policy-violating test prompts spanning CBRN, CSAM, self-harm, and manipulation categories",
+      "confidence": "high",
+      "evidence_artifacts": [
+        {
+          "artifact_id": "ev02-safety-bench-2026-q2",
+          "artifact_type": "benchmark_result",
+          "description": "Full safety evaluation benchmark results including per-category refusal rates, false-positive rate on benign prompts (0.3%), and failure case log for the 21 non-refused policy violations.",
+          "location": "s3://acme-ai-evidence/ev02/safety-bench-2026-q2.json",
+          "hash": "sha256:c5e0f3b2d4a7c8f9e0b1d2c3a4b5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3",
+          "collected_at": "2026-05-28T11:00:00Z"
+        },
+        {
+          "artifact_id": "ev02-failure-analysis-2026-q2",
+          "artifact_type": "test_report",
+          "description": "Root-cause analysis of the 21 non-refused policy violations, with remediation recommendations and tracking IDs for each.",
+          "location": "s3://acme-ai-evidence/ev02/failure-analysis-2026-q2.pdf",
+          "hash": "sha256:d6f1a4c3e5b8d9a0f1c2e3d4b5c6a7f8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4",
+          "collected_at": "2026-05-30T16:20:00Z"
+        }
+      ],
+      "obligation_links": [
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 9",
+          "jurisdiction": "eu",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 13",
+          "jurisdiction": "eu",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "nist_rmf",
+          "provision": "MS-2.5",
+          "jurisdiction": "us",
+          "actor_role": "deployer"
+        }
+      ],
+      "assurance_target": {
+        "model_provider": "anthropic",
+        "model_id": "claude-sonnet-4-20260601",
+        "deployment_context": "production-eu-west-1 — customer support automation, internal knowledge retrieval",
+        "use_case": "Enterprise customer support automation with access to internal knowledge base and CRM read API"
+      },
+      "tested_by": "automated-pipeline",
+      "tested_at": "2026-05-28T12:30:00Z",
+      "expires_at": "2026-08-28T00:00:00Z",
+      "decision": "pass",
+      "decision_rationale": "Observed refusal rate of 99.1% exceeds the 98% threshold across all safety categories. The 21 non-refused cases (0.9%) were reviewed manually and attributed to prompt formulations that exploited ambiguity in category boundaries; remediation items have been logged. False-positive rate on benign prompts (0.3%) is within acceptable range and does not materially degrade user experience.",
+      "claim_version": "1.0.0",
+      "produced_by": "modelverifier.ai"
+    },
+    {
+      "schema": "apeiris://model/claims/v1",
+      "claim_id": "apeiris://model/claims/TG-01/dataset-quality-gate",
+      "claim": "The training dataset satisfies the data quality gate: zero critical violations, fewer than 5 major violations, and >= 98% completeness on required metadata fields, as verified by an independent data audit.",
+      "control_ref": "TG-01",
+      "control_name": "Training Data Documentation & Provenance",
+      "layer": "TG",
+      "test_method": "independent_audit",
+      "test_method_version": "acme-data-audit-methodology-v1.2",
+      "threshold": "0 critical violations, < 5 major violations, >= 98% metadata completeness",
+      "observed_result": "0 critical violations, 2 major violations (both remediated before fine-tune run), 99.3% metadata completeness across 8 required fields over 12.4M training examples",
+      "confidence": "high",
+      "evidence_artifacts": [
+        {
+          "artifact_id": "tg01-data-audit-report-2026-04",
+          "artifact_type": "audit_report",
+          "description": "Independent data quality audit report covering provenance tracing, license compliance, PII scan results, deduplication metrics, and metadata completeness across the fine-tuning corpus.",
+          "location": "s3://acme-ai-evidence/tg01/data-audit-report-2026-04.pdf",
+          "hash": "sha256:e7a2b5d4c6f9e0b1c2d3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5",
+          "collected_at": "2026-04-10T08:00:00Z"
+        },
+        {
+          "artifact_id": "tg01-dataset-manifest-v4",
+          "artifact_type": "sbom",
+          "description": "Versioned dataset manifest (SBOM-style) listing all data sources, license identifiers, record counts, and hashes for the fine-tuning corpus used in this training run.",
+          "location": "s3://acme-ai-evidence/tg01/dataset-manifest-v4.json",
+          "hash": "sha256:f8b3c6e5d7a0f1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6",
+          "collected_at": "2026-04-08T14:00:00Z"
+        }
+      ],
+      "obligation_links": [
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 10",
+          "jurisdiction": "eu",
+          "actor_role": "provider"
+        },
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Annex IV paragraph 2(b)",
+          "jurisdiction": "eu",
+          "actor_role": "provider"
+        },
+        {
+          "obligation_instrument": "sr262",
+          "provision": "Section 3.2",
+          "jurisdiction": "us-banking",
+          "actor_role": "deployer"
+        }
+      ],
+      "assurance_target": {
+        "model_provider": "acme-ai",
+        "model_id": "acme-support-llm-v4-20260408",
+        "deployment_context": "fine-tuned model trained on internal support corpus for production EU deployment",
+        "use_case": "Fine-tuned customer support model — training data governance claim prior to model release gate"
+      },
+      "tested_by": "independent-auditor",
+      "tested_at": "2026-04-10T17:00:00Z",
+      "expires_at": "2027-04-10T00:00:00Z",
+      "decision": "pass",
+      "decision_rationale": "Zero critical violations found. The 2 major violations (duplicate source documents from a single supplier and 3 records with missing license fields) were remediated and re-verified before the training run commenced. Final post-remediation metadata completeness of 99.3% exceeds the 98% threshold. Independent auditor signed off on the remediated corpus.",
+      "claim_version": "1.0.0",
+      "produced_by": "modelverifier.ai"
+    },
+    {
+      "schema": "apeiris://model/claims/v1",
+      "claim_id": "apeiris://model/claims/BH-03/latency-sla-p95",
+      "claim": "The deployed model meets the p95 inference latency SLA of <= 2,000ms under peak production load, measured over a 30-day rolling window.",
+      "control_ref": "BH-03",
+      "control_name": "Performance Monitoring & SLA Enforcement",
+      "layer": "BH",
+      "test_method": "performance_monitoring",
+      "test_method_version": "datadog-apm-v7.2",
+      "threshold": "p95 inference latency <= 2,000ms over 30-day rolling window at >= 500 RPS peak load",
+      "observed_result": "p95 = 1,240ms over 30-day period (May 27 – Jun 25, 2026) at peak observed load of 620 RPS; p99 = 1,890ms; zero SLA breaches recorded",
+      "confidence": "high",
+      "evidence_artifacts": [
+        {
+          "artifact_id": "bh03-latency-export-2026-06-25",
+          "artifact_type": "monitoring_export",
+          "description": "30-day latency percentile export from APM dashboard showing p50, p95, p99 by endpoint and by region, with SLA breach count and alert history.",
+          "location": "s3://acme-ai-evidence/bh03/latency-export-2026-06-25.json",
+          "hash": "sha256:a9c4d7e6f0b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8",
+          "collected_at": "2026-06-25T23:59:00Z"
+        }
+      ],
+      "obligation_links": [
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 9",
+          "jurisdiction": "eu",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "sr262",
+          "provision": "Section 4.1",
+          "jurisdiction": "us-banking",
+          "actor_role": "deployer"
+        }
+      ],
+      "assurance_target": {
+        "model_provider": "anthropic",
+        "model_id": "claude-sonnet-4-20260601",
+        "deployment_context": "production-eu-west-1 — customer support automation behind API gateway with caching layer",
+        "use_case": "Real-time customer support response generation with < 2,000ms p95 SLA commitment to end users"
+      },
+      "tested_by": "automated-pipeline",
+      "tested_at": "2026-06-25T23:59:00Z",
+      "expires_at": "2026-07-25T23:59:00Z",
+      "decision": "pass",
+      "decision_rationale": "Observed p95 latency of 1,240ms is 38% below the 2,000ms SLA threshold. Zero SLA breaches were recorded across the 30-day window at peak loads up to 620 RPS. p99 at 1,890ms also remains within threshold, providing an additional safety margin. Automated monitoring pipeline exports this metric daily; this claim captures the 30-day rolling window result as of 2026-06-25.",
+      "claim_version": "1.0.0",
+      "produced_by": "modelverifier.ai"
+    },
+    {
+      "schema": "apeiris://model/claims/v1",
+      "claim_id": "apeiris://model/claims/CR-01/quarterly-re-eval-gate",
+      "claim": "The model has completed its scheduled quarterly re-evaluation gate, confirming that no material behavioral change, capability regression, or new obligation has been identified that requires immediate remediation.",
+      "control_ref": "CR-01",
+      "control_name": "Periodic Re-evaluation & Model Refresh Gate",
+      "layer": "CR",
+      "test_method": "periodic_review",
+      "test_method_version": "acme-quarterly-review-checklist-v3",
+      "threshold": "All re-evaluation checklist items pass or have documented mitigations; next review scheduled within 90 days",
+      "observed_result": "2026-Q2 quarterly review completed 2026-06-20. 14 of 14 checklist items passed. 0 items requiring immediate remediation. 2 items flagged for watch with mitigations documented. Next review scheduled 2026-09-15.",
+      "confidence": "medium",
+      "evidence_artifacts": [
+        {
+          "artifact_id": "cr01-quarterly-review-2026-q2",
+          "artifact_type": "audit_report",
+          "description": "Completed quarterly re-evaluation checklist for 2026-Q2, including drift analysis, incident review, regulatory change assessment, and capability regression check. Signed by the model risk officer.",
+          "location": "s3://acme-ai-evidence/cr01/quarterly-review-2026-q2.pdf",
+          "hash": "sha256:b0d5e8f1a2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9",
+          "collected_at": "2026-06-20T16:00:00Z"
+        },
+        {
+          "artifact_id": "cr01-next-review-schedule",
+          "artifact_type": "schedule_record",
+          "description": "Calendar entry and ownership record for next quarterly review, confirming the 2026-09-15 review date, assigned reviewer, and notification chain.",
+          "location": "s3://acme-ai-evidence/cr01/next-review-schedule-2026-09-15.json",
+          "hash": "sha256:c1e6f9a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0",
+          "collected_at": "2026-06-20T17:00:00Z"
+        }
+      ],
+      "obligation_links": [
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 9",
+          "jurisdiction": "eu",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "eu_ai_act",
+          "provision": "Article 72",
+          "jurisdiction": "eu",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "sr262",
+          "provision": "Section 5.1",
+          "jurisdiction": "us-banking",
+          "actor_role": "deployer"
+        },
+        {
+          "obligation_instrument": "nist_rmf",
+          "provision": "MG-2.2",
+          "jurisdiction": "us",
+          "actor_role": "deployer"
+        }
+      ],
+      "assurance_target": {
+        "model_provider": "anthropic",
+        "model_id": "claude-sonnet-4-20260601",
+        "deployment_context": "production-eu-west-1 — customer support automation, reviewed as part of enterprise model risk management program",
+        "use_case": "Enterprise customer support automation — quarterly re-evaluation gate as required by EU AI Act Article 9 and SR 26-2 ongoing monitoring obligations"
+      },
+      "tested_by": "internal",
+      "tested_at": "2026-06-20T16:00:00Z",
+      "expires_at": "2026-09-20T00:00:00Z",
+      "decision": "pass",
+      "decision_rationale": "All 14 checklist items passed the 2026-Q2 review. Two watch items (minor latency increase trend and a pending EU AI Act Omnibus clarification on Annex III scope) were documented with mitigations and owners assigned; neither rises to the level requiring immediate remediation or model suspension. Confidence is 'medium' because this is an internal review without third-party verification. The next independent audit is scheduled for 2026-Q3. Next quarterly review is scheduled for 2026-09-15, within the 90-day re-evaluation window.",
+      "claim_version": "1.0.0",
+      "produced_by": "modelverifier.ai"
+    }
+  ]
+}

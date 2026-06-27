@@ -72,7 +72,7 @@ Open `apeiris-control-core/namespace-registry.json` and make three edits:
 "privacy": {
   "display_name": "Apeiris Privacy Controls",
   "site": "https://privacycontrols.ai",
-  "schema_base": "https://schema.apeiris.io/privacy/v1/",
+  "schema_base": "https://schema.apeiris.ai/privacy/v1/",
   "corpus_base": "https://privacycontrols.ai/integration/",
   "status": "in-development",
   "description": "Privacy and data governance control matrix covering GDPR, CCPA, PIPL, and emerging data governance frameworks.",
@@ -229,7 +229,7 @@ Copy `schema/model-assurance-extension.schema.json` to `schema/<domain>-extensio
 **Update `$id`**:
 
 ```json
-"$id": "https://schema.apeiris.io/privacy/v1/privacy-extension.schema.json"
+"$id": "https://schema.apeiris.ai/privacy/v1/privacy-extension.schema.json"
 ```
 
 **Create `schema/<domain>-controls.schema.json`**
@@ -251,7 +251,7 @@ Each layer gets one JSON file in `controls/`. The filename is the layer prefix: 
 ```json
 [
   {
-    "$schema": "https://schema.apeiris.io/privacy/v1/privacy-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/privacy/v1/privacy-controls.schema.json",
     "id": "PC-01",
     "layer": "PC",
     "plane": "control",

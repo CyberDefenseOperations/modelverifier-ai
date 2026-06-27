@@ -7,7 +7,7 @@
   <meta name="description" content="54 machine-readable model assurance controls across 6 layers. Citation-backed, profile-aware, obligation-linked. Feeds the Apeiris Model Assurance Verifier.">
   <link rel="canonical" href="https://modelverifier.ai/">
   <meta property="og:title" content="AI Model &amp; System Assurance Control Matrix">
-  <meta property="og:description" content="54 controls · 6 layers · 9 frameworks · 11 profiles. Zero runtime deps.">
+  <meta property="og:description" content="54 controls · 6 layers · 10 frameworks · 11 profiles. Zero runtime deps.">
   <meta property="og:url" content="https://modelverifier.ai/">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -477,6 +477,17 @@
       border: 5px solid transparent; border-bottom-color: var(--border2);
     }
 
+    .intro-strip {
+      padding: 8px 20px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text2);
+      line-height: 1.5;
+      text-align: center;
+    }
+    .intro-strip strong { color: var(--text); font-weight: 600; }
+
     .filter-label-row {
       display: flex; align-items: center; gap: 5px;
     }
@@ -797,6 +808,10 @@
   <a class="api-btn" href="/integration/model-controls-full.json" target="_blank" style="margin-left:4px">↓ JSON</a>
 </header>
 
+<div class="intro-strip">
+  <strong>AI Model &amp; System Assurance Control Matrix</strong> — a free, citation-backed reference for verifying AI models from training to retirement. Browse 54 structured controls mapped to 10 regulatory frameworks and 11 deployment profiles. No login required.
+</div>
+
 <div class="app">
   <!-- Sidebar filters -->
   <aside class="sidebar" id="sidebar">
@@ -896,7 +911,7 @@
     </div>
     <div class="stats-bar">
       <div class="stat-item"><div class="stat-num" id="statControls">54</div><div class="stat-label" id="statControlsLabel">of 54 shown</div></div>
-      <div class="stat-item"><div class="stat-num" id="statFrameworks">9</div><div class="stat-label">frameworks</div></div>
+      <div class="stat-item"><div class="stat-num" id="statFrameworks">10</div><div class="stat-label">frameworks</div></div>
       <div class="stat-item" id="statProfileItem" style="max-width:120px;overflow:hidden"><div class="stat-num stat-profile-name" id="statProfile" style="font-size:0.72rem;font-weight:700;letter-spacing:0;color:var(--muted)">—</div><div class="stat-label">profile</div></div>
       <div class="stat-item assess-stat" id="assessStatItem" style="cursor:pointer" title="Switch to Assess mode to rate your maturity level for each control">
         <div class="stat-num" id="statAssessed">0</div>
@@ -1120,6 +1135,7 @@ const FW_NAMES = {
   llm10:          'OWASP LLM Top 10',
   aicm:           'CSA AICM v1.1',
   mitre:          'MITRE ATLAS v5.6',
+  owasp_aitg:     'OWASP AI Testing Guide',
 };
 
 // Human-readable labels and tooltips for threat tags
