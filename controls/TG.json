@@ -91,9 +91,9 @@
         "Replay a historical dataset known to have class imbalance beyond threshold; confirm gate failure. [unverified]"
       ],
       "evidence": [
-        "artifact:signed-quality-attestation-records-for-a \u2014 Signed quality attestation records for all completed training runs, retained for audit. [ref:eu_ai_act_art10]",
-        "artifact:gate-rejection-reports-with-root-cause-c \u2014 Gate rejection reports with root-cause classification and remediation timestamps. [ref:iso_42001_2023]",
-        "artifact:schema-registry-audit-log-showing-versio \u2014 Schema registry audit log showing version history and approver identities. [ref:nist_ai_rmf_1_0]"
+        "model:signed-quality-attestation-records-for-a \u2014 Signed quality attestation records for all completed training runs, retained for audit. [ref:eu_ai_act_art10]",
+        "model:gate-rejection-reports-with-root-cause-c \u2014 Gate rejection reports with root-cause classification and remediation timestamps. [ref:iso_42001_2023]",
+        "model:schema-registry-audit-log-showing-versio \u2014 Schema registry audit log showing version history and approver identities. [ref:nist_ai_rmf_1_0]"
       ]
     },
     "monitoring_schema": {
@@ -518,9 +518,9 @@
         "Confirm training pipeline is blocked when BAR is absent or unsigned. [ref:iso_42001_2023]"
       ],
       "evidence": [
-        "artifact:signed-bias-assessment-reports-for-each \u2014 Signed Bias Assessment Reports for each training run, retained in model documentation repository. [ref:eu_ai_act_art10]",
-        "artifact:subgroup-representativeness-dashboards-s \u2014 Subgroup representativeness dashboards showing coverage over time and across model versions. [ref:nist_ai_rmf_1_0]",
-        "artifact:audit-log-of-bar-approvals-with-approver \u2014 Audit log of BAR approvals with approver identity and timestamp. [ref:iso_42001_2023]"
+        "model:signed-bias-assessment-reports-for-each \u2014 Signed Bias Assessment Reports for each training run, retained in model documentation repository. [ref:eu_ai_act_art10]",
+        "model:subgroup-representativeness-dashboards-s \u2014 Subgroup representativeness dashboards showing coverage over time and across model versions. [ref:nist_ai_rmf_1_0]",
+        "model:audit-log-of-bar-approvals-with-approver \u2014 Audit log of BAR approvals with approver identity and timestamp. [ref:iso_42001_2023]"
       ]
     },
     "monitoring_schema": {
@@ -690,7 +690,7 @@
       {
         "framework": "iso_42001",
         "requirement_id": "8.4",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Representativeness assessment is an ISO 42001 data quality requirement",
         "reviewed_on": "2026-06-26",
@@ -698,7 +698,8 @@
         "source_locator": {
           "section": "ISO/IEC 42001:2023",
           "clause": "8.4"
-        }
+        },
+        "uncovered_portion": "ISO 42001 \u00a78.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement \u2014 this control covers one aspect of that requirement."
       },
       {
         "framework": "eu_ai_act",
@@ -716,7 +717,7 @@
       {
         "framework": "sr262",
         "requirement_id": "S-1.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "SR 26-2 requires identification and documentation of data limitations including representativeness",
         "reviewed_on": "2026-06-26",
@@ -724,12 +725,13 @@
         "source_locator": {
           "section": "SR 26-2 \u2014 Model Risk Management",
           "clause": "S-1.1"
-        }
+        },
+        "uncovered_portion": "SR 26-2 S-1.1 additionally requires model inventory governance, ownership assignment, business unit mapping, and periodic inventory reconciliation beyond unique model identification."
       },
       {
         "framework": "aisvs",
         "requirement_id": "C5.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Bias assessment supports AISVS data security and quality requirements",
         "reviewed_on": "2026-06-26",
@@ -737,12 +739,13 @@
         "source_locator": {
           "section": "OWASP AISVS v1.0",
           "clause": "C5.1"
-        }
+        },
+        "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention \u2014 this control addresses one aspect."
       },
       {
         "framework": "llm10",
         "requirement_id": "LLM04:2025",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Representativeness gaps can be exploited to skew model behavior; bias assessment reduces attack surface",
         "reviewed_on": "2026-06-26",
@@ -750,7 +753,8 @@
         "source_locator": {
           "section": "OWASP LLM Top 10 2025",
           "clause": "LLM04:2025"
-        }
+        },
+        "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
       },
       {
         "framework": "aicm",
@@ -954,9 +958,9 @@
         "Verify that web-scraped datasets have documented ToS and copyright review before approval. [unverified]"
       ],
       "evidence": [
-        "artifact:data-rights-registry-with-full-entry-for \u2014 Data Rights Registry with full entry for each training dataset, including legal basis, jurisdiction treatment, and legal counsel approval. [ref:gdpr]",
-        "artifact:opt-out-and-deletion-request-processing \u2014 Opt-out and deletion request processing logs with resolution timestamps and artifact-deletion records. [ref:ccpa_cpra]",
-        "artifact:copyright-and-license-review-records-for \u2014 Copyright and license review records for all non-internally-generated training data. [ref:eu_ai_act_art10]"
+        "model:data-rights-registry-with-full-entry-for \u2014 Data Rights Registry with full entry for each training dataset, including legal basis, jurisdiction treatment, and legal counsel approval. [ref:gdpr]",
+        "model:opt-out-and-deletion-request-processing \u2014 Opt-out and deletion request processing logs with resolution timestamps and artifact-deletion records. [ref:ccpa_cpra]",
+        "model:copyright-and-license-review-records-for \u2014 Copyright and license review records for all non-internally-generated training data. [ref:eu_ai_act_art10]"
       ]
     },
     "lenses": {
@@ -1120,7 +1124,7 @@
       {
         "framework": "iso_42001",
         "requirement_id": "8.4",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Legal authority documentation is required by ISO 42001 for data used in AI systems",
         "reviewed_on": "2026-06-26",
@@ -1128,12 +1132,13 @@
         "source_locator": {
           "section": "ISO/IEC 42001:2023",
           "clause": "8.4"
-        }
+        },
+        "uncovered_portion": "ISO 42001 \u00a78.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement \u2014 this control covers one aspect of that requirement."
       },
       {
         "framework": "eu_ai_act",
         "requirement_id": "Art-10",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "DRR operationalizes EU AI Act data governance requirements for high-risk AI",
         "reviewed_on": "2026-06-26",
@@ -1141,12 +1146,13 @@
         "source_locator": {
           "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
           "clause": "Article 10"
-        }
+        },
+        "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
       },
       {
         "framework": "sr262",
         "requirement_id": "S-5.2",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "SR 26-2 data sourcing documentation requirements are met by DRR entries for regulated institution models",
         "reviewed_on": "2026-06-26",
@@ -1154,12 +1160,13 @@
         "source_locator": {
           "section": "SR 26-2 \u2014 Model Risk Management",
           "clause": "S-5.2"
-        }
+        },
+        "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules \u2014 this control covers one aspect."
       },
       {
         "framework": "aisvs",
         "requirement_id": "C5.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Data rights documentation is an AISVS data security requirement",
         "reviewed_on": "2026-06-26",
@@ -1167,12 +1174,13 @@
         "source_locator": {
           "section": "OWASP AISVS v1.0",
           "clause": "C5.1"
-        }
+        },
+        "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention \u2014 this control addresses one aspect."
       },
       {
         "framework": "llm10",
         "requirement_id": "LLM03:2025",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Legal authority verification is part of supply chain due diligence for training data",
         "reviewed_on": "2026-06-26",
@@ -1180,7 +1188,8 @@
         "source_locator": {
           "section": "OWASP LLM Top 10 2025",
           "clause": "LLM03:2025"
-        }
+        },
+        "uncovered_portion": "LLM03:2025 Supply Chain additionally covers vulnerable pre-trained model adoption, third-party plugin risks, outdated component risks, and model provider dependency management."
       },
       {
         "framework": "aicm",
@@ -1378,10 +1387,10 @@
         "Simulate supply chain compromise by substituting a third-party dataset shard with a modified version; verify checksum mismatch is caught before training. [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "artifact:integrity-registry-with-hash-entries-for \u2014 Integrity registry with hash entries for all training shards, showing hash algorithm, timestamp, and verifying process identity. [ref:nist_ai_rmf_1_0]",
-        "artifact:pre-training-hash-verification-logs-for \u2014 Pre-training hash verification logs for each training run, showing pass/fail status and any overrides with CISO approval records. [ref:mitre_atlas_v5_6_0]",
-        "artifact:chain-of-custody-audit-trail-for-each-tr \u2014 Chain-of-custody audit trail for each training dataset version. [ref:owasp_llm10_2025]",
-        "artifact:adversarial-screening-alert-logs-and-inv \u2014 Adversarial screening alert logs and investigation records. [ref:mitre_atlas_v5_6_0]"
+        "model:integrity-registry-with-hash-entries-for \u2014 Integrity registry with hash entries for all training shards, showing hash algorithm, timestamp, and verifying process identity. [ref:nist_ai_rmf_1_0]",
+        "model:pre-training-hash-verification-logs-for \u2014 Pre-training hash verification logs for each training run, showing pass/fail status and any overrides with CISO approval records. [ref:mitre_atlas_v5_6_0]",
+        "model:chain-of-custody-audit-trail-for-each-tr \u2014 Chain-of-custody audit trail for each training dataset version. [ref:owasp_llm10_2025]",
+        "model:adversarial-screening-alert-logs-and-inv \u2014 Adversarial screening alert logs and investigation records. [ref:mitre_atlas_v5_6_0]"
       ]
     },
     "lenses": {
@@ -1491,7 +1500,7 @@
       {
         "framework": "iso_42001",
         "requirement_id": "8.4",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Chain-of-custody and integrity verification are ISO 42001 data governance requirements",
         "reviewed_on": "2026-06-26",
@@ -1499,12 +1508,13 @@
         "source_locator": {
           "section": "ISO/IEC 42001:2023",
           "clause": "8.4"
-        }
+        },
+        "uncovered_portion": "ISO 42001 \u00a78.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement \u2014 this control covers one aspect of that requirement."
       },
       {
         "framework": "eu_ai_act",
         "requirement_id": "Art-10",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Data integrity controls support EU AI Act data quality requirements for high-risk AI",
         "reviewed_on": "2026-06-26",
@@ -1512,12 +1522,13 @@
         "source_locator": {
           "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
           "clause": "Article 10"
-        }
+        },
+        "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
       },
       {
         "framework": "sr262",
         "requirement_id": "S-5.2",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Data integrity documentation is required by SR 26-2 for model development controls",
         "reviewed_on": "2026-06-26",
@@ -1525,12 +1536,13 @@
         "source_locator": {
           "section": "SR 26-2 \u2014 Model Risk Management",
           "clause": "S-5.2"
-        }
+        },
+        "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules \u2014 this control covers one aspect."
       },
       {
         "framework": "aisvs",
         "requirement_id": "C5.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Hash verification and chain-of-custody implement AISVS data integrity requirements",
         "reviewed_on": "2026-06-26",
@@ -1538,7 +1550,8 @@
         "source_locator": {
           "section": "OWASP AISVS v1.0",
           "clause": "C5.1"
-        }
+        },
+        "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention \u2014 this control addresses one aspect."
       },
       {
         "framework": "llm10",
@@ -1713,9 +1726,9 @@
         "Verify that a training run submitted with a missing contamination-check attestation is blocked at the pipeline gate. [ref:sr262_2026]"
       ],
       "evidence": [
-        "artifact:contamination-check-audit-logs-for-each \u2014 Contamination-check audit logs for each training run and evaluation cycle, showing contamination counts per split pair. [ref:nist_ai_rmf_1_0]",
-        "artifact:deduplication-reports-showing-exact-matc \u2014 Deduplication reports showing exact-match and near-duplicate counts per split pair. [ref:iso_42001_2023]",
-        "artifact:test-set-access-control-audit-logs-showi \u2014 Test-set access control audit logs showing who accessed test data and when. [ref:sr262_2026]"
+        "model:contamination-check-audit-logs-for-each \u2014 Contamination-check audit logs for each training run and evaluation cycle, showing contamination counts per split pair. [ref:nist_ai_rmf_1_0]",
+        "model:deduplication-reports-showing-exact-matc \u2014 Deduplication reports showing exact-match and near-duplicate counts per split pair. [ref:iso_42001_2023]",
+        "model:test-set-access-control-audit-logs-showi \u2014 Test-set access control audit logs showing who accessed test data and when. [ref:sr262_2026]"
       ]
     },
     "lenses": {
@@ -1747,7 +1760,7 @@
       {
         "framework": "iso_42001",
         "requirement_id": "8.4",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Split separation and contamination detection are ISO 42001 data management and evaluation requirements",
         "reviewed_on": "2026-06-26",
@@ -1755,7 +1768,8 @@
         "source_locator": {
           "section": "ISO/IEC 42001:2023",
           "clause": "8.4"
-        }
+        },
+        "uncovered_portion": "ISO 42001 \u00a78.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement \u2014 this control covers one aspect of that requirement."
       },
       {
         "framework": "eu_ai_act",
@@ -1786,7 +1800,7 @@
       {
         "framework": "aisvs",
         "requirement_id": "C5.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Data split integrity is an AISVS data quality and security requirement",
         "reviewed_on": "2026-06-26",
@@ -1794,7 +1808,8 @@
         "source_locator": {
           "section": "OWASP AISVS v1.0",
           "clause": "C5.1"
-        }
+        },
+        "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention \u2014 this control addresses one aspect."
       },
       {
         "framework": "llm10",
@@ -2045,9 +2060,9 @@
         "Submit a training dataset with undeclared PII fields; verify that the pipeline gate blocks training until necessity assessment is completed. [ref:gdpr]"
       ],
       "evidence": [
-        "artifact:data-necessity-assessment-records-for-al \u2014 Data necessity assessment records for all training datasets, with approval signatures. [ref:gdpr]",
-        "artifact:pii-scanning-run-logs-with-detection-cou \u2014 PII scanning run logs with detection counts and remediation records. [ref:gdpr]",
-        "artifact:fairness-audit-vault-access-logs-for-the \u2014 Fairness audit vault access logs for the retention window. [ref:eu_ai_act_art10]"
+        "model:data-necessity-assessment-records-for-al \u2014 Data necessity assessment records for all training datasets, with approval signatures. [ref:gdpr]",
+        "model:pii-scanning-run-logs-with-detection-cou \u2014 PII scanning run logs with detection counts and remediation records. [ref:gdpr]",
+        "model:fairness-audit-vault-access-logs-for-the \u2014 Fairness audit vault access logs for the retention window. [ref:eu_ai_act_art10]"
       ]
     },
     "lenses": {
@@ -2179,7 +2194,7 @@
       {
         "framework": "iso_42001",
         "requirement_id": "8.4",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Data minimization is an ISO 42001 data quality and governance requirement",
         "reviewed_on": "2026-06-26",
@@ -2187,12 +2202,13 @@
         "source_locator": {
           "section": "ISO/IEC 42001:2023",
           "clause": "8.4"
-        }
+        },
+        "uncovered_portion": "ISO 42001 \u00a78.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement \u2014 this control covers one aspect of that requirement."
       },
       {
         "framework": "eu_ai_act",
         "requirement_id": "Art-10",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Minimization controls implement EU AI Act data governance and special-category processing requirements",
         "reviewed_on": "2026-06-26",
@@ -2200,12 +2216,13 @@
         "source_locator": {
           "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
           "clause": "Article 10"
-        }
+        },
+        "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
       },
       {
         "framework": "sr262",
         "requirement_id": "S-5.2",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Data governance documentation required by SR 26-2 includes PII handling policies",
         "reviewed_on": "2026-06-26",
@@ -2213,12 +2230,13 @@
         "source_locator": {
           "section": "SR 26-2 \u2014 Model Risk Management",
           "clause": "S-5.2"
-        }
+        },
+        "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules \u2014 this control covers one aspect."
       },
       {
         "framework": "aisvs",
         "requirement_id": "C5.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "PII minimization and access controls implement AISVS data security requirements",
         "reviewed_on": "2026-06-26",
@@ -2226,12 +2244,13 @@
         "source_locator": {
           "section": "OWASP AISVS v1.0",
           "clause": "C5.1"
-        }
+        },
+        "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention \u2014 this control addresses one aspect."
       },
       {
         "framework": "llm10",
         "requirement_id": "LLM04:2025",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "PII minimization reduces the PII payload available for model memorization and exfiltration",
         "reviewed_on": "2026-06-26",
@@ -2239,7 +2258,8 @@
         "source_locator": {
           "section": "OWASP LLM Top 10 2025",
           "clause": "LLM04:2025"
-        }
+        },
+        "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
       },
       {
         "framework": "aicm",
@@ -2456,9 +2476,9 @@
         "Substitute a third-party dataset shard with a modified version and verify TG-04 hash verification catches the substitution. [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "artifact:third-party-dataset-registry-with-entrie \u2014 Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates. [ref:iso_42001_2023]",
-        "artifact:security-and-legal-due-diligence-records \u2014 Security and legal due-diligence records for each TPDR entry. [ref:nist_ai_rmf_1_0]",
-        "artifact:update-notification-logs-and-re-review-r \u2014 Update notification logs and re-review records for dataset updates received during the retention window. [ref:mitre_atlas_v5_6_0]"
+        "model:third-party-dataset-registry-with-entrie \u2014 Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates. [ref:iso_42001_2023]",
+        "model:security-and-legal-due-diligence-records \u2014 Security and legal due-diligence records for each TPDR entry. [ref:nist_ai_rmf_1_0]",
+        "model:update-notification-logs-and-re-review-r \u2014 Update notification logs and re-review records for dataset updates received during the retention window. [ref:mitre_atlas_v5_6_0]"
       ]
     },
     "lenses": {
@@ -2490,7 +2510,7 @@
       {
         "framework": "iso_42001",
         "requirement_id": "8.4",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Third-party dataset governance is an ISO 42001 data management requirement",
         "reviewed_on": "2026-06-26",
@@ -2498,12 +2518,13 @@
         "source_locator": {
           "section": "ISO/IEC 42001:2023",
           "clause": "8.4"
-        }
+        },
+        "uncovered_portion": "ISO 42001 \u00a78.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement \u2014 this control covers one aspect of that requirement."
       },
       {
         "framework": "eu_ai_act",
         "requirement_id": "Art-10",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "TPDR provides documentation of data origin required by EU AI Act for high-risk AI",
         "reviewed_on": "2026-06-26",
@@ -2511,7 +2532,8 @@
         "source_locator": {
           "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
           "clause": "Article 10"
-        }
+        },
+        "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
       },
       {
         "framework": "sr262",
@@ -2529,7 +2551,7 @@
       {
         "framework": "aisvs",
         "requirement_id": "C5.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Third-party dataset integrity controls implement AISVS supply chain security requirements",
         "reviewed_on": "2026-06-26",
@@ -2537,12 +2559,13 @@
         "source_locator": {
           "section": "OWASP AISVS v1.0",
           "clause": "C5.1"
-        }
+        },
+        "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention \u2014 this control addresses one aspect."
       },
       {
         "framework": "llm10",
         "requirement_id": "LLM03:2025",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-mitigates-risk",
         "rationale": "Third-party dataset governance directly mitigates LLM supply chain and poisoning risks",
         "reviewed_on": "2026-06-26",
@@ -2550,7 +2573,8 @@
         "source_locator": {
           "section": "OWASP LLM Top 10 2025",
           "clause": "LLM03:2025"
-        }
+        },
+        "uncovered_portion": "LLM03:2025 Supply Chain additionally covers vulnerable pre-trained model adoption, third-party plugin risks, outdated component risks, and model provider dependency management."
       },
       {
         "framework": "aicm",
@@ -2804,9 +2828,9 @@
         "Submit a CCPA deletion request and verify the response timeline and artifact deletion scope meet California requirements. [ref:ccpa_cpra]"
       ],
       "evidence": [
-        "artifact:data-lifecycle-policy-document-with-rete \u2014 Data Lifecycle Policy document with retention schedules, deletion procedures, and jurisdiction-specific treatment. [ref:gdpr]",
-        "artifact:erasure-request-processing-logs-with-art \u2014 Erasure request processing logs with artifact-category deletion records and deletion certificates. [ref:gdpr]",
-        "artifact:annual-lifecycle-policy-review-records-s \u2014 Annual lifecycle policy review records showing consideration of regulatory developments including machine unlearning. [ref:iso_42001_2023]"
+        "model:data-lifecycle-policy-document-with-rete \u2014 Data Lifecycle Policy document with retention schedules, deletion procedures, and jurisdiction-specific treatment. [ref:gdpr]",
+        "model:erasure-request-processing-logs-with-art \u2014 Erasure request processing logs with artifact-category deletion records and deletion certificates. [ref:gdpr]",
+        "model:annual-lifecycle-policy-review-records-s \u2014 Annual lifecycle policy review records showing consideration of regulatory developments including machine unlearning. [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
@@ -2941,7 +2965,7 @@
       {
         "framework": "nist_rmf",
         "requirement_id": "GOVERN-2.2",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Lifecycle policy implements NIST AI RMF data management and documentation retention requirements",
         "reviewed_on": "2026-06-26",
@@ -2949,12 +2973,13 @@
         "source_locator": {
           "section": "NIST AI RMF 1.0",
           "clause": "GOVERN-2.2"
-        }
+        },
+        "uncovered_portion": "GOVERN-2.2 additionally addresses organizational data governance policies, roles, accountability structures, and data stewardship practices beyond the scope of this control."
       },
       {
         "framework": "iso_42001",
         "requirement_id": "8.4",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Dataset lifecycle management is an ISO 42001 data governance requirement",
         "reviewed_on": "2026-06-26",
@@ -2962,12 +2987,13 @@
         "source_locator": {
           "section": "ISO/IEC 42001:2023",
           "clause": "8.4"
-        }
+        },
+        "uncovered_portion": "ISO 42001 \u00a78.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement \u2014 this control covers one aspect of that requirement."
       },
       {
         "framework": "eu_ai_act",
         "requirement_id": "Art-10",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Retention for technical documentation and erasure obligations jointly shape the lifecycle policy for EU high-risk AI; these may conflict and the resolution must be documented",
         "reviewed_on": "2026-06-26",
@@ -2975,7 +3001,8 @@
         "source_locator": {
           "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
           "clause": "Article 10"
-        }
+        },
+        "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
       },
       {
         "framework": "sr262",
@@ -2993,7 +3020,7 @@
       {
         "framework": "aisvs",
         "requirement_id": "C5.1",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Data lifecycle controls support AISVS data security and governance requirements",
         "reviewed_on": "2026-06-26",
@@ -3001,12 +3028,13 @@
         "source_locator": {
           "section": "OWASP AISVS v1.0",
           "clause": "C5.1"
-        }
+        },
+        "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention \u2014 this control addresses one aspect."
       },
       {
         "framework": "llm10",
         "requirement_id": "LLM04:2025",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "Lifecycle management reduces stale-data attack surface and enables removal of poisoned training data",
         "reviewed_on": "2026-06-26",
@@ -3014,7 +3042,8 @@
         "source_locator": {
           "section": "OWASP LLM Top 10 2025",
           "clause": "LLM04:2025"
-        }
+        },
+        "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
       },
       {
         "framework": "aicm",

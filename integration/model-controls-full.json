@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T15:54:00.292Z",
+      "generated_at": "2026-06-27T16:22:24.554Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:59dcbfe2e5684ed83ce0682787323e7b19a327149e7e74d7f2461c6ef73ea82e"
+      "content_hash": "sha256:67631a05e1ce872602b35aa184c1a435fd5bacd08b6f3d1cff4e8c204d4073a3"
     },
     "controls": [
       {
@@ -1418,7 +1418,7 @@
           {
             "framework": "iso_42001",
             "requirement_id": "A.6.2",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "ISO/IEC 42001:2023 A.6.2 requires documented records of AI system design and development decisions. A complete, versioned model card linked to the artifact hash satisfies A.6.2 by providing a structured, retrievable development record.",
             "source_locator": {
@@ -1433,7 +1433,8 @@
             "control_readiness": "approved",
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
-            "evidence_status": "no-evidence"
+            "evidence_status": "no-evidence",
+            "uncovered_portion": "A.6.2 additionally addresses documentation governance, document control procedures, version approval workflows, and distribution controls beyond model card content requirements."
           },
           {
             "framework": "mitre",
@@ -1763,7 +1764,7 @@
           {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-DG-01",
-            "fit": "direct",
+            "fit": "supporting",
             "direction": "control-supports-requirement",
             "rationale": "LI-05 creates a structured pointer from the model registry entry to the authoritative TG-layer dataset record, directly satisfying the AITG-DG-01 Data Governance Testing requirement that the provenance and lineage of training data used by a model be documented and traceable from the model artifact to its data sources.",
             "source_locator": {
@@ -3330,7 +3331,7 @@
           {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-03",
-            "fit": "direct",
+            "fit": "supporting",
             "direction": "control-supports-requirement",
             "rationale": "LI-09 establishes system-level composite identity covering the model artifact, system prompt, RAG corpus, and tool integrations, and defines a change-authorization process for any material alteration — directly implementing the AITG-IR-03 Incident Response Testing requirement that the system configuration at the time of any incident be uniquely identifiable and reconstructable for post-incident analysis.",
             "source_locator": {
@@ -3808,9 +3809,9 @@
             "Replay a historical dataset known to have class imbalance beyond threshold; confirm gate failure. [unverified]"
           ],
           "evidence": [
-            "artifact:signed-quality-attestation-records-for-a — Signed quality attestation records for all completed training runs, retained for audit. [ref:eu_ai_act_art10]",
-            "artifact:gate-rejection-reports-with-root-cause-c — Gate rejection reports with root-cause classification and remediation timestamps. [ref:iso_42001_2023]",
-            "artifact:schema-registry-audit-log-showing-versio — Schema registry audit log showing version history and approver identities. [ref:nist_ai_rmf_1_0]"
+            "model:signed-quality-attestation-records-for-a — Signed quality attestation records for all completed training runs, retained for audit. [ref:eu_ai_act_art10]",
+            "model:gate-rejection-reports-with-root-cause-c — Gate rejection reports with root-cause classification and remediation timestamps. [ref:iso_42001_2023]",
+            "model:schema-registry-audit-log-showing-versio — Schema registry audit log showing version history and approver identities. [ref:nist_ai_rmf_1_0]"
           ]
         },
         "monitoring_schema": {
@@ -4234,9 +4235,9 @@
             "Confirm training pipeline is blocked when BAR is absent or unsigned. [ref:iso_42001_2023]"
           ],
           "evidence": [
-            "artifact:signed-bias-assessment-reports-for-each — Signed Bias Assessment Reports for each training run, retained in model documentation repository. [ref:eu_ai_act_art10]",
-            "artifact:subgroup-representativeness-dashboards-s — Subgroup representativeness dashboards showing coverage over time and across model versions. [ref:nist_ai_rmf_1_0]",
-            "artifact:audit-log-of-bar-approvals-with-approver — Audit log of BAR approvals with approver identity and timestamp. [ref:iso_42001_2023]"
+            "model:signed-bias-assessment-reports-for-each — Signed Bias Assessment Reports for each training run, retained in model documentation repository. [ref:eu_ai_act_art10]",
+            "model:subgroup-representativeness-dashboards-s — Subgroup representativeness dashboards showing coverage over time and across model versions. [ref:nist_ai_rmf_1_0]",
+            "model:audit-log-of-bar-approvals-with-approver — Audit log of BAR approvals with approver identity and timestamp. [ref:iso_42001_2023]"
           ]
         },
         "monitoring_schema": {
@@ -4406,7 +4407,7 @@
           {
             "framework": "iso_42001",
             "requirement_id": "8.4",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Representativeness assessment is an ISO 42001 data quality requirement",
             "reviewed_on": "2026-06-26",
@@ -4414,7 +4415,8 @@
             "source_locator": {
               "section": "ISO/IEC 42001:2023",
               "clause": "8.4"
-            }
+            },
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
           },
           {
             "framework": "eu_ai_act",
@@ -4432,7 +4434,7 @@
           {
             "framework": "sr262",
             "requirement_id": "S-1.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "SR 26-2 requires identification and documentation of data limitations including representativeness",
             "reviewed_on": "2026-06-26",
@@ -4440,12 +4442,13 @@
             "source_locator": {
               "section": "SR 26-2 — Model Risk Management",
               "clause": "S-1.1"
-            }
+            },
+            "uncovered_portion": "SR 26-2 S-1.1 additionally requires model inventory governance, ownership assignment, business unit mapping, and periodic inventory reconciliation beyond unique model identification."
           },
           {
             "framework": "aisvs",
             "requirement_id": "C5.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Bias assessment supports AISVS data security and quality requirements",
             "reviewed_on": "2026-06-26",
@@ -4453,12 +4456,13 @@
             "source_locator": {
               "section": "OWASP AISVS v1.0",
               "clause": "C5.1"
-            }
+            },
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
           },
           {
             "framework": "llm10",
             "requirement_id": "LLM04:2025",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Representativeness gaps can be exploited to skew model behavior; bias assessment reduces attack surface",
             "reviewed_on": "2026-06-26",
@@ -4466,7 +4470,8 @@
             "source_locator": {
               "section": "OWASP LLM Top 10 2025",
               "clause": "LLM04:2025"
-            }
+            },
+            "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
           },
           {
             "framework": "aicm",
@@ -4669,9 +4674,9 @@
             "Verify that web-scraped datasets have documented ToS and copyright review before approval. [unverified]"
           ],
           "evidence": [
-            "artifact:data-rights-registry-with-full-entry-for — Data Rights Registry with full entry for each training dataset, including legal basis, jurisdiction treatment, and legal counsel approval. [ref:gdpr]",
-            "artifact:opt-out-and-deletion-request-processing — Opt-out and deletion request processing logs with resolution timestamps and artifact-deletion records. [ref:ccpa_cpra]",
-            "artifact:copyright-and-license-review-records-for — Copyright and license review records for all non-internally-generated training data. [ref:eu_ai_act_art10]"
+            "model:data-rights-registry-with-full-entry-for — Data Rights Registry with full entry for each training dataset, including legal basis, jurisdiction treatment, and legal counsel approval. [ref:gdpr]",
+            "model:opt-out-and-deletion-request-processing — Opt-out and deletion request processing logs with resolution timestamps and artifact-deletion records. [ref:ccpa_cpra]",
+            "model:copyright-and-license-review-records-for — Copyright and license review records for all non-internally-generated training data. [ref:eu_ai_act_art10]"
           ]
         },
         "lenses": {
@@ -4835,7 +4840,7 @@
           {
             "framework": "iso_42001",
             "requirement_id": "8.4",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Legal authority documentation is required by ISO 42001 for data used in AI systems",
             "reviewed_on": "2026-06-26",
@@ -4843,12 +4848,13 @@
             "source_locator": {
               "section": "ISO/IEC 42001:2023",
               "clause": "8.4"
-            }
+            },
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
           },
           {
             "framework": "eu_ai_act",
             "requirement_id": "Art-10",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "DRR operationalizes EU AI Act data governance requirements for high-risk AI",
             "reviewed_on": "2026-06-26",
@@ -4856,12 +4862,13 @@
             "source_locator": {
               "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
               "clause": "Article 10"
-            }
+            },
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
           },
           {
             "framework": "sr262",
             "requirement_id": "S-5.2",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "SR 26-2 data sourcing documentation requirements are met by DRR entries for regulated institution models",
             "reviewed_on": "2026-06-26",
@@ -4869,12 +4876,13 @@
             "source_locator": {
               "section": "SR 26-2 — Model Risk Management",
               "clause": "S-5.2"
-            }
+            },
+            "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules — this control covers one aspect."
           },
           {
             "framework": "aisvs",
             "requirement_id": "C5.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Data rights documentation is an AISVS data security requirement",
             "reviewed_on": "2026-06-26",
@@ -4882,12 +4890,13 @@
             "source_locator": {
               "section": "OWASP AISVS v1.0",
               "clause": "C5.1"
-            }
+            },
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
           },
           {
             "framework": "llm10",
             "requirement_id": "LLM03:2025",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Legal authority verification is part of supply chain due diligence for training data",
             "reviewed_on": "2026-06-26",
@@ -4895,7 +4904,8 @@
             "source_locator": {
               "section": "OWASP LLM Top 10 2025",
               "clause": "LLM03:2025"
-            }
+            },
+            "uncovered_portion": "LLM03:2025 Supply Chain additionally covers vulnerable pre-trained model adoption, third-party plugin risks, outdated component risks, and model provider dependency management."
           },
           {
             "framework": "aicm",
@@ -5092,10 +5102,10 @@
             "Simulate supply chain compromise by substituting a third-party dataset shard with a modified version; verify checksum mismatch is caught before training. [ref:mitre_atlas_v5_6_0]"
           ],
           "evidence": [
-            "artifact:integrity-registry-with-hash-entries-for — Integrity registry with hash entries for all training shards, showing hash algorithm, timestamp, and verifying process identity. [ref:nist_ai_rmf_1_0]",
-            "artifact:pre-training-hash-verification-logs-for — Pre-training hash verification logs for each training run, showing pass/fail status and any overrides with CISO approval records. [ref:mitre_atlas_v5_6_0]",
-            "artifact:chain-of-custody-audit-trail-for-each-tr — Chain-of-custody audit trail for each training dataset version. [ref:owasp_llm10_2025]",
-            "artifact:adversarial-screening-alert-logs-and-inv — Adversarial screening alert logs and investigation records. [ref:mitre_atlas_v5_6_0]"
+            "model:integrity-registry-with-hash-entries-for — Integrity registry with hash entries for all training shards, showing hash algorithm, timestamp, and verifying process identity. [ref:nist_ai_rmf_1_0]",
+            "model:pre-training-hash-verification-logs-for — Pre-training hash verification logs for each training run, showing pass/fail status and any overrides with CISO approval records. [ref:mitre_atlas_v5_6_0]",
+            "model:chain-of-custody-audit-trail-for-each-tr — Chain-of-custody audit trail for each training dataset version. [ref:owasp_llm10_2025]",
+            "model:adversarial-screening-alert-logs-and-inv — Adversarial screening alert logs and investigation records. [ref:mitre_atlas_v5_6_0]"
           ]
         },
         "lenses": {
@@ -5205,7 +5215,7 @@
           {
             "framework": "iso_42001",
             "requirement_id": "8.4",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Chain-of-custody and integrity verification are ISO 42001 data governance requirements",
             "reviewed_on": "2026-06-26",
@@ -5213,12 +5223,13 @@
             "source_locator": {
               "section": "ISO/IEC 42001:2023",
               "clause": "8.4"
-            }
+            },
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
           },
           {
             "framework": "eu_ai_act",
             "requirement_id": "Art-10",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Data integrity controls support EU AI Act data quality requirements for high-risk AI",
             "reviewed_on": "2026-06-26",
@@ -5226,12 +5237,13 @@
             "source_locator": {
               "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
               "clause": "Article 10"
-            }
+            },
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
           },
           {
             "framework": "sr262",
             "requirement_id": "S-5.2",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Data integrity documentation is required by SR 26-2 for model development controls",
             "reviewed_on": "2026-06-26",
@@ -5239,12 +5251,13 @@
             "source_locator": {
               "section": "SR 26-2 — Model Risk Management",
               "clause": "S-5.2"
-            }
+            },
+            "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules — this control covers one aspect."
           },
           {
             "framework": "aisvs",
             "requirement_id": "C5.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Hash verification and chain-of-custody implement AISVS data integrity requirements",
             "reviewed_on": "2026-06-26",
@@ -5252,7 +5265,8 @@
             "source_locator": {
               "section": "OWASP AISVS v1.0",
               "clause": "C5.1"
-            }
+            },
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
           },
           {
             "framework": "llm10",
@@ -5426,9 +5440,9 @@
             "Verify that a training run submitted with a missing contamination-check attestation is blocked at the pipeline gate. [ref:sr262_2026]"
           ],
           "evidence": [
-            "artifact:contamination-check-audit-logs-for-each — Contamination-check audit logs for each training run and evaluation cycle, showing contamination counts per split pair. [ref:nist_ai_rmf_1_0]",
-            "artifact:deduplication-reports-showing-exact-matc — Deduplication reports showing exact-match and near-duplicate counts per split pair. [ref:iso_42001_2023]",
-            "artifact:test-set-access-control-audit-logs-showi — Test-set access control audit logs showing who accessed test data and when. [ref:sr262_2026]"
+            "model:contamination-check-audit-logs-for-each — Contamination-check audit logs for each training run and evaluation cycle, showing contamination counts per split pair. [ref:nist_ai_rmf_1_0]",
+            "model:deduplication-reports-showing-exact-matc — Deduplication reports showing exact-match and near-duplicate counts per split pair. [ref:iso_42001_2023]",
+            "model:test-set-access-control-audit-logs-showi — Test-set access control audit logs showing who accessed test data and when. [ref:sr262_2026]"
           ]
         },
         "lenses": {
@@ -5460,7 +5474,7 @@
           {
             "framework": "iso_42001",
             "requirement_id": "8.4",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Split separation and contamination detection are ISO 42001 data management and evaluation requirements",
             "reviewed_on": "2026-06-26",
@@ -5468,7 +5482,8 @@
             "source_locator": {
               "section": "ISO/IEC 42001:2023",
               "clause": "8.4"
-            }
+            },
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
           },
           {
             "framework": "eu_ai_act",
@@ -5499,7 +5514,7 @@
           {
             "framework": "aisvs",
             "requirement_id": "C5.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Data split integrity is an AISVS data quality and security requirement",
             "reviewed_on": "2026-06-26",
@@ -5507,7 +5522,8 @@
             "source_locator": {
               "section": "OWASP AISVS v1.0",
               "clause": "C5.1"
-            }
+            },
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
           },
           {
             "framework": "llm10",
@@ -5757,9 +5773,9 @@
             "Submit a training dataset with undeclared PII fields; verify that the pipeline gate blocks training until necessity assessment is completed. [ref:gdpr]"
           ],
           "evidence": [
-            "artifact:data-necessity-assessment-records-for-al — Data necessity assessment records for all training datasets, with approval signatures. [ref:gdpr]",
-            "artifact:pii-scanning-run-logs-with-detection-cou — PII scanning run logs with detection counts and remediation records. [ref:gdpr]",
-            "artifact:fairness-audit-vault-access-logs-for-the — Fairness audit vault access logs for the retention window. [ref:eu_ai_act_art10]"
+            "model:data-necessity-assessment-records-for-al — Data necessity assessment records for all training datasets, with approval signatures. [ref:gdpr]",
+            "model:pii-scanning-run-logs-with-detection-cou — PII scanning run logs with detection counts and remediation records. [ref:gdpr]",
+            "model:fairness-audit-vault-access-logs-for-the — Fairness audit vault access logs for the retention window. [ref:eu_ai_act_art10]"
           ]
         },
         "lenses": {
@@ -5891,7 +5907,7 @@
           {
             "framework": "iso_42001",
             "requirement_id": "8.4",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Data minimization is an ISO 42001 data quality and governance requirement",
             "reviewed_on": "2026-06-26",
@@ -5899,12 +5915,13 @@
             "source_locator": {
               "section": "ISO/IEC 42001:2023",
               "clause": "8.4"
-            }
+            },
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
           },
           {
             "framework": "eu_ai_act",
             "requirement_id": "Art-10",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Minimization controls implement EU AI Act data governance and special-category processing requirements",
             "reviewed_on": "2026-06-26",
@@ -5912,12 +5929,13 @@
             "source_locator": {
               "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
               "clause": "Article 10"
-            }
+            },
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
           },
           {
             "framework": "sr262",
             "requirement_id": "S-5.2",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Data governance documentation required by SR 26-2 includes PII handling policies",
             "reviewed_on": "2026-06-26",
@@ -5925,12 +5943,13 @@
             "source_locator": {
               "section": "SR 26-2 — Model Risk Management",
               "clause": "S-5.2"
-            }
+            },
+            "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules — this control covers one aspect."
           },
           {
             "framework": "aisvs",
             "requirement_id": "C5.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "PII minimization and access controls implement AISVS data security requirements",
             "reviewed_on": "2026-06-26",
@@ -5938,12 +5957,13 @@
             "source_locator": {
               "section": "OWASP AISVS v1.0",
               "clause": "C5.1"
-            }
+            },
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
           },
           {
             "framework": "llm10",
             "requirement_id": "LLM04:2025",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "PII minimization reduces the PII payload available for model memorization and exfiltration",
             "reviewed_on": "2026-06-26",
@@ -5951,7 +5971,8 @@
             "source_locator": {
               "section": "OWASP LLM Top 10 2025",
               "clause": "LLM04:2025"
-            }
+            },
+            "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
           },
           {
             "framework": "aicm",
@@ -6167,9 +6188,9 @@
             "Substitute a third-party dataset shard with a modified version and verify TG-04 hash verification catches the substitution. [ref:mitre_atlas_v5_6_0]"
           ],
           "evidence": [
-            "artifact:third-party-dataset-registry-with-entrie — Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates. [ref:iso_42001_2023]",
-            "artifact:security-and-legal-due-diligence-records — Security and legal due-diligence records for each TPDR entry. [ref:nist_ai_rmf_1_0]",
-            "artifact:update-notification-logs-and-re-review-r — Update notification logs and re-review records for dataset updates received during the retention window. [ref:mitre_atlas_v5_6_0]"
+            "model:third-party-dataset-registry-with-entrie — Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates. [ref:iso_42001_2023]",
+            "model:security-and-legal-due-diligence-records — Security and legal due-diligence records for each TPDR entry. [ref:nist_ai_rmf_1_0]",
+            "model:update-notification-logs-and-re-review-r — Update notification logs and re-review records for dataset updates received during the retention window. [ref:mitre_atlas_v5_6_0]"
           ]
         },
         "lenses": {
@@ -6201,7 +6222,7 @@
           {
             "framework": "iso_42001",
             "requirement_id": "8.4",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Third-party dataset governance is an ISO 42001 data management requirement",
             "reviewed_on": "2026-06-26",
@@ -6209,12 +6230,13 @@
             "source_locator": {
               "section": "ISO/IEC 42001:2023",
               "clause": "8.4"
-            }
+            },
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
           },
           {
             "framework": "eu_ai_act",
             "requirement_id": "Art-10",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "TPDR provides documentation of data origin required by EU AI Act for high-risk AI",
             "reviewed_on": "2026-06-26",
@@ -6222,7 +6244,8 @@
             "source_locator": {
               "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
               "clause": "Article 10"
-            }
+            },
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
           },
           {
             "framework": "sr262",
@@ -6240,7 +6263,7 @@
           {
             "framework": "aisvs",
             "requirement_id": "C5.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Third-party dataset integrity controls implement AISVS supply chain security requirements",
             "reviewed_on": "2026-06-26",
@@ -6248,12 +6271,13 @@
             "source_locator": {
               "section": "OWASP AISVS v1.0",
               "clause": "C5.1"
-            }
+            },
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
           },
           {
             "framework": "llm10",
             "requirement_id": "LLM03:2025",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-mitigates-risk",
             "rationale": "Third-party dataset governance directly mitigates LLM supply chain and poisoning risks",
             "reviewed_on": "2026-06-26",
@@ -6261,7 +6285,8 @@
             "source_locator": {
               "section": "OWASP LLM Top 10 2025",
               "clause": "LLM03:2025"
-            }
+            },
+            "uncovered_portion": "LLM03:2025 Supply Chain additionally covers vulnerable pre-trained model adoption, third-party plugin risks, outdated component risks, and model provider dependency management."
           },
           {
             "framework": "aicm",
@@ -6514,9 +6539,9 @@
             "Submit a CCPA deletion request and verify the response timeline and artifact deletion scope meet California requirements. [ref:ccpa_cpra]"
           ],
           "evidence": [
-            "artifact:data-lifecycle-policy-document-with-rete — Data Lifecycle Policy document with retention schedules, deletion procedures, and jurisdiction-specific treatment. [ref:gdpr]",
-            "artifact:erasure-request-processing-logs-with-art — Erasure request processing logs with artifact-category deletion records and deletion certificates. [ref:gdpr]",
-            "artifact:annual-lifecycle-policy-review-records-s — Annual lifecycle policy review records showing consideration of regulatory developments including machine unlearning. [ref:iso_42001_2023]"
+            "model:data-lifecycle-policy-document-with-rete — Data Lifecycle Policy document with retention schedules, deletion procedures, and jurisdiction-specific treatment. [ref:gdpr]",
+            "model:erasure-request-processing-logs-with-art — Erasure request processing logs with artifact-category deletion records and deletion certificates. [ref:gdpr]",
+            "model:annual-lifecycle-policy-review-records-s — Annual lifecycle policy review records showing consideration of regulatory developments including machine unlearning. [ref:iso_42001_2023]"
           ]
         },
         "lenses": {
@@ -6651,7 +6676,7 @@
           {
             "framework": "nist_rmf",
             "requirement_id": "GOVERN-2.2",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Lifecycle policy implements NIST AI RMF data management and documentation retention requirements",
             "reviewed_on": "2026-06-26",
@@ -6659,12 +6684,13 @@
             "source_locator": {
               "section": "NIST AI RMF 1.0",
               "clause": "GOVERN-2.2"
-            }
+            },
+            "uncovered_portion": "GOVERN-2.2 additionally addresses organizational data governance policies, roles, accountability structures, and data stewardship practices beyond the scope of this control."
           },
           {
             "framework": "iso_42001",
             "requirement_id": "8.4",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Dataset lifecycle management is an ISO 42001 data governance requirement",
             "reviewed_on": "2026-06-26",
@@ -6672,12 +6698,13 @@
             "source_locator": {
               "section": "ISO/IEC 42001:2023",
               "clause": "8.4"
-            }
+            },
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
           },
           {
             "framework": "eu_ai_act",
             "requirement_id": "Art-10",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Retention for technical documentation and erasure obligations jointly shape the lifecycle policy for EU high-risk AI; these may conflict and the resolution must be documented",
             "reviewed_on": "2026-06-26",
@@ -6685,7 +6712,8 @@
             "source_locator": {
               "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
               "clause": "Article 10"
-            }
+            },
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
           },
           {
             "framework": "sr262",
@@ -6703,7 +6731,7 @@
           {
             "framework": "aisvs",
             "requirement_id": "C5.1",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Data lifecycle controls support AISVS data security and governance requirements",
             "reviewed_on": "2026-06-26",
@@ -6711,12 +6739,13 @@
             "source_locator": {
               "section": "OWASP AISVS v1.0",
               "clause": "C5.1"
-            }
+            },
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
           },
           {
             "framework": "llm10",
             "requirement_id": "LLM04:2025",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "Lifecycle management reduces stale-data attack surface and enables removal of poisoned training data",
             "reviewed_on": "2026-06-26",
@@ -6724,7 +6753,8 @@
             "source_locator": {
               "section": "OWASP LLM Top 10 2025",
               "clause": "LLM04:2025"
-            }
+            },
+            "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
           },
           {
             "framework": "aicm",
@@ -6991,10 +7021,10 @@
             "{'test': 'Confirm that evaluation manifests appear in the tamper-evident log and that log integrity verification (inclusion proof) passes for each manifest.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:signed-evaluation-manifest-for-each-prod — Signed evaluation manifest for each production model version, stored in the tamper-evident log. [ref:iso_42001_2023]",
-            "artifact:pipeline-execution-logs-showing-the-eval — Pipeline execution logs showing the evaluation gate blocking a promotion attempt when the manifest is absent or invalid. [unverified]",
-            "artifact:dual-approval-records-linking-named-appr — Dual-approval records linking named approver identities to specific evaluation manifest hashes. [ref:sr262_2026]",
-            "artifact:exception-log-documenting-any-gate-bypas — Exception log documenting any gate bypass approvals with named risk-accepter, rationale, and time-bound remediation commitment. [ref:sr262_2026]"
+            "model:signed-evaluation-manifest-for-each-prod — Signed evaluation manifest for each production model version, stored in the tamper-evident log. [ref:iso_42001_2023]",
+            "model:pipeline-execution-logs-showing-the-eval — Pipeline execution logs showing the evaluation gate blocking a promotion attempt when the manifest is absent or invalid. [unverified]",
+            "model:dual-approval-records-linking-named-appr — Dual-approval records linking named approver identities to specific evaluation manifest hashes. [ref:sr262_2026]",
+            "model:exception-log-documenting-any-gate-bypas — Exception log documenting any gate bypass approvals with named risk-accepter, rationale, and time-bound remediation commitment. [ref:sr262_2026]"
           ]
         },
         "lenses": {
@@ -7261,10 +7291,10 @@
             "{'test': 'Confirm that dimension-level results are recorded independently and that a safety dimension failure cannot be overridden by fitness dimension pass.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:pre-specified-evaluation-protocol-docume — Pre-specified evaluation protocol document with per-dimension thresholds, signed before evaluation execution. [ref:iso_42001_2023]",
-            "artifact:dimension-level-evaluation-results-linke — Dimension-level evaluation results linked to the model artifact hash and evaluation suite version. [ref:nist_ai_rmf_1_0]",
-            "artifact:dataset-provenance-records-confirming-tr — Dataset provenance records confirming training-evaluation disjointness. [ref:iso_42001_2023]",
-            "artifact:risk-acceptance-records-for-any-dimensio — Risk-acceptance records for any dimension threshold trade-off decisions. [ref:eu_ai_act_2024]"
+            "model:pre-specified-evaluation-protocol-docume — Pre-specified evaluation protocol document with per-dimension thresholds, signed before evaluation execution. [ref:iso_42001_2023]",
+            "model:dimension-level-evaluation-results-linke — Dimension-level evaluation results linked to the model artifact hash and evaluation suite version. [ref:nist_ai_rmf_1_0]",
+            "model:dataset-provenance-records-confirming-tr — Dataset provenance records confirming training-evaluation disjointness. [ref:iso_42001_2023]",
+            "model:risk-acceptance-records-for-any-dimensio — Risk-acceptance records for any dimension threshold trade-off decisions. [ref:eu_ai_act_2024]"
           ]
         },
         "lenses": {
@@ -7596,10 +7626,10 @@
             "{'test': 'For a model with a known above-threshold synthetic capability indicator: verify that the assessment process correctly classifies it and blocks deployment.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:scoping-determination-record-for-each-ev — Scoping determination record for each evaluated model, referencing the applicable threshold framework. [ref:anthropic_rsp_v3_3]",
-            "artifact:capability-elicitation-results-per-domai — Capability elicitation results per domain with methodology documentation, evaluator identities, and threshold comparison. [ref:anthropic_rsp_v3_3]",
-            "artifact:safety-committee-review-and-deployment-a — Safety committee review and deployment authorization record for models evaluated as below threshold. [unverified]",
-            "artifact:for-eu-scope-gpai-models-systemic-risk — For EU-scope GPAI models: systemic risk classification record per EU AI Act Art. 51. [ref:eu_ai_act_2024]"
+            "model:scoping-determination-record-for-each-ev — Scoping determination record for each evaluated model, referencing the applicable threshold framework. [ref:anthropic_rsp_v3_3]",
+            "model:capability-elicitation-results-per-domai — Capability elicitation results per domain with methodology documentation, evaluator identities, and threshold comparison. [ref:anthropic_rsp_v3_3]",
+            "model:safety-committee-review-and-deployment-a — Safety committee review and deployment authorization record for models evaluated as below threshold. [unverified]",
+            "model:for-eu-scope-gpai-models-systemic-risk — For EU-scope GPAI models: systemic risk classification record per EU AI Act Art. 51. [ref:eu_ai_act_2024]"
           ]
         },
         "capability_risk": {
@@ -7931,11 +7961,11 @@
             "{'test': 'For a model with a known exploitable failure mode: confirm the red-team exercise correctly identifies and documents it.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:signed-red-team-scope-and-threat-model-d — Signed red-team scope and threat model document, version-controlled, approved before exercise. [ref:nist_ai_rmf_1_0]",
-            "artifact:red-team-findings-log-with-severity-clas — Red-team findings log with severity classifications, reproduction steps, affected populations, and remediation status. [ref:owasp_aisvs_v1]",
-            "artifact:signed-red-team-report-with-residual-ris — Signed red-team report with residual risk statement, linked to the model artifact hash. [ref:nist_ai_rmf_1_0]",
-            "artifact:evidence-of-remediation-for-all-critical — Evidence of remediation for all critical and high findings, including re-test results. [unverified]",
-            "artifact:for-frontier-capability-profile-escalat — For frontier-capability profile: escalation records for any capability elicited that approaches threshold levels. [ref:mitre_atlas_v5_6_0]"
+            "model:signed-red-team-scope-and-threat-model-d — Signed red-team scope and threat model document, version-controlled, approved before exercise. [ref:nist_ai_rmf_1_0]",
+            "model:red-team-findings-log-with-severity-clas — Red-team findings log with severity classifications, reproduction steps, affected populations, and remediation status. [ref:owasp_aisvs_v1]",
+            "model:signed-red-team-report-with-residual-ris — Signed red-team report with residual risk statement, linked to the model artifact hash. [ref:nist_ai_rmf_1_0]",
+            "model:evidence-of-remediation-for-all-critical — Evidence of remediation for all critical and high findings, including re-test results. [unverified]",
+            "model:for-frontier-capability-profile-escalat — For frontier-capability profile: escalation records for any capability elicited that approaches threshold levels. [ref:mitre_atlas_v5_6_0]"
           ]
         },
         "lenses": {
@@ -8268,11 +8298,11 @@
             "{'test': 'Confirm that evaluation data for each population group is disjoint from training data.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
           ],
           "evidence": [
-            "artifact:fairness-evaluation-protocol-document-wi — Fairness evaluation protocol document with pre-specified populations, harms, metrics, rationale, legal basis, and thresholds. [ref:eu_ai_act_2024]",
-            "artifact:disaggregated-evaluation-results-per-pop — Disaggregated evaluation results per population group and harm type, linked to model artifact hash. [ref:nist_ai_rmf_1_0]",
-            "artifact:trade-off-decision-record-with-explicit — Trade-off decision record with explicit rationale and risk-acceptance sign-off. [unverified]",
-            "artifact:legal-review-record-for-deployments-invo — Legal review record for deployments involving legally protected characteristics. [ref:eu_ai_act_2024]",
-            "artifact:iso-42005-2025-impact-assessment-record — ISO 42005:2025 impact assessment record for high-impact-decision and eu-high-risk profiles. [ref:iso_42005_2025]"
+            "model:fairness-evaluation-protocol-document-wi — Fairness evaluation protocol document with pre-specified populations, harms, metrics, rationale, legal basis, and thresholds. [ref:eu_ai_act_2024]",
+            "model:disaggregated-evaluation-results-per-pop — Disaggregated evaluation results per population group and harm type, linked to model artifact hash. [ref:nist_ai_rmf_1_0]",
+            "model:trade-off-decision-record-with-explicit — Trade-off decision record with explicit rationale and risk-acceptance sign-off. [unverified]",
+            "model:legal-review-record-for-deployments-invo — Legal review record for deployments involving legally protected characteristics. [ref:eu_ai_act_2024]",
+            "model:iso-42005-2025-impact-assessment-record — ISO 42005:2025 impact assessment record for high-impact-decision and eu-high-risk profiles. [ref:iso_42005_2025]"
           ]
         },
         "lenses": {
@@ -8585,11 +8615,11 @@
             "{'test': 'Confirm that contamination screening results are present for each benchmark and that contaminated benchmarks are absent from the final evaluation suite.', 'ref': 'nist_ai_600_1'} [ref:nist_ai_600_1]"
           ],
           "evidence": [
-            "artifact:version-controlled-signed-benchmark-sel — Version-controlled, signed benchmark selection document with pre-specified selection criteria. [ref:nist_ai_rmf_1_0]",
-            "artifact:contamination-screening-report-documenti — Contamination screening report documenting methodology, training corpus reference, and benchmark-level results. [ref:nist_ai_600_1]",
-            "artifact:evaluation-design-document-capturing-all — Evaluation design document capturing all reproduction parameters, version-controlled and signed. [ref:iso_42001_2023]",
-            "artifact:independent-reproduction-run-results-wit — Independent reproduction run results within tolerance, confirming design document sufficiency. [unverified]",
-            "artifact:signed-evaluation-artifacts-scripts-da — Signed evaluation artifacts (scripts, datasets, results) with hashes recorded in the evaluation manifest. [unverified]"
+            "model:version-controlled-signed-benchmark-sel — Version-controlled, signed benchmark selection document with pre-specified selection criteria. [ref:nist_ai_rmf_1_0]",
+            "model:contamination-screening-report-documenti — Contamination screening report documenting methodology, training corpus reference, and benchmark-level results. [ref:nist_ai_600_1]",
+            "model:evaluation-design-document-capturing-all — Evaluation design document capturing all reproduction parameters, version-controlled and signed. [ref:iso_42001_2023]",
+            "model:independent-reproduction-run-results-wit — Independent reproduction run results within tolerance, confirming design document sufficiency. [unverified]",
+            "model:signed-evaluation-artifacts-scripts-da — Signed evaluation artifacts (scripts, datasets, results) with hashes recorded in the evaluation manifest. [unverified]"
           ]
         },
         "lenses": {
@@ -9012,11 +9042,11 @@
             "{'test': 'Confirm that sampling (if used for capability metrics) meets the defined minimum coverage threshold and is documented consistently.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:versioned-regression-evaluation-suite-ar — Versioned regression evaluation suite artifact with signed hash. [ref:iso_42001_2023]",
-            "artifact:signed-regression-manifests-for-each-upd — Signed regression manifests for each update event, linked to updated artifact hash, baseline artifact hash, and regression suite version. [ref:nist_ai_rmf_1_0]",
-            "artifact:signed-baseline-evaluation-results-for-e — Signed baseline evaluation results for each production model version. [ref:sr262_2026]",
-            "artifact:blocking-records-for-any-regression-find — Blocking records for any regression finding, including root-cause analysis for safety regressions. [unverified]",
-            "artifact:risk-acceptance-records-for-sub-threshol — Risk-acceptance records for sub-threshold capability regression findings with time-bound remediation commitments. [ref:sr262_2026]"
+            "model:versioned-regression-evaluation-suite-ar — Versioned regression evaluation suite artifact with signed hash. [ref:iso_42001_2023]",
+            "model:signed-regression-manifests-for-each-upd — Signed regression manifests for each update event, linked to updated artifact hash, baseline artifact hash, and regression suite version. [ref:nist_ai_rmf_1_0]",
+            "model:signed-baseline-evaluation-results-for-e — Signed baseline evaluation results for each production model version. [ref:sr262_2026]",
+            "model:blocking-records-for-any-regression-find — Blocking records for any regression finding, including root-cause analysis for safety regressions. [unverified]",
+            "model:risk-acceptance-records-for-sub-threshol — Risk-acceptance records for sub-threshold capability regression findings with time-bound remediation commitments. [ref:sr262_2026]"
           ]
         },
         "lenses": {
@@ -9392,11 +9422,11 @@
             "{'test': 'Confirm that validator identity in the evaluation manifest can be independently verified (e.g., via PKI certificate or directory lookup).', 'ref': 'sr262_2026'} [ref:sr262_2026]"
           ],
           "evidence": [
-            "artifact:organizational-chart-and-reporting-struc — Organizational chart and reporting structure documentation confirming validator independence from development function. [ref:sr262_2026]",
-            "artifact:validation-function-authority-policy-doc — Validation function authority policy document, version-controlled and approved by governance committee. [ref:sr262_2026]",
-            "artifact:evaluation-manifests-with-named-attribu — Evaluation manifests with named, attributed validator approvals distinct from development team lead. [ref:nist_ai_rmf_1_0]",
-            "artifact:validation-dispute-log-if-any-confirmi — Validation dispute log (if any) confirming escalation to governance committee. [unverified]",
-            "artifact:annual-independence-structure-review-doc — Annual independence structure review documentation for us-regulated-banking profile. [ref:sr262_2026]"
+            "model:organizational-chart-and-reporting-struc — Organizational chart and reporting structure documentation confirming validator independence from development function. [ref:sr262_2026]",
+            "model:validation-function-authority-policy-doc — Validation function authority policy document, version-controlled and approved by governance committee. [ref:sr262_2026]",
+            "model:evaluation-manifests-with-named-attribu — Evaluation manifests with named, attributed validator approvals distinct from development team lead. [ref:nist_ai_rmf_1_0]",
+            "model:validation-dispute-log-if-any-confirmi — Validation dispute log (if any) confirming escalation to governance committee. [unverified]",
+            "model:annual-independence-structure-review-doc — Annual independence structure review documentation for us-regulated-banking profile. [ref:sr262_2026]"
           ]
         },
         "lenses": {
@@ -9757,10 +9787,10 @@
             "{'test': 'Confirm that a change to use case scope triggers a classification review notification in the model registry.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:signed-classification-record-for-each-mo — Signed classification record for each model system, containing EU AI Act classification, SR 26-2 tier (where applicable), capability tier, profiles, and obligations inventory. [ref:eu_ai_act_2024]",
-            "artifact:classification-questionnaire-responses-a — Classification questionnaire responses and rationale documentation, version-controlled. [ref:iso_42001_2023]",
-            "artifact:classification-review-records-for-all-re — Classification review records for all re-classification events, documenting the trigger, prior classification, new classification, and rationale. [ref:sr262_2026]",
-            "artifact:iso-42005-2025-impact-assessment-for-hig — ISO 42005:2025 impact assessment for high-impact-decision and eu-high-risk profile systems. [ref:iso_42005_2025]"
+            "model:signed-classification-record-for-each-mo — Signed classification record for each model system, containing EU AI Act classification, SR 26-2 tier (where applicable), capability tier, profiles, and obligations inventory. [ref:eu_ai_act_2024]",
+            "model:classification-questionnaire-responses-a — Classification questionnaire responses and rationale documentation, version-controlled. [ref:iso_42001_2023]",
+            "model:classification-review-records-for-all-re — Classification review records for all re-classification events, documenting the trigger, prior classification, new classification, and rationale. [ref:sr262_2026]",
+            "model:iso-42005-2025-impact-assessment-for-hig — ISO 42005:2025 impact assessment for high-impact-decision and eu-high-risk profile systems. [ref:iso_42005_2025]"
           ]
         },
         "lenses": {
@@ -10032,11 +10062,11 @@
             "{'test': 'Confirm that signer identity in evaluation result artifacts can be independently verified via PKI or equivalent directory lookup.', 'ref': 'sr262_2026'} [ref:sr262_2026]"
           ],
           "evidence": [
-            "artifact:signed-content-addressed-evaluation-res — Signed, content-addressed evaluation result artifacts for each evaluation run, stored in the tamper-evident log with inclusion proofs. [ref:iso_42001_2023]",
-            "artifact:provenance-chain-traversal-records-demon — Provenance chain traversal records demonstrating machine-verifiable linkage from model artifact to deployment decision for each production model version. [ref:nist_ai_rmf_1_0]",
-            "artifact:tamper-evident-log-integrity-verificatio — Tamper-evident log integrity verification records (inclusion proofs) for all evaluation result submissions. [unverified]",
-            "artifact:retention-compliance-records-confirming — Retention compliance records confirming artifact availability for the required retention period. [ref:eu_ai_act_2024]",
-            "artifact:for-eu-high-risk-profile-record-keeping — For eu-high-risk profile: record-keeping compliance assessment per EU AI Act Art. 12 and Art. 18. [ref:eu_ai_act_2024]"
+            "model:signed-content-addressed-evaluation-res — Signed, content-addressed evaluation result artifacts for each evaluation run, stored in the tamper-evident log with inclusion proofs. [ref:iso_42001_2023]",
+            "model:provenance-chain-traversal-records-demon — Provenance chain traversal records demonstrating machine-verifiable linkage from model artifact to deployment decision for each production model version. [ref:nist_ai_rmf_1_0]",
+            "model:tamper-evident-log-integrity-verificatio — Tamper-evident log integrity verification records (inclusion proofs) for all evaluation result submissions. [unverified]",
+            "model:retention-compliance-records-confirming — Retention compliance records confirming artifact availability for the required retention period. [ref:eu_ai_act_2024]",
+            "model:for-eu-high-risk-profile-record-keeping — For eu-high-risk profile: record-keeping compliance assessment per EU AI Act Art. 12 and Art. 18. [ref:eu_ai_act_2024]"
           ]
         },
         "lenses": {
@@ -10355,9 +10385,9 @@
             "Verify annual review completion rate across all production models. [unverified]"
           ],
           "evidence": [
-            "artifact:model-ownership-register-extract-masked — Model ownership register extract (masked PII) showing 100% coverage of production models. [unverified]",
-            "artifact:deployment-pipeline-gate-logs-showing-bl — Deployment pipeline gate logs showing blocked deployments for missing ownership. [unverified]",
-            "artifact:governance-committee-minutes-showing-own — Governance committee minutes showing ownership review agenda items. [unverified]"
+            "model:model-ownership-register-extract-masked — Model ownership register extract (masked PII) showing 100% coverage of production models. [unverified]",
+            "model:deployment-pipeline-gate-logs-showing-bl — Deployment pipeline gate logs showing blocked deployments for missing ownership. [unverified]",
+            "model:governance-committee-minutes-showing-own — Governance committee minutes showing ownership review agenda items. [unverified]"
           ]
         },
         "lenses": {
@@ -10753,10 +10783,10 @@
             "Verify reviewer authority: confirm that override decisions propagate without requiring secondary approval that negates reviewer authority. [unverified]"
           ],
           "evidence": [
-            "artifact:five-factor-oversight-design-documents-f — Five-factor oversight design documents for each high-stakes use case. [unverified]",
-            "artifact:override-rate-time-series-for-past-12-mo — Override rate time series for past 12 months, by model and reviewer cohort. [unverified]",
-            "artifact:reviewer-training-completion-records-and — Reviewer training completion records and competence assessment results. [ref:eu_ai_act_2024]",
-            "artifact:automation-bias-simulation-exercise-resu — Automation bias simulation exercise results and trend analysis. [unverified]"
+            "model:five-factor-oversight-design-documents-f — Five-factor oversight design documents for each high-stakes use case. [unverified]",
+            "model:override-rate-time-series-for-past-12-mo — Override rate time series for past 12 months, by model and reviewer cohort. [unverified]",
+            "model:reviewer-training-completion-records-and — Reviewer training completion records and competence assessment results. [ref:eu_ai_act_2024]",
+            "model:automation-bias-simulation-exercise-resu — Automation bias simulation exercise results and trend analysis. [unverified]"
           ]
         },
         "lenses": {
@@ -11096,10 +11126,10 @@
             "Confirm minutes are retained in a document management system with access controls and audit trail. [unverified]"
           ],
           "evidence": [
-            "artifact:committee-charter-current-version-with — Committee charter (current version, with approval signature and date). [unverified]",
-            "artifact:meeting-minutes-for-preceding-12-month-p — Meeting minutes for preceding 12-month period. [unverified]",
-            "artifact:decision-log-showing-high-risk-model-app — Decision log showing high-risk model approvals and risk appetite decisions. [unverified]",
-            "artifact:membership-list-with-functional-affiliat — Membership list with functional affiliations. [unverified]"
+            "model:committee-charter-current-version-with — Committee charter (current version, with approval signature and date). [unverified]",
+            "model:meeting-minutes-for-preceding-12-month-p — Meeting minutes for preceding 12-month period. [unverified]",
+            "model:decision-log-showing-high-risk-model-app — Decision log showing high-risk model approvals and risk appetite decisions. [unverified]",
+            "model:membership-list-with-functional-affiliat — Membership list with functional affiliations. [unverified]"
           ]
         },
         "lenses": {
@@ -11374,10 +11404,10 @@
             "Check for tier-action scope mismatches: verify models are not observed taking actions outside their tier-permitted scope. [unverified]"
           ],
           "evidence": [
-            "artifact:model-register-extract-showing-tier-assi — Model register extract showing tier assignments for all production models. [unverified]",
-            "artifact:aigc-approval-records-for-tier-3-tier-a — AIGC approval records for Tier 3+ tier assignments. [unverified]",
-            "artifact:tier-escalation-change-control-records — Tier escalation change control records. [unverified]",
-            "artifact:tier-assignment-model-id-version-jso — tier_assignment_{model_id}_{version}.json artifacts consumed from Security Verifier domain. [unverified]"
+            "model:model-register-extract-showing-tier-assi — Model register extract showing tier assignments for all production models. [unverified]",
+            "model:aigc-approval-records-for-tier-3-tier-a — AIGC approval records for Tier 3+ tier assignments. [unverified]",
+            "model:tier-escalation-change-control-records — Tier escalation change control records. [unverified]",
+            "model:tier-assignment-model-id-version-jso — tier_assignment_{model_id}_{version}.json artifacts consumed from Security Verifier domain. [unverified]"
           ]
         },
         "lenses": {
@@ -11721,10 +11751,10 @@
             "Verify sign-off records are retained in the document management system with the required retention period. [unverified]"
           ],
           "evidence": [
-            "artifact:legal-sign-off-records-for-all-regulated — Legal sign-off records for all regulated-use models deployed in the past 12 months. [unverified]",
-            "artifact:eu-declaration-of-conformity-for-eu-high — EU Declaration of Conformity for eu-high-risk models. [ref:eu_ai_act_2024]",
-            "artifact:sr-26-2-validation-reports-for-banking-m — SR 26-2 validation reports for banking models. [ref:sr262_2026]",
-            "artifact:regulatory-applicability-matrix-current — Regulatory applicability matrix (current version). [unverified]"
+            "model:legal-sign-off-records-for-all-regulated — Legal sign-off records for all regulated-use models deployed in the past 12 months. [unverified]",
+            "model:eu-declaration-of-conformity-for-eu-high — EU Declaration of Conformity for eu-high-risk models. [ref:eu_ai_act_2024]",
+            "model:sr-26-2-validation-reports-for-banking-m — SR 26-2 validation reports for banking models. [ref:sr262_2026]",
+            "model:regulatory-applicability-matrix-current — Regulatory applicability matrix (current version). [unverified]"
           ]
         },
         "lenses": {
@@ -11983,10 +12013,10 @@
             "Simulate vendor incident notification: verify internal escalation path and response SLA. [unverified]"
           ],
           "evidence": [
-            "artifact:third-party-ai-model-inventory-current — Third-party AI model inventory (current). [unverified]",
-            "artifact:vendor-due-diligence-records-for-all-act — Vendor due diligence records for all active AI model vendors. [unverified]",
-            "artifact:contract-review-checklist-completion-rec — Contract review checklist completion records for vendor agreements. [unverified]",
-            "artifact:annual-vendor-risk-review-reports — Annual vendor risk review reports. [unverified]"
+            "model:third-party-ai-model-inventory-current — Third-party AI model inventory (current). [unverified]",
+            "model:vendor-due-diligence-records-for-all-act — Vendor due diligence records for all active AI model vendors. [unverified]",
+            "model:contract-review-checklist-completion-rec — Contract review checklist completion records for vendor agreements. [unverified]",
+            "model:annual-vendor-risk-review-reports — Annual vendor risk review reports. [unverified]"
           ]
         },
         "lenses": {
@@ -12104,7 +12134,7 @@
           {
             "framework": "aicm",
             "requirement_id": "STA-09",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "OA-06 applies systematic vendor governance to all third-party AI models and components — requiring risk-based due diligence before first use, contract terms mandating model change notification and audit rights, annual vendor risk reviews, and a documented substitution plan for critical vendors. This directly implements SUP-02's third-party AI model and vendor risk management program requirement by covering the full vendor lifecycle from intake due diligence through ongoing performance monitoring and exit planning.",
             "source_locator": {
@@ -12119,7 +12149,8 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence",
-            "provisional": true
+            "provisional": true,
+            "uncovered_portion": "STA-09 additionally requires BOM documentation for cloud infrastructure, software dependencies, and third-party service components beyond AI model and dataset provenance."
           },
           {
             "framework": "owasp_aitg",
@@ -12248,10 +12279,10 @@
             "Verify escalation contact list is current — no departed employees or invalid contact information. [unverified]"
           ],
           "evidence": [
-            "artifact:escalation-authority-chain-document-cur — Escalation authority chain document (current version, with approval date). [unverified]",
-            "artifact:annual-tabletop-exercise-record-includi — Annual tabletop exercise record, including identified gaps and remediation actions. [unverified]",
-            "artifact:incident-post-mortem-records-showing-esc — Incident post-mortem records showing escalation chain adherence. [unverified]",
-            "artifact:regulatory-notification-log-if-any-noti — Regulatory notification log (if any notifications were required in the past 12 months). [unverified]"
+            "model:escalation-authority-chain-document-cur — Escalation authority chain document (current version, with approval date). [unverified]",
+            "model:annual-tabletop-exercise-record-includi — Annual tabletop exercise record, including identified gaps and remediation actions. [unverified]",
+            "model:incident-post-mortem-records-showing-esc — Incident post-mortem records showing escalation chain adherence. [unverified]",
+            "model:regulatory-notification-log-if-any-noti — Regulatory notification log (if any notifications were required in the past 12 months). [unverified]"
           ]
         },
         "lenses": {
@@ -12760,11 +12791,11 @@
             "Audit human review requests; verify reviewers had authority and information to change outcomes. [ref:eu_ai_act_2024]"
           ],
           "evidence": [
-            "artifact:applicability-determination-log-for-all — Applicability determination log for all production use cases. [unverified]",
-            "artifact:explanation-mechanism-validation-test-re — Explanation mechanism validation test results. [unverified]",
-            "artifact:contestability-process-documentation-and — Contestability process documentation and response timeline compliance records. [ref:eu_ai_act_2024]",
-            "artifact:sample-of-adverse-action-notices-or-equi — Sample of adverse action notices or equivalent disclosure documents (redacted). [unverified]",
-            "artifact:human-review-access-log-showing-request — Human review access log showing request volume, outcomes, and reviewer qualification. [unverified]"
+            "model:applicability-determination-log-for-all — Applicability determination log for all production use cases. [unverified]",
+            "model:explanation-mechanism-validation-test-re — Explanation mechanism validation test results. [unverified]",
+            "model:contestability-process-documentation-and — Contestability process documentation and response timeline compliance records. [ref:eu_ai_act_2024]",
+            "model:sample-of-adverse-action-notices-or-equi — Sample of adverse action notices or equivalent disclosure documents (redacted). [unverified]",
+            "model:human-review-access-log-showing-request — Human review access log showing request volume, outcomes, and reviewer qualification. [unverified]"
           ]
         },
         "lenses": {
@@ -13208,9 +13239,9 @@
             "{'test': 'Inject low-amplitude persistent shift (0.5 sigma over 6 hours) and verify EWMA detects it.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
           ],
           "evidence": [
-            "artifact:baseline-distribution-artifact-with-vers — Baseline distribution artifact with version, timestamp, and statistical parameters for current production model. [ref:nist_ai_rmf_1_0]",
-            "artifact:spc-alert-log-for-trailing-90-days-with — SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification. [unverified]",
-            "artifact:quarterly-threshold-review-sign-off-from — Quarterly threshold review sign-off from model owner. [ref:iso_42001_2023]"
+            "model:baseline-distribution-artifact-with-vers — Baseline distribution artifact with version, timestamp, and statistical parameters for current production model. [ref:nist_ai_rmf_1_0]",
+            "model:spc-alert-log-for-trailing-90-days-with — SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification. [unverified]",
+            "model:quarterly-threshold-review-sign-off-from — Quarterly threshold review sign-off from model owner. [ref:iso_42001_2023]"
           ]
         },
         "lenses": {
@@ -13625,9 +13656,9 @@
             "{'test': 'Confirm DriftReference artifact hash is validated on load before any comparison proceeds.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:driftreference-artifact-for-current-prod — DriftReference artifact for current production model with version, training date, and per-feature statistics. [ref:nist_ai_rmf_1_0]",
-            "artifact:drift-event-log-for-trailing-90-days-wit — Drift event log for trailing 90 days with per-feature statistics and action-taken records. [ref:sr262_2026]",
-            "artifact:monthly-drift-summary-report-signed-by-m — Monthly drift summary report signed by model owner. [ref:iso_42001_2023]"
+            "model:driftreference-artifact-for-current-prod — DriftReference artifact for current production model with version, training date, and per-feature statistics. [ref:nist_ai_rmf_1_0]",
+            "model:drift-event-log-for-trailing-90-days-wit — Drift event log for trailing 90 days with per-feature statistics and action-taken records. [ref:sr262_2026]",
+            "model:monthly-drift-summary-report-signed-by-m — Monthly drift summary report signed by model owner. [ref:iso_42001_2023]"
           ]
         },
         "lenses": {
@@ -13691,7 +13722,7 @@
           {
             "framework": "aicm",
             "requirement_id": "MDS-10",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact, applying profile-conditional thresholds and triggering model review workflows when distribution shift exceeds safe bounds — directly implementing MON-02's production data and concept drift detection requirement. The control's separate handling of feature drift versus prediction drift, and its stricter thresholds for continuously-learning models, give MON-02 the granularity needed to distinguish different categories of distributional change and their risk implications.",
             "source_locator": {
@@ -13706,7 +13737,8 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence",
-            "provisional": true
+            "provisional": true,
+            "uncovered_portion": "MDS-10 additionally requires ongoing security event correlation, adversarial input monitoring, and model artifact integrity checks beyond the scope of this control."
           },
           {
             "framework": "owasp_aitg",
@@ -14021,9 +14053,9 @@
             "{'test': 'Confirm subgroup regression alerts fire independently of aggregate metric alerts.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:evaluationbaseline-artifact-for-current — EvaluationBaseline artifact for current production model version. [ref:nist_ai_rmf_1_0]",
-            "artifact:alert-log-for-trailing-90-days-with-root — Alert log for trailing 90 days with root cause and remediation records. [ref:sr262_2026]",
-            "artifact:quarterly-threshold-review-sign-off-by-m — Quarterly threshold review sign-off by model owner. [ref:iso_42001_2023]"
+            "model:evaluationbaseline-artifact-for-current — EvaluationBaseline artifact for current production model version. [ref:nist_ai_rmf_1_0]",
+            "model:alert-log-for-trailing-90-days-with-root — Alert log for trailing 90 days with root cause and remediation records. [ref:sr262_2026]",
+            "model:quarterly-threshold-review-sign-off-by-m — Quarterly threshold review sign-off by model owner. [ref:iso_42001_2023]"
           ]
         },
         "lenses": {
@@ -14333,9 +14365,9 @@
             "{'test': 'Verify probe inputs are not accessible via any public API or logging endpoint.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
           ],
           "evidence": [
-            "artifact:boundarytestsuite-artifact-with-version — BoundaryTestSuite artifact with version and review date. [ref:nist_ai_rmf_1_0]",
-            "artifact:boundaryadherencerate-time-series-for-tr — BoundaryAdherenceRate time-series for trailing 90 days per boundary category. [ref:iso_42001_2023]",
-            "artifact:cross-domain-alert-log-showing-securityc — Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops. [unverified]"
+            "model:boundarytestsuite-artifact-with-version — BoundaryTestSuite artifact with version and review date. [ref:nist_ai_rmf_1_0]",
+            "model:boundaryadherencerate-time-series-for-tr — BoundaryAdherenceRate time-series for trailing 90 days per boundary category. [ref:iso_42001_2023]",
+            "model:cross-domain-alert-log-showing-securityc — Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops. [unverified]"
           ]
         },
         "lenses": {
@@ -14798,10 +14830,10 @@
             "{'test': 'Verify caller_id resolves to human-readable identity; no raw auth tokens in logs.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
           ],
           "evidence": [
-            "artifact:decisionlog-schema-documentation-with-fi — DecisionLog schema documentation with field definitions and masking policy. [ref:nist_ai_rmf_1_0]",
-            "artifact:privacy-review-sign-off-confirming-no-di — Privacy review sign-off confirming no direct PII in stored logs. [ref:eu_ai_act_2024]",
-            "artifact:retention-policy-configuration-and-autom — Retention policy configuration and automated deletion audit log. [ref:iso_42001_2023]",
-            "artifact:daily-merkle-root-hash-publication-log-f — Daily Merkle root hash publication log for trailing 90 days. [unverified]"
+            "model:decisionlog-schema-documentation-with-fi — DecisionLog schema documentation with field definitions and masking policy. [ref:nist_ai_rmf_1_0]",
+            "model:privacy-review-sign-off-confirming-no-di — Privacy review sign-off confirming no direct PII in stored logs. [ref:eu_ai_act_2024]",
+            "model:retention-policy-configuration-and-autom — Retention policy configuration and automated deletion audit log. [ref:iso_42001_2023]",
+            "model:daily-merkle-root-hash-publication-log-f — Daily Merkle root hash publication log for trailing 90 days. [unverified]"
           ]
         },
         "lenses": {
@@ -15087,10 +15119,10 @@
             "{'test': 'Verify probe runs do not appear in operational traffic metrics (probe identity correctly filtered).', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:injectionprobelibrary-artifact-with-vers — InjectionProbeLibrary artifact with version, category coverage, and last review date. [ref:mitre_atlas_v5_6_0]",
-            "artifact:injectionresistancescore-time-series-for — InjectionResistanceScore time-series for trailing 90 days per attack category. [ref:owasp_llm10_2025]",
-            "artifact:cross-domain-alert-log-showing-securityc — Cross-domain alert log showing securitycontrols.ai notifications. [unverified]",
-            "artifact:monthly-injectionresistancescore-trend-r — Monthly InjectionResistanceScore trend report to governance board. [ref:nist_ai_rmf_1_0]"
+            "model:injectionprobelibrary-artifact-with-vers — InjectionProbeLibrary artifact with version, category coverage, and last review date. [ref:mitre_atlas_v5_6_0]",
+            "model:injectionresistancescore-time-series-for — InjectionResistanceScore time-series for trailing 90 days per attack category. [ref:owasp_llm10_2025]",
+            "model:cross-domain-alert-log-showing-securityc — Cross-domain alert log showing securitycontrols.ai notifications. [unverified]",
+            "model:monthly-injectionresistancescore-trend-r — Monthly InjectionResistanceScore trend report to governance board. [ref:nist_ai_rmf_1_0]"
           ]
         },
         "lenses": {
@@ -15486,9 +15518,9 @@
             "{'test': 'Confirm cost spikes correlated with high call volume (potential AML.T0024 pattern) are routed to securitycontrols.ai.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
           ],
           "evidence": [
-            "artifact:costevent-time-series-for-trailing-90-da — CostEvent time-series for trailing 90 days with per-caller attribution. [ref:nist_ai_rmf_1_0]",
-            "artifact:alert-log-for-cost-anomalies-with-root-c — Alert log for cost anomalies with root cause and resolution records. [unverified]",
-            "artifact:budget-cap-configuration-document-review — Budget cap configuration document reviewed by finance operations and model owner. [unverified]"
+            "model:costevent-time-series-for-trailing-90-da — CostEvent time-series for trailing 90 days with per-caller attribution. [ref:nist_ai_rmf_1_0]",
+            "model:alert-log-for-cost-anomalies-with-root-c — Alert log for cost anomalies with root cause and resolution records. [unverified]",
+            "model:budget-cap-configuration-document-review — Budget cap configuration document reviewed by finance operations and model owner. [unverified]"
           ]
         },
         "lenses": {
@@ -15747,10 +15779,10 @@
             "{'test': 'Confirm shadow comparison report is generated and stored before any canary authorization gate is presented.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:deploymentgovernancelog-for-all-producti — DeploymentGovernanceLog for all production deployments in trailing 12 months. [ref:sr262_2026]",
-            "artifact:signed-authorization-artifacts-for-each — Signed authorization artifacts for each canary deployment. [ref:iso_42001_2023]",
-            "artifact:shadow-comparison-reports-with-output-di — Shadow comparison reports with output divergence metrics for each deployment. [ref:nist_ai_rmf_1_0]",
-            "artifact:rollback-event-log-with-trigger-conditio — Rollback event log with trigger condition and resolution time. [unverified]"
+            "model:deploymentgovernancelog-for-all-producti — DeploymentGovernanceLog for all production deployments in trailing 12 months. [ref:sr262_2026]",
+            "model:signed-authorization-artifacts-for-each — Signed authorization artifacts for each canary deployment. [ref:iso_42001_2023]",
+            "model:shadow-comparison-reports-with-output-di — Shadow comparison reports with output divergence metrics for each deployment. [ref:nist_ai_rmf_1_0]",
+            "model:rollback-event-log-with-trigger-conditio — Rollback event log with trigger condition and resolution time. [unverified]"
           ]
         },
         "lenses": {
@@ -15833,7 +15865,7 @@
           {
             "framework": "aicm",
             "requirement_id": "DSP-08",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-08 requires signed authorization artifacts from both the model owner and evaluation team lead before any new model version receives live production traffic, implements a four-stage pipeline with pre-defined health gates and automated rollback triggers, and archives all transition records in a DeploymentGovernanceLog — directly implementing DP-01's AI model deployment gates, canary release governance, and rollback controls requirement. The shadow scoring comparison requirement, which demands less than 5% output divergence on safety-critical categories before canary authorization, provides the pre-traffic quantitative gate that DP-01 requires.",
             "source_locator": {
@@ -15848,7 +15880,8 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence",
-            "provisional": true
+            "provisional": true,
+            "uncovered_portion": "DSP-08 additionally covers privacy engineering practices for application interfaces, access controls on personal data, and privacy-by-default configuration across the full data lifecycle."
           },
           {
             "framework": "owasp_aitg",
@@ -16181,10 +16214,10 @@
             "{'test': 'Attempt to remove the C2PA manifest from a generated image and verify the verification endpoint detects tampering.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]"
           ],
           "evidence": [
-            "artifact:c2pa-signing-certificate-and-rotation-sc — C2PA signing certificate and rotation schedule documentation. [ref:c2pa_spec_v2]",
-            "artifact:generationtraceabilityregistry-sample-au — GenerationTraceabilityRegistry sample audit for trailing 90 days. [ref:nist_ai_100_4]",
-            "artifact:quarterly-c2pa-manifest-integrity-audit — Quarterly C2PA manifest integrity audit report. [ref:c2pa_spec_v2]",
-            "artifact:eu-ai-act-art-50-compliance-mapping-doc — EU AI Act Art. 50 compliance mapping document. [ref:eu_ai_act_2024]"
+            "model:c2pa-signing-certificate-and-rotation-sc — C2PA signing certificate and rotation schedule documentation. [ref:c2pa_spec_v2]",
+            "model:generationtraceabilityregistry-sample-au — GenerationTraceabilityRegistry sample audit for trailing 90 days. [ref:nist_ai_100_4]",
+            "model:quarterly-c2pa-manifest-integrity-audit — Quarterly C2PA manifest integrity audit report. [ref:c2pa_spec_v2]",
+            "model:eu-ai-act-art-50-compliance-mapping-doc — EU AI Act Art. 50 compliance mapping document. [ref:eu_ai_act_2024]"
           ]
         },
         "lenses": {
@@ -16272,7 +16305,7 @@
           {
             "framework": "aicm",
             "requirement_id": "DSP-20",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "BH-09 embeds C2PA-compliant cryptographic provenance assertions in all AI-generated content artifacts, maintains a GenerationTraceabilityRegistry linking every output to the generating model version with a provenance verification endpoint, and applies mandatory disclosure labels to satisfy EU AI Act Art. 50 — directly implementing TE-02's AI-generated content provenance, disclosure labeling, and traceability requirement. The quarterly manifest integrity audits and certificate rotation schedule provide the ongoing assurance that the cryptographic provenance chain remains valid over the content lifecycle.",
             "source_locator": {
@@ -16287,7 +16320,8 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence",
-            "provisional": true
+            "provisional": true,
+            "uncovered_portion": "DSP-20 additionally covers data provenance for input datasets, third-party data origin attestation, and lineage documentation requirements beyond AI-generated output provenance."
           },
           {
             "framework": "owasp_aitg",
@@ -16499,11 +16533,11 @@
             "{'test': 'Simulate self-reinforcing error pattern (output-to-label correlation exceeding threshold) and verify circuit breaker suspends online learning.', 'unverified': True} [unverified]"
           ],
           "evidence": [
-            "artifact:feedbackgovernancelog-for-trailing-90-da — FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags. [ref:nist_ai_rmf_1_0]",
-            "artifact:signed-authorization-artifacts-for-all-o — Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days. [ref:iso_42001_2023]",
-            "artifact:artifact-irr-cohen-s-kappa-time-s — {'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
-            "artifact:feedback-poisoning-detection-alert-log-f — Feedback poisoning detection alert log for trailing 90 days. [ref:mitre_atlas_v5_6_0]",
-            "artifact:reward-model-health-report-showing-rewar — Reward model health report showing reward score distribution vs. training-time baseline. [ref:nist_ai_rmf_1_0]"
+            "model:feedbackgovernancelog-for-trailing-90-da — FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags. [ref:nist_ai_rmf_1_0]",
+            "model:signed-authorization-artifacts-for-all-o — Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days. [ref:iso_42001_2023]",
+            "model:artifact-irr-cohen-s-kappa-time-s — {'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
+            "model:feedback-poisoning-detection-alert-log-f — Feedback poisoning detection alert log for trailing 90 days. [ref:mitre_atlas_v5_6_0]",
+            "model:reward-model-health-report-showing-rewar — Reward model health report showing reward score distribution vs. training-time baseline. [ref:nist_ai_rmf_1_0]"
           ]
         },
         "lenses": {
@@ -16807,9 +16841,9 @@
             "Verify cold-archive retrieval for a 24-month-old metric batch completes within SLA [unverified]"
           ],
           "evidence": [
-            "artifact:metric-taxonomy-document-signed-by-model — Metric taxonomy document signed by model owner [unverified]",
-            "artifact:alert-threshold-rationale-document-with — Alert threshold rationale document with review date [unverified]",
-            "artifact:quarterly-synthetic-anomaly-injection-te — Quarterly synthetic anomaly injection test report (artifact_hash: sha256:TBD) [unverified]"
+            "model:metric-taxonomy-document-signed-by-model — Metric taxonomy document signed by model owner [unverified]",
+            "model:alert-threshold-rationale-document-with — Alert threshold rationale document with review date [unverified]",
+            "model:quarterly-synthetic-anomaly-injection-te — Quarterly synthetic anomaly injection test report (artifact_hash: sha256:TBD) [unverified]"
           ]
         },
         "lenses": {
@@ -17083,7 +17117,7 @@
           {
             "framework": "aicm",
             "requirement_id": "MDS-10",
-            "fit": "direct",
+            "fit": "partial",
             "direction": "control-supports-requirement",
             "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, cost, and incident flags — into a unified composite risk dashboard with documented P1/P2 alerting thresholds calibrated at ±2σ from baseline, providing the continuous assurance posture view that MON-06's aggregated AI risk monitoring dashboard requirement specifies. The quarterly synthetic anomaly injection test and read-only GRC dashboard access ensure the risk aggregation function remains demonstrably operational and accessible to decision-makers throughout the model's production lifetime.",
             "source_locator": {
@@ -17098,7 +17132,8 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence",
-            "provisional": true
+            "provisional": true,
+            "uncovered_portion": "MDS-10 additionally requires ongoing security event correlation, adversarial input monitoring, and model artifact integrity checks beyond the scope of this control."
           },
           {
             "framework": "owasp_aitg",
@@ -17263,9 +17298,9 @@
             "Simulate a regulatory evidence request; confirm retrieval of all artifacts for a given model version within 4-hour SLA [unverified]"
           ],
           "evidence": [
-            "artifact:object-storage-compliance-mode-configura — Object storage COMPLIANCE mode configuration screenshot or IaC code reference [unverified]",
-            "artifact:rekor-anchoring-integration-test-results — Rekor anchoring integration test results (artifact_hash: sha256:TBD) [unverified]",
-            "artifact:annual-evidence-retrieval-test-report — Annual evidence retrieval test report [unverified]"
+            "model:object-storage-compliance-mode-configura — Object storage COMPLIANCE mode configuration screenshot or IaC code reference [unverified]",
+            "model:rekor-anchoring-integration-test-results — Rekor anchoring integration test results (artifact_hash: sha256:TBD) [unverified]",
+            "model:annual-evidence-retrieval-test-report — Annual evidence retrieval test report [unverified]"
           ]
         },
         "lenses": {
@@ -17647,9 +17682,9 @@
             "Verify delta report is automatically archived in CR-02 and retrievable [unverified]"
           ],
           "evidence": [
-            "artifact:risk-tier-assignment-register-with-ratio — Risk tier assignment register with rationale (artifact_hash: sha256:TBD) [unverified]",
-            "artifact:quarterly-re-validation-pipeline-executi — Quarterly re-validation pipeline execution logs for all Tier-1 models [unverified]",
-            "artifact:delta-reports-for-last-two-re-validation — Delta reports for last two re-validation cycles per deployed model [unverified]"
+            "model:risk-tier-assignment-register-with-ratio — Risk tier assignment register with rationale (artifact_hash: sha256:TBD) [unverified]",
+            "model:quarterly-re-validation-pipeline-executi — Quarterly re-validation pipeline execution logs for all Tier-1 models [unverified]",
+            "model:delta-reports-for-last-two-re-validation — Delta reports for last two re-validation cycles per deployed model [unverified]"
           ]
         },
         "lenses": {
@@ -18020,9 +18055,9 @@
             "Simulate a P1 severity event in staging; confirm CR-05 notification workflow is triggered [unverified]"
           ],
           "evidence": [
-            "artifact:current-ai-incident-response-plan-versi — Current AI Incident Response Plan (version-controlled, signed by CISO/AI risk owner) [unverified]",
-            "artifact:last-4-tabletop-exercise-reports-artifa — Last 4 tabletop exercise reports (artifact_hash: sha256:TBD) [unverified]",
-            "artifact:post-incident-reports-for-any-p1-events — Post-incident reports for any P1 events in last 12 months [unverified]"
+            "model:current-ai-incident-response-plan-versi — Current AI Incident Response Plan (version-controlled, signed by CISO/AI risk owner) [unverified]",
+            "model:last-4-tabletop-exercise-reports-artifa — Last 4 tabletop exercise reports (artifact_hash: sha256:TBD) [unverified]",
+            "model:post-incident-reports-for-any-p1-events — Post-incident reports for any P1 events in last 12 months [unverified]"
           ]
         },
         "lenses": {
@@ -18316,9 +18351,9 @@
             "Confirm notification matrix was updated within 30 days of EU AI Act Art. 50 effective date (August 2026) [unverified]"
           ],
           "evidence": [
-            "artifact:current-regulatory-notification-matrix — Current regulatory notification matrix (version-controlled, legal-reviewed, dated) [unverified]",
-            "artifact:all-notification-submissions-and-deliver — All notification submissions and delivery confirmations in CR-02 archive [unverified]",
-            "artifact:legal-counsel-review-sign-off-on-notific — Legal counsel review sign-off on notification triggers (annual) [unverified]"
+            "model:current-regulatory-notification-matrix — Current regulatory notification matrix (version-controlled, legal-reviewed, dated) [unverified]",
+            "model:all-notification-submissions-and-deliver — All notification submissions and delivery confirmations in CR-02 archive [unverified]",
+            "model:legal-counsel-review-sign-off-on-notific — Legal counsel review sign-off on notification triggers (annual) [unverified]"
           ]
         },
         "lenses": {
@@ -18636,9 +18671,9 @@
             "Review last 12 monthly surveillance reports; confirm consistent production and review sign-off [unverified]"
           ],
           "evidence": [
-            "artifact:user-feedback-mechanism-screenshot-and-a — User feedback mechanism screenshot and archive path [unverified]",
-            "artifact:published-cvd-policy-url-and-last-review — Published CVD policy URL and last review date [unverified]",
-            "artifact:last-12-monthly-post-market-surveillance — Last 12 monthly post-market surveillance reports (artifact_hash: sha256:TBD each) [unverified]"
+            "model:user-feedback-mechanism-screenshot-and-a — User feedback mechanism screenshot and archive path [unverified]",
+            "model:published-cvd-policy-url-and-last-review — Published CVD policy URL and last review date [unverified]",
+            "model:last-12-monthly-post-market-surveillance — Last 12 monthly post-market surveillance reports (artifact_hash: sha256:TBD each) [unverified]"
           ]
         },
         "lenses": {
@@ -19025,9 +19060,9 @@
             "Confirm a retired model's CR-02 evidence is accessible 12 months after retirement [unverified]"
           ],
           "evidence": [
-            "artifact:signed-retirement-decision-records-for-a — Signed retirement decision records for all retired models [unverified]",
-            "artifact:final-retirement-records-in-cr-02-with-a — Final retirement records in CR-02 with artifact_hash for each retired model [unverified]",
-            "artifact:gdpr-art-17-evaluation-records-for-mode — GDPR Art. 17 evaluation records for models with personal data in training set [unverified]"
+            "model:signed-retirement-decision-records-for-a — Signed retirement decision records for all retired models [unverified]",
+            "model:final-retirement-records-in-cr-02-with-a — Final retirement records in CR-02 with artifact_hash for each retired model [unverified]",
+            "model:gdpr-art-17-evaluation-records-for-mode — GDPR Art. 17 evaluation records for models with personal data in training set [unverified]"
           ]
         },
         "lenses": {
@@ -19315,9 +19350,9 @@
             "Verify gap3 is documented as an open finding in the release manifest with compensating control reference (this control, CR-08) [unverified]"
           ],
           "evidence": [
-            "artifact:cross-domain-dependency-map-produced-by — Cross-domain dependency map (produced by audit:cross-domain, archived in CR-02) [unverified]",
-            "artifact:last-4-quarterly-cross-domain-sync-revie — Last 4 quarterly cross-domain sync review records [unverified]",
-            "artifact:gap3-open-finding-documentation-with-com — Gap3 open finding documentation with compensating control reference [unverified]"
+            "model:cross-domain-dependency-map-produced-by — Cross-domain dependency map (produced by audit:cross-domain, archived in CR-02) [unverified]",
+            "model:last-4-quarterly-cross-domain-sync-revie — Last 4 quarterly cross-domain sync review records [unverified]",
+            "model:gap3-open-finding-documentation-with-com — Gap3 open finding documentation with compensating control reference [unverified]"
           ]
         },
         "lenses": {
@@ -20479,6 +20514,12 @@
             "uncovered_portion": "GOVERN-1.1 includes policy governance structures, leadership accountability, and organizational AI risk culture beyond model-level documentation."
           },
           {
+            "framework": "iso_42001",
+            "requirement_id": "A.6.2",
+            "fit": "partial",
+            "uncovered_portion": "A.6.2 additionally addresses documentation governance, document control procedures, version approval workflows, and distribution controls beyond model card content requirements."
+          },
+          {
             "framework": "mitre",
             "requirement_id": "AML.T0044",
             "fit": "adjacent",
@@ -20659,6 +20700,30 @@
         "layer": "TG",
         "gaps": [
           {
+            "framework": "iso_42001",
+            "requirement_id": "8.4",
+            "fit": "partial",
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
+          },
+          {
+            "framework": "sr262",
+            "requirement_id": "S-1.1",
+            "fit": "partial",
+            "uncovered_portion": "SR 26-2 S-1.1 additionally requires model inventory governance, ownership assignment, business unit mapping, and periodic inventory reconciliation beyond unique model identification."
+          },
+          {
+            "framework": "aisvs",
+            "requirement_id": "C5.1",
+            "fit": "partial",
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
+          },
+          {
+            "framework": "llm10",
+            "requirement_id": "LLM04:2025",
+            "fit": "partial",
+            "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
+          },
+          {
             "framework": "mitre",
             "requirement_id": "AML.T0020",
             "fit": "partial",
@@ -20678,6 +20743,36 @@
         "layer": "TG",
         "gaps": [
           {
+            "framework": "iso_42001",
+            "requirement_id": "8.4",
+            "fit": "partial",
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
+          },
+          {
+            "framework": "eu_ai_act",
+            "requirement_id": "Art-10",
+            "fit": "partial",
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
+          },
+          {
+            "framework": "sr262",
+            "requirement_id": "S-5.2",
+            "fit": "partial",
+            "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules — this control covers one aspect."
+          },
+          {
+            "framework": "aisvs",
+            "requirement_id": "C5.1",
+            "fit": "partial",
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
+          },
+          {
+            "framework": "llm10",
+            "requirement_id": "LLM03:2025",
+            "fit": "partial",
+            "uncovered_portion": "LLM03:2025 Supply Chain additionally covers vulnerable pre-trained model adoption, third-party plugin risks, outdated component risks, and model provider dependency management."
+          },
+          {
             "framework": "mitre",
             "requirement_id": "AML.T0018",
             "fit": "partial",
@@ -20696,6 +20791,30 @@
         "control_name": "Data Poisoning Prevention",
         "layer": "TG",
         "gaps": [
+          {
+            "framework": "iso_42001",
+            "requirement_id": "8.4",
+            "fit": "partial",
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
+          },
+          {
+            "framework": "eu_ai_act",
+            "requirement_id": "Art-10",
+            "fit": "partial",
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
+          },
+          {
+            "framework": "sr262",
+            "requirement_id": "S-5.2",
+            "fit": "partial",
+            "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules — this control covers one aspect."
+          },
+          {
+            "framework": "aisvs",
+            "requirement_id": "C5.1",
+            "fit": "partial",
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
+          },
           {
             "framework": "llm10",
             "requirement_id": "LLM04:2025",
@@ -20722,6 +20841,18 @@
         "layer": "TG",
         "gaps": [
           {
+            "framework": "iso_42001",
+            "requirement_id": "8.4",
+            "fit": "partial",
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
+          },
+          {
+            "framework": "aisvs",
+            "requirement_id": "C5.1",
+            "fit": "partial",
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
+          },
+          {
             "framework": "mitre",
             "requirement_id": "AML.T0020",
             "fit": "partial",
@@ -20734,6 +20865,36 @@
         "control_name": "Sensitive-Data Necessity, Minimization and Controlled Use",
         "layer": "TG",
         "gaps": [
+          {
+            "framework": "iso_42001",
+            "requirement_id": "8.4",
+            "fit": "partial",
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
+          },
+          {
+            "framework": "eu_ai_act",
+            "requirement_id": "Art-10",
+            "fit": "partial",
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
+          },
+          {
+            "framework": "sr262",
+            "requirement_id": "S-5.2",
+            "fit": "partial",
+            "uncovered_portion": "SR 26-2 S-5.2 addresses the full data governance program including data quality policies, data stewardship roles, access controls, and retention schedules — this control covers one aspect."
+          },
+          {
+            "framework": "aisvs",
+            "requirement_id": "C5.1",
+            "fit": "partial",
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
+          },
+          {
+            "framework": "llm10",
+            "requirement_id": "LLM04:2025",
+            "fit": "partial",
+            "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
+          },
           {
             "framework": "mitre",
             "requirement_id": "AML.T0024",
@@ -20748,6 +20909,30 @@
         "layer": "TG",
         "gaps": [
           {
+            "framework": "iso_42001",
+            "requirement_id": "8.4",
+            "fit": "partial",
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
+          },
+          {
+            "framework": "eu_ai_act",
+            "requirement_id": "Art-10",
+            "fit": "partial",
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
+          },
+          {
+            "framework": "aisvs",
+            "requirement_id": "C5.1",
+            "fit": "partial",
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
+          },
+          {
+            "framework": "llm10",
+            "requirement_id": "LLM03:2025",
+            "fit": "partial",
+            "uncovered_portion": "LLM03:2025 Supply Chain additionally covers vulnerable pre-trained model adoption, third-party plugin risks, outdated component risks, and model provider dependency management."
+          },
+          {
             "framework": "mitre",
             "requirement_id": "AML.T0018",
             "fit": "partial",
@@ -20758,6 +20943,43 @@
             "requirement_id": "AITG-DG-01",
             "fit": "partial",
             "uncovered_portion": "AITG-DG-01 defines data quality and provenance checks for training datasets; third-party data supply chain verification including vendor checksum and contractual due-diligence procedures go beyond the dataset-level provenance validation in the test."
+          }
+        ]
+      },
+      {
+        "control_id": "TG-08",
+        "control_name": "Dataset Retention, Deletion and Lifecycle",
+        "layer": "TG",
+        "gaps": [
+          {
+            "framework": "nist_rmf",
+            "requirement_id": "GOVERN-2.2",
+            "fit": "partial",
+            "uncovered_portion": "GOVERN-2.2 additionally addresses organizational data governance policies, roles, accountability structures, and data stewardship practices beyond the scope of this control."
+          },
+          {
+            "framework": "iso_42001",
+            "requirement_id": "8.4",
+            "fit": "partial",
+            "uncovered_portion": "ISO 42001 §8.4 addresses the full data management lifecycle including acquisition, labeling, storage, access controls, and retirement — this control covers one aspect of that requirement."
+          },
+          {
+            "framework": "eu_ai_act",
+            "requirement_id": "Art-10",
+            "fit": "partial",
+            "uncovered_portion": "Article 10 covers all high-risk AI training data requirements as a whole; this control addresses one specific sub-article provision rather than the full Article 10 obligation set."
+          },
+          {
+            "framework": "aisvs",
+            "requirement_id": "C5.1",
+            "fit": "partial",
+            "uncovered_portion": "AISVS C5.1 covers the full data security and privacy lifecycle including storage encryption, access controls, data subject rights, and retention — this control addresses one aspect."
+          },
+          {
+            "framework": "llm10",
+            "requirement_id": "LLM04:2025",
+            "fit": "partial",
+            "uncovered_portion": "LLM04:2025 Data and Model Poisoning additionally covers fine-tuning data poisoning, reward model manipulation, and inference-time retrieval corpus poisoning."
           }
         ]
       },
@@ -21532,6 +21754,12 @@
             "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases and components; OA-06 covers only the third-party vendor and model risk oversight dimension and does not address operational controls for internally-developed AI systems covered by other OA layer controls and the BH layer."
           },
           {
+            "framework": "aicm",
+            "requirement_id": "STA-09",
+            "fit": "partial",
+            "uncovered_portion": "STA-09 additionally requires BOM documentation for cloud infrastructure, software dependencies, and third-party service components beyond AI model and dataset provenance."
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-01",
             "fit": "partial",
@@ -21660,6 +21888,12 @@
             "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 and Annex B require a comprehensive monitoring and risk assessment view; BH-02 covers input and prediction distribution drift as one risk dimension and does not address the management system effectiveness evaluation or other performance dimensions encompassed by Clause 9.1's full scope."
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "MDS-10",
+            "fit": "partial",
+            "uncovered_portion": "MDS-10 additionally requires ongoing security event correlation, adversarial input monitoring, and model artifact integrity checks beyond the scope of this control."
           },
           {
             "framework": "eu_ai_act",
@@ -21843,6 +22077,12 @@
             "uncovered_portion": "Clauses 8.1 and 8.4 address operational control and AI system lifecycle management across all phases; BH-08 covers only the deployment transition phase governance and does not address ongoing operational controls for the serving phase covered by BH-01 through BH-07, or the decommissioning phase covered by CR-07."
           },
           {
+            "framework": "aicm",
+            "requirement_id": "DSP-08",
+            "fit": "partial",
+            "uncovered_portion": "DSP-08 additionally covers privacy engineering practices for application interfaces, access controls on personal data, and privacy-by-default configuration across the full data lifecycle."
+          },
+          {
             "framework": "eu_ai_act",
             "requirement_id": "Art-15",
             "fit": "adjacent",
@@ -21867,6 +22107,12 @@
             "requirement_id": "8.2",
             "fit": "partial",
             "uncovered_portion": "Clause 8.2 and Annex A.6 address AI system documentation and transparency as system-level properties; BH-09 covers only the content provenance and disclosure dimensions for the generative-ai profile and does not address broader system documentation obligations such as model card maintenance covered by LI-04 or system-level transparency disclosures."
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "DSP-20",
+            "fit": "partial",
+            "uncovered_portion": "DSP-20 additionally covers data provenance for input datasets, third-party data origin attestation, and lineage documentation requirements beyond AI-generated output provenance."
           },
           {
             "framework": "owasp_aitg",
@@ -21932,6 +22178,12 @@
             "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clause 9.1 spans management system effectiveness evaluation and AI system performance monitoring across all risk dimensions; CR-01 addresses operational runtime signal aggregation and does not cover the management system evaluation or other lifecycle monitoring dimensions that Clause 9.1's full scope encompasses."
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "MDS-10",
+            "fit": "partial",
+            "uncovered_portion": "MDS-10 additionally requires ongoing security event correlation, adversarial input monitoring, and model artifact integrity checks beyond the scope of this control."
           },
           {
             "framework": "eu_ai_act",
@@ -24752,8 +25004,8 @@
         "authority": "NIST",
         "total_mappings": 54,
         "fit_distribution": {
-          "direct": 11,
-          "partial": 43,
+          "direct": 10,
+          "partial": 44,
           "adjacent": 0,
           "supporting": 0,
           "none": 0
@@ -24877,8 +25129,8 @@
         "authority": "ISO/IEC JTC 1/SC 42",
         "total_mappings": 54,
         "fit_distribution": {
-          "direct": 14,
-          "partial": 40,
+          "direct": 6,
+          "partial": 48,
           "adjacent": 0,
           "supporting": 0,
           "none": 0
@@ -24963,8 +25215,8 @@
         "authority": "European Parliament and Council",
         "total_mappings": 47,
         "fit_distribution": {
-          "direct": 12,
-          "partial": 30,
+          "direct": 7,
+          "partial": 35,
           "adjacent": 5,
           "supporting": 0,
           "none": 0
@@ -25042,8 +25294,8 @@
         "authority": "Federal Reserve Board",
         "total_mappings": 43,
         "fit_distribution": {
-          "direct": 12,
-          "partial": 26,
+          "direct": 8,
+          "partial": 30,
           "adjacent": 5,
           "supporting": 0,
           "none": 0
@@ -25117,8 +25369,8 @@
         "authority": "OWASP",
         "total_mappings": 21,
         "fit_distribution": {
-          "direct": 10,
-          "partial": 10,
+          "direct": 3,
+          "partial": 17,
           "adjacent": 1,
           "supporting": 0,
           "none": 0
@@ -25170,8 +25422,8 @@
         "authority": "OWASP",
         "total_mappings": 23,
         "fit_distribution": {
-          "direct": 7,
-          "partial": 9,
+          "direct": 2,
+          "partial": 14,
           "adjacent": 7,
           "supporting": 0,
           "none": 0
@@ -25225,8 +25477,8 @@
         "authority": "Cloud Security Alliance",
         "total_mappings": 45,
         "fit_distribution": {
-          "direct": 31,
-          "partial": 10,
+          "direct": 26,
+          "partial": 15,
           "adjacent": 1,
           "supporting": 3,
           "none": 0
@@ -25359,10 +25611,10 @@
         "authority": "OWASP",
         "total_mappings": 52,
         "fit_distribution": {
-          "direct": 28,
+          "direct": 26,
           "partial": 10,
           "adjacent": 4,
-          "supporting": 10,
+          "supporting": 12,
           "none": 0
         },
         "by_layer": {

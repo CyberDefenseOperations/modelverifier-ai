@@ -112,9 +112,9 @@
         "Verify cold-archive retrieval for a 24-month-old metric batch completes within SLA [unverified]"
       ],
       "evidence": [
-        "artifact:metric-taxonomy-document-signed-by-model \u2014 Metric taxonomy document signed by model owner [unverified]",
-        "artifact:alert-threshold-rationale-document-with \u2014 Alert threshold rationale document with review date [unverified]",
-        "artifact:quarterly-synthetic-anomaly-injection-te \u2014 Quarterly synthetic anomaly injection test report (artifact_hash: sha256:TBD) [unverified]"
+        "model:metric-taxonomy-document-signed-by-model \u2014 Metric taxonomy document signed by model owner [unverified]",
+        "model:alert-threshold-rationale-document-with \u2014 Alert threshold rationale document with review date [unverified]",
+        "model:quarterly-synthetic-anomaly-injection-te \u2014 Quarterly synthetic anomaly injection test report (artifact_hash: sha256:TBD) [unverified]"
       ]
     },
     "lenses": {
@@ -388,7 +388,7 @@
       {
         "framework": "aicm",
         "requirement_id": "MDS-10",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "CR-01 aggregates all runtime risk signals \u2014 performance, drift, fairness, safety, cost, and incident flags \u2014 into a unified composite risk dashboard with documented P1/P2 alerting thresholds calibrated at \u00b12\u03c3 from baseline, providing the continuous assurance posture view that MON-06's aggregated AI risk monitoring dashboard requirement specifies. The quarterly synthetic anomaly injection test and read-only GRC dashboard access ensure the risk aggregation function remains demonstrably operational and accessible to decision-makers throughout the model's production lifetime.",
         "source_locator": {
@@ -403,7 +403,8 @@
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
-        "provisional": true
+        "provisional": true,
+        "uncovered_portion": "MDS-10 additionally requires ongoing security event correlation, adversarial input monitoring, and model artifact integrity checks beyond the scope of this control."
       },
       {
         "framework": "owasp_aitg",
@@ -569,9 +570,9 @@
         "Simulate a regulatory evidence request; confirm retrieval of all artifacts for a given model version within 4-hour SLA [unverified]"
       ],
       "evidence": [
-        "artifact:object-storage-compliance-mode-configura \u2014 Object storage COMPLIANCE mode configuration screenshot or IaC code reference [unverified]",
-        "artifact:rekor-anchoring-integration-test-results \u2014 Rekor anchoring integration test results (artifact_hash: sha256:TBD) [unverified]",
-        "artifact:annual-evidence-retrieval-test-report \u2014 Annual evidence retrieval test report [unverified]"
+        "model:object-storage-compliance-mode-configura \u2014 Object storage COMPLIANCE mode configuration screenshot or IaC code reference [unverified]",
+        "model:rekor-anchoring-integration-test-results \u2014 Rekor anchoring integration test results (artifact_hash: sha256:TBD) [unverified]",
+        "model:annual-evidence-retrieval-test-report \u2014 Annual evidence retrieval test report [unverified]"
       ]
     },
     "lenses": {
@@ -954,9 +955,9 @@
         "Verify delta report is automatically archived in CR-02 and retrievable [unverified]"
       ],
       "evidence": [
-        "artifact:risk-tier-assignment-register-with-ratio \u2014 Risk tier assignment register with rationale (artifact_hash: sha256:TBD) [unverified]",
-        "artifact:quarterly-re-validation-pipeline-executi \u2014 Quarterly re-validation pipeline execution logs for all Tier-1 models [unverified]",
-        "artifact:delta-reports-for-last-two-re-validation \u2014 Delta reports for last two re-validation cycles per deployed model [unverified]"
+        "model:risk-tier-assignment-register-with-ratio \u2014 Risk tier assignment register with rationale (artifact_hash: sha256:TBD) [unverified]",
+        "model:quarterly-re-validation-pipeline-executi \u2014 Quarterly re-validation pipeline execution logs for all Tier-1 models [unverified]",
+        "model:delta-reports-for-last-two-re-validation \u2014 Delta reports for last two re-validation cycles per deployed model [unverified]"
       ]
     },
     "lenses": {
@@ -1328,9 +1329,9 @@
         "Simulate a P1 severity event in staging; confirm CR-05 notification workflow is triggered [unverified]"
       ],
       "evidence": [
-        "artifact:current-ai-incident-response-plan-versi \u2014 Current AI Incident Response Plan (version-controlled, signed by CISO/AI risk owner) [unverified]",
-        "artifact:last-4-tabletop-exercise-reports-artifa \u2014 Last 4 tabletop exercise reports (artifact_hash: sha256:TBD) [unverified]",
-        "artifact:post-incident-reports-for-any-p1-events \u2014 Post-incident reports for any P1 events in last 12 months [unverified]"
+        "model:current-ai-incident-response-plan-versi \u2014 Current AI Incident Response Plan (version-controlled, signed by CISO/AI risk owner) [unverified]",
+        "model:last-4-tabletop-exercise-reports-artifa \u2014 Last 4 tabletop exercise reports (artifact_hash: sha256:TBD) [unverified]",
+        "model:post-incident-reports-for-any-p1-events \u2014 Post-incident reports for any P1 events in last 12 months [unverified]"
       ]
     },
     "lenses": {
@@ -1625,9 +1626,9 @@
         "Confirm notification matrix was updated within 30 days of EU AI Act Art. 50 effective date (August 2026) [unverified]"
       ],
       "evidence": [
-        "artifact:current-regulatory-notification-matrix \u2014 Current regulatory notification matrix (version-controlled, legal-reviewed, dated) [unverified]",
-        "artifact:all-notification-submissions-and-deliver \u2014 All notification submissions and delivery confirmations in CR-02 archive [unverified]",
-        "artifact:legal-counsel-review-sign-off-on-notific \u2014 Legal counsel review sign-off on notification triggers (annual) [unverified]"
+        "model:current-regulatory-notification-matrix \u2014 Current regulatory notification matrix (version-controlled, legal-reviewed, dated) [unverified]",
+        "model:all-notification-submissions-and-deliver \u2014 All notification submissions and delivery confirmations in CR-02 archive [unverified]",
+        "model:legal-counsel-review-sign-off-on-notific \u2014 Legal counsel review sign-off on notification triggers (annual) [unverified]"
       ]
     },
     "lenses": {
@@ -1946,9 +1947,9 @@
         "Review last 12 monthly surveillance reports; confirm consistent production and review sign-off [unverified]"
       ],
       "evidence": [
-        "artifact:user-feedback-mechanism-screenshot-and-a \u2014 User feedback mechanism screenshot and archive path [unverified]",
-        "artifact:published-cvd-policy-url-and-last-review \u2014 Published CVD policy URL and last review date [unverified]",
-        "artifact:last-12-monthly-post-market-surveillance \u2014 Last 12 monthly post-market surveillance reports (artifact_hash: sha256:TBD each) [unverified]"
+        "model:user-feedback-mechanism-screenshot-and-a \u2014 User feedback mechanism screenshot and archive path [unverified]",
+        "model:published-cvd-policy-url-and-last-review \u2014 Published CVD policy URL and last review date [unverified]",
+        "model:last-12-monthly-post-market-surveillance \u2014 Last 12 monthly post-market surveillance reports (artifact_hash: sha256:TBD each) [unverified]"
       ]
     },
     "lenses": {
@@ -2336,9 +2337,9 @@
         "Confirm a retired model's CR-02 evidence is accessible 12 months after retirement [unverified]"
       ],
       "evidence": [
-        "artifact:signed-retirement-decision-records-for-a \u2014 Signed retirement decision records for all retired models [unverified]",
-        "artifact:final-retirement-records-in-cr-02-with-a \u2014 Final retirement records in CR-02 with artifact_hash for each retired model [unverified]",
-        "artifact:gdpr-art-17-evaluation-records-for-mode \u2014 GDPR Art. 17 evaluation records for models with personal data in training set [unverified]"
+        "model:signed-retirement-decision-records-for-a \u2014 Signed retirement decision records for all retired models [unverified]",
+        "model:final-retirement-records-in-cr-02-with-a \u2014 Final retirement records in CR-02 with artifact_hash for each retired model [unverified]",
+        "model:gdpr-art-17-evaluation-records-for-mode \u2014 GDPR Art. 17 evaluation records for models with personal data in training set [unverified]"
       ]
     },
     "lenses": {
@@ -2627,9 +2628,9 @@
         "Verify gap3 is documented as an open finding in the release manifest with compensating control reference (this control, CR-08) [unverified]"
       ],
       "evidence": [
-        "artifact:cross-domain-dependency-map-produced-by \u2014 Cross-domain dependency map (produced by audit:cross-domain, archived in CR-02) [unverified]",
-        "artifact:last-4-quarterly-cross-domain-sync-revie \u2014 Last 4 quarterly cross-domain sync review records [unverified]",
-        "artifact:gap3-open-finding-documentation-with-com \u2014 Gap3 open finding documentation with compensating control reference [unverified]"
+        "model:cross-domain-dependency-map-produced-by \u2014 Cross-domain dependency map (produced by audit:cross-domain, archived in CR-02) [unverified]",
+        "model:last-4-quarterly-cross-domain-sync-revie \u2014 Last 4 quarterly cross-domain sync review records [unverified]",
+        "model:gap3-open-finding-documentation-with-com \u2014 Gap3 open finding documentation with compensating control reference [unverified]"
       ]
     },
     "lenses": {

@@ -33,6 +33,8 @@ jobs:
 
       - name: Audit framework mappings
         run: npm run audit:mappings
+        env:
+          AISVS_COMMIT_HASH: ${{ secrets.AISVS_COMMIT_HASH }}
 
       - name: Check source freshness
         run: npm run check:freshness
