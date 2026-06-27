@@ -7,29 +7,31 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "validate:schema":          "node scripts/validate.mjs --check schema",
-    "validate:namespaces":      "node scripts/validate.mjs --check namespaces",
-    "validate:sources":         "node scripts/validate.mjs --check sources",
+    "validate:schema": "node scripts/validate.mjs --check schema",
+    "validate:namespaces": "node scripts/validate.mjs --check namespaces",
+    "validate:sources": "node scripts/validate.mjs --check sources",
     "validate:source-versions": "node scripts/validate.mjs --check source-versions",
-    "validate:licenses":        "node scripts/validate.mjs --check licenses",
-    "audit:mappings":           "node scripts/audit-mappings.mjs --check mappings",
-    "audit:applicability":      "node scripts/audit-mappings.mjs --check applicability",
-    "audit:legal-status":       "node scripts/audit-mappings.mjs --check legal-status",
-    "audit:control-overlap":    "node scripts/audit-mappings.mjs --check control-overlap",
-    "audit:cross-domain":       "node scripts/audit-mappings.mjs --check cross-domain",
+    "validate:licenses": "node scripts/validate.mjs --check licenses",
+    "audit:mappings": "node scripts/audit-mappings.mjs --check mappings",
+    "audit:applicability": "node scripts/audit-mappings.mjs --check applicability",
+    "audit:legal-status": "node scripts/audit-mappings.mjs --check legal-status",
+    "audit:control-overlap": "node scripts/audit-mappings.mjs --check control-overlap",
+    "audit:cross-domain": "node scripts/audit-mappings.mjs --check cross-domain",
     "audit:evidence-contracts": "node scripts/audit-mappings.mjs --check evidence-contracts",
-    "check:freshness":          "node scripts/check-freshness.mjs",
-    "test:coverage":            "node scripts/test-coverage.mjs",
-    "build:integration":        "node build-integration.mjs",
-    "build":                    "node build-integration.mjs && rm -rf public/integration && cp -r integration public/integration",
-    "sign:release-manifest":    "node scripts/sign-release-manifest.mjs",
-
+    "check:freshness": "node scripts/check-freshness.mjs",
+    "test:coverage": "node scripts/test-coverage.mjs",
+    "build:integration": "node build-integration.mjs",
+    "build": "node build-integration.mjs && rm -rf public/integration && cp -r integration public/integration",
+    "sign:release-manifest": "node scripts/sign-release-manifest.mjs",
     "watch:regulatory": "node scripts/regulatory-watch.mjs",
     "watch:regulatory:github": "node scripts/regulatory-watch.mjs --check-github",
-
     "validate": "npm run validate:schema && npm run validate:namespaces && npm run validate:sources && npm run validate:source-versions && npm run validate:licenses",
-    "audit":    "npm run audit:mappings && npm run audit:applicability && npm run audit:legal-status && npm run audit:control-overlap && npm run audit:cross-domain && npm run audit:evidence-contracts",
-    "ci":       "npm run validate && npm run audit && npm run check:freshness && npm run build:integration && npm run sign:release-manifest"
+    "audit": "npm run audit:mappings && npm run audit:applicability && npm run audit:legal-status && npm run audit:control-overlap && npm run audit:cross-domain && npm run audit:evidence-contracts",
+    "ci": "npm run validate && npm run audit && npm run check:freshness && npm run build:integration && npm run sign:release-manifest",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "wrangler": "^4.105.0"
+  }
 }
