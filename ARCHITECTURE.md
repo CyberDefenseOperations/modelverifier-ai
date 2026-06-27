@@ -23,7 +23,7 @@ Zero runtime dependencies · Static SPA on Cloudflare Pages
 
 ## 1. System Overview
 
-modelverifier.ai is a static reference site serving a machine-readable control matrix for AI model assurance. It is part of the Apeiris platform (apeiris.io), which also includes securitycontrols.ai (the security domain matrix).
+modelverifier.ai is a static reference site serving a machine-readable control matrix for AI model assurance. It is part of the Apeiris platform (apeiris.ai), which also includes securitycontrols.ai (the security domain matrix).
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐

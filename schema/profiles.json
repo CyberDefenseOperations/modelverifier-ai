@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schemas.apeiris.io/model-assurance/v1/profiles.json",
+  "$id": "https://schemas.apeiris.ai/model-assurance/v1/profiles.json",
   "title": "Model Assurance Profiles",
   "description": "Eight deployment profiles for the AI Model & System Assurance Control Matrix. Profiles allow the 54-control matrix to be filtered and prioritized based on deployment context without burdening non-applicable deployments. A deployment may belong to multiple profiles simultaneously (e.g., a continuously-learning generative AI that is also an EU high-risk system). The build pipeline evaluates trigger_conditions against the assurance_target to determine profile membership. required_controls are mandatory for any deployment in the profile; recommended_controls elevate the expected implementation maturity but are not pass/fail gates.",
   "version": "1.0.0",

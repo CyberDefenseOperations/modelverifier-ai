@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schema.apeiris.io/model-assurance/v1/model-assurance-extension.schema.json",
+  "$id": "https://schema.apeiris.ai/model-assurance/v1/model-assurance-extension.schema.json",
   "title": "Model Assurance Extension Schema",
   "description": "Domain-specific extension for the Apeiris AI Model & System Assurance Control Matrix (modelverifier.ai). Adds model-assurance fields to the vocabulary established by control-core.schema.json. The extension does NOT re-declare core fields — it adds the two model-specific root-level objects (monitoring_schema, capability_risk) and refines inherited fields via model-controls.schema.json's combined schema. Consumed by model-controls.schema.json via explicit property composition rather than allOf (required because control-core.schema.json uses additionalProperties: false at the root, which is incompatible with additive allOf extension in JSON Schema draft-07). Alignment note: core uses 'name' (not 'title'), 'plain' (not 'description'), 'frameworks[]' array (not 'mappings' object), 'tiers[]' for profile membership, 'status_fields' nested object, 'implementation' block, and 'maturity' object.",
   "type": "object",

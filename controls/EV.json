@@ -15,9 +15,9 @@
     "standard": [
       "NIST AI RMF GOVERN 1.1",
       "NIST AI RMF MANAGE 2.2",
-      "ISO/IEC 42001:2023 \u00a79.1",
+      "ISO/IEC 42001:2023 §9.1",
       "EU AI Act Art. 9",
-      "SR 26-2 \u00a7III.B"
+      "SR 26-2 §III.B"
     ],
     "obligations": [
       {
@@ -29,7 +29,7 @@
         "effective_date_product_embedded": "2028-08-02"
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -98,7 +98,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -113,7 +113,7 @@
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -149,10 +149,10 @@
       "pattern": "Gate-based deployment pipeline with signed evaluation manifests as mandatory, blocking preconditions for production promotion.",
       "steps": [
         "Define the minimum evaluation suite required for each model risk tier before any deployment decision; document in the model governance policy.",
-        "Integrate the evaluation gate as a blocking stage in the CI/CD or MLOps pipeline \u2014 deployment cannot proceed without a valid, signed evaluation manifest that references the exact model artifact hash.",
+        "Integrate the evaluation gate as a blocking stage in the CI/CD or MLOps pipeline — deployment cannot proceed without a valid, signed evaluation manifest that references the exact model artifact hash.",
         "Generate a signed evaluation manifest capturing: model artifact hash, evaluation suite version and hash, run timestamp, environment specification, approver identities, and overall pass/fail determination.",
         "Store evaluation manifests in an append-only, tamper-evident log (e.g., Sigstore Rekor, internal transparency log) with entries linked to the artifact hash.",
-        "Require dual-approval \u2014 authoring team lead and an independent reviewer \u2014 before the gate is marked passed; see EV-08 for separation-of-duties requirements.",
+        "Require dual-approval — authoring team lead and an independent reviewer — before the gate is marked passed; see EV-08 for separation-of-duties requirements.",
         "Retain signed manifests for the operational lifetime of the model plus any regulatory minimum retention period applicable to the deployment jurisdiction."
       ],
       "anti_patterns": [
@@ -185,7 +185,7 @@
       "engineering": "Implement as a pipeline stage that consumes a signed evaluation manifest artifact; fail-closed with no default bypass; expose gate status as a first-class deployment artifact in the model registry.",
       "evaluation": "Define and version-control the minimum evaluation suite for each risk tier; sign all run outputs with individually attributed key material; ensure the manifest captures sufficient environment detail for reproducibility.",
       "red_team": "Attempt to forge or replay a prior evaluation manifest for a new artifact; probe for undocumented bypass paths in pipeline configuration; test whether the dual-approval mechanism can be circumvented by a single actor.",
-      "grc": "Map gate requirements to EU AI Act Art. 9, SR 26-2 \u00a7III.B; document the exception approval chain; include evaluation gate policy in the model governance framework; track exception frequency as a governance KRI.",
+      "grc": "Map gate requirements to EU AI Act Art. 9, SR 26-2 §III.B; document the exception approval chain; include evaluation gate policy in the model governance framework; track exception frequency as a governance KRI.",
       "mlops": "Integrate the gate as a first-class blocking stage in the MLOps platform; surface gate status and manifest hash on model registry cards; alert on any gate bypass event."
     },
     "maturity": {
@@ -209,7 +209,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a79.1 requires planned evaluation procedures and documented results before AI system deployment.",
+        "rationale": "ISO 42001 §9.1 requires planned evaluation procedures and documented results before AI system deployment.",
         "uncovered_portion": "ISO 42001 does not mandate cryptographic signing or tamper-evident storage of evaluation records.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -229,7 +229,7 @@
         "requirement_id": "S-2.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 \u00a7III.B requires validation before deployment and maintenance of validation documentation; the evaluation gate operationalizes this requirement.",
+        "rationale": "SR 26-2 §III.B requires validation before deployment and maintenance of validation documentation; the evaluation gate operationalizes this requirement.",
         "uncovered_portion": "SR 26-2 applies to $30B+ asset institutions; sub-threshold entities have no binding equivalent.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
@@ -271,6 +271,20 @@
         "rationale": "MITRE ATLAS v5.6.0 addresses adversarial ML attack tactics, not deployment gate governance processes.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-01 establishes the baseline performance evaluation framework including benchmark selection, metric definition, and disaggregated accuracy assessment, directly implementing AITG-ME-01 Model Evaluation Testing which requires that a model's core performance characteristics be systematically measured and documented before deployment.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-01"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -289,7 +303,7 @@
       "frequency": "Per deployment event."
     },
     "canonical_id": "apeiris://model/controls/EV-01",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -318,8 +332,8 @@
     "standard": [
       "NIST AI RMF MEASURE 2.1",
       "NIST AI RMF MEASURE 2.5",
-      "ISO/IEC 42001:2023 \u00a79.1",
-      "ISO/IEC 42005:2025 \u2014 AI system impact assessment",
+      "ISO/IEC 42001:2023 §9.1",
+      "ISO/IEC 42005:2025 — AI system impact assessment",
       "EU AI Act Art. 9(5)(6)"
     ],
     "sources": [
@@ -341,7 +355,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -356,7 +370,7 @@
       {
         "id": "iso_42005_2025",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42005:2025 \u2014 Artificial Intelligence \u2014 AI system impact assessment",
+        "title": "ISO/IEC 42005:2025 — Artificial Intelligence — AI system impact assessment",
         "url": "https://www.iso.org/standard/44546.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -371,7 +385,7 @@
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -464,7 +478,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a79.1 requires systematic evaluation of AI system performance against defined criteria.",
+        "rationale": "ISO 42001 §9.1 requires systematic evaluation of AI system performance against defined criteria.",
         "uncovered_portion": "ISO 42001 does not specify generative-AI-specific evaluation dimensions.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -534,10 +548,26 @@
         "fit": "direct",
         "direction": "control-supports-requirement",
         "rationale": "EV-02 requires structured evaluation of generative model output quality, safety, and policy conformance. NIST AI 600-1 identifies Confabulation as a primary GenAI risk — models producing false, hallucinated, or ungrounded outputs — and calls for systematic evaluation to measure and reduce confabulation rates before deployment. This control directly supports that outcome by establishing the evaluation gate and criteria.",
-        "source_locator": {"section": "CONFABULATION"},
+        "source_locator": {
+          "section": "CONFABULATION"
+        },
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "high"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-02 conducts capability boundary testing to determine what the model can and cannot reliably do under realistic conditions, directly implementing AITG-ME-02 Model Evaluation Testing which requires that a model's functional capability envelope be formally characterized and documented to prevent deployment in contexts exceeding validated capability.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-02"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -556,7 +586,7 @@
       "frequency": "Per deployment event; per significant capability update."
     },
     "canonical_id": "apeiris://model/controls/EV-02",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -569,7 +599,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -625,7 +655,7 @@
     "layer": "EV",
     "plane": "both",
     "name": "Dangerous Capability Threshold Assessment",
-    "plain": "Models at or near frontier capability must be assessed for dangerous capabilities \u2014 CBRN uplift, cyberweapons, autonomous AI R&D, and mass-influence operations \u2014 against defined thresholds before deployment. Thresholds and assessment methodology are defined by the applicable responsible scaling or capability policy.",
+    "plain": "Models at or near frontier capability must be assessed for dangerous capabilities — CBRN uplift, cyberweapons, autonomous AI R&D, and mass-influence operations — against defined thresholds before deployment. Thresholds and assessment methodology are defined by the applicable responsible scaling or capability policy.",
     "threat": {
       "tags": [
         "MR-VAL",
@@ -636,11 +666,11 @@
     "matrix_thesis": true,
     "thesis_type": "detective",
     "standard": [
-      "Anthropic Responsible Scaling Policy v3.3 (May 26, 2026) \u2014 ASL-2/ASL-3/ASL-4 thresholds",
-      "OpenAI Preparedness Framework v2 \u2014 capability evaluation tracks",
-      "Google DeepMind Frontier Safety Framework v3.1 (April 17, 2026) \u2014 TCLs",
-      "EU AI Act Art. 51 \u2014 GPAI models with systemic risk",
-      "EU AI Act Art. 55 \u2014 Obligations for systemic risk GPAI"
+      "Anthropic Responsible Scaling Policy v3.3 (May 26, 2026) — ASL-2/ASL-3/ASL-4 thresholds",
+      "OpenAI Preparedness Framework v2 — capability evaluation tracks",
+      "Google DeepMind Frontier Safety Framework v3.1 (April 17, 2026) — TCLs",
+      "EU AI Act Art. 51 — GPAI models with systemic risk",
+      "EU AI Act Art. 55 — Obligations for systemic risk GPAI"
     ],
     "sources": [
       {
@@ -701,7 +731,7 @@
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -719,16 +749,16 @@
       "pattern": "Structured capability elicitation and assessment against defined thresholds before deployment of any frontier-class model; results reviewed by an independent safety committee before production authorization.",
       "steps": [
         "Identify whether the model falls within scope of the organization's frontier assurance policy based on compute budget, parameter count, benchmark performance, or a capability screen; document the scoping determination.",
-        "Select applicable threshold framework(s) \u2014 Anthropic RSP v3.3 ASL levels, OpenAI Preparedness v2 tracks, Google DeepMind FSF v3.1 TCLs \u2014 based on organizational affiliation or analogous threshold definitions for independent developers.",
+        "Select applicable threshold framework(s) — Anthropic RSP v3.3 ASL levels, OpenAI Preparedness v2 tracks, Google DeepMind FSF v3.1 TCLs — based on organizational affiliation or analogous threshold definitions for independent developers.",
         "Execute structured capability elicitation for each dangerous capability domain: CBRN (biological, chemical, radiological, nuclear) uplift potential; cyberweapons and offensive cyber automation; autonomous AI research and development; mass-influence and deception operations.",
-        "Use best-effort red-team elicitation \u2014 including domain-expert evaluators \u2014 to probe for capability with and without scaffolding; document elicitation methodology, assumptions, and limitations.",
+        "Use best-effort red-team elicitation — including domain-expert evaluators — to probe for capability with and without scaffolding; document elicitation methodology, assumptions, and limitations.",
         "Compare elicitation results against the defined threshold for each capability domain; document whether the model is below threshold, near threshold, or above threshold.",
         "For models at or above any threshold: halt deployment; escalate to safety committee; apply required safeguards or capability limitations before re-evaluation.",
         "Document assessment methodology, elicitation results, threshold comparisons, evaluator identities, and deployment decision with explicit risk-acceptance chain for models below threshold."
       ],
       "anti_patterns": [
         "Applying dangerous capability assessment only to models from known frontier labs and omitting assessment for internally fine-tuned derivatives of frontier base models.",
-        "Treating a below-threshold result as permanent \u2014 capability thresholds must be re-evaluated on each significant update or when new elicitation techniques are discovered.",
+        "Treating a below-threshold result as permanent — capability thresholds must be re-evaluated on each significant update or when new elicitation techniques are discovered.",
         "Using domain-naive evaluators for CBRN elicitation; domain expertise is required for meaningful assessment.",
         "Conflating dangerous capability assessment with standard safety evaluation; these are distinct assessment types with distinct methodologies."
       ]
@@ -798,7 +828,7 @@
         "requirement_id": "6.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a76.1 requires identification and assessment of AI risks; dangerous capability assessment extends this to frontier-specific risks.",
+        "rationale": "ISO 42001 §6.1 requires identification and assessment of AI risks; dangerous capability assessment extends this to frontier-specific risks.",
         "uncovered_portion": "ISO 42001 does not define dangerous capability domains or threshold frameworks.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -855,7 +885,7 @@
         "fit": "adjacent",
         "direction": "out-of-scope",
         "rationale": "MITRE ATLAS v5.6.0 addresses adversarial ML attack tactics post-deployment; no ATLAS technique directly maps to pre-deployment dangerous capability elicitation. This is an identified frontier assurance gap in the ATLAS taxonomy.",
-        "uncovered_portion": "N/A \u2014 no false mapping applied.",
+        "uncovered_portion": "N/A — no false mapping applied.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
       },
@@ -864,11 +894,27 @@
         "requirement_id": "CBRN",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "NIST AI 600-1 identifies CBRN (Chemical, Biological, Radiological, Nuclear) information or capabilities as a critical GenAI risk \u2014 models that can provide meaningful uplift for weapons of mass destruction. EV-03 establishes the structured dangerous-capability assessment process that directly addresses this risk by requiring systematic evaluation before any elevated-capability model is deployed.",
-        "source_locator": {"section": "CBRN"},
+        "rationale": "NIST AI 600-1 identifies CBRN (Chemical, Biological, Radiological, Nuclear) information or capabilities as a critical GenAI risk — models that can provide meaningful uplift for weapons of mass destruction. EV-03 establishes the structured dangerous-capability assessment process that directly addresses this risk by requiring systematic evaluation before any elevated-capability model is deployed.",
+        "source_locator": {
+          "section": "CBRN"
+        },
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "high"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-03",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-03 performs safety and alignment evaluation including harmful output testing, instruction-following compliance, and value alignment probes, directly implementing AITG-ME-03 Model Evaluation Testing which requires that safety-relevant behaviors and alignment properties be explicitly tested and attested before a model is approved for deployment.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-03"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "assurance_target": {
@@ -877,10 +923,10 @@
       "frequency": "Per deployment event; re-evaluation required on significant capability updates or new elicitation methodology."
     },
     "canonical_id": "apeiris://model/controls/EV-03",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -922,7 +968,7 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-51",
         "mapping_fit": "partial",
-        "notes": "Art-51 applies to general-purpose AI models (GPAI) with systemic risk \u2014 requires providers to perform adversarial testing and report serious incidents.",
+        "notes": "Art-51 applies to general-purpose AI models (GPAI) with systemic risk — requires providers to perform adversarial testing and report serious incidents.",
         "enforcement_gating": {
           "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
           "legal_status": "enacted-with-pending-amendments",
@@ -944,13 +990,13 @@
         "LLM04:2025",
         "MR-VAL"
       ],
-      "desc": "Without structured red-teaming, exploitable failure modes \u2014 including LLM prompt injection (AML.T0051 / LLM01:2025) and data-and-model poisoning effects (LLM04:2025) \u2014 may reach production. Automated evaluation suites do not replicate the adversarial creativity of structured human red-team exercises."
+      "desc": "Without structured red-teaming, exploitable failure modes — including LLM prompt injection (AML.T0051 / LLM01:2025) and data-and-model poisoning effects (LLM04:2025) — may reach production. Automated evaluation suites do not replicate the adversarial creativity of structured human red-team exercises."
     },
     "standard": [
-      "EU AI Act Art. 55(1)(a) \u2014 Adversarial testing for GPAI systemic risk models",
+      "EU AI Act Art. 55(1)(a) — Adversarial testing for GPAI systemic risk models",
       "NIST AI RMF MEASURE 2.6",
-      "ISO/IEC 42001:2023 \u00a79.1",
-      "OWASP AISVS v1.0 V5 \u2014 Adversarial Robustness"
+      "ISO/IEC 42001:2023 §9.1",
+      "OWASP AISVS v1.0 V5 — Adversarial Robustness"
     ],
     "sources": [
       {
@@ -1017,7 +1063,7 @@
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -1097,7 +1143,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a79.1 covers evaluation procedures; adversarial testing extends this to adversarial scenarios.",
+        "rationale": "ISO 42001 §9.1 covers evaluation procedures; adversarial testing extends this to adversarial scenarios.",
         "uncovered_portion": "ISO 42001 does not mandate adversarial red-teaming or specify threat model requirements.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -1172,6 +1218,20 @@
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "high"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-04",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-04 conducts adversarial robustness evaluation including red-team attacks, jailbreak probing, prompt injection resistance testing, and backdoor detection, directly implementing AITG-ME-04 Model Evaluation Testing which requires that a model's resilience to adversarial inputs and manipulation attempts be systematically assessed before release.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-04"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -1187,7 +1247,7 @@
       "frequency": "Per deployment event; re-run on significant capability updates; annually at minimum for continuously-deployed models."
     },
     "canonical_id": "apeiris://model/controls/EV-04",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "elevated",
       "access_mode": "internal",
@@ -1200,7 +1260,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1266,18 +1326,18 @@
       "desc": "Models deployed without documented fairness evaluation may produce systematically disparate outcomes across protected population groups, causing discriminatory harm and legal liability. The absence of a universal fairness metric makes documentation of the selection rationale essential."
     },
     "standard": [
-      "EU AI Act Art. 9(7) \u2014 Non-discrimination testing for high-risk systems",
-      "EU AI Act Annex III \u2014 High-risk AI system categories",
-      "ISO/IEC 42001:2023 \u00a76.1.2 \u2014 AI risk assessment",
-      "ISO/IEC 42005:2025 \u2014 AI system impact assessment",
+      "EU AI Act Art. 9(7) — Non-discrimination testing for high-risk systems",
+      "EU AI Act Annex III — High-risk AI system categories",
+      "ISO/IEC 42001:2023 §6.1.2 — AI risk assessment",
+      "ISO/IEC 42005:2025 — AI system impact assessment",
       "NIST AI RMF MEASURE 2.5",
-      "NIST AI 600-1 \u2014 Generative AI Profile"
+      "NIST AI 600-1 — Generative AI Profile"
     ],
     "sources": [
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -1293,7 +1353,7 @@
       {
         "id": "iso_42005_2025",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42005:2025 \u2014 Artificial Intelligence \u2014 AI system impact assessment",
+        "title": "ISO/IEC 42005:2025 — Artificial Intelligence — AI system impact assessment",
         "url": "https://www.iso.org/standard/44546.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1308,7 +1368,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1338,7 +1398,7 @@
       {
         "id": "nist_ai_600_1",
         "authority": "NIST",
-        "title": "NIST AI 600-1: Artificial Intelligence \u2014 Generative AI Profile",
+        "title": "NIST AI 600-1: Artificial Intelligence — Generative AI Profile",
         "url": "https://airc.nist.gov/Docs/1",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -1357,7 +1417,7 @@
         "Identify the relevant population groups for the deployment context based on: protected characteristics under applicable law, historically disadvantaged groups, and use-case-specific subpopulations likely to experience differential impact.",
         "Define the harm types to evaluate: outcome disparity, representation disparity, performance disparity (accuracy/error rates), calibration disparity, and language/cultural harm for generative-AI profiles.",
         "Select fairness metrics appropriate for the use case and document the selection rationale explicitly; acknowledge metric trade-offs (e.g., demographic parity vs. equalized odds) and state which constraint takes precedence for this deployment.",
-        "Document the legal basis for metric selection \u2014 applicable anti-discrimination law, regulatory guidance, and organizational equity commitments.",
+        "Document the legal basis for metric selection — applicable anti-discrimination law, regulatory guidance, and organizational equity commitments.",
         "Define acceptance thresholds for each metric and population group before evaluation execution; thresholds must be pre-specified, not post-hoc.",
         "Execute evaluation using representative data for each identified population group; document data sources, group sizes, and coverage limitations.",
         "Document all threshold violations, trade-off decisions, and residual disparity with explicit risk-acceptance; obtain legal review for deployments involving legally protected characteristics."
@@ -1372,7 +1432,7 @@
     },
     "validation": {
       "design_check": [
-        "Evaluation protocol pre-specifies: target population groups, harm types, fairness metrics, selection rationale, legal basis, and acceptance thresholds \u2014 all version-controlled and signed before evaluation. [ref:eu_ai_act_2024]",
+        "Evaluation protocol pre-specifies: target population groups, harm types, fairness metrics, selection rationale, legal basis, and acceptance thresholds — all version-controlled and signed before evaluation. [ref:eu_ai_act_2024]",
         "Population group coverage in evaluation data is documented; groups with insufficient representation are flagged as evaluation limitations. [ref:iso_42005_2025]",
         "Metric trade-off documentation explicitly states which competing fairness constraints take precedence for this deployment context and the reasoning. [ref:iso_42001_2023]",
         "For high-impact-decision and eu-high-risk profiles: legal review is obtained for threshold decisions affecting protected characteristics. [ref:eu_ai_act_2024]"
@@ -1492,6 +1552,20 @@
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "medium"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-05",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-05 performs fairness and bias evaluation by measuring disaggregated error rates across protected attribute subgroups and intersectional populations, directly implementing AITG-ME-05 Model Evaluation Testing which requires that differential performance across demographic groups be measured and documented as a prerequisite for deployment in contexts affecting people.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-05"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -1507,7 +1581,7 @@
       "frequency": "Per deployment event; on significant distribution shift; annually for high-impact-decision profile."
     },
     "canonical_id": "apeiris://model/controls/EV-05",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1520,7 +1594,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1576,7 +1650,7 @@
     "layer": "EV",
     "plane": "both",
     "name": "Reproducible Evaluation Design",
-    "plain": "Evaluation designs are documented with sufficient detail \u2014 benchmark selection criteria, anti-contamination measures, environment specification, random seeds, and software dependency versions \u2014 to allow independent reproduction of results. Evaluation artifacts are signed and content-addressed.",
+    "plain": "Evaluation designs are documented with sufficient detail — benchmark selection criteria, anti-contamination measures, environment specification, random seeds, and software dependency versions — to allow independent reproduction of results. Evaluation artifacts are signed and content-addressed.",
     "threat": {
       "tags": [
         "MR-VAL",
@@ -1585,9 +1659,9 @@
       "desc": "Irreproducible evaluation designs allow cherry-picked results, benchmark contamination, and evaluation gaming to go undetected, undermining the reliability of deployment gate decisions and eroding trust in reported capabilities."
     },
     "standard": [
-      "NIST AI RMF MEASURE 2.1 \u2014 Evaluation methodology documentation",
-      "ISO/IEC 42001:2023 \u00a79.1",
-      "NIST AI 600-1 \u2014 Generative AI Profile \u00a72.5 (benchmark integrity)"
+      "NIST AI RMF MEASURE 2.1 — Evaluation methodology documentation",
+      "ISO/IEC 42001:2023 §9.1",
+      "NIST AI 600-1 — Generative AI Profile §2.5 (benchmark integrity)"
     ],
     "sources": [
       {
@@ -1608,7 +1682,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1624,7 +1698,7 @@
       {
         "id": "nist_ai_600_1",
         "authority": "NIST",
-        "title": "NIST AI 600-1: Artificial Intelligence \u2014 Generative AI Profile",
+        "title": "NIST AI 600-1: Artificial Intelligence — Generative AI Profile",
         "url": "https://airc.nist.gov/Docs/1",
         "source_type": "voluntary-standard",
         "license": "public-domain",
@@ -1659,7 +1733,7 @@
         "Screen selected benchmarks for contamination against the model's training data corpus; document the contamination screening methodology and results; exclude or flag contaminated benchmarks.",
         "Capture all parameters required for reproduction: random seeds, software dependency versions and hashes, hardware configuration, serving framework configuration, evaluation script version and hash, prompt templates, and any post-processing steps.",
         "Version-control the evaluation design document alongside the evaluation script; tag the evaluation design document version in the signed evaluation manifest (EV-01).",
-        "Sign all evaluation artifacts \u2014 design document, scripts, datasets, results \u2014 with individually attributed key material; record artifact hashes in the evaluation manifest.",
+        "Sign all evaluation artifacts — design document, scripts, datasets, results — with individually attributed key material; record artifact hashes in the evaluation manifest.",
         "Run evaluation in a containerized or otherwise reproducible environment; capture the container image hash or equivalent environment fingerprint.",
         "For new benchmark additions: conduct an independent reproduction run using only the design document as input; accept the benchmark if reproduction results are within defined tolerance."
       ],
@@ -1718,7 +1792,7 @@
         "requirement_id": "9.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a79.1 requires evaluation to be documented with sufficient detail to demonstrate planned results were achieved.",
+        "rationale": "ISO 42001 §9.1 requires evaluation to be documented with sufficient detail to demonstrate planned results were achieved.",
         "uncovered_portion": "ISO 42001 does not mandate contamination screening or independent reproduction testing.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -1780,6 +1854,20 @@
         "rationale": "MITRE ATLAS v5.6.0 does not address evaluation reproducibility or benchmark integrity.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-06",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-06 evaluates calibration and uncertainty quantification — verifying that the model's confidence scores are statistically reliable and that it can communicate uncertainty appropriately — directly implementing AITG-ME-06 Model Evaluation Testing which requires that a model's uncertainty estimation capabilities be assessed and validated before deployment in decision-support contexts.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-06"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -1798,7 +1886,7 @@
       "frequency": "Per deployment event; on benchmark suite changes."
     },
     "canonical_id": "apeiris://model/controls/EV-06",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1811,7 +1899,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1874,13 +1962,13 @@
         "MR-VAL",
         "LLM04:2025"
       ],
-      "desc": "Model updates \u2014 including RLHF fine-tunes and guardrail modifications \u2014 can silently degrade previously-verified capabilities or safety properties. LLM04 (Data and Model Poisoning) effects may emerge or regress across updates. Silent regression reaches production users without opportunity for detection."
+      "desc": "Model updates — including RLHF fine-tunes and guardrail modifications — can silently degrade previously-verified capabilities or safety properties. LLM04 (Data and Model Poisoning) effects may emerge or regress across updates. Silent regression reaches production users without opportunity for detection."
     },
     "standard": [
-      "NIST AI RMF MANAGE 2.4 \u2014 Change management and re-evaluation",
-      "ISO/IEC 42001:2023 \u00a710.1 \u2014 Nonconformity and corrective action",
-      "EU AI Act Art. 9(4) \u2014 Iterative risk management",
-      "SR 26-2 \u00a7III.C \u2014 Ongoing monitoring"
+      "NIST AI RMF MANAGE 2.4 — Change management and re-evaluation",
+      "ISO/IEC 42001:2023 §10.1 — Nonconformity and corrective action",
+      "EU AI Act Art. 9(4) — Iterative risk management",
+      "SR 26-2 §III.C — Ongoing monitoring"
     ],
     "sources": [
       {
@@ -1901,7 +1989,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1916,7 +2004,7 @@
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -2062,7 +2150,7 @@
         }
       ],
       "window_context": "Per-update: triggered on every fine-tune, RLHF update, guardrail change, serving-framework change, or quantization change. Compared against the most recent signed baseline evaluation manifest.",
-      "sampling_rate": "100% of the defined regression suite for safety metrics. Capability metrics may use stratified sampling at \u226550% coverage only when suite size exceeds 10,000 tasks and latency constraints prevent full evaluation \u2014 sampling must be documented and consistent across runs."
+      "sampling_rate": "100% of the defined regression suite for safety metrics. Capability metrics may use stratified sampling at ≥50% coverage only when suite size exceeds 10,000 tasks and latency constraints prevent full evaluation — sampling must be documented and consistent across runs."
     },
     "implementation": {
       "pattern": "Per-update regression evaluation triggered automatically in the deployment pipeline, comparing against a signed baseline; safety regression is zero-tolerance; capability regression triggers a blocking finding above the defined threshold.",
@@ -2070,13 +2158,13 @@
         "Define and version-control the regression evaluation suite as a distinct artifact from the full evaluation suite; the regression suite prioritizes: safety scenarios, alignment/refusal scenarios (generative-AI profile), previously-reported failure modes, and benchmark coverage representative of the intended distribution.",
         "Store a signed baseline evaluation result for each model version promoted to production; the baseline result is the reference for all subsequent regression comparisons.",
         "On each update trigger (fine-tune, RLHF update, guardrail change, serving-framework change, quantization), run the full regression suite against the updated model artifact before promotion.",
-        "Compute regression metrics per the monitoring schema; apply zero-tolerance threshold to safety_regression_rate \u2014 any safety regression is an automatic blocking finding requiring root-cause analysis before re-evaluation.",
+        "Compute regression metrics per the monitoring schema; apply zero-tolerance threshold to safety_regression_rate — any safety regression is an automatic blocking finding requiring root-cause analysis before re-evaluation.",
         "For capability regression: block promotion if capability_regression_rate exceeds the defined threshold; allow promotion with documented risk-acceptance and time-bound remediation commitment if regression is below threshold but non-zero.",
         "Record all regression results in a signed regression manifest linked to: the updated model artifact hash, the baseline artifact hash, the regression suite version, and the run timestamp.",
         "Update the signed baseline to the new version only after a successful regression evaluation that passes all thresholds."
       ],
       "anti_patterns": [
-        "Skipping regression evaluation for 'minor' updates such as prompt template changes, system-prompt modifications, or serving-framework version upgrades \u2014 any of these can introduce regression.",
+        "Skipping regression evaluation for 'minor' updates such as prompt template changes, system-prompt modifications, or serving-framework version upgrades — any of these can introduce regression.",
         "Treating safety regression as a threshold metric rather than a zero-tolerance finding.",
         "Updating the signed baseline before completing regression evaluation, effectively erasing the reference point.",
         "Running regression evaluation on a different environment configuration than the production serving environment, masking environment-specific regressions."
@@ -2106,7 +2194,7 @@
       "engineering": "Automate regression suite execution as a blocking pipeline stage on all defined update types; implement zero-tolerance enforcement for safety_regression_rate; version-lock the signed baseline to prevent unauthorized updates.",
       "evaluation": "Define and maintain the regression suite; ensure safety scenario coverage is comprehensive; own threshold calibration for capability regression; require root-cause analysis for all safety regression findings.",
       "red_team": "Test the regression suite for coverage gaps; attempt to introduce regressions through update patterns not covered by the current trigger list; verify zero-tolerance enforcement cannot be bypassed.",
-      "grc": "Map regression testing requirements to SR 26-2 \u00a7III.C ongoing monitoring and EU AI Act Art. 9(4) iterative risk management; track regression rates as governance KRIs; escalate safety regression findings to governance committee.",
+      "grc": "Map regression testing requirements to SR 26-2 §III.C ongoing monitoring and EU AI Act Art. 9(4) iterative risk management; track regression rates as governance KRIs; escalate safety regression findings to governance committee.",
       "mlops": "Integrate regression evaluation into the model update pipeline with automatic triggers; surface regression metric trends on model dashboards; alert on any safety regression finding immediately; track regression suite coverage over time."
     },
     "maturity": {
@@ -2130,7 +2218,7 @@
         "requirement_id": "10.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a710.1 requires identification and correction of nonconformities; regression findings are a structured nonconformity detection mechanism.",
+        "rationale": "ISO 42001 §10.1 requires identification and correction of nonconformities; regression findings are a structured nonconformity detection mechanism.",
         "uncovered_portion": "ISO 42001 does not specify regression suite structure or safety regression zero-tolerance policy.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -2150,7 +2238,7 @@
         "requirement_id": "S-4.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 \u00a7III.C requires ongoing monitoring of model performance; regression testing before each update is the pre-deployment component of this requirement.",
+        "rationale": "SR 26-2 §III.C requires ongoing monitoring of model performance; regression testing before each update is the pre-deployment component of this requirement.",
         "uncovered_portion": "SR 26-2 does not address generative-AI-specific regression categories (alignment drift, refusal rate delta).",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
@@ -2193,6 +2281,20 @@
         "rationale": "MITRE ATLAS v5.6.0 addresses adversarial attack techniques; regression testing on model updates is not an adversarial threat category.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-07",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-07 assesses the model's privacy risk properties including susceptibility to membership inference attacks, training data extraction, and personally identifiable information leakage, directly implementing AITG-ME-07 Model Evaluation Testing which requires that privacy-relevant attack surfaces in the model be evaluated and documented before deployment.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-07"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -2211,7 +2313,7 @@
       "frequency": "Per update event (fine-tune, RLHF, guardrail change, serving-framework change, quantization change)."
     },
     "canonical_id": "apeiris://model/controls/EV-07",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -2224,7 +2326,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2280,7 +2382,7 @@
     "layer": "EV",
     "plane": "both",
     "name": "Independent Validation",
-    "plain": "The team or individual that develops a model does not also validate it for deployment. Validation \u2014 including evaluation design review, result review, and deployment authorization \u2014 is performed by parties who are independent of the model development function. This implements the SR 26-2 'effective challenge' principle.",
+    "plain": "The team or individual that develops a model does not also validate it for deployment. Validation — including evaluation design review, result review, and deployment authorization — is performed by parties who are independent of the model development function. This implements the SR 26-2 'effective challenge' principle.",
     "threat": {
       "tags": [
         "MR-VAL"
@@ -2288,22 +2390,22 @@
       "desc": "Without independence between development and validation, confirmation bias and incentive misalignment systematically produce optimistic validation outcomes. Model failures that should block deployment are rationalized rather than escalated."
     },
     "standard": [
-      "SR 26-2 \u00a7III.B \u2014 Independent model validation and effective challenge",
-      "EU AI Act Art. 9 \u2014 Risk management system (implied independence)",
-      "ISO/IEC 42001:2023 \u00a79.2 \u2014 Internal audit",
-      "NIST AI RMF GOVERN 1.7 \u2014 Separation of roles"
+      "SR 26-2 §III.B — Independent model validation and effective challenge",
+      "EU AI Act Art. 9 — Risk management system (implied independence)",
+      "ISO/IEC 42001:2023 §9.2 — Internal audit",
+      "NIST AI RMF GOVERN 1.7 — Separation of roles"
     ],
     "obligations": [
       {
         "id": "SR262-effective-challenge",
-        "text": "SR 26-2 \u00a7III.B requires that model validation be conducted by parties who are independent from the model development function, with the authority and ability to provide effective challenge. Independence must be organizational, not merely nominal. For $30B+ asset financial institutions, this is a supervisory expectation subject to examination.",
+        "text": "SR 26-2 §III.B requires that model validation be conducted by parties who are independent from the model development function, with the authority and ability to provide effective challenge. Independence must be organizational, not merely nominal. For $30B+ asset financial institutions, this is a supervisory expectation subject to examination.",
         "jurisdiction": "US",
         "binding": false,
         "note": "SR 26-2 is supervisory guidance, not binding regulation; however, non-compliance is subject to supervisory action for in-scope institutions.",
         "in_scope_threshold": "$30B+ total assets"
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2375,7 +2477,7 @@
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -2391,7 +2493,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2423,10 +2525,10 @@
       "pattern": "Organizational separation of model development and model validation functions, with independent validators having authority to block deployment and escalate findings outside the development team's control.",
       "steps": [
         "Define and document the organizational boundary between model development and model validation functions; establish that validators do not report to the same management chain as model developers for the specific model being validated.",
-        "Grant the validation function explicit authority to: (a) request additional evaluation runs, (b) require remediation of findings, and (c) withhold deployment authorization \u2014 without requiring development team approval for these actions.",
+        "Grant the validation function explicit authority to: (a) request additional evaluation runs, (b) require remediation of findings, and (c) withhold deployment authorization — without requiring development team approval for these actions.",
         "Define the validation scope for each model risk tier: what the independent validator reviews, what attestations they sign, and what findings they must document.",
         "Require independent validator sign-off as a named, attributed approval in the evaluation manifest (EV-01); the validator identity must be distinct from the development team lead.",
-        "Establish an escalation path for validation disputes: if the development team disagrees with a validation finding, escalation goes to a governance committee \u2014 not to the development team's management.",
+        "Establish an escalation path for validation disputes: if the development team disagrees with a validation finding, escalation goes to a governance committee — not to the development team's management.",
         "Document the validation function's independence structure annually and make it available to regulators and auditors for in-scope institutions.",
         "For us-regulated-banking and eu-high-risk profiles: ensure the validation function has access to sufficient technical resources and domain expertise to conduct effective challenge, not merely procedural review."
       ],
@@ -2434,7 +2536,7 @@
         "Treating independence as nominal (different job title, same reporting chain) rather than organizational.",
         "Granting the development team veto authority over validation findings, which neutralizes the effective challenge function.",
         "Allowing the same individual to author the evaluation design and approve the validation outcome.",
-        "Scoping independent validation only to final deployment authorization without also covering evaluation design review \u2014 late-stage review cannot correct design flaws.",
+        "Scoping independent validation only to final deployment authorization without also covering evaluation design review — late-stage review cannot correct design flaws.",
         "Using external contractors for validation without ensuring they have the domain expertise and information access required for effective challenge."
       ]
     },
@@ -2460,10 +2562,10 @@
     },
     "lenses": {
       "engineering": "Implement pipeline-level enforcement that rejects evaluation manifests where validator and development lead identities are the same; expose validator identity as a required, attributed field in the manifest schema.",
-      "evaluation": "Operate as an independent function with genuine authority to block deployment; conduct evaluation design review \u2014 not just result review \u2014 to catch design flaws before evaluation execution; escalate disputes outside the development chain.",
+      "evaluation": "Operate as an independent function with genuine authority to block deployment; conduct evaluation design review — not just result review — to catch design flaws before evaluation execution; escalate disputes outside the development chain.",
       "red_team": "Probe whether the independence boundary can be compromised through informal influence; test whether validator authority is nominal or functional by attempting to push a finding-laden model through the gate.",
-      "grc": "Map independence requirements to SR 26-2 \u00a7III.B effective challenge for us-regulated-banking profile; document independence structure for regulator review; track validation dispute frequency and outcomes as governance KRIs.",
-      "mlops": "Enforce validator \u2260 developer identity check in the pipeline manifest validation step; surface validator identity on model registry cards; alert on any attempt to self-approve a validation."
+      "grc": "Map independence requirements to SR 26-2 §III.B effective challenge for us-regulated-banking profile; document independence structure for regulator review; track validation dispute frequency and outcomes as governance KRIs.",
+      "mlops": "Enforce validator ≠ developer identity check in the pipeline manifest validation step; surface validator identity on model registry cards; alert on any attempt to self-approve a validation."
     },
     "maturity": {
       "current": "initial",
@@ -2486,7 +2588,7 @@
         "requirement_id": "9.2",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a79.2 requires independent internal audits of the AI management system; independent validation applies this principle to model evaluation.",
+        "rationale": "ISO 42001 §9.2 requires independent internal audits of the AI management system; independent validation applies this principle to model evaluation.",
         "uncovered_portion": "ISO 42001 internal audit requirements are process-level; model-level validation independence requires additional policy.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -2506,7 +2608,7 @@
         "requirement_id": "S-2.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 \u00a7III.B is the primary source for this control: it requires organizational independence, technical competence, and authority to provide effective challenge.",
+        "rationale": "SR 26-2 §III.B is the primary source for this control: it requires organizational independence, technical competence, and authority to provide effective challenge.",
         "uncovered_portion": "SR 26-2 applies to $30B+ asset institutions; sub-threshold entities have no binding equivalent though the principle is best practice.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
@@ -2548,6 +2650,20 @@
         "rationale": "MITRE ATLAS v5.6.0 does not address organizational separation of duties for model validation.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-08",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-08 evaluates the model's behavior under distribution shift and out-of-distribution inputs — testing reliability when inputs differ from the training distribution — directly implementing AITG-ME-08 Model Evaluation Testing which requires that model robustness under input distribution shift be characterized before deployment in production environments with diverse real-world inputs.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-08"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -2566,7 +2682,7 @@
       "frequency": "Per deployment event."
     },
     "canonical_id": "apeiris://model/controls/EV-08",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -2589,17 +2705,17 @@
         "MR-VAL",
         "EU-AIA-AnnexIII"
       ],
-      "desc": "Without formal risk classification, evaluation requirements are applied inconsistently \u2014 high-risk models may receive inadequate evaluation while low-risk models receive disproportionate overhead. Misclassification allows high-risk deployments to evade mandatory controls."
+      "desc": "Without formal risk classification, evaluation requirements are applied inconsistently — high-risk models may receive inadequate evaluation while low-risk models receive disproportionate overhead. Misclassification allows high-risk deployments to evade mandatory controls."
     },
     "standard": [
-      "EU AI Act Art. 6 \u2014 Classification rules for high-risk AI systems",
-      "EU AI Act Art. 9 \u2014 Risk management system",
-      "EU AI Act Annex III \u2014 High-risk AI system categories",
-      "EU AI Act Art. 51 \u2014 Classification of GPAI models with systemic risk",
-      "SR 26-2 \u00a7II \u2014 Model risk tiering",
-      "ISO/IEC 42001:2023 \u00a76.1 \u2014 Risk assessment",
-      "ISO/IEC 42005:2025 \u2014 AI system impact assessment",
-      "NIST AI RMF GOVERN 1.2 \u2014 Risk tolerance and classification"
+      "EU AI Act Art. 6 — Classification rules for high-risk AI systems",
+      "EU AI Act Art. 9 — Risk management system",
+      "EU AI Act Annex III — High-risk AI system categories",
+      "EU AI Act Art. 51 — Classification of GPAI models with systemic risk",
+      "SR 26-2 §II — Model risk tiering",
+      "ISO/IEC 42001:2023 §6.1 — Risk assessment",
+      "ISO/IEC 42005:2025 — AI system impact assessment",
+      "NIST AI RMF GOVERN 1.2 — Risk tolerance and classification"
     ],
     "obligations": [
       {
@@ -2619,7 +2735,7 @@
         "in_scope_threshold": "$30B+ total assets"
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2673,7 +2789,7 @@
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -2707,7 +2823,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2722,7 +2838,7 @@
       {
         "id": "iso_42005_2025",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42005:2025 \u2014 Artificial Intelligence \u2014 AI system impact assessment",
+        "title": "ISO/IEC 42005:2025 — Artificial Intelligence — AI system impact assessment",
         "url": "https://www.iso.org/standard/44546.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2755,7 +2871,7 @@
       "steps": [
         "At model system registration in the model registry, initiate the classification process using a structured classification questionnaire covering: intended use cases, affected populations, decision automation level, human oversight mechanisms, deployment jurisdiction, compute budget, and parameter count.",
         "Determine EU AI Act classification: (a) prohibited practice under Art. 5, (b) GPAI with systemic risk under Art. 51 (10^25 FLOPs threshold), (c) high-risk under Art. 6 / Annex III, (d) limited-risk transparency obligations under Art. 50, or (e) minimal-risk with no mandatory obligations. Document the classification rationale with reference to specific provisions.",
-        "Determine SR 26-2 model risk tier for US-regulated-banking profile: Tier 1 (high risk \u2014 broad use, significant impact, complex methodology), Tier 2 (moderate risk), or Tier 3 (low risk \u2014 narrow use, limited impact). Document the tier rationale.",
+        "Determine SR 26-2 model risk tier for US-regulated-banking profile: Tier 1 (high risk — broad use, significant impact, complex methodology), Tier 2 (moderate risk), or Tier 3 (low risk — narrow use, limited impact). Document the tier rationale.",
         "Assign the applicable Apeiris profiles from the 8-profile set based on classification outcomes: general-predictive-ml, generative-ai, hosted-api, continuously-learning, high-impact-decision, us-regulated-banking, eu-high-risk, frontier-capability.",
         "Record the capability tier based on benchmark performance, compute budget, and dangerous capability screen results from EV-03 (for frontier-class models).",
         "Produce a signed classification record containing: EU AI Act classification, SR 26-2 tier, capability tier, applicable profiles, mandatory controls list, and obligations inventory. Link this record to the model system identifier in the model registry.",
@@ -2799,7 +2915,7 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "EV-09 determines which profiles and controls apply to each model system \u2014 it is the applicability gate for the entire EV layer and for cross-domain obligations. LI-01 (AI Asset Inventory) is a prerequisite; classification records must be linked to LI-01 asset records.",
+    "coverage_note": "EV-09 determines which profiles and controls apply to each model system — it is the applicability gate for the entire EV layer and for cross-domain obligations. LI-01 (AI Asset Inventory) is a prerequisite; classification records must be linked to LI-01 asset records.",
     "cross_domain": {
       "navigation": [
         {
@@ -2830,7 +2946,7 @@
         "requirement_id": "6.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a76.1 requires risk assessment including determination of the significance of identified risks; formal classification operationalizes this.",
+        "rationale": "ISO 42001 §6.1 requires risk assessment including determination of the significance of identified risks; formal classification operationalizes this.",
         "uncovered_portion": "ISO 42001 does not specify a multi-framework classification schema (EU AI Act + SR 26-2 + capability tier).",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -2850,7 +2966,7 @@
         "requirement_id": "S-1.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 \u00a7II requires financial institutions to implement model risk tiering; this control produces and maintains the required tier assignment and documentation.",
+        "rationale": "SR 26-2 §II requires financial institutions to implement model risk tiering; this control produces and maintains the required tier assignment and documentation.",
         "uncovered_portion": "SR 26-2 tiering criteria predate generative AI capability categories and do not address GPAI systemic risk classification.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
@@ -2892,6 +3008,20 @@
         "rationale": "MITRE ATLAS v5.6.0 does not address risk classification or regulatory categorization.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-09",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-09 performs use-case-specific impact assessment evaluating the model's suitability, risk profile, and potential harms in the specific deployment context, directly implementing AITG-ME-09 Model Evaluation Testing which requires that evaluation scope be tailored to the intended deployment use case and that context-specific risk factors be explicitly assessed.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-09"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -2910,7 +3040,7 @@
       "frequency": "At model system registration; on significant use-case, capability, or regulatory change."
     },
     "canonical_id": "apeiris://model/controls/EV-09",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -2936,17 +3066,17 @@
       "desc": "Without content-addressed, signed evaluation records, results can be silently substituted, version provenance can be lost, and the chain of evidence from artifact to deployment decision is unverifiable. This makes post-incident forensics, regulatory audit, and meaningful governance impossible."
     },
     "standard": [
-      "EU AI Act Art. 12 \u2014 Record-keeping for high-risk AI systems",
-      "EU AI Act Art. 18 \u2014 Documentation obligations",
-      "SR 26-2 \u00a7III.B \u2014 Model validation documentation",
-      "ISO/IEC 42001:2023 \u00a77.5 \u2014 Documented information",
-      "NIST AI RMF GOVERN 1.6 \u2014 Accountability and traceability"
+      "EU AI Act Art. 12 — Record-keeping for high-risk AI systems",
+      "EU AI Act Art. 18 — Documentation obligations",
+      "SR 26-2 §III.B — Model validation documentation",
+      "ISO/IEC 42001:2023 §7.5 — Documented information",
+      "NIST AI RMF GOVERN 1.6 — Accountability and traceability"
     ],
     "sources": [
       {
         "id": "eu_ai_act_2024",
         "authority": "European Parliament and Council",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
         "source_type": "regulation",
         "license": "public",
@@ -2980,7 +3110,7 @@
       {
         "id": "iso_42001_2023",
         "authority": "ISO/IEC",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial Intelligence \u2014 Management System",
+        "title": "ISO/IEC 42001:2023 — Artificial Intelligence — Management System",
         "url": "https://www.iso.org/standard/81230.html",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -3009,7 +3139,7 @@
       }
     ],
     "implementation": {
-      "pattern": "Every evaluation result artifact is content-addressed (SHA-256 hash), cryptographically signed with individually attributed key material, and recorded in an append-only tamper-evident log with inclusion proofs. The complete provenance chain \u2014 model artifact \u2192 evaluation suite \u2192 result \u2192 deployment decision \u2014 is machine-verifiable.",
+      "pattern": "Every evaluation result artifact is content-addressed (SHA-256 hash), cryptographically signed with individually attributed key material, and recorded in an append-only tamper-evident log with inclusion proofs. The complete provenance chain — model artifact → evaluation suite → result → deployment decision — is machine-verifiable.",
       "steps": [
         "Define the evaluation result artifact schema to include: model_artifact_hash, eval_suite_id, eval_suite_version, eval_suite_hash, run_timestamp, environment_fingerprint, per-dimension results, overall gate determination, and signer identity.",
         "After each evaluation run, compute the SHA-256 hash of the result artifact before signing; the hash is the content address that links the result to the specific artifact and suite versions.",
@@ -3017,7 +3147,7 @@
         "Submit the signed result artifact to an append-only, tamper-evident log (e.g., Sigstore Rekor, internal transparency log); record the log entry inclusion proof alongside the artifact.",
         "Verify the inclusion proof independently at the time of deployment gate evaluation; reject any manifest where inclusion proof verification fails.",
         "Retain signed result artifacts and inclusion proofs for the operational lifetime of the model plus the applicable regulatory retention period for each jurisdiction.",
-        "Implement a provenance chain verification tool that, given a deployed model artifact hash, can traverse: model artifact \u2192 evaluation result(s) \u2192 deployment manifest \u2192 production deployment record \u2014 and verify signatures at each step.",
+        "Implement a provenance chain verification tool that, given a deployed model artifact hash, can traverse: model artifact → evaluation result(s) → deployment manifest → production deployment record — and verify signatures at each step.",
         "For EU-high-risk profile: ensure evaluation records satisfy EU AI Act Art. 12 record-keeping requirements and are available to national competent authorities on request."
       ],
       "anti_patterns": [
@@ -3053,7 +3183,7 @@
       "engineering": "Implement content-addressing (SHA-256) as the standard provenance mechanism for all evaluation artifacts; integrate tamper-evident log submission and inclusion proof verification into the evaluation pipeline; build provenance chain traversal tooling as a first-class platform capability.",
       "evaluation": "Ensure evaluation result artifacts are complete (per-dimension results, not only aggregate); verify content-addressing is applied before signing; own the evaluation result schema and ensure it captures sufficient context for post-incident forensics.",
       "red_team": "Attempt to substitute a passing evaluation result for a failing one without detection; probe for provenance chain gaps where a model artifact hash is not linked to any evaluation result in the log; test whether mutable storage paths exist that bypass the tamper-evident log.",
-      "grc": "Map record-keeping requirements to EU AI Act Art. 12 and SR 26-2 \u00a7III.B documentation requirements; track provenance chain completeness as a governance KRI; ensure evaluation records are accessible to regulators and auditors on request; include retention policy in model governance framework.",
+      "grc": "Map record-keeping requirements to EU AI Act Art. 12 and SR 26-2 §III.B documentation requirements; track provenance chain completeness as a governance KRI; ensure evaluation records are accessible to regulators and auditors on request; include retention policy in model governance framework.",
       "mlops": "Surface provenance chain verification status on model registry cards; alert on inclusion proof verification failures; automate retention policy enforcement for signed evaluation artifacts; integrate provenance chain traversal into incident response runbooks."
     },
     "maturity": {
@@ -3091,7 +3221,7 @@
         "requirement_id": "7.5",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "ISO 42001 \u00a77.5 requires documented information to be controlled, retained, and protected; tamper-evident, signed evaluation records operationalize this for evaluation artifacts.",
+        "rationale": "ISO 42001 §7.5 requires documented information to be controlled, retained, and protected; tamper-evident, signed evaluation records operationalize this for evaluation artifacts.",
         "uncovered_portion": "ISO 42001 does not specify content-addressing or tamper-evident log requirements.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
@@ -3111,7 +3241,7 @@
         "requirement_id": "S-2.1",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 \u00a7III.B requires validation documentation to be sufficient for independent review and regulatory examination; content-addressed, signed records satisfy this requirement.",
+        "rationale": "SR 26-2 §III.B requires validation documentation to be sufficient for independent review and regulatory examination; content-addressed, signed records satisfy this requirement.",
         "uncovered_portion": "SR 26-2 does not specify tamper-evident storage or content-addressing for validation records.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
@@ -3153,6 +3283,21 @@
         "rationale": "MITRE ATLAS v5.6.0 does not address evaluation result provenance or record-keeping integrity.",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-IR-05",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "EV-10 ensures that all evaluation evidence — including benchmark results, red-team findings, and evaluation attestations — is integrity-protected and retained as a tamper-evident record, partially aligning with AITG-IR-05 Incident Response Testing which validates audit trail and evidence integrity. The pre-release evidence integrity focus is prospective assurance rather than the retrospective audit-trail preservation the test defines.",
+        "source_locator": {
+          "section": "Incident Response Testing",
+          "test_id": "AITG-IR-05"
+        },
+        "uncovered_portion": "AITG-IR-05 focuses on audit trail and evidence integrity verification for post-incident investigation; evaluation evidence integrity as a gate-keeping mechanism before model release addresses the prospective assurance chain rather than the retrospective audit-trail preservation that IR-05 defines.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -3171,7 +3316,7 @@
       "frequency": "Per evaluation run; provenance chain verification at each deployment gate."
     },
     "canonical_id": "apeiris://model/controls/EV-10",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -3184,7 +3329,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"

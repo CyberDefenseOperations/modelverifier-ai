@@ -16,6 +16,13 @@
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src data:; font-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; worker-src 'none'
 
+# ── Public key endpoint (CORS-enabled, required for cross-origin signature verification) ──
+/.well-known/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  Cross-Origin-Resource-Policy: cross-origin
+  Cache-Control: public, max-age=86400
+
 # ── Integration endpoint (CORS-enabled JSON, public knowledge corpus) ─────────
 # Overrides CORP and adds CORS to allow any tool to consume the control matrix.
 /integration/*

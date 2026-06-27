@@ -1,6 +1,6 @@
 [
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-01",
     "layer": "LI",
     "plane": "control",
@@ -12,7 +12,7 @@
         "supply-chain-compromise",
         "unauthorized-deployment"
       ],
-      "desc": "Without a stable unique identity and cryptographic hash, models can be silently replaced with different artifacts without detection. An adversary with pipeline access (AML.T0044 \u2014 Full ML Model Access) can substitute a backdoored or degraded model while preserving the model label. Absent content-addressed identity, behavioral changes cannot be attributed to a specific artifact, making root-cause analysis and regulatory documentation impossible. The consequence is undetectable model substitution and complete loss of audit integrity."
+      "desc": "Without a stable unique identity and cryptographic hash, models can be silently replaced with different artifacts without detection. An adversary with pipeline access (AML.T0044 — Full ML Model Access) can substitute a backdoored or degraded model while preserving the model label. Absent content-addressed identity, behavioral changes cannot be attributed to a specific artifact, making root-cause analysis and regulatory documentation impossible. The consequence is undetectable model substitution and complete loss of audit integrity."
     },
     "standard": [
       {
@@ -33,7 +33,7 @@
       {
         "id": "aisvs",
         "section": "C1.1",
-        "title": "AI governance \u2014 model identification"
+        "title": "AI governance — model identification"
       }
     ],
     "sources": [
@@ -53,7 +53,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -66,7 +66,7 @@
       },
       {
         "id": "sr_26_2",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -95,22 +95,22 @@
     "implementation": {
       "pattern": "Assign a globally unique model ID per model+version+provider combination at packaging time; compute a SHA-256 content hash covering weights, tokenizer, and inference configuration; store both in an append-only model registry; enforce hash verification as a blocking gate at every pipeline promotion stage.",
       "steps": [
-        "Define a model ID schema encoding model family, provider, and semantic version (e.g., {org}/{family}/{provider}/{semver}). Register uniqueness as a hard constraint in the model registry \u2014 duplicate version entries must be rejected, not overwritten.",
+        "Define a model ID schema encoding model family, provider, and semantic version (e.g., {org}/{family}/{provider}/{semver}). Register uniqueness as a hard constraint in the model registry — duplicate version entries must be rejected, not overwritten.",
         "Compute SHA-256 over the full artifact bundle (weights file(s), tokenizer config, inference config, Dockerfile or serving spec) at packaging time. Store the canonical hash in a cryptographically-signed manifest alongside the model ID.",
-        "Gate CI/CD pipeline promotions (build \u2192 staging \u2192 production) to recompute and verify the artifact hash against the registry entry. Any mismatch must block promotion and raise an alert to the MLOps team.",
+        "Gate CI/CD pipeline promotions (build → staging → production) to recompute and verify the artifact hash against the registry entry. Any mismatch must block promotion and raise an alert to the MLOps team.",
         "Surface model ID and artifact hash in inference API response headers and structured audit log entries so that every inference can be attributed to a specific, verified artifact."
       ],
       "anti_patterns": [
-        "Using a mutable human-readable label such as 'model-prod' as the unique identifier \u2014 labels can be reassigned to different artifacts silently and provide no integrity guarantee.",
-        "Hashing only the weights file and omitting configuration files \u2014 behavioral changes introduced via configuration modification bypass the hash check while the weights hash remains valid.",
-        "Treating hash verification as a logging step rather than a blocking gate \u2014 a warning-only check allows substituted artifacts to reach production while creating a false sense of integrity control."
+        "Using a mutable human-readable label such as 'model-prod' as the unique identifier — labels can be reassigned to different artifacts silently and provide no integrity guarantee.",
+        "Hashing only the weights file and omitting configuration files — behavioral changes introduced via configuration modification bypass the hash check while the weights hash remains valid.",
+        "Treating hash verification as a logging step rather than a blocking gate — a warning-only check allows substituted artifacts to reach production while creating a false sense of integrity control."
       ]
     },
     "validation": {
       "design_check": [
         "Confirm the model registry schema enforces uniqueness on the (model-family, version, provider) triple and rejects or errors on duplicate version entries rather than overwriting them [ref:sr_26_2].",
         "Verify the artifact hash computation procedure specification covers weights, tokenizer, and inference configuration as a bundle, and that SHA-256 or stronger is mandated [ref:nist_rmf_100_1].",
-        "Inspect CI/CD pipeline configuration to confirm hash verification is a blocking gate before promotion to each environment \u2014 not a logging-only step [ref:iso_42001_2023]."
+        "Inspect CI/CD pipeline configuration to confirm hash verification is a blocking gate before promotion to each environment — not a logging-only step [ref:iso_42001_2023]."
       ],
       "runtime_test": [
         "Attempt to deploy an artifact with a modified configuration file while retaining the original model-ID tag; confirm the pipeline rejects the artifact and raises an auditable alert [ref:nist_rmf_100_1].",
@@ -118,9 +118,9 @@
         "Retrieve the deployed artifact hash from the registry and independently recompute SHA-256 over the production artifact bundle; confirm the values match [ref:iso_42001_2023]."
       ],
       "evidence": [
-        "model:registry-entry \u2014 append-only model registry record containing unique model ID, artifact hash, provider, version, and deployment timestamps [unverified]",
-        "model:deployment-manifest \u2014 cryptographically signed deployment manifest containing model ID, hash, and pipeline gate verification result for each promotion stage [unverified]",
-        "model:inference-audit-log-sample \u2014 sample of inference audit log entries demonstrating model ID and hash attribution per request [unverified]"
+        "model:registry-entry — append-only model registry record containing unique model ID, artifact hash, provider, version, and deployment timestamps [unverified]",
+        "model:deployment-manifest — cryptographically signed deployment manifest containing model ID, hash, and pipeline gate verification result for each promotion stage [unverified]",
+        "model:inference-audit-log-sample — sample of inference audit log entries demonstrating model ID and hash attribution per request [unverified]"
       ]
     },
     "lenses": {
@@ -138,7 +138,7 @@
           "Hugging Face Hub model cards with SHA pinning"
         ],
         "failure_signals": [
-          "Deployment pipeline has no hash verification step \u2014 only label-based selection",
+          "Deployment pipeline has no hash verification step — only label-based selection",
           "Model registry allows overwrite of existing version entries",
           "Audit logs record model name but not artifact hash"
         ]
@@ -156,14 +156,14 @@
         ]
       },
       "red_team": {
-        "summary": "Red teams must verify that model identity controls are adversarially robust \u2014 that pipeline access cannot be used to substitute a modified artifact while preserving the registered model ID.",
+        "summary": "Red teams must verify that model identity controls are adversarially robust — that pipeline access cannot be used to substitute a modified artifact while preserving the registered model ID.",
         "actions": [
           "Attempt to register a modified artifact under an existing model ID in the registry and verify rejection",
           "Attempt to bypass the pipeline hash verification gate via configuration manipulation or environment variable override",
           "Test whether the inference API correctly surfaces the artifact hash or whether a spoofed header can be injected upstream"
         ],
         "failure_signals": [
-          "Pipeline hash check is present but non-blocking \u2014 logs a warning rather than rejecting the artifact",
+          "Pipeline hash check is present but non-blocking — logs a warning rather than rejecting the artifact",
           "Registry API accepts PUT/PATCH on an existing version entry without elevated authorization"
         ]
       },
@@ -179,7 +179,7 @@
           "Number of production models without a registry entry (target: zero)"
         ],
         "failure_signals": [
-          "Model risk documentation references model name only \u2014 no version or hash",
+          "Model risk documentation references model name only — no version or hash",
           "Any team member can modify registry entries without access control or audit log"
         ]
       },
@@ -201,7 +201,7 @@
       "target": "defined",
       "notes": "Most organizations maintain human-readable version labels without content-addressed hashes. Achieving 'defined' requires integrating hash computation into CI/CD, enforcing hash verification as a blocking gate, and populating an append-only registry."
     },
-    "coverage_note": "This control covers model artifact identity. System-level identity (the composite of model artifact, system prompt, RAG corpus, and tool integrations) is covered by LI-09. Access control to the model registry is a cross-domain concern enforced by securitycontrols.ai \u2014 LI-01 specifies the identity scheme and integrity check, not the access policy.",
+    "coverage_note": "This control covers model artifact identity. System-level identity (the composite of model artifact, system prompt, RAG corpus, and tool integrations) is covered by LI-09. Access control to the model registry is a cross-domain concern enforced by securitycontrols.ai — LI-01 specifies the identity scheme and integrity check, not the access policy.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",
@@ -269,7 +269,7 @@
         "requirement_id": "S-1.1",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "SR 26-2 S-1.1 requires supervised institutions to maintain a model inventory that uniquely identifies each model, its version, and key attributes. LI-01 provides the technical mechanism \u2014 unique ID and content hash \u2014 that makes such an inventory auditable and tamper-evident. SR 26-2 is supervisory guidance, not binding law; this mapping reflects alignment with the guidance expectation.",
+        "rationale": "SR 26-2 S-1.1 requires supervised institutions to maintain a model inventory that uniquely identifies each model, its version, and key attributes. LI-01 provides the technical mechanism — unique ID and content hash — that makes such an inventory auditable and tamper-evident. SR 26-2 is supervisory guidance, not binding law; this mapping reflects alignment with the guidance expectation.",
         "source_locator": {
           "section": "S-1",
           "clause": "S-1.1"
@@ -320,6 +320,20 @@
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-01 establishes unique model identity and content-addressed hash verification, which are the foundational artifacts that AITG-GV-01 Governance Testing requires to confirm a model artifact's identity and version are unambiguously traceable and tamper-evident throughout the deployment lifecycle.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-01"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "cross_domain": {
@@ -343,7 +357,7 @@
     },
     "readiness": "approved",
     "thesis_type": "preventive",
-    "matrix_thesis": "Identity without integrity is a label, not a control. A model registry entry that can be overwritten or that lacks a cryptographic hash cannot anchor any downstream assurance activity \u2014 evaluation results, incident investigations, and regulatory disclosures all depend on asserting 'this exact artifact was deployed.' LI-01 is the prerequisite for the entire LI layer.",
+    "matrix_thesis": "Identity without integrity is a label, not a control. A model registry entry that can be overwritten or that lacks a cryptographic hash cannot anchor any downstream assurance activity — evaluation results, incident investigations, and regulatory disclosures all depend on asserting 'this exact artifact was deployed.' LI-01 is the prerequisite for the entire LI layer.",
     "meta": {
       "authored_on": "2026-06-26",
       "schema_version": "1.0.0"
@@ -351,19 +365,19 @@
     "canonical_id": "apeiris://model/controls/LI-01"
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-02",
     "layer": "LI",
     "plane": "control",
-    "name": "Model Provenance Chain \u2014 Base Model, Fine-Tune, Merge, and Adapter Lineage",
-    "plain": "The full ancestry of a model is recorded \u2014 including any base model it was built from, fine-tuning steps, merges, and adapter components \u2014 so that inherited risks and license obligations can be traced.",
+    "name": "Model Provenance Chain — Base Model, Fine-Tune, Merge, and Adapter Lineage",
+    "plain": "The full ancestry of a model is recorded — including any base model it was built from, fine-tuning steps, merges, and adapter components — so that inherited risks and license obligations can be traced.",
     "threat": {
       "tags": [
         "supply-chain-compromise",
         "undisclosed-model-change",
         "governance-gap"
       ],
-      "desc": "Models are rarely trained from scratch; most production models derive from a base model via fine-tuning, merging, or adapter composition. Without explicit provenance tracking, a compromised or backdoored base model (AML.T0018 \u2014 Backdoor ML Model) can propagate its behavior into downstream derived models without detection. Similarly, untracked LoRA adapters or merged model components may carry undisclosed behaviors, license violations, or safety regressions. Absent a provenance chain, impact assessment for base model vulnerabilities disclosed by providers is impossible."
+      "desc": "Models are rarely trained from scratch; most production models derive from a base model via fine-tuning, merging, or adapter composition. Without explicit provenance tracking, a compromised or backdoored base model (AML.T0018 — Backdoor ML Model) can propagate its behavior into downstream derived models without detection. Similarly, untracked LoRA adapters or merged model components may carry undisclosed behaviors, license violations, or safety regressions. Absent a provenance chain, impact assessment for base model vulnerabilities disclosed by providers is impossible."
     },
     "standard": [
       {
@@ -379,12 +393,12 @@
       {
         "id": "aisvs",
         "section": "C1.2",
-        "title": "AI governance \u2014 lineage and provenance"
+        "title": "AI governance — lineage and provenance"
       },
       {
         "id": "aicm",
         "section": "MG-01",
-        "title": "Model governance \u2014 model inventory and lineage"
+        "title": "Model governance — model inventory and lineage"
       }
     ],
     "sources": [
@@ -404,7 +418,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -430,7 +444,7 @@
       },
       {
         "id": "mitre_atlas_560",
-        "title": "MITRE ATLAS \u2014 Adversarial Threat Landscape for Artificial Intelligence Systems v5.6.0",
+        "title": "MITRE ATLAS — Adversarial Threat Landscape for Artificial Intelligence Systems v5.6.0",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "normative_force": "informative",
@@ -443,7 +457,7 @@
       }
     ],
     "implementation": {
-      "pattern": "Record a structured provenance graph for every registered model artifact: document the base model (with artifact hash and provider version), each fine-tuning step, any merge operations with constituent model hashes, and all attached adapters (LoRA, prefix tuning, etc.) \u2014 link the provenance record to the LI-01 registry entry.",
+      "pattern": "Record a structured provenance graph for every registered model artifact: document the base model (with artifact hash and provider version), each fine-tuning step, any merge operations with constituent model hashes, and all attached adapters (LoRA, prefix tuning, etc.) — link the provenance record to the LI-01 registry entry.",
       "steps": [
         "For every model artifact, require a provenance manifest at registration time listing: base model ID and artifact hash, provider and version, fine-tuning dataset reference (pointer to TG-layer record), fine-tuning configuration, and any merge contributors with their hashes.",
         "Track LoRA adapter and other PEFT component lineage separately: record adapter source, version, base model compatibility hash, and purpose alongside the main model registry entry.",
@@ -451,14 +465,14 @@
         "Automate provenance graph propagation: when a derived model is registered, automatically copy base-model provenance entries and append the derivation step rather than requiring manual re-entry."
       ],
       "anti_patterns": [
-        "Recording only the immediate parent model and omitting the full ancestry chain \u2014 this hides inherited risks from base models several generations back.",
-        "Storing provenance as free-text fields in a model card rather than as a structured, machine-readable graph \u2014 free text cannot be queried for impact when a base model vulnerability is disclosed.",
+        "Recording only the immediate parent model and omitting the full ancestry chain — this hides inherited risks from base models several generations back.",
+        "Storing provenance as free-text fields in a model card rather than as a structured, machine-readable graph — free text cannot be queried for impact when a base model vulnerability is disclosed.",
         "Treating prompt-tuning and prefix-tuning adapters as configuration rather than model components and omitting them from the provenance chain."
       ]
     },
     "validation": {
       "design_check": [
-        "Confirm the model registry schema includes a structured provenance block with typed fields for base-model hash, fine-tuning steps, merge contributors, and adapter components \u2014 not just a free-text description field [ref:iso_42001_2023].",
+        "Confirm the model registry schema includes a structured provenance block with typed fields for base-model hash, fine-tuning steps, merge contributors, and adapter components — not just a free-text description field [ref:iso_42001_2023].",
         "Verify that the provenance manifest format is machine-readable (JSON or similar) and that a query interface exists to find all models derived from a given base model ID [ref:nist_rmf_100_1].",
         "Review the provenance record for at least one production model end-to-end; confirm it can be traced from the deployed artifact hash back to a documented base model release [ref:owasp_aisvs_v1]."
       ],
@@ -468,9 +482,9 @@
         "Verify that adapter lineage is captured: deploy a model with an attached LoRA adapter and confirm the registry entry records the adapter source, version, and base compatibility hash [unverified]."
       ],
       "evidence": [
-        "model:provenance-manifest \u2014 structured provenance graph record per model artifact, covering base model hash, fine-tune steps, merge contributors, and adapters [unverified]",
-        "model:registry-entry \u2014 LI-01 registry entry with linked provenance manifest ID [unverified]",
-        "model:base-model-impact-query-result \u2014 sample output of a provenance query identifying all models derived from a given base model hash [unverified]"
+        "model:provenance-manifest — structured provenance graph record per model artifact, covering base model hash, fine-tune steps, merge contributors, and adapters [unverified]",
+        "model:registry-entry — LI-01 registry entry with linked provenance manifest ID [unverified]",
+        "model:base-model-impact-query-result — sample output of a provenance query identifying all models derived from a given base model hash [unverified]"
       ]
     },
     "lenses": {
@@ -488,7 +502,7 @@
           "custom provenance schema on top of PostgreSQL or Neo4j"
         ],
         "failure_signals": [
-          "Provenance fields are free-text \u2014 no machine-readable structure",
+          "Provenance fields are free-text — no machine-readable structure",
           "No query mechanism exists to find derivatives of a given base model",
           "Adapters and PEFT components are not recorded in the lineage"
         ]
@@ -501,15 +515,15 @@
         ],
         "failure_signals": [
           "Evaluation report does not reference base model version or provenance",
-          "Fine-tuned model passes safety evaluation that replicates base model benchmarks only \u2014 not testing fine-tune-induced behavioral changes"
+          "Fine-tuned model passes safety evaluation that replicates base model benchmarks only — not testing fine-tune-induced behavioral changes"
         ]
       },
       "red_team": {
-        "summary": "Red teams targeting derived models must trace the full provenance chain to identify inherited attack surfaces. A backdoor planted in a widely used open-weight base model (AML.T0018) propagates to all derivatives \u2014 red teams must test base-model attack vectors on downstream models.",
+        "summary": "Red teams targeting derived models must trace the full provenance chain to identify inherited attack surfaces. A backdoor planted in a widely used open-weight base model (AML.T0018) propagates to all derivatives — red teams must test base-model attack vectors on downstream models.",
         "actions": [
           "Retrieve the full provenance chain for the target model before beginning red-team testing",
           "Test for known base-model attack patterns (jailbreaks, backdoor triggers) on derived models regardless of fine-tuning",
-          "Attempt to register a model with a falsified provenance manifest pointing to a clean base model hash \u2014 confirm registry rejects or flags the inconsistency"
+          "Attempt to register a model with a falsified provenance manifest pointing to a clean base model hash — confirm registry rejects or flags the inconsistency"
         ],
         "failure_signals": [
           "Red-team report scopes only the fine-tuning layer and does not assess inherited base-model risk",
@@ -531,7 +545,7 @@
       "mlops": {
         "summary": "Provenance enables MLOps to correctly scope rollbacks and incident response: rolling back a fine-tuned model to a prior checkpoint is different from rolling back to the base model, and the provenance record must make these paths explicit.",
         "actions": [
-          "Maintain the provenance graph as a live artifact \u2014 update it when new fine-tune checkpoints, adapters, or merges are registered",
+          "Maintain the provenance graph as a live artifact — update it when new fine-tune checkpoints, adapters, or merges are registered",
           "Use provenance records to scope monitoring: base-model behavioral patterns provide a baseline against which fine-tune drift is measured",
           "Integrate base-model vulnerability notifications into the MLOps incident response workflow using the provenance query API"
         ],
@@ -639,6 +653,20 @@
         "implementation_maturity": "initial",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-02 records a structured provenance graph covering base models, fine-tuning steps, merge contributors, and adapter lineage, directly supporting AITG-GV-02 Governance Testing which requires that the full ancestral lineage of a model artifact be documented and auditable.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-02"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "readiness": "approved",
@@ -651,11 +679,11 @@
     "canonical_id": "apeiris://model/controls/LI-02"
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-03",
     "layer": "LI",
     "plane": "control",
-    "name": "Supply Chain Integrity \u2014 Third-Party Model Verification and Cryptographic...",
+    "name": "Supply Chain Integrity — Third-Party Model Verification and Cryptographic...",
     "plain": "Before a model from an external source is used, its authenticity and completeness are cryptographically verified using signed checksums and a model bill-of-materials, ensuring the artifact has not been tampered with in transit.",
     "threat": {
       "tags": [
@@ -663,7 +691,7 @@
         "unauthorized-deployment",
         "undisclosed-model-change"
       ],
-      "desc": "Third-party model artifacts sourced from model hubs, provider APIs, or open-weight repositories traverse infrastructure that may be compromised between publication and deployment (AML.T0018 \u2014 Backdoor ML Model). An attacker who compromises a model hub or CDN can substitute a backdoored or trojaned artifact with the same filename and claimed checksum. Without cryptographic verification against a publisher-signed manifest, deployers cannot distinguish a legitimate artifact from a tampered one. Supply chain compromise via this vector (LLM03:2025 \u2014 Supply Chain) is a documented and escalating threat pattern for open-weight and API-sourced models."
+      "desc": "Third-party model artifacts sourced from model hubs, provider APIs, or open-weight repositories traverse infrastructure that may be compromised between publication and deployment (AML.T0018 — Backdoor ML Model). An attacker who compromises a model hub or CDN can substitute a backdoored or trojaned artifact with the same filename and claimed checksum. Without cryptographic verification against a publisher-signed manifest, deployers cannot distinguish a legitimate artifact from a tampered one. Supply chain compromise via this vector (LLM03:2025 — Supply Chain) is a documented and escalating threat pattern for open-weight and API-sourced models."
     },
     "standard": [
       {
@@ -684,7 +712,7 @@
       {
         "id": "aisvs",
         "section": "C1.3",
-        "title": "AI governance \u2014 supply chain verification"
+        "title": "AI governance — supply chain verification"
       }
     ],
     "sources": [
@@ -718,7 +746,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -731,7 +759,7 @@
       },
       {
         "id": "mitre_atlas_560",
-        "title": "MITRE ATLAS \u2014 Adversarial Threat Landscape for Artificial Intelligence Systems v5.6.0",
+        "title": "MITRE ATLAS — Adversarial Threat Landscape for Artificial Intelligence Systems v5.6.0",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "normative_force": "informative",
@@ -752,15 +780,15 @@
         "For provider API models where weights are not accessible, document the verification scope limitation explicitly in the mSBOM: record the API endpoint, provider-declared version or model ID, and behavioral regression test results in lieu of artifact hash verification."
       ],
       "anti_patterns": [
-        "Verifying only the compressed archive hash (e.g., the .zip file) and not the extracted artifact bundle \u2014 an attacker can craft a valid archive containing a substituted model file.",
-        "Sourcing checksums from the same mirror or repository as the model artifact \u2014 a compromised repository can publish a matching checksum for a tampered artifact.",
+        "Verifying only the compressed archive hash (e.g., the .zip file) and not the extracted artifact bundle — an attacker can craft a valid archive containing a substituted model file.",
+        "Sourcing checksums from the same mirror or repository as the model artifact — a compromised repository can publish a matching checksum for a tampered artifact.",
         "Skipping mSBOM generation for 'well-known' base models from major providers on the assumption that supply chain risk only affects obscure models."
       ]
     },
     "validation": {
       "design_check": [
         "Confirm the model onboarding procedure requires publisher-signed checksum verification before registration, with the verification source documented as distinct from the artifact source [ref:owasp_llm10_2025].",
-        "Verify that the mSBOM schema includes individual component hashes, declared license(s), provenance metadata, and verification method \u2014 not just a single artifact-level hash [ref:nist_rmf_100_1].",
+        "Verify that the mSBOM schema includes individual component hashes, declared license(s), provenance metadata, and verification method — not just a single artifact-level hash [ref:nist_rmf_100_1].",
         "Confirm the mSBOM is stored as an immutable attachment to the LI-01 registry entry with a creation timestamp and verifier identity [ref:iso_42001_2023]."
       ],
       "runtime_test": [
@@ -769,16 +797,16 @@
         "For a hosted-API model, confirm that the mSBOM documents the verification scope limitation explicitly and includes behavioral regression test results as the substituted evidence [unverified]."
       ],
       "evidence": [
-        "model:msbom \u2014 model Software Bill of Materials with per-component hashes, license declarations, provenance metadata, and verification timestamp [unverified]",
-        "model:supply-chain-verification-record \u2014 record of publisher-signed checksum retrieval source, comparison result, and verifier identity [unverified]",
-        "model:registry-entry \u2014 LI-01 registry entry with linked mSBOM and verification record [unverified]"
+        "model:msbom — model Software Bill of Materials with per-component hashes, license declarations, provenance metadata, and verification timestamp [unverified]",
+        "model:supply-chain-verification-record — record of publisher-signed checksum retrieval source, comparison result, and verifier identity [unverified]",
+        "model:registry-entry — LI-01 registry entry with linked mSBOM and verification record [unverified]"
       ]
     },
     "lenses": {
       "engineering": {
         "summary": "Supply chain integrity is a pipeline-level control: engineering must implement checksum verification and mSBOM generation as automated, non-bypassable steps in the model acquisition and onboarding pipeline.",
         "actions": [
-          "Automate publisher-signed checksum verification in the model acquisition pipeline \u2014 no human approval should be required when the hash matches; rejection must be automatic when it does not",
+          "Automate publisher-signed checksum verification in the model acquisition pipeline — no human approval should be required when the hash matches; rejection must be automatic when it does not",
           "Implement mSBOM generation as a packaging pipeline step that runs immediately after successful verification",
           "Integrate Sigstore or equivalent artifact signing infrastructure for first-party models to match the verification chain for third-party artifacts"
         ],
@@ -808,7 +836,7 @@
       "red_team": {
         "summary": "Red teams must probe the supply chain verification pipeline for bypasses: can a tampered artifact be registered by manipulating the checksum source or exploiting gaps in the mSBOM scope?",
         "actions": [
-          "Attempt to substitute a model artifact after checksum verification completes but before registration \u2014 test whether post-verification integrity is maintained",
+          "Attempt to substitute a model artifact after checksum verification completes but before registration — test whether post-verification integrity is maintained",
           "Attempt to onboard an artifact with a checksum sourced from a mirror rather than the publisher's authoritative page and verify rejection",
           "Test whether mSBOM generation can be skipped via pipeline configuration flags or environment overrides"
         ],
@@ -927,7 +955,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "MITRE ATLAS AML.T0018 (Backdoor ML Model) includes the supply chain vector where an adversary compromises a model artifact in transit or at the source repository. LI-03's cryptographic verification gates reduce this attack surface by ensuring that any artifact substitution that alters the hash is detected before registration. Backdoors introduced before the publisher's signing step are not mitigated by LI-03.",
-        "uncovered_portion": "AML.T0018 includes backdoor injection at training time or by a malicious publisher \u2014 LI-03 only detects post-signing substitution, not a backdoor embedded by the original publisher.",
+        "uncovered_portion": "AML.T0018 includes backdoor injection at training time or by a malicious publisher — LI-03 only detects post-signing substitution, not a backdoor embedded by the original publisher.",
         "source_version": "5.6.0",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -937,11 +965,26 @@
         "implementation_maturity": "initial",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-01",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-03 verifies third-party model artifacts against publisher-signed checksums and generates a model SBOM (mSBOM), supporting the AITG-GV-01 Governance Testing requirement that artifact identity and version integrity be confirmed before deployment. However, the mSBOM and chain-of-custody procedures extend into supply-chain documentation that AITG-GV-01 does not fully prescribe.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-01"
+        },
+        "uncovered_portion": "AITG-GV-01 addresses identity and versioning of the model artifact itself; third-party supply-chain verification procedures including mSBOM generation and publisher-signed checksum workflows exceed what the test prescribes.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "readiness": "approved",
     "thesis_type": "preventive",
-    "matrix_thesis": "A model artifact that cannot be cryptographically verified against its publisher's signed manifest is an uncontrolled dependency. mSBOM generation for AI models mirrors the software SBOM practice mandated for critical software supply chains \u2014 the AI field is behind the software field on this control, and that gap is being actively exploited.",
+    "matrix_thesis": "A model artifact that cannot be cryptographically verified against its publisher's signed manifest is an uncontrolled dependency. mSBOM generation for AI models mirrors the software SBOM practice mandated for critical software supply chains — the AI field is behind the software field on this control, and that gap is being actively exploited.",
     "meta": {
       "authored_on": "2026-06-26",
       "schema_version": "1.0.0"
@@ -949,11 +992,11 @@
     "canonical_id": "apeiris://model/controls/LI-03"
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-04",
     "layer": "LI",
     "plane": "control",
-    "name": "Structured Model Documentation \u2014 Complete Model Card with All Required Sections",
+    "name": "Structured Model Documentation — Complete Model Card with All Required Sections",
     "plain": "Each model has a standardized documentation record covering its purpose, performance, limitations, training data, and ethical considerations so that users can make informed decisions about whether and how to use it.",
     "threat": {
       "tags": [
@@ -961,7 +1004,7 @@
         "accountability-gap",
         "regulatory-noncompliance"
       ],
-      "desc": "Without structured documentation, model users \u2014 including downstream deployers, regulators, and affected parties \u2014 cannot determine the model's intended use, known limitations, demographic performance disparities, or out-of-scope uses. This information asymmetry enables misapplication: deploying a model in contexts it was not designed or evaluated for, or using it with populations underrepresented in training evaluation. Incomplete documentation also prevents regulators from performing mandatory conformity assessments (EU AI Act Art-11) and blocks effective independent validation (SR 26-2 S-3). The absence of documented limitations is not a gap in paper compliance \u2014 it is a precondition for harm."
+      "desc": "Without structured documentation, model users — including downstream deployers, regulators, and affected parties — cannot determine the model's intended use, known limitations, demographic performance disparities, or out-of-scope uses. This information asymmetry enables misapplication: deploying a model in contexts it was not designed or evaluated for, or using it with populations underrepresented in training evaluation. Incomplete documentation also prevents regulators from performing mandatory conformity assessments (EU AI Act Art-11) and blocks effective independent validation (SR 26-2 S-3). The absence of documented limitations is not a gap in paper compliance — it is a precondition for harm."
     },
     "standard": [
       {
@@ -987,7 +1030,7 @@
       {
         "id": "aisvs",
         "section": "C1.4",
-        "title": "AI governance \u2014 model documentation"
+        "title": "AI governance — model documentation"
       }
     ],
     "sources": [
@@ -1007,8 +1050,8 @@
       },
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
-        "authority": "European Union \u2014 European Parliament and Council",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "authority": "European Union — European Parliament and Council",
         "source_type": "binding-law",
         "normative_force": "binding-law",
         "version": "2024/1689",
@@ -1033,7 +1076,7 @@
       },
       {
         "id": "sr_26_2",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1058,17 +1101,17 @@
       }
     ],
     "implementation": {
-      "pattern": "Require a complete model card \u2014 conforming to all 9 sections of the Mitchell et al. 2019 framework and supplemented for regulatory jurisdiction \u2014 as a mandatory gate before model registration; enforce section completeness programmatically and version-lock the model card to the artifact hash.",
+      "pattern": "Require a complete model card — conforming to all 9 sections of the Mitchell et al. 2019 framework and supplemented for regulatory jurisdiction — as a mandatory gate before model registration; enforce section completeness programmatically and version-lock the model card to the artifact hash.",
       "steps": [
         "Adopt the Mitchell et al. 2019 model card structure as the organizational baseline requiring all 9 sections: (1) Model Details, (2) Intended Use, (3) Factors, (4) Metrics, (5) Evaluation Data, (6) Training Data, (7) Quantitative Analyses, (8) Ethical Considerations, (9) Caveats and Recommendations. For EU AI Act high-risk systems, supplement with Annex IV fields (design specifications, training methodology, risk management system reference, monitoring procedures).",
         "Implement schema-based completeness validation: each of the 9 sections must be non-empty and must pass field-level validation (e.g., Metrics section must name at least one metric with a value and a reference evaluation dataset; Intended Use must name at least one out-of-scope use). Reject model registration when any required section is absent or empty.",
         "Version-lock the model card to the artifact hash: the model card is a registry artifact with its own hash stored alongside the model artifact hash. Any update to the model card generates a new version; the current card version is always derivable from the artifact hash.",
-        "For provider-hosted models where training data details are unavailable, document the limitation explicitly in sections (6) and (9) rather than leaving them blank \u2014 an honest acknowledgment of limited information is preferable to a false impression of completeness."
+        "For provider-hosted models where training data details are unavailable, document the limitation explicitly in sections (6) and (9) rather than leaving them blank — an honest acknowledgment of limited information is preferable to a false impression of completeness."
       ],
       "anti_patterns": [
-        "Publishing a model card that contains all 9 section headers but leaves sections (7) Quantitative Analyses and (8) Ethical Considerations as placeholder text \u2014 section presence without substantive content does not satisfy the control.",
-        "Treating the model card as a static document created at initial release and never updated \u2014 the card must be versioned alongside the model and updated when performance characteristics, intended use, or known limitations change.",
-        "Conflating the model card with marketing copy \u2014 model cards must disclose limitations and out-of-scope uses with the same prominence as capabilities."
+        "Publishing a model card that contains all 9 section headers but leaves sections (7) Quantitative Analyses and (8) Ethical Considerations as placeholder text — section presence without substantive content does not satisfy the control.",
+        "Treating the model card as a static document created at initial release and never updated — the card must be versioned alongside the model and updated when performance characteristics, intended use, or known limitations change.",
+        "Conflating the model card with marketing copy — model cards must disclose limitations and out-of-scope uses with the same prominence as capabilities."
       ]
     },
     "validation": {
@@ -1079,18 +1122,18 @@
       ],
       "runtime_test": [
         "Attempt to register a model with a card that is missing section (7) Quantitative Analyses or section (8) Ethical Considerations; confirm the pipeline blocks registration and identifies the specific missing section [ref:mitchell_2019].",
-        "Update a production model's performance characteristics and verify that the model card version is incremented and linked to the same artifact hash \u2014 confirm the prior card version is retained in the registry [ref:sr_26_2].",
+        "Update a production model's performance characteristics and verify that the model card version is incremented and linked to the same artifact hash — confirm the prior card version is retained in the registry [ref:sr_26_2].",
         "Retrieve the model card for a deployed model and independently assess section completeness using the Mitchell et al. criteria; flag any sections found to be substantively empty or placeholder text [ref:mitchell_2019]."
       ],
       "evidence": [
-        "model:model-card \u2014 versioned, schema-validated model card with all 9 Mitchell et al. sections substantively populated, linked to artifact hash [unverified]",
-        "model:card-completeness-validation-report \u2014 programmatic completeness validation result showing pass/fail per section and validation timestamp [unverified]",
-        "model:registry-entry \u2014 LI-01 registry entry with linked current model card version hash [unverified]"
+        "model:model-card — versioned, schema-validated model card with all 9 Mitchell et al. sections substantively populated, linked to artifact hash [unverified]",
+        "model:card-completeness-validation-report — programmatic completeness validation result showing pass/fail per section and validation timestamp [unverified]",
+        "model:registry-entry — LI-01 registry entry with linked current model card version hash [unverified]"
       ]
     },
     "lenses": {
       "engineering": {
-        "summary": "Engineering owns the model card schema and the completeness validation gate. The card must be a machine-validated registry artifact, not a documentation add-on. Incomplete cards must block model registration \u2014 not generate warnings.",
+        "summary": "Engineering owns the model card schema and the completeness validation gate. The card must be a machine-validated registry artifact, not a documentation add-on. Incomplete cards must block model registration — not generate warnings.",
         "actions": [
           "Implement a JSON Schema for the model card covering all 9 Mitchell et al. sections with field-level validation rules",
           "Integrate model card validation as a blocking gate in the model registration pipeline",
@@ -1105,7 +1148,7 @@
         "failure_signals": [
           "Model card exists as a free-text README with no schema validation",
           "Registration pipeline accepts empty section placeholders without blocking",
-          "Model card not linked to artifact hash \u2014 can diverge from deployed model"
+          "Model card not linked to artifact hash — can diverge from deployed model"
         ]
       },
       "evaluation": {
@@ -1123,20 +1166,20 @@
       "red_team": {
         "summary": "The model card's Intended Use and Caveats sections are red-team intelligence: stated out-of-scope uses identify the boundaries the model was not tested against and therefore the highest-value targets for adversarial testing.",
         "actions": [
-          "Review the Intended Use (section 2) and Caveats (section 9) sections before designing a red-team test plan \u2014 out-of-scope uses listed by the developer are first-priority targets",
+          "Review the Intended Use (section 2) and Caveats (section 9) sections before designing a red-team test plan — out-of-scope uses listed by the developer are first-priority targets",
           "Verify that the Ethical Considerations section (8) identifies failure modes that red-team testing should attempt to elicit",
           "Test whether deployers have extended the model beyond its stated Intended Use and document gaps between stated and actual use"
         ],
         "failure_signals": [
-          "Ethical Considerations section is generic boilerplate \u2014 no model-specific failure modes identified",
+          "Ethical Considerations section is generic boilerplate — no model-specific failure modes identified",
           "Caveats section does not list any out-of-scope uses despite the model being a fine-tuned or specialized system"
         ]
       },
       "grc": {
-        "summary": "The model card is the primary regulatory evidence artifact: EU AI Act Art-11 requires technical documentation that substantially overlaps with model card content. SR 26-2 validation requires model purpose, assumptions, and limitations to be documented. A complete, versioned model card is not a best practice for these frameworks \u2014 it is a baseline expectation.",
+        "summary": "The model card is the primary regulatory evidence artifact: EU AI Act Art-11 requires technical documentation that substantially overlaps with model card content. SR 26-2 validation requires model purpose, assumptions, and limitations to be documented. A complete, versioned model card is not a best practice for these frameworks — it is a baseline expectation.",
         "actions": [
           "Confirm that the model card completeness standard meets Art-11 and Annex IV requirements for all EU AI Act in-scope deployments",
-          "Verify model cards are retained for the full regulatory retention period \u2014 EU AI Act requires post-market retention; SR 26-2 expects records supporting the full model lifecycle",
+          "Verify model cards are retained for the full regulatory retention period — EU AI Act requires post-market retention; SR 26-2 expects records supporting the full model lifecycle",
           "Include model card version references in all regulatory disclosures and model risk management documentation"
         ],
         "metrics": [
@@ -1152,7 +1195,7 @@
         "summary": "MLOps must maintain model card currency across the production lifecycle: when monitoring reveals performance changes, model card section (7) must be updated; when operational limitations are discovered, section (9) must reflect them.",
         "actions": [
           "Trigger a model card review process when production monitoring detects material performance changes",
-          "Integrate model card update into the material-change authorization workflow (LI-09) \u2014 a model update that changes stated capabilities or limitations requires a new card version",
+          "Integrate model card update into the material-change authorization workflow (LI-09) — a model update that changes stated capabilities or limitations requires a new card version",
           "Ensure model card section (6) Training Data is updated when the model is retrained with new data"
         ],
         "failure_signals": [
@@ -1166,10 +1209,10 @@
       "target": "defined",
       "notes": "Many organizations publish partial model cards or treat them as optional documentation. Achieving 'defined' requires all 9 sections to be schema-validated and the model card to be a registry-linked, version-controlled artifact that gates model registration."
     },
-    "coverage_note": "LI-04 covers structured model documentation at the artifact level. Use-case-level impact assessment (required by EU AI Act Art-9 and ISO 42005) is covered in EV-09. Human oversight documentation (Art-14) is covered in OA-02. Post-deployment monitoring documentation (Art-12) is covered in BH-05. LI-04 does not require the model card to be publicly disclosed \u2014 only that it exists, is complete, and is accessible to authorized parties including regulators and independent validators.",
+    "coverage_note": "LI-04 covers structured model documentation at the artifact level. Use-case-level impact assessment (required by EU AI Act Art-9 and ISO 42005) is covered in EV-09. Human oversight documentation (Art-14) is covered in OA-02. Post-deployment monitoring documentation (Art-12) is covered in BH-05. LI-04 does not require the model card to be publicly disclosed — only that it exists, is complete, and is accessible to authorized parties including regulators and independent validators.",
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "provision": "Art-11",
         "jurisdiction": [
@@ -1335,11 +1378,25 @@
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-04 mandates a schema-validated model card with all nine Mitchell et al. sections, directly implementing the AITG-GV-02 Governance Testing expectation that model card documentation be complete, structured, and linked to the deployed artifact so downstream users and auditors can understand capabilities, limitations, and intended use.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-02"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "readiness": "approved",
     "thesis_type": "directive",
-    "matrix_thesis": "Undocumented limitations are not omissions \u2014 they are active risks. Every model deployed without a complete model card is a model whose failure modes are invisible to the people who most need to understand them: downstream deployers, affected parties, independent validators, and regulators. The 9-section model card is not a compliance checkbox; it is the minimum documentation surface that makes responsible deployment possible.",
+    "matrix_thesis": "Undocumented limitations are not omissions — they are active risks. Every model deployed without a complete model card is a model whose failure modes are invisible to the people who most need to understand them: downstream deployers, affected parties, independent validators, and regulators. The 9-section model card is not a compliance checkbox; it is the minimum documentation surface that makes responsible deployment possible.",
     "meta": {
       "authored_on": "2026-06-26",
       "schema_version": "1.0.0"
@@ -1347,11 +1404,11 @@
     "canonical_id": "apeiris://model/controls/LI-04"
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-05",
     "layer": "LI",
     "plane": "control",
-    "name": "Training Data Lineage Pointer \u2014 Link from Model Registry to TG-Layer Dataset...",
+    "name": "Training Data Lineage Pointer — Link from Model Registry to TG-Layer Dataset...",
     "plain": "Each registered model includes a reference to the official dataset record that documents what training data was used, so that data governance and model governance are connected rather than siloed.",
     "threat": {
       "tags": [
@@ -1359,13 +1416,13 @@
         "accountability-gap",
         "supply-chain-compromise"
       ],
-      "desc": "When model artifacts and training data records are managed as separate silos without explicit linkage, it becomes impossible to determine whether a model was trained on data that meets current governance standards \u2014 for example, whether training data has since been flagged for quality issues, consent withdrawal, or contamination. This disconnect enables training data poisoning (AML.T0020) or data quality failures to remain undiscovered because there is no path from a deployed model to the data that produced it. SR 26-2 independent validation requires validators to assess training data inputs; without a pointer to the authoritative dataset record, validation is incomplete."
+      "desc": "When model artifacts and training data records are managed as separate silos without explicit linkage, it becomes impossible to determine whether a model was trained on data that meets current governance standards — for example, whether training data has since been flagged for quality issues, consent withdrawal, or contamination. This disconnect enables training data poisoning (AML.T0020) or data quality failures to remain undiscovered because there is no path from a deployed model to the data that produced it. SR 26-2 independent validation requires validators to assess training data inputs; without a pointer to the authoritative dataset record, validation is incomplete."
     },
     "standard": [
       {
         "id": "sr262",
         "section": "S-1.2",
-        "title": "Model inventory \u2014 training data documentation"
+        "title": "Model inventory — training data documentation"
       },
       {
         "id": "nist_rmf",
@@ -1380,13 +1437,13 @@
       {
         "id": "aisvs",
         "section": "C2.1",
-        "title": "Training data \u2014 data lineage and provenance"
+        "title": "Training data — data lineage and provenance"
       }
     ],
     "sources": [
       {
         "id": "sr_26_2",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1414,7 +1471,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -1444,13 +1501,13 @@
       "steps": [
         "Define a structured training-data reference field in the model registry schema that accepts one or more TG-layer dataset record IDs (covering pre-training corpus, fine-tuning dataset, RLHF preference dataset separately if applicable). The field is mandatory and must be non-empty for all non-API-hosted models.",
         "At registration time, resolve each dataset record reference and validate: the record exists, its status is not flagged as disqualified or recalled, and the dataset version matches the version used during training. Reject registration if any reference is invalid.",
-        "For third-party hosted models where training data details are unknown, document the limitation explicitly: record the provider, provider-stated training data description, and the knowledge gap \u2014 do not leave the field empty or omit it.",
+        "For third-party hosted models where training data details are unknown, document the limitation explicitly: record the provider, provider-stated training data description, and the knowledge gap — do not leave the field empty or omit it.",
         "When a TG-layer dataset record is subsequently flagged for contamination, consent withdrawal, or data quality failure, trigger an automated alert to all model registry entries that reference that dataset record to initiate impact assessment."
       ],
       "anti_patterns": [
-        "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative TG-layer record \u2014 free text cannot be queried when a dataset is recalled.",
-        "Using a dataset name or filename as the reference rather than a stable dataset record ID \u2014 names and filenames are not unique across versions and can refer to different dataset contents.",
-        "Omitting fine-tuning dataset references and recording only the pre-training corpus \u2014 incomplete references mislead independent validators about the full data inputs."
+        "Recording training data as a free-text description in the model card (LI-04 section 6) without a machine-resolvable pointer to the authoritative TG-layer record — free text cannot be queried when a dataset is recalled.",
+        "Using a dataset name or filename as the reference rather than a stable dataset record ID — names and filenames are not unique across versions and can refer to different dataset contents.",
+        "Omitting fine-tuning dataset references and recording only the pre-training corpus — incomplete references mislead independent validators about the full data inputs."
       ]
     },
     "validation": {
@@ -1465,14 +1522,14 @@
         "For a production model, trace the training-data pointer to the TG-layer record and verify the record is accessible to the independent validation team without escalation [ref:owasp_aisvs_v1]."
       ],
       "evidence": [
-        "model:registry-entry \u2014 model registry entry with one or more TG-layer dataset record ID references, validated at registration time [unverified]",
-        "model:dataset-reference-validation-log \u2014 automated validation log confirming each dataset reference resolved to a valid, non-flagged record at registration [unverified]",
-        "model:dataset-recall-alert-record \u2014 evidence that dataset recall alerting is operational, showing an alert sent to affected model registry entries for a test or real recall event [unverified]"
+        "model:registry-entry — model registry entry with one or more TG-layer dataset record ID references, validated at registration time [unverified]",
+        "model:dataset-reference-validation-log — automated validation log confirming each dataset reference resolved to a valid, non-flagged record at registration [unverified]",
+        "model:dataset-recall-alert-record — evidence that dataset recall alerting is operational, showing an alert sent to affected model registry entries for a test or real recall event [unverified]"
       ]
     },
     "lenses": {
       "engineering": {
-        "summary": "The training-data pointer is a foreign-key constraint between the model registry and the TG-layer dataset catalog. Engineering must implement it as a schema-level constraint with referential integrity enforcement \u2014 not as a documentation convention.",
+        "summary": "The training-data pointer is a foreign-key constraint between the model registry and the TG-layer dataset catalog. Engineering must implement it as a schema-level constraint with referential integrity enforcement — not as a documentation convention.",
         "actions": [
           "Implement the training-data reference field as a foreign key with registry-level referential integrity validation",
           "Build the dataset recall alert notification mechanism to query model registry references when a dataset record status changes",
@@ -1484,7 +1541,7 @@
           "Apache Atlas or similar data governance catalog"
         ],
         "failure_signals": [
-          "Training data is documented only as free text in the model card \u2014 no machine-resolvable reference",
+          "Training data is documented only as free text in the model card — no machine-resolvable reference",
           "Model registry has no connection to the TG-layer dataset catalog",
           "No alerting mechanism when a training dataset is retroactively flagged"
         ]
@@ -1508,19 +1565,19 @@
           "Test whether the model exhibits behaviors consistent with identified dataset artifacts or known contamination in the referenced training data"
         ],
         "failure_signals": [
-          "Red-team report cannot identify training data source \u2014 scope is artificially limited",
+          "Red-team report cannot identify training data source — scope is artificially limited",
           "Known contamination events in training datasets are not surfaced to red teams because pointer linkage is absent"
         ]
       },
       "grc": {
-        "summary": "SR 26-2 requires model validators to assess training data inputs. The training-data pointer is the mechanism that makes this assessment possible without organizational barriers. For EU AI Act in-scope systems, Art-10 data governance requirements apply to the training data \u2014 the pointer creates the audit linkage between model documentation and data governance records.",
+        "summary": "SR 26-2 requires model validators to assess training data inputs. The training-data pointer is the mechanism that makes this assessment possible without organizational barriers. For EU AI Act in-scope systems, Art-10 data governance requirements apply to the training data — the pointer creates the audit linkage between model documentation and data governance records.",
         "actions": [
           "Confirm that all models subject to SR 26-2 independent validation have valid training-data pointers accessible to the validation team",
           "Verify that EU AI Act in-scope systems have training-data pointers linking to TG-layer records that satisfy Art-10 data governance documentation",
           "Establish a process to review all model registry entries whose training-data pointers reference datasets that have been flagged or recalled since the model was deployed"
         ],
         "failure_signals": [
-          "SR 26-2 validation team cannot access training data record \u2014 pointer absent or access denied",
+          "SR 26-2 validation team cannot access training data record — pointer absent or access denied",
           "No documented process for responding to training dataset recalls affecting production models"
         ]
       },
@@ -1541,7 +1598,7 @@
       "target": "defined",
       "notes": "Most organizations maintain model registries and dataset catalogs as separate, unconnected systems. Achieving 'defined' requires a schema-level foreign key from the model registry to the dataset catalog with automated referential integrity enforcement."
     },
-    "coverage_note": "LI-05 requires only a pointer \u2014 a machine-resolvable reference \u2014 to the TG-layer dataset record. It does not require the training data itself to be present in the model registry or to be reproduced here. The substantive content of training data governance (quality, consent, bias screening, contamination detection) is owned by the TG layer. LI-05 is the linkage control that ensures model governance and data governance are connected.",
+    "coverage_note": "LI-05 requires only a pointer — a machine-resolvable reference — to the TG-layer dataset record. It does not require the training data itself to be present in the model registry or to be reproduced here. The substantive content of training data governance (quality, consent, bias screening, contamination detection) is owned by the TG layer. LI-05 is the linkage control that ensures model governance and data governance are connected.",
     "capability_risk": {
       "capability_level": "low",
       "access_mode": "api",
@@ -1621,7 +1678,7 @@
         "requirement_id": "AML.T0020",
         "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "MITRE ATLAS AML.T0020 (Poison Training Data) is adjacently relevant: the training-data pointer enables impact scoping when a dataset is found to have been poisoned \u2014 all models trained on the contaminated dataset can be identified quickly. LI-05 is a scoping and traceability control, not a poisoning prevention control. Prevention is owned by TG-04.",
+        "rationale": "MITRE ATLAS AML.T0020 (Poison Training Data) is adjacently relevant: the training-data pointer enables impact scoping when a dataset is found to have been poisoned — all models trained on the contaminated dataset can be identified quickly. LI-05 is a scoping and traceability control, not a poisoning prevention control. Prevention is owned by TG-04.",
         "source_version": "5.6.0",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -1631,6 +1688,20 @@
         "implementation_maturity": "none",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-05 creates a structured pointer from the model registry entry to the authoritative TG-layer dataset record, directly satisfying the AITG-DG-01 Data Governance Testing requirement that the provenance and lineage of training data used by a model be documented and traceable from the model artifact to its data sources.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-01"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "readiness": "approved",
@@ -1643,7 +1714,7 @@
     "canonical_id": "apeiris://model/controls/LI-05"
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-06",
     "layer": "LI",
     "plane": "control",
@@ -1656,7 +1727,7 @@
         "unauthorized-deployment",
         "supply-chain-compromise"
       ],
-      "desc": "Silent model overwrites \u2014 where a production endpoint serves a different artifact than what was approved \u2014 are a recurring failure mode in ML operations, occurring both through adversarial substitution (AML.T0044 \u2014 Full ML Model Access) and through accidental CI/CD pipeline errors. Without immutable versioning, a deployment pipeline bug or unauthorized actor can replace a validated model with an untested or malicious one with no audit trail. Separately, many organizations discover during incidents that their rollback procedure has never been tested or that their emergency disable capability is entangled with the same CI/CD tooling that may be compromised \u2014 making recovery dependent on the compromised path."
+      "desc": "Silent model overwrites — where a production endpoint serves a different artifact than what was approved — are a recurring failure mode in ML operations, occurring both through adversarial substitution (AML.T0044 — Full ML Model Access) and through accidental CI/CD pipeline errors. Without immutable versioning, a deployment pipeline bug or unauthorized actor can replace a validated model with an untested or malicious one with no audit trail. Separately, many organizations discover during incidents that their rollback procedure has never been tested or that their emergency disable capability is entangled with the same CI/CD tooling that may be compromised — making recovery dependent on the compromised path."
     },
     "standard": [
       {
@@ -1667,7 +1738,7 @@
       {
         "id": "iso_42001",
         "section": "A.8.1",
-        "title": "AI system operation \u2014 change management"
+        "title": "AI system operation — change management"
       },
       {
         "id": "eu_ai_act",
@@ -1677,12 +1748,12 @@
       {
         "id": "sr262",
         "section": "S-5.1",
-        "title": "Ongoing monitoring \u2014 version and change tracking"
+        "title": "Ongoing monitoring — version and change tracking"
       },
       {
         "id": "aisvs",
         "section": "C6.2",
-        "title": "Model deployment \u2014 version control and rollback"
+        "title": "Model deployment — version control and rollback"
       }
     ],
     "sources": [
@@ -1702,7 +1773,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -1715,8 +1786,8 @@
       },
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
-        "authority": "European Union \u2014 European Parliament and Council",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "authority": "European Union — European Parliament and Council",
         "source_type": "binding-law",
         "normative_force": "binding-law",
         "version": "2024/1689",
@@ -1728,7 +1799,7 @@
       },
       {
         "id": "sr_26_2",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1747,12 +1818,12 @@
         "Configure the model registry as append-only for version records: no in-place update or delete of an existing version entry is permitted. Any change to a deployed model (weights, configuration, adapters) requires a new version entry with a new artifact hash.",
         "Implement blue-green or canary deployment with artifact-hash verification at each promotion gate. The production traffic-switch decision must record the source artifact hash, destination artifact hash, timestamp, and authorizing identity in an immutable deployment log.",
         "Maintain a rollback map: for each production model version, document the artifact hash, registry entry, and deployment pipeline artifact location for at least the previous two approved versions. Test rollback to each prior approved version on a quarterly basis at minimum; document the test result and rollback time.",
-        "Implement emergency disable as a runtime configuration change \u2014 not a deployment pipeline operation. The disable must be triggerable by the MLOps on-call team without requiring access to the CI/CD pipeline, and must take effect within a defined SLA (e.g., 60 seconds). For hosted-API models, the emergency disable is provider API key revocation or traffic routing change \u2014 document this path explicitly."
+        "Implement emergency disable as a runtime configuration change — not a deployment pipeline operation. The disable must be triggerable by the MLOps on-call team without requiring access to the CI/CD pipeline, and must take effect within a defined SLA (e.g., 60 seconds). For hosted-API models, the emergency disable is provider API key revocation or traffic routing change — document this path explicitly."
       ],
       "anti_patterns": [
-        "Treating rollback as a theoretical capability that has never been exercised in production \u2014 untested rollback is not a rollback capability; the first real incident will reveal that it does not work as expected.",
-        "Implementing emergency disable as a re-deployment of a prior version through the CI/CD pipeline \u2014 this is too slow for a genuine safety incident and entangles the disable with the potentially compromised deployment tooling.",
-        "Using mutable deployment labels (e.g., 'production' tag pointing to a changing artifact) without version pinning \u2014 label mutation is a silent overwrite that bypasses immutability controls."
+        "Treating rollback as a theoretical capability that has never been exercised in production — untested rollback is not a rollback capability; the first real incident will reveal that it does not work as expected.",
+        "Implementing emergency disable as a re-deployment of a prior version through the CI/CD pipeline — this is too slow for a genuine safety incident and entangles the disable with the potentially compromised deployment tooling.",
+        "Using mutable deployment labels (e.g., 'production' tag pointing to a changing artifact) without version pinning — label mutation is a silent overwrite that bypasses immutability controls."
       ]
     },
     "validation": {
@@ -1767,9 +1838,9 @@
         "Inject a hash mismatch event in the deployment monitoring pipeline and confirm the version drift alert fires within the monitoring window defined in the monitoring_schema [ref:iso_42001_2023]."
       ],
       "evidence": [
-        "model:rollback-test-record \u2014 quarterly rollback test result including model ID, prior version artifact hash, rollback time measured, and pass/fail status [unverified]",
-        "model:emergency-disable-test-record \u2014 emergency disable test result including activation path, time to suspension, and independence from CI/CD pipeline confirmation [unverified]",
-        "model:deployment-log \u2014 immutable deployment log entries for each production version transition including source hash, destination hash, timestamp, and authorizing identity [unverified]"
+        "model:rollback-test-record — quarterly rollback test result including model ID, prior version artifact hash, rollback time measured, and pass/fail status [unverified]",
+        "model:emergency-disable-test-record — emergency disable test result including activation path, time to suspension, and independence from CI/CD pipeline confirmation [unverified]",
+        "model:deployment-log — immutable deployment log entries for each production version transition including source hash, destination hash, timestamp, and authorizing identity [unverified]"
       ]
     },
     "lenses": {
@@ -1788,7 +1859,7 @@
         ],
         "failure_signals": [
           "Model registry allows PUT or PATCH on existing version entries",
-          "Emergency disable requires a new deployment \u2014 not a runtime configuration change",
+          "Emergency disable requires a new deployment — not a runtime configuration change",
           "Rollback has never been tested in a non-trivial environment"
         ]
       },
@@ -1823,7 +1894,7 @@
           "Confirm the rollback and emergency disable test records are included in model risk governance documentation"
         ],
         "failure_signals": [
-          "No immutable deployment log \u2014 version transitions are tracked only in mutable CI/CD pipeline metadata",
+          "No immutable deployment log — version transitions are tracked only in mutable CI/CD pipeline metadata",
           "Rollback and emergency disable have never been tested; no test records exist"
         ]
       },
@@ -1965,7 +2036,7 @@
         "requirement_id": "Art-12",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art-12 requires providers of high-risk AI systems to maintain logging capabilities that ensure traceability of system behavior and enable post-market monitoring. LI-06's immutable deployment log and version records directly support Art-12's traceability requirement. Art-12 also requires logs to be retained for a defined period; LI-06 does not independently specify retention \u2014 that is addressed in CR layer controls.",
+        "rationale": "EU AI Act Art-12 requires providers of high-risk AI systems to maintain logging capabilities that ensure traceability of system behavior and enable post-market monitoring. LI-06's immutable deployment log and version records directly support Art-12's traceability requirement. Art-12 also requires logs to be retained for a defined period; LI-06 does not independently specify retention — that is addressed in CR layer controls.",
         "uncovered_portion": "Art-12 specifies logging content requirements (inputs, outputs, period) beyond version transition records; inference-level logging is addressed in BH-05.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -2020,7 +2091,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "MITRE ATLAS AML.T0044 (Full ML Model Access) describes an adversary gaining sufficient access to substitute or exfiltrate a model artifact. Immutable version records and hash-mismatch monitoring reduce the window between a substitution event and its detection. LI-06's emergency disable provides a rapid containment mechanism once AML.T0044 activity is detected. Full access control mitigation is owned by securitycontrols.ai.",
-        "uncovered_portion": "AML.T0044 full mitigation requires access control to the model registry and serving infrastructure \u2014 cross-domain security responsibility.",
+        "uncovered_portion": "AML.T0044 full mitigation requires access control to the model registry and serving infrastructure — cross-domain security responsibility.",
         "source_version": "5.6.0",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -2030,6 +2101,20 @@
         "implementation_maturity": "initial",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-06",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-06 requires that every material change to a deployed model or system configuration pass a formal authorization gate before reaching production, directly supporting AITG-RT-06 Runtime Testing which validates that change authorization controls prevent unauthorized model updates from entering the production serving environment.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-06"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "cross_domain": {
@@ -2066,7 +2151,7 @@
     "canonical_id": "apeiris://model/controls/LI-06",
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "provision": "Art-12",
         "jurisdiction": [
@@ -2118,11 +2203,11 @@
     ]
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-07",
     "layer": "LI",
     "plane": "control",
-    "name": "Capability and Limitation Declaration \u2014 Intended Use, Constraints,...",
+    "name": "Capability and Limitation Declaration — Intended Use, Constraints,...",
     "plain": "Each model formally declares what it is designed to do, what it cannot reliably do, what uses are out of scope, and where its knowledge ends, so that deployers and users can make informed decisions about when to rely on it.",
     "threat": {
       "tags": [
@@ -2146,19 +2231,19 @@
       {
         "id": "iso_42001",
         "section": "A.6.1",
-        "title": "AI system lifecycle management \u2014 intended use documentation"
+        "title": "AI system lifecycle management — intended use documentation"
       },
       {
         "id": "aisvs",
         "section": "C3.1",
-        "title": "Model design \u2014 capability and limitation declaration"
+        "title": "Model design — capability and limitation declaration"
       }
     ],
     "sources": [
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
-        "authority": "European Union \u2014 European Parliament and Council",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "authority": "European Union — European Parliament and Council",
         "source_type": "binding-law",
         "normative_force": "binding-law",
         "version": "2024/1689",
@@ -2184,7 +2269,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -2210,7 +2295,7 @@
       }
     ],
     "implementation": {
-      "pattern": "Require a structured capability and limitation declaration as a mandatory model registry field \u2014 separate from the model card but linked to it \u2014 covering five required dimensions: intended use, stated limitations, out-of-scope uses, uncertainty bounds by task type, and knowledge cutoff date.",
+      "pattern": "Require a structured capability and limitation declaration as a mandatory model registry field — separate from the model card but linked to it — covering five required dimensions: intended use, stated limitations, out-of-scope uses, uncertainty bounds by task type, and knowledge cutoff date.",
       "steps": [
         "Define a structured capability-limitation schema with five required top-level fields: (1) intended_uses: list of evaluated and approved use cases with population and context qualifiers; (2) stated_limitations: list of known performance, coverage, or behavioral limitations with associated conditions; (3) out_of_scope_uses: list of explicitly disallowed or unevaluated use cases with rationale; (4) uncertainty_bounds: for each intended use, the conditions under which model outputs should be treated as high-uncertainty (e.g., queries outside training distribution, queries about events post-cutoff); (5) knowledge_cutoff: date-formatted cutoff for factual knowledge with a statement about the model's awareness of the cutoff.",
         "Populate the declaration at model registration time, enforcing non-emptiness of each dimension. For third-party hosted models where provider declarations are available, import and reference them; for models with no provider-supplied declaration, document the gap explicitly rather than leaving fields empty.",
@@ -2218,16 +2303,16 @@
         "Surface the declaration at model consumption points: deployers accessing the model via internal API or registry should receive the current capability-limitation declaration as part of the model metadata, not buried in documentation."
       ],
       "anti_patterns": [
-        "Declaring intended use as a single high-level sentence (e.g., 'for customer service applications') without qualifying the population, language, domain, or context \u2014 this is legally meaningless and operationally useless for deployers scoping appropriate use.",
-        "Omitting the out-of-scope uses field or leaving it empty \u2014 the absence of stated out-of-scope uses implies the model's capabilities are unlimited, which is never accurate and exposes the organization to misapplication liability.",
-        "Setting the knowledge cutoff date but providing no guidance on how the model behaves for queries about events near or after the cutoff \u2014 a cutoff date without behavioral uncertainty guidance does not help deployers manage cutoff-related failure modes."
+        "Declaring intended use as a single high-level sentence (e.g., 'for customer service applications') without qualifying the population, language, domain, or context — this is legally meaningless and operationally useless for deployers scoping appropriate use.",
+        "Omitting the out-of-scope uses field or leaving it empty — the absence of stated out-of-scope uses implies the model's capabilities are unlimited, which is never accurate and exposes the organization to misapplication liability.",
+        "Setting the knowledge cutoff date but providing no guidance on how the model behaves for queries about events near or after the cutoff — a cutoff date without behavioral uncertainty guidance does not help deployers manage cutoff-related failure modes."
       ]
     },
     "validation": {
       "design_check": [
         "Confirm the capability-limitation declaration schema enforces non-emptiness of all five dimensions (intended_uses, stated_limitations, out_of_scope_uses, uncertainty_bounds, knowledge_cutoff) and that registration is blocked when any dimension is absent [ref:eu_ai_act_2024].",
         "Review the declaration for a production model and verify that intended_uses include population and context qualifiers, and that out_of_scope_uses lists at least one explicitly disallowed use case [ref:nist_rmf_100_1].",
-        "Confirm the declaration is surfaced at model consumption points \u2014 verify that the registry API response for a given model ID includes the current capability-limitation declaration in structured form [ref:owasp_aisvs_v1]."
+        "Confirm the declaration is surfaced at model consumption points — verify that the registry API response for a given model ID includes the current capability-limitation declaration in structured form [ref:owasp_aisvs_v1]."
       ],
       "runtime_test": [
         "Attempt to register a model with an empty out_of_scope_uses field; confirm the pipeline blocks registration and identifies the specific missing dimension [ref:eu_ai_act_2024].",
@@ -2235,9 +2320,9 @@
         "Verify that a deployer accessing the model via the internal registry API receives the capability-limitation declaration in the model metadata response without requiring separate documentation lookup [ref:owasp_aisvs_v1]."
       ],
       "evidence": [
-        "model:capability-limitation-declaration \u2014 structured, schema-validated capability and limitation declaration with all five required dimensions populated and linked to artifact hash [unverified]",
-        "model:registry-api-response-sample \u2014 sample registry API response demonstrating that the declaration is returned as structured metadata for model consumption points [unverified]",
-        "model:cutoff-behavior-test-result \u2014 test result demonstrating that the model's behavior for post-cutoff queries is consistent with the declared uncertainty bounds [unverified]"
+        "model:capability-limitation-declaration — structured, schema-validated capability and limitation declaration with all five required dimensions populated and linked to artifact hash [unverified]",
+        "model:registry-api-response-sample — sample registry API response demonstrating that the declaration is returned as structured metadata for model consumption points [unverified]",
+        "model:cutoff-behavior-test-result — test result demonstrating that the model's behavior for post-cutoff queries is consistent with the declared uncertainty bounds [unverified]"
       ]
     },
     "lenses": {
@@ -2270,7 +2355,7 @@
         "actions": [
           "Use the out_of_scope_uses list as the primary red-team target: attempt to elicit each out-of-scope use through direct, indirect, and jailbreak prompting",
           "Test whether the model's uncertainty behavior holds under adversarial pressure: can the model be prompted to respond confidently about post-cutoff events or out-of-distribution topics it should express uncertainty about?",
-          "Probe the boundary between intended_uses and out_of_scope_uses \u2014 models often fail at the boundary rather than at the extremes"
+          "Probe the boundary between intended_uses and out_of_scope_uses — models often fail at the boundary rather than at the extremes"
         ],
         "failure_signals": [
           "Model performs stated out-of-scope uses with confidence rather than declining or expressing uncertainty",
@@ -2403,7 +2488,7 @@
     ],
     "readiness": "approved",
     "thesis_type": "directive",
-    "matrix_thesis": "A model's intended use statement is not a legal disclaimer \u2014 it is an assurance commitment. When a developer fails to declare what a model cannot do, deployers fill the vacuum with optimistic assumptions, and affected parties bear the consequences. LI-07 treats capability and limitation declaration as an engineering-enforced, machine-readable artifact, not a documentation afterthought.",
+    "matrix_thesis": "A model's intended use statement is not a legal disclaimer — it is an assurance commitment. When a developer fails to declare what a model cannot do, deployers fill the vacuum with optimistic assumptions, and affected parties bear the consequences. LI-07 treats capability and limitation declaration as an engineering-enforced, machine-readable artifact, not a documentation afterthought.",
     "meta": {
       "authored_on": "2026-06-26",
       "schema_version": "1.0.0"
@@ -2411,7 +2496,7 @@
     "canonical_id": "apeiris://model/controls/LI-07",
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "provision": "Art-13",
         "jurisdiction": [
@@ -2463,11 +2548,11 @@
     ]
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-08",
     "layer": "LI",
     "plane": "control",
-    "name": "License and IP Governance \u2014 Dataset License Tracking, Derivative Work...",
+    "name": "License and IP Governance — Dataset License Tracking, Derivative Work...",
     "plain": "Before any model is deployed, all licenses governing the training data, base models, and adapters used to create it are recorded and checked for compatibility with the intended use, so that the organization does not unknowingly violate IP obligations.",
     "threat": {
       "tags": [
@@ -2486,23 +2571,23 @@
       {
         "id": "iso_42001",
         "section": "A.5.2",
-        "title": "AI system impact \u2014 legal and regulatory considerations"
+        "title": "AI system impact — legal and regulatory considerations"
       },
       {
         "id": "aisvs",
         "section": "C1.3",
-        "title": "AI governance \u2014 license and IP governance"
+        "title": "AI governance — license and IP governance"
       },
       {
         "id": "aicm",
         "section": "GOV-02",
-        "title": "Governance \u2014 legal compliance and IP management"
+        "title": "Governance — legal compliance and IP management"
       }
     ],
     "sources": [
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -2560,12 +2645,12 @@
         "At model registration, generate a license chain record by aggregating: (a) dataset licenses from the TG-layer records referenced in LI-05; (b) the base model license from the LI-02 provenance record; (c) any adapter or merged model component licenses. Store all license identifiers using SPDX license identifiers where available.",
         "Implement automated license compatibility analysis: for each license in the chain, evaluate compatibility against the declared deployment use type (commercial production, internal use, research, distribution/resale). Define clear compatibility rules for common conflicts (CC BY-NC in commercial deployment, CC BY-SA propagation to derivative models, no-derivatives clauses on base models with fine-tunes).",
         "Block deployment when the compatibility analysis identifies a hard incompatibility (e.g., non-commercial training data in commercial deployment, no-derivatives base model with a fine-tune intended for distribution). Log compatibility analysis results in the model registry entry.",
-        "Require legal review sign-off for any deployment where the compatibility analysis returns ambiguous or contested results \u2014 particularly for novel license combinations or for licenses with AI-specific use-restriction clauses introduced after the license was written."
+        "Require legal review sign-off for any deployment where the compatibility analysis returns ambiguous or contested results — particularly for novel license combinations or for licenses with AI-specific use-restriction clauses introduced after the license was written."
       ],
       "anti_patterns": [
-        "Assuming that because a dataset is publicly available it is freely usable for commercial training \u2014 many open datasets carry non-commercial, ShareAlike, or research-only restrictions that are violated by commercial deployment.",
-        "Performing license review only for the final model artifact and ignoring the base model license chain \u2014 ShareAlike and derivative work restrictions propagate from base models to all fine-tunes and derivatives.",
-        "Treating license compatibility as a one-time check at initial deployment rather than a continuous obligation \u2014 licenses can change, new use cases can create new incompatibilities, and provider acceptable-use policy updates can affect deployed models."
+        "Assuming that because a dataset is publicly available it is freely usable for commercial training — many open datasets carry non-commercial, ShareAlike, or research-only restrictions that are violated by commercial deployment.",
+        "Performing license review only for the final model artifact and ignoring the base model license chain — ShareAlike and derivative work restrictions propagate from base models to all fine-tunes and derivatives.",
+        "Treating license compatibility as a one-time check at initial deployment rather than a continuous obligation — licenses can change, new use cases can create new incompatibilities, and provider acceptable-use policy updates can affect deployed models."
       ]
     },
     "validation": {
@@ -2580,9 +2665,9 @@
         "Verify that the license chain record for a production model is retrievable and contains SPDX-identified licenses for all training datasets referenced in the LI-05 training-data pointer [ref:owasp_aisvs_v1]."
       ],
       "evidence": [
-        "model:license-chain-record \u2014 structured license chain record for each model artifact covering training dataset licenses, base model license, adapter licenses, and SPDX identifiers [unverified]",
-        "model:license-compatibility-analysis-result \u2014 automated compatibility analysis result against declared deployment use type, with pass/fail/ambiguous status and specific incompatibility details [unverified]",
-        "model:legal-review-sign-off \u2014 legal sign-off record for deployments where compatibility analysis returned ambiguous results [unverified]"
+        "model:license-chain-record — structured license chain record for each model artifact covering training dataset licenses, base model license, adapter licenses, and SPDX identifiers [unverified]",
+        "model:license-compatibility-analysis-result — automated compatibility analysis result against declared deployment use type, with pass/fail/ambiguous status and specific incompatibility details [unverified]",
+        "model:legal-review-sign-off — legal sign-off record for deployments where compatibility analysis returned ambiguous results [unverified]"
       ]
     },
     "lenses": {
@@ -2601,7 +2686,7 @@
         "failure_signals": [
           "License chain record does not exist or contains free-text descriptions rather than SPDX identifiers",
           "Deployment pipeline has no license compatibility gate",
-          "Base model license is not included in the chain \u2014 only dataset licenses are tracked"
+          "Base model license is not included in the chain — only dataset licenses are tracked"
         ]
       },
       "evaluation": {
@@ -2615,14 +2700,14 @@
         ]
       },
       "red_team": {
-        "summary": "Red teams must verify that the license compatibility gate cannot be bypassed and that the license chain is complete \u2014 a missing adapter license in the chain is as dangerous as a missing dataset license.",
+        "summary": "Red teams must verify that the license compatibility gate cannot be bypassed and that the license chain is complete — a missing adapter license in the chain is as dangerous as a missing dataset license.",
         "actions": [
           "Attempt to register a model with an incomplete license chain (missing adapter license) and verify the pipeline flags the incompleteness",
           "Test whether a model with a contested license combination can be deployed by changing the declared use type rather than resolving the incompatibility"
         ],
         "failure_signals": [
           "Deployment use type can be changed in the registry without triggering a re-analysis of license compatibility",
-          "Adapter and fine-tune licenses are not included in the chain \u2014 only base model and dataset licenses are tracked"
+          "Adapter and fine-tune licenses are not included in the chain — only base model and dataset licenses are tracked"
         ]
       },
       "grc": {
@@ -2642,7 +2727,7 @@
         "actions": [
           "Re-run license compatibility analysis when deployment use type changes for any model in production",
           "Configure alerts for provider acceptable-use policy update notifications and trigger impact assessment across all affected models",
-          "Maintain a review cycle for license chain records that have compatibility ambiguity \u2014 schedule legal review before annual production deployment renewals"
+          "Maintain a review cycle for license chain records that have compatibility ambiguity — schedule legal review before annual production deployment renewals"
         ],
         "failure_signals": [
           "Deployment use type changed from internal to commercial without triggering license re-analysis",
@@ -2749,9 +2834,23 @@
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
         "source_locator": {
-          "section": "GOV \u2014 Governance",
+          "section": "GOV — Governance",
           "clause": "GOV-02"
         }
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-GV-04",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-08 enforces license compliance across the model provenance chain by inventorying all license obligations inherited from base models, adapters, and training datasets, directly supporting AITG-GV-04 Governance Testing which requires that the permitted-use scope of a deployed model be governed by documented and verified license and rights constraints.",
+        "source_locator": {
+          "section": "Governance Testing",
+          "test_id": "AITG-GV-04"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "readiness": "approved",
@@ -2764,12 +2863,12 @@
     "canonical_id": "apeiris://model/controls/LI-08"
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-09",
     "layer": "LI",
     "plane": "control",
     "name": "Material-Change Determination and Authorization Gate",
-    "plain": "A formal process determines whether any planned change to a model or its operating environment is significant enough to require a new evaluation and approval cycle before it goes live \u2014 covering model updates, prompt changes, RAG corpus changes, guardrail changes, and provider-version changes.",
+    "plain": "A formal process determines whether any planned change to a model or its operating environment is significant enough to require a new evaluation and approval cycle before it goes live — covering model updates, prompt changes, RAG corpus changes, guardrail changes, and provider-version changes.",
     "threat": {
       "tags": [
         "undisclosed-model-change",
@@ -2792,23 +2891,23 @@
       {
         "id": "iso_42001",
         "section": "A.8.2",
-        "title": "AI system operation \u2014 change management and impact assessment"
+        "title": "AI system operation — change management and impact assessment"
       },
       {
         "id": "eu_ai_act",
         "section": "Art-9",
-        "title": "Risk management system \u2014 lifecycle risk assessment"
+        "title": "Risk management system — lifecycle risk assessment"
       },
       {
         "id": "aisvs",
         "section": "C7.3",
-        "title": "Model operations \u2014 change management and material change determination"
+        "title": "Model operations — change management and material change determination"
       }
     ],
     "sources": [
       {
         "id": "sr_26_2",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -2823,8 +2922,8 @@
       },
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
-        "authority": "European Union \u2014 European Parliament and Council",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "authority": "European Union — European Parliament and Council",
         "source_type": "binding-law",
         "normative_force": "binding-law",
         "version": "2024/1689",
@@ -2849,7 +2948,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -2862,23 +2961,23 @@
       }
     ],
     "implementation": {
-      "pattern": "Define and document a material-change taxonomy covering all seven change categories; implement a change classification workflow that routes each proposed change through a materiality determination before any deployment; require a new authorization cycle (evaluation, validation, approval) for material changes; log all determinations \u2014 including determinations of non-materiality \u2014 in the model registry.",
+      "pattern": "Define and document a material-change taxonomy covering all seven change categories; implement a change classification workflow that routes each proposed change through a materiality determination before any deployment; require a new authorization cycle (evaluation, validation, approval) for material changes; log all determinations — including determinations of non-materiality — in the model registry.",
       "steps": [
         "Define a written material-change taxonomy that classifies changes across seven categories: (1) model retraining with new data; (2) model replacement with a different base model or architecture; (3) fine-tuning or additional training on existing model; (4) system prompt changes; (5) RAG corpus changes (domain expansion, new data sources, corpus version update); (6) guardrail changes (additions, removals, threshold modifications); (7) provider-version changes (API endpoint model version update, provider migration). For each category, define quantitative or qualitative materiality thresholds (e.g., prompt change adding a new capability domain = material; correcting a typo in an existing instruction = non-material).",
         "Implement a change classification gate as a mandatory step before any deployment pipeline can execute a change to a production model or its configuration. The gate requires the change proposer to submit a classification and a rationale; the classification is reviewed by a designated model risk reviewer before promotion.",
         "For material changes: require execution of the full LI-01 through LI-06 registration process for the new version, EV-01 pre-deployment evaluation, and re-validation (EV-06, EV-07) before deployment. For SR 26-2 supervised institutions, re-validation must be independent. Log the authorization decision with reviewer identity and timestamp.",
-        "Implement provider-version change monitoring as an automated process: detect when a provider updates the model serving at an API endpoint (via behavioral regression testing \u2014 see BH-10) and automatically trigger a materiality determination review rather than requiring manual discovery."
+        "Implement provider-version change monitoring as an automated process: detect when a provider updates the model serving at an API endpoint (via behavioral regression testing — see BH-10) and automatically trigger a materiality determination review rather than requiring manual discovery."
       ],
       "anti_patterns": [
-        "Defining materiality only for model weight changes and excluding system prompt, RAG corpus, guardrail, and provider-version changes \u2014 these non-weight changes routinely produce material behavioral effects and are frequently the vector for unauthorized capability expansion.",
-        "Requiring formal re-evaluation only when the change proposer self-classifies the change as material \u2014 self-classification without independent review creates a systematic bias toward non-material classifications.",
-        "Implementing the material-change process for new models but grandfathering all existing production models \u2014 models already in production that undergo undocumented changes accumulate risk that is never formally assessed."
+        "Defining materiality only for model weight changes and excluding system prompt, RAG corpus, guardrail, and provider-version changes — these non-weight changes routinely produce material behavioral effects and are frequently the vector for unauthorized capability expansion.",
+        "Requiring formal re-evaluation only when the change proposer self-classifies the change as material — self-classification without independent review creates a systematic bias toward non-material classifications.",
+        "Implementing the material-change process for new models but grandfathering all existing production models — models already in production that undergo undocumented changes accumulate risk that is never formally assessed."
       ]
     },
     "validation": {
       "design_check": [
         "Confirm the material-change taxonomy covers all seven change categories and that quantitative or qualitative materiality thresholds are documented for each category in a written policy [ref:sr_26_2].",
-        "Verify the change classification gate is integrated into all production deployment pipelines for the seven change categories \u2014 confirm that at least system prompt, RAG corpus, and guardrail changes are covered in addition to model weight changes [ref:eu_ai_act_2024].",
+        "Verify the change classification gate is integrated into all production deployment pipelines for the seven change categories — confirm that at least system prompt, RAG corpus, and guardrail changes are covered in addition to model weight changes [ref:eu_ai_act_2024].",
         "Review the material-change log for completeness: confirm that all non-material determinations are also logged with rationale, not just material determinations [ref:nist_rmf_100_1]."
       ],
       "runtime_test": [
@@ -2887,14 +2986,14 @@
         "For a RAG corpus update in production, confirm that the change was classified before deployment and that the classification decision is logged in the model registry with reviewer identity [ref:iso_42001_2023]."
       ],
       "evidence": [
-        "model:material-change-taxonomy \u2014 written policy document defining materiality thresholds for all seven change categories, version-controlled and approved [unverified]",
-        "model:material-change-log \u2014 registry log of all change classification decisions including category, rationale, classification (material/non-material), reviewer identity, and timestamp [unverified]",
-        "model:authorization-record \u2014 authorization record for each material change showing evaluation completion, validation result, approval, and effective date [unverified]"
+        "model:material-change-taxonomy — written policy document defining materiality thresholds for all seven change categories, version-controlled and approved [unverified]",
+        "model:material-change-log — registry log of all change classification decisions including category, rationale, classification (material/non-material), reviewer identity, and timestamp [unverified]",
+        "model:authorization-record — authorization record for each material change showing evaluation completion, validation result, approval, and effective date [unverified]"
       ]
     },
     "lenses": {
       "engineering": {
-        "summary": "The change classification gate must be implemented as a mandatory workflow step in all production deployment pipelines \u2014 not an honor system. Engineering must ensure that system prompt, RAG corpus, and guardrail configuration changes flow through the same gate as model weight changes.",
+        "summary": "The change classification gate must be implemented as a mandatory workflow step in all production deployment pipelines — not an honor system. Engineering must ensure that system prompt, RAG corpus, and guardrail configuration changes flow through the same gate as model weight changes.",
         "actions": [
           "Integrate the change classification workflow into all deployment pipeline triggers for the seven change categories",
           "Implement automated provider-version change detection via behavioral regression tests that trigger materiality review when output distributions shift",
@@ -2912,9 +3011,9 @@
         ]
       },
       "evaluation": {
-        "summary": "Evaluation teams must be notified when material changes are approved and must execute the required re-evaluation before the change goes live. The material-change taxonomy defines which evaluation controls are triggered \u2014 evaluators must confirm the scope is adequate.",
+        "summary": "Evaluation teams must be notified when material changes are approved and must execute the required re-evaluation before the change goes live. The material-change taxonomy defines which evaluation controls are triggered — evaluators must confirm the scope is adequate.",
         "actions": [
-          "Define the evaluation scope triggered by each materiality category \u2014 not all material changes require the same evaluation depth",
+          "Define the evaluation scope triggered by each materiality category — not all material changes require the same evaluation depth",
           "Execute pre-deployment evaluation for each authorized material change before the change reaches production",
           "Flag any material change that was deployed without a pre-deployment evaluation record as an unauthorized change"
         ],
@@ -2936,10 +3035,10 @@
         ]
       },
       "grc": {
-        "summary": "SR 26-2 requires re-validation for material model changes. EU AI Act Art-9 requires risk management to address AI system changes throughout the lifecycle. LI-09 is the primary control demonstrating that material-change governance is operational \u2014 the material-change log is the primary evidence artifact for both SR 26-2 and Art-9 lifecycle requirements.",
+        "summary": "SR 26-2 requires re-validation for material model changes. EU AI Act Art-9 requires risk management to address AI system changes throughout the lifecycle. LI-09 is the primary control demonstrating that material-change governance is operational — the material-change log is the primary evidence artifact for both SR 26-2 and Art-9 lifecycle requirements.",
         "actions": [
           "Confirm the material-change taxonomy has been approved by the model risk committee and reflects SR 26-2 re-validation expectations for supervised institutions",
-          "Verify that material-change logs are retained for the applicable regulatory period \u2014 SR 26-2 expects records supporting the full validation history",
+          "Verify that material-change logs are retained for the applicable regulatory period — SR 26-2 expects records supporting the full validation history",
           "Provide the material-change log to independent validators for review as part of each validation cycle"
         ],
         "metrics": [
@@ -3002,10 +3101,10 @@
         "mapping_fit": "direct",
         "source_ref": "sr262",
         "reviewed_on": "2026-06-26",
-        "notes": "SR 26-2 S-3.2 requires that material changes to models trigger re-validation by an independent team. SR 26-2 defines 'material change' broadly; LI-09 operationalizes this definition with a seven-category taxonomy. SR 26-2 is supervisory guidance, not binding law \u2014 noncompliance alone does not trigger supervisory action, but patterns of unsafe practice do. Heightened expectations apply to institutions with $30B+ in assets."
+        "notes": "SR 26-2 S-3.2 requires that material changes to models trigger re-validation by an independent team. SR 26-2 defines 'material change' broadly; LI-09 operationalizes this definition with a seven-category taxonomy. SR 26-2 is supervisory guidance, not binding law — noncompliance alone does not trigger supervisory action, but patterns of unsafe practice do. Heightened expectations apply to institutions with $30B+ in assets."
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "provision": "Art-9",
         "jurisdiction": [
@@ -3128,7 +3227,7 @@
         "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "EU AI Act Art-9 requires that the risk management system for high-risk AI systems be ongoing and iterative, covering the full system lifecycle including modifications. LI-09 directly supports Art-9 by providing the operational mechanism for evaluating whether modifications to the AI system require a new risk assessment cycle. Art-9(9) specifically addresses risk management for AI system modifications.",
-        "uncovered_portion": "Art-9 also requires systematic identification and analysis of all risks \u2014 LI-09 addresses only the change-triggered re-assessment requirement within Art-9's broader risk management mandate.",
+        "uncovered_portion": "Art-9 also requires systematic identification and analysis of all risks — LI-09 addresses only the change-triggered re-assessment requirement within Art-9's broader risk management mandate.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
@@ -3158,11 +3257,25 @@
         "implementation_maturity": "none",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-IR-03",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-09 establishes system-level composite identity covering the model artifact, system prompt, RAG corpus, and tool integrations, and defines a change-authorization process for any material alteration — directly implementing the AITG-IR-03 Incident Response Testing requirement that the system configuration at the time of any incident be uniquely identifiable and reconstructable for post-incident analysis.",
+        "source_locator": {
+          "section": "Incident Response Testing",
+          "test_id": "AITG-IR-03"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "readiness": "approved",
     "thesis_type": "directive",
-    "matrix_thesis": "The most common gap in AI governance programs is not a lack of evaluation for new models \u2014 it is the absence of any process for changes to deployed models. System prompts are updated as feature flags. RAG corpora are replaced as data engineering tasks. Provider versions change silently. None of these trigger the evaluation and validation cycles that would be required for a new model. LI-09 closes this gap by making materiality determination a mandatory, logged, independent-reviewed step for all seven change categories.",
+    "matrix_thesis": "The most common gap in AI governance programs is not a lack of evaluation for new models — it is the absence of any process for changes to deployed models. System prompts are updated as feature flags. RAG corpora are replaced as data engineering tasks. Provider versions change silently. None of these trigger the evaluation and validation cycles that would be required for a new model. LI-09 closes this gap by making materiality determination a mandatory, logged, independent-reviewed step for all seven change categories.",
     "meta": {
       "authored_on": "2026-06-26",
       "schema_version": "1.0.0"
@@ -3170,11 +3283,11 @@
     "canonical_id": "apeiris://model/controls/LI-09"
   },
   {
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "id": "LI-10",
     "layer": "LI",
     "plane": "control",
-    "name": "Model Retirement and Archive Policy \u2014 End-of-Life Procedure, Evidence...",
+    "name": "Model Retirement and Archive Policy — End-of-Life Procedure, Evidence...",
     "plain": "When a model is taken out of service, a formal procedure ensures that dependent systems are identified and transitioned, evidence records are preserved for the required retention period, and the decommissioning is documented and authorized.",
     "threat": {
       "tags": [
@@ -3193,17 +3306,17 @@
       {
         "id": "iso_42001",
         "section": "A.8.1",
-        "title": "AI system operation \u2014 lifecycle end-of-life management"
+        "title": "AI system operation — lifecycle end-of-life management"
       },
       {
         "id": "sr262",
         "section": "S-4.1",
-        "title": "Governance \u2014 model lifecycle including retirement"
+        "title": "Governance — model lifecycle including retirement"
       },
       {
         "id": "aisvs",
         "section": "C6.3",
-        "title": "Model deployment \u2014 decommissioning and archival"
+        "title": "Model deployment — decommissioning and archival"
       }
     ],
     "sources": [
@@ -3223,7 +3336,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 \u2014 Artificial intelligence \u2014 Management system",
+        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -3236,7 +3349,7 @@
       },
       {
         "id": "sr_26_2",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -3250,8 +3363,8 @@
       },
       {
         "id": "eu_ai_act_2024",
-        "title": "Regulation (EU) 2024/1689 \u2014 Artificial Intelligence Act",
-        "authority": "European Union \u2014 European Parliament and Council",
+        "title": "Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        "authority": "European Union — European Parliament and Council",
         "source_type": "binding-law",
         "normative_force": "binding-law",
         "version": "2024/1689",
@@ -3271,9 +3384,9 @@
         "Update the model registry entry to 'retired' status with decommissioning date, authorizing approver, and archive location reference. Ensure 'retired' status prevents the artifact from being deployed without explicit re-authorization. Notify all registered consumers of the retirement."
       ],
       "anti_patterns": [
-        "Deleting the model artifact and registry entry when a model is decommissioned rather than marking it 'retired' and archiving \u2014 deletion destroys evidence needed for regulatory audits of historical periods.",
-        "Retiring a model without identifying dependent systems first \u2014 silent decommissioning produces undefined fallback behavior in dependent systems, ranging from null-model errors to uncontrolled fallback to an unevaluated model.",
-        "Archiving evidence records in a format or system that is inaccessible without the original tooling \u2014 evidence archived in a now-obsolete internal tool format cannot be produced to regulators."
+        "Deleting the model artifact and registry entry when a model is decommissioned rather than marking it 'retired' and archiving — deletion destroys evidence needed for regulatory audits of historical periods.",
+        "Retiring a model without identifying dependent systems first — silent decommissioning produces undefined fallback behavior in dependent systems, ranging from null-model errors to uncontrolled fallback to an unevaluated model.",
+        "Archiving evidence records in a format or system that is inaccessible without the original tooling — evidence archived in a now-obsolete internal tool format cannot be produced to regulators."
       ]
     },
     "validation": {
@@ -3288,9 +3401,9 @@
         "Retrieve archived evidence records for a previously retired model and verify all required evidence types (evaluation report, validation report, deployment log) are present and readable in the archive [ref:sr_26_2]."
       ],
       "evidence": [
-        "model:retirement-authorization-record \u2014 signed retirement authorization record with approver identity, retirement date, reason, replacement or fallback reference, and dependent-system impact assessment [unverified]",
-        "model:archive-manifest \u2014 manifest of archived evidence records for the retired model with retention period, archive location, and accessibility verification date [unverified]",
-        "model:consumer-notification-log \u2014 log of notifications sent to all registered consumers of the retiring model before decommissioning [unverified]"
+        "model:retirement-authorization-record — signed retirement authorization record with approver identity, retirement date, reason, replacement or fallback reference, and dependent-system impact assessment [unverified]",
+        "model:archive-manifest — manifest of archived evidence records for the retired model with retention period, archive location, and accessibility verification date [unverified]",
+        "model:consumer-notification-log — log of notifications sent to all registered consumers of the retiring model before decommissioning [unverified]"
       ]
     },
     "lenses": {
@@ -3298,7 +3411,7 @@
         "summary": "Engineering must implement the 'retired' status in the model registry as a deployment-blocking state, build the consumer registry map that enables dependent-system discovery, and ensure the evidence archive is stored in a durable, long-lived format that does not depend on current tooling.",
         "actions": [
           "Implement 'retired' as a deployment-blocking registry status that requires explicit re-authorization for any subsequent deployment",
-          "Build a consumer registry map that tracks all services, applications, and downstream models consuming each model ID \u2014 this is the data structure used for dependent-system impact assessment",
+          "Build a consumer registry map that tracks all services, applications, and downstream models consuming each model ID — this is the data structure used for dependent-system impact assessment",
           "Design the evidence archive format using open, long-lived standards (e.g., JSON, PDF/A) rather than proprietary tool-dependent formats"
         ],
         "tools": [
@@ -3307,7 +3420,7 @@
           "PDF/A or JSONL for long-lived archive formats"
         ],
         "failure_signals": [
-          "No consumer registry map \u2014 dependent systems discovered only after decommissioning causes outages",
+          "No consumer registry map — dependent systems discovered only after decommissioning causes outages",
           "Evidence archive stored in a format that requires the original authoring tool to read",
           "'Retired' status exists in the registry but does not block deployment pipeline"
         ]
@@ -3319,19 +3432,19 @@
           "Verify that evaluation records are stored in a format that can be read without the original evaluation platform"
         ],
         "failure_signals": [
-          "Evaluation reports exist only in the evaluation platform database \u2014 not exported to the durable archive before decommissioning",
+          "Evaluation reports exist only in the evaluation platform database — not exported to the durable archive before decommissioning",
           "Evaluation records cannot be retrieved for a retired model because the original evaluation system was decommissioned first"
         ]
       },
       "red_team": {
-        "summary": "Red teams should verify that retired models cannot be re-activated without authorization and that the evidence archive is not accessible to unauthorized parties \u2014 archived models with sensitive training data or behavioral characteristics are high-value targets.",
+        "summary": "Red teams should verify that retired models cannot be re-activated without authorization and that the evidence archive is not accessible to unauthorized parties — archived models with sensitive training data or behavioral characteristics are high-value targets.",
         "actions": [
           "Verify that a 'retired' model cannot be deployed by reverting the registry status through a direct database write without triggering an authorization workflow",
           "Confirm that archived evidence records containing sensitive information (e.g., PII in audit logs, proprietary benchmark results) are subject to access control in the archive system"
         ],
         "failure_signals": [
           "Registry 'retired' status can be reverted by anyone with database write access",
-          "Evidence archive has no access control \u2014 any authenticated user can retrieve archived records for any model"
+          "Evidence archive has no access control — any authenticated user can retrieve archived records for any model"
         ]
       },
       "grc": {
@@ -3344,7 +3457,7 @@
         "failure_signals": [
           "Material model retirements not reported to the model risk committee",
           "Evidence archive retention period shorter than regulatory minimum",
-          "Archive accessible only via internal tooling \u2014 cannot be provided to external auditors"
+          "Archive accessible only via internal tooling — cannot be provided to external auditors"
         ]
       },
       "mlops": {
@@ -3352,7 +3465,7 @@
         "actions": [
           "Query the consumer registry map at retirement request time to produce the complete list of dependent systems",
           "Coordinate transition timelines with dependent system owners and confirm readiness before confirming the retirement date",
-          "Send consumer notifications with adequate lead time \u2014 not less than the defined minimum notice period for planned retirements"
+          "Send consumer notifications with adequate lead time — not less than the defined minimum notice period for planned retirements"
         ],
         "failure_signals": [
           "Dependent-system discovery is manual rather than queried from the consumer registry map",
@@ -3446,7 +3559,7 @@
         "requirement_id": "Art-12",
         "fit": "partial",
         "direction": "control-supports-requirement",
-        "rationale": "EU AI Act Art-12 requires high-risk AI system providers to maintain logging capabilities and records for the post-market monitoring period. LI-10's evidence archiving requirement ensures that Art-12 records (including logs, evaluation reports, and deployment records) are preserved after the model is retired rather than deleted. LI-10 does not independently specify Art-12's logging content requirements \u2014 those are addressed in BH-05.",
+        "rationale": "EU AI Act Art-12 requires high-risk AI system providers to maintain logging capabilities and records for the post-market monitoring period. LI-10's evidence archiving requirement ensures that Art-12 records (including logs, evaluation reports, and deployment records) are preserved after the model is retired rather than deleted. LI-10 does not independently specify Art-12's logging content requirements — those are addressed in BH-05.",
         "uncovered_portion": "Art-12 addresses the content and duration of logging during active deployment; LI-10 addresses evidence preservation after retirement. Active logging during deployment is addressed in BH-05.",
         "source_version": "2024/1689",
         "reviewed_on": "2026-06-26",
@@ -3457,11 +3570,26 @@
         "implementation_maturity": "none",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-08",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "LI-10 tracks system-level composition across heterogeneous model stacks and monitors for changes to any constituent component, partially aligning with AITG-RT-08 Runtime Testing which requires monitoring for changes to AI providers and upstream supply-chain components. LI-10 extends this scope to multi-model stacks and tool integrations beyond what the test prescribes.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-08"
+        },
+        "uncovered_portion": "AITG-RT-08 focuses on monitoring changes to AI providers and upstream supply chain components; system-level composition tracking across heterogeneous model stacks and tool integrations extends beyond the provider-change monitoring scope of the test.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "readiness": "approved",
     "thesis_type": "corrective",
-    "matrix_thesis": "Model retirement without evidence preservation is a destruction of the historical record that regulators, auditors, and affected parties rely on. Organizations that delete model artifacts, evaluation records, and audit logs when retiring models do so out of storage cost optimization rather than compliance design \u2014 and discover their error when regulators ask for records from a period covered by the retired model. LI-10 treats evidence preservation at retirement as an obligation, not an option.",
+    "matrix_thesis": "Model retirement without evidence preservation is a destruction of the historical record that regulators, auditors, and affected parties rely on. Organizations that delete model artifacts, evaluation records, and audit logs when retiring models do so out of storage cost optimization rather than compliance design — and discover their error when regulators ask for records from a period covered by the retired model. LI-10 treats evidence preservation at retirement as an obligation, not an option.",
     "meta": {
       "authored_on": "2026-06-26",
       "schema_version": "1.0.0"
@@ -3469,7 +3597,7 @@
     "canonical_id": "apeiris://model/controls/LI-10",
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "provision": "Art-12",
         "jurisdiction": [

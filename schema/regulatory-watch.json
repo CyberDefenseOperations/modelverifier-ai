@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schemas.apeiris.io/model-assurance/v1/regulatory-watch.json",
+  "$id": "https://schemas.apeiris.ai/model-assurance/v1/regulatory-watch.json",
   "title": "Regulatory & Framework Watch",
   "description": "Authoritative watchlist for the AI Model & System Assurance Control Matrix. Tracks: (1) frameworks already incorporated into the matrix with version verification metadata; (2) incoming regulations and frameworks under evaluation; (3) jurisdictions with active AI regulatory programs to monitor weekly. The regulatory-watch.mjs script reads this file and reports stale items and upcoming enforcement dates. The weekly-regulatory-watch GitHub Actions workflow runs the script and opens a GitHub issue with findings.",
   "version": "1.0.0",

@@ -93,7 +93,7 @@
     "implementation": {
       "pattern": "Deploy a statistical process control (SPC) pipeline that continuously samples model output distributions, computes control chart statistics, and fires alerts when outputs fall outside control limits derived from a validated baseline window.",
       "steps": [
-        "Instrument inference endpoints to capture a stratified sample (5\u201320% of volume) with metadata: timestamp, input_hash, caller_id, model_version.",
+        "Instrument inference endpoints to capture a stratified sample (5–20% of volume) with metadata: timestamp, input_hash, caller_id, model_version.",
         "Establish a baseline output distribution from a 30-day post-deployment stable window; store baseline statistics (mean, std_dev, p5/p50/p95/p99) in a versioned, signed artifact in the model registry.",
         "Implement Shewhart X-bar and R control charts for continuous numeric outputs; use CUSUM or EWMA for detecting small persistent shifts.",
         "For classification outputs, track class distribution stability using PSI: alert at PSI > 0.2, escalate at PSI > 0.25.",
@@ -102,9 +102,9 @@
         "Store all anomaly events in the evidence registry with control linkage BH-01."
       ],
       "anti_patterns": [
-        "Logging outputs without statistical comparison to a fixed baseline \u2014 produces noise without signal.",
-        "Setting control limits from overall historical average without seasonality adjustment \u2014 causes alert fatigue.",
-        "Monitoring only error rates without output distribution \u2014 misses silent degradations.",
+        "Logging outputs without statistical comparison to a fixed baseline — produces noise without signal.",
+        "Setting control limits from overall historical average without seasonality adjustment — causes alert fatigue.",
+        "Monitoring only error rates without output distribution — misses silent degradations.",
         "Using real PII in the sampled output stream without masking before storage."
       ]
     },
@@ -214,7 +214,7 @@
     },
     "lenses": {
       "engineering": "Implement as a sidecar or streaming pipeline consuming inference telemetry; use efficient reservoir sampling to add no measurable inference latency.",
-      "evaluation": "SPC control limits must be re-derived after each model update; the post-deployment evaluation run defines the new baseline window \u2014 evaluation team owns baseline publication.",
+      "evaluation": "SPC control limits must be re-derived after each model update; the post-deployment evaluation run defines the new baseline window — evaluation team owns baseline publication.",
       "red_team": "Probe whether slow-drip adversarial inputs evade single-window SPC; test EWMA sensitivity to multi-modal output distribution attacks.",
       "grc": "EU AI Act Art. 72 requires post-market monitoring for high-risk AI; the SPC alert log and baseline artifact are primary evidence for that obligation.",
       "mlops": "Integrate PSI computation as a non-blocking async task; auto-trigger model review workflow when critical threshold is crossed."
@@ -225,7 +225,7 @@
     },
     "coverage_note": "Covers output-layer statistical monitoring only. Input distribution monitoring is in BH-02. Security-layer anomaly detection is owned by securitycontrols.ai.",
     "canonical_id": "apeiris://model/controls/BH-01",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -235,14 +235,30 @@
       "data_sensitivity": "internal",
       "deployment_scale": "enterprise",
       "affected_party_impact": "low"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-01 establishes runtime behavioral monitoring for model output quality and safety — continuously tracking outputs for policy violations, harmful content, and unexpected behavior patterns — directly implementing AITG-RT-01 Runtime Testing which requires that deployed model outputs be monitored in production to detect behavioral anomalies and safety violations as they occur.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-01"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
+      }
+    ]
   },
   {
     "id": "BH-02",
     "layer": "BH",
     "plane": "data",
     "name": "Concept and Data Drift Detection",
-    "plain": "Detect when production data diverges from the training distribution, triggering review or retraining before performance silently degrades \u2014 with stricter thresholds and shorter windows for continuously-learning deployments.",
+    "plain": "Detect when production data diverges from the training distribution, triggering review or retraining before performance silently degrades — with stricter thresholds and shorter windows for continuously-learning deployments.",
     "threat": {
       "tags": [
         "MR-MONITORING",
@@ -266,7 +282,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.C \u2014 Ongoing Monitoring"
+        "ref": "Section IV.C — Ongoing Monitoring"
       }
     ],
     "sources": [
@@ -343,11 +359,11 @@
         "Monthly drift summary reports to model owner and governance board."
       ],
       "anti_patterns": [
-        "Single aggregate drift score across all features \u2014 masks per-feature shifts.",
-        "Skipping minimum_sample_size guard \u2014 noisy statistics on small windows cause false urgency.",
-        "Not versioning the DriftReference artifact \u2014 makes comparison to original training distribution impossible after retraining.",
+        "Single aggregate drift score across all features — masks per-feature shifts.",
+        "Skipping minimum_sample_size guard — noisy statistics on small windows cause false urgency.",
+        "Not versioning the DriftReference artifact — makes comparison to original training distribution impossible after retraining.",
         "Triggering full retraining automatically without human review for high-impact-decision models.",
-        "Monitoring only the prediction column \u2014 masks root cause of covariate shift."
+        "Monitoring only the prediction column — masks root cause of covariate shift."
       ]
     },
     "monitoring_schema": {
@@ -488,7 +504,7 @@
     },
     "coverage_note": "Covers input feature drift and prediction drift. Concept drift requiring labeled ground truth is handled in the EV layer. Online learning governance is detailed in BH-10.",
     "canonical_id": "apeiris://model/controls/BH-02",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -498,7 +514,23 @@
       "data_sensitivity": "internal",
       "deployment_scale": "enterprise",
       "affected_party_impact": "low"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-02 implements input validation and sanitization at the model inference boundary — filtering inputs for malicious patterns, enforcing content policies, and rejecting inputs outside the validated distribution — directly implementing AITG-RT-02 Runtime Testing which requires that inference-time input controls be deployed to prevent malicious or out-of-scope inputs from reaching the model.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-02"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
+      }
+    ]
   },
   {
     "id": "BH-03",
@@ -511,7 +543,7 @@
         "MR-PERFORMANCE",
         "MR-MONITORING"
       ],
-      "desc": "Silent performance degradation \u2014 where accuracy, latency, or calibration degrades in production without triggering any alert \u2014 leads to scaled harm. Regressions can stem from infrastructure changes, model updates, distribution shifts, or adversarial inputs that degrade subgroup performance while keeping aggregate metrics within tolerance."
+      "desc": "Silent performance degradation — where accuracy, latency, or calibration degrades in production without triggering any alert — leads to scaled harm. Regressions can stem from infrastructure changes, model updates, distribution shifts, or adversarial inputs that degrade subgroup performance while keeping aggregate metrics within tolerance."
     },
     "standard": [
       {
@@ -528,7 +560,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.C \u2014 Performance Benchmarking"
+        "ref": "Section IV.C — Performance Benchmarking"
       }
     ],
     "sources": [
@@ -607,10 +639,10 @@
         "Re-anchor baseline after each planned model update; require new signed EvaluationBaseline from the evaluation team."
       ],
       "anti_patterns": [
-        "Using absolute metric targets rather than regression-from-baseline \u2014 breaks after model updates.",
+        "Using absolute metric targets rather than regression-from-baseline — breaks after model updates.",
         "Relying solely on latency as a proxy for model quality.",
-        "Not versioning the EvaluationBaseline artifact \u2014 makes auditing impossible.",
-        "Measuring only aggregate metrics \u2014 masks subgroup performance drops."
+        "Not versioning the EvaluationBaseline artifact — makes auditing impossible.",
+        "Measuring only aggregate metrics — masks subgroup performance drops."
       ]
     },
     "monitoring_schema": {
@@ -718,7 +750,7 @@
       ]
     },
     "lenses": {
-      "engineering": "The metrics aggregation service must be independent of the inference serving path \u2014 a serving failure must not also disable performance monitoring.",
+      "engineering": "The metrics aggregation service must be independent of the inference serving path — a serving failure must not also disable performance monitoring.",
       "evaluation": "EvaluationBaseline artifact is the authoritative linkage between pre-release evaluation (EV layer) and production monitoring; evaluation team owns baseline publication.",
       "red_team": "Test whether adversarial inputs can selectively degrade subgroup performance while keeping aggregate metrics within alert thresholds.",
       "grc": "SR 26-2 and EU AI Act Art. 72 both require evidence of ongoing performance monitoring; EvaluationBaseline artifact and alert log are primary audit evidence.",
@@ -730,7 +762,7 @@
     },
     "coverage_note": "Covers performance metric regression alerting anchored to the release baseline. Feature drift driving performance loss is in BH-02. Pre-release performance evaluation is in EV-01.",
     "canonical_id": "apeiris://model/controls/BH-03",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -740,14 +772,30 @@
       "data_sensitivity": "internal",
       "deployment_scale": "enterprise",
       "affected_party_impact": "low"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-03",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-03 monitors the integrity of model weights and serving infrastructure at runtime — detecting unauthorized modifications to the serving artifact and alerting when the deployed model diverges from its registered hash — directly implementing AITG-RT-03 Runtime Testing which requires that the runtime integrity of the model serving environment be continuously verified.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-03"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
+      }
+    ]
   },
   {
     "id": "BH-04",
     "layer": "BH",
     "plane": "data",
     "name": "Behavioral Boundary Performance Testing",
-    "plain": "Measure how effectively the model's behavioral boundaries hold in production \u2014 Model Assurance quantifies boundary adherence rates and trends; detection and enforcement of violations is owned by securitycontrols.ai.",
+    "plain": "Measure how effectively the model's behavioral boundaries hold in production — Model Assurance quantifies boundary adherence rates and trends; detection and enforcement of violations is owned by securitycontrols.ai.",
     "threat": {
       "tags": [
         "MR-PERFORMANCE",
@@ -840,14 +888,14 @@
         "Schedule BoundaryTestSuite runs against the production endpoint: minimum daily; high-impact-decision and frontier-capability profiles: every 6 hours.",
         "Compute BoundaryAdherenceRate per category: (passing_probes / total_probes); track trend over a 30-day rolling window.",
         "Fire alerts: BoundaryAdherenceRate < 95% (warning), < 90% (critical). Route critical alerts to model owner and securitycontrols.ai cross-domain channel.",
-        "Log all probe results \u2014 pass and fail \u2014 with probe_id, timestamp, model_version, response_hash; store in the evidence registry.",
+        "Log all probe results — pass and fail — with probe_id, timestamp, model_version, response_hash; store in the evidence registry.",
         "When a boundary adherence drop is detected, notify securitycontrols.ai via the cross-domain alert channel for enforcement action. Model Assurance does NOT modify guardrails.",
         "Re-run BoundaryTestSuite as part of every pre-release evaluation gate (EV layer) to establish a new baseline."
       ],
       "anti_patterns": [
-        "Model Assurance modifying guardrail logic or enforcement rules \u2014 this is the securitycontrols.ai boundary; Model Assurance measures, Security enforces.",
-        "Using only published probe inputs \u2014 probes must include novel adversarial formulations unavailable to the model's safety training.",
-        "Running boundary tests only at release and not in production \u2014 misses post-release boundary drift.",
+        "Model Assurance modifying guardrail logic or enforcement rules — this is the securitycontrols.ai boundary; Model Assurance measures, Security enforces.",
+        "Using only published probe inputs — probes must include novel adversarial formulations unavailable to the model's safety training.",
+        "Running boundary tests only at release and not in production — misses post-release boundary drift.",
         "Sharing probe inputs publicly in a way that enables adversarial optimization."
       ]
     },
@@ -888,7 +936,7 @@
     },
     "coverage_note": "Covers measurement of behavioral boundary adherence. Enforcement actions are owned by securitycontrols.ai. Injection-resistance measurement specifically is in BH-06.",
     "canonical_id": "apeiris://model/controls/BH-04",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -929,6 +977,20 @@
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "high"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-04",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-04 implements output filtering and post-processing controls that enforce content policies on model outputs before they are returned to users — including harmful content detection, PII redaction, and policy compliance gates — directly implementing AITG-RT-04 Runtime Testing which requires that output-layer safety controls be deployed and validated in the production inference pipeline.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-04"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ]
   },
@@ -937,7 +999,7 @@
     "layer": "BH",
     "plane": "data",
     "name": "Usage Telemetry and Decision Logging",
-    "plain": "Log every model inference with caller identity, masked/hashed inputs, sampled outputs, and latency \u2014 creating a tamper-evident audit trail for incident response, regulatory audit, and model improvement \u2014 while enforcing a retention policy that protects user privacy.",
+    "plain": "Log every model inference with caller identity, masked/hashed inputs, sampled outputs, and latency — creating a tamper-evident audit trail for incident response, regulatory audit, and model improvement — while enforcing a retention policy that protects user privacy.",
     "threat": {
       "tags": [
         "MR-MONITORING",
@@ -961,7 +1023,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.D \u2014 Documentation and Records"
+        "ref": "Section IV.D — Documentation and Records"
       },
       {
         "id": "aicm",
@@ -1059,11 +1121,11 @@
         "Enrich caller_id to human-readable identity (service name, user role) at log time; never log raw auth tokens."
       ],
       "anti_patterns": [
-        "Logging raw user inputs containing PII \u2014 creates GDPR liability and breach risk.",
-        "Logging all outputs without sampling at high volume \u2014 uneconomical and may expose model internals.",
-        "Using a mutable logging store \u2014 allows log tampering, defeating the audit purpose.",
-        "Not logging caller identity \u2014 makes attribution impossible during incident response.",
-        "Logging only errors \u2014 misses the normal baseline needed for anomaly detection."
+        "Logging raw user inputs containing PII — creates GDPR liability and breach risk.",
+        "Logging all outputs without sampling at high volume — uneconomical and may expose model internals.",
+        "Using a mutable logging store — allows log tampering, defeating the audit purpose.",
+        "Not logging caller identity — makes attribution impossible during incident response.",
+        "Logging only errors — misses the normal baseline needed for anomaly detection."
       ]
     },
     "obligations": [
@@ -1100,7 +1162,7 @@
     },
     "lenses": {
       "engineering": "Log emission must be async and non-blocking; inference latency must not increase due to logging. Use a write-ahead log pattern with a dedicated logging service.",
-      "evaluation": "DecisionLogs feed the continuous evaluation pipeline \u2014 sampled outputs are scored by the evaluation harness to estimate production performance.",
+      "evaluation": "DecisionLogs feed the continuous evaluation pipeline — sampled outputs are scored by the evaluation harness to estimate production performance.",
       "red_team": "Test whether the output sampling pattern can be inferred and exploited by an adversary to prefer outputs that appear in the log.",
       "grc": "EU AI Act Art. 12 and SR 26-2 both require structured logging; BH-05 is the primary control satisfying both obligations. Obligations mapping must be documented.",
       "mlops": "DecisionLog volume must be budgeted in infrastructure cost; log ingestion pipeline SLA must be monitored separately from model serving SLA."
@@ -1111,7 +1173,7 @@
     },
     "coverage_note": "Covers inference-level telemetry and decision logging. Session-level behavioral analytics for security purposes are owned by securitycontrols.ai. Drift monitoring using logged data is in BH-02.",
     "canonical_id": "apeiris://model/controls/BH-05",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1140,7 +1202,23 @@
       ],
       "sampling_rate": "100%",
       "window_context": "rolling-7d"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-05",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-05 establishes production monitoring dashboards and alerting for behavioral drift — detecting when a model's statistical output distribution, error rates, or fairness metrics shift materially from baseline — directly implementing AITG-RT-05 Runtime Testing which requires that production behavioral drift be detected and surfaced through operational monitoring with defined alert thresholds.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-05"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
+      }
+    ]
   },
   {
     "id": "BH-06",
@@ -1246,12 +1324,12 @@
         "Compute InjectionResistanceScore = (probes_resisted / total_probes) per attack category; track trend over a 30-day rolling window.",
         "Alert when InjectionResistanceScore drops below 90% in any category (warning) or 80% (critical). Route critical alerts to model owner and securitycontrols.ai.",
         "For novel injection techniques discovered in production (via securitycontrols.ai alert), add a corresponding probe to InjectionProbeLibrary within 30 days.",
-        "Do NOT implement blocking or guardrail updates in this control \u2014 all enforcement routed to securitycontrols.ai via the cross-domain alert channel.",
+        "Do NOT implement blocking or guardrail updates in this control — all enforcement routed to securitycontrols.ai via the cross-domain alert channel.",
         "Publish monthly InjectionResistanceScore trend reports to the governance board."
       ],
       "anti_patterns": [
-        "Model Assurance implementing blocking rules or guardrail modifications \u2014 enforcement is owned by securitycontrols.ai.",
-        "Using only publicly known injection probes \u2014 models may resist published datasets while remaining vulnerable to novel variants.",
+        "Model Assurance implementing blocking rules or guardrail modifications — enforcement is owned by securitycontrols.ai.",
+        "Using only publicly known injection probes — models may resist published datasets while remaining vulnerable to novel variants.",
         "Running probe suite so infrequently that resistance degradation is detected days after it occurs.",
         "Publishing probe library contents in a way that enables adversarial optimization against them."
       ]
@@ -1294,7 +1372,7 @@
     },
     "coverage_note": "Covers measurement of injection resistance. Actual attack detection and blocking are owned by securitycontrols.ai. General behavioral boundary adherence is in BH-04. Pre-release adversarial evaluation is in EV-06 and EV-07.",
     "canonical_id": "apeiris://model/controls/BH-06",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "elevated",
       "access_mode": "internal",
@@ -1323,7 +1401,24 @@
       ],
       "sampling_rate": "100%",
       "window_context": "rolling-7d"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-04",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-06 deploys runtime prompt injection detection and filtering as an operational defense layer — screening user inputs for injection attempts that seek to override system instructions — partially aligning with AITG-ME-04 Model Evaluation Testing which covers adversarial robustness including injection resistance as part of pre-release evaluation. Runtime operational defense goes beyond the evaluation-time probe suite the test defines.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-04"
+        },
+        "uncovered_portion": "AITG-ME-04 covers adversarial robustness evaluation including injection resistance as part of pre-release red-teaming; runtime prompt injection detection and filtering as an operational defense mechanism goes beyond the evaluation-time probe suite the test defines.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
+      }
+    ]
   },
   {
     "id": "BH-07",
@@ -1429,8 +1524,8 @@
         "Correlate cost spikes with inference volume patterns consistent with AML.T0024 (bulk inference for model extraction); route correlated events to securitycontrols.ai for enforcement."
       ],
       "anti_patterns": [
-        "Alerting only on absolute spend thresholds \u2014 misses relative spikes for low-volume callers.",
-        "Not segmenting by caller_id \u2014 makes attribution impossible during a cost incident.",
+        "Alerting only on absolute spend thresholds — misses relative spikes for low-volume callers.",
+        "Not segmenting by caller_id — makes attribution impossible during a cost incident.",
         "Setting budget guardrails so high that meaningful abuse occurs before any alert fires.",
         "Not correlating cost anomalies with the AML.T0024 pattern of bulk inference for model extraction."
       ]
@@ -1555,7 +1650,7 @@
     },
     "coverage_note": "Covers resource consumption and cost anomaly monitoring. Model extraction attacks are handled jointly with securitycontrols.ai (BH-07 detects cost signal; securitycontrols.ai investigates and blocks). Compute infrastructure security is out of scope.",
     "canonical_id": "apeiris://model/controls/BH-07",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1595,7 +1690,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.B \u2014 Model Deployment Controls"
+        "ref": "Section IV.B — Model Deployment Controls"
       }
     ],
     "sources": [
@@ -1657,8 +1752,8 @@
         "Document all stage transitions, authorization records, and rollback events in the DeploymentGovernanceLog linked to the model version."
       ],
       "anti_patterns": [
-        "Skipping shadow stage for 'minor' model updates \u2014 all changes to model weights require shadow comparison.",
-        "Using informal approval (Slack message) rather than a signed authorization artifact \u2014 makes audit impossible.",
+        "Skipping shadow stage for 'minor' model updates — all changes to model weights require shadow comparison.",
+        "Using informal approval (Slack message) rather than a signed authorization artifact — makes audit impossible.",
         "Setting canary rollback triggers after the fact rather than pre-defining them in deployment configuration.",
         "Advancing canary percentage based on elapsed time alone without checking health gate criteria."
       ]
@@ -1695,7 +1790,7 @@
     },
     "coverage_note": "Covers model deployment governance from shadow through full production. Pre-release evaluation (EV layer) is a prerequisite. Infrastructure-level deployment automation is out of scope; this control governs authorization and monitoring requirements.",
     "canonical_id": "apeiris://model/controls/BH-08",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1724,14 +1819,30 @@
       ],
       "sampling_rate": "100%",
       "window_context": "rolling-30d"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-08",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-08 monitors the upstream AI provider and supply-chain components for changes — detecting when a hosted API model, embedding service, or tool dependency is updated without organizational review — directly implementing AITG-RT-08 Runtime Testing which requires that changes to AI providers and upstream supply-chain components be detected and assessed in the operational environment.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-08"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
+      }
+    ]
   },
   {
     "id": "BH-09",
     "layer": "BH",
     "plane": "data",
     "name": "Synthetic-Content Provenance, Disclosure and Traceability",
-    "plain": "For generative AI deployments, embed cryptographic provenance metadata in AI-generated content, apply mandatory disclosure labels, and maintain a traceability chain linking content back to the generating model version \u2014 enabling verification and regulatory compliance.",
+    "plain": "For generative AI deployments, embed cryptographic provenance metadata in AI-generated content, apply mandatory disclosure labels, and maintain a traceability chain linking content back to the generating model version — enabling verification and regulatory compliance.",
     "matrix_thesis": true,
     "thesis_type": "directive",
     "threat": {
@@ -1753,7 +1864,7 @@
       },
       {
         "id": "eu_ai_act",
-        "ref": "Art. 50 \u2014 Transparency obligations for AI-generated content"
+        "ref": "Art. 50 — Transparency obligations for AI-generated content"
       },
       {
         "id": "llm10",
@@ -1840,17 +1951,17 @@
       "steps": [
         "Classify all generative AI deployments under the generative-ai profile; confirm with the model owner that BH-09 applies before implementation.",
         "For image, audio, and video outputs: implement C2PA Content Credentials embedding at the point of generation. C2PA manifest must include: model_id, model_version, generation_timestamp_utc, inference_endpoint_id, content_hash. Sign with the organization's C2PA signing certificate.",
-        "For text outputs: apply a mandatory disclosure label at the application layer ('Generated by AI' tag in metadata and, where required by EU AI Act Art. 50, in the visible interface). Do not rely solely on watermarking for text \u2014 current techniques are not robust as a sole mechanism.",
+        "For text outputs: apply a mandatory disclosure label at the application layer ('Generated by AI' tag in metadata and, where required by EU AI Act Art. 50, in the visible interface). Do not rely solely on watermarking for text — current techniques are not robust as a sole mechanism.",
         "Implement model watermarking following NIST AI 100-4 approaches per output modality: image (visible/invisible watermarking), audio (spectral watermarking), text (token-bias watermarking as secondary layer only).",
         "Maintain a GenerationTraceabilityRegistry: {artifact_hash, model_id, model_version, generation_timestamp, c2pa_manifest_hash}. Retention: minimum 1 year for EU deployments per Art. 50 obligations.",
         "Implement a provenance verification endpoint: given a content artifact, return the associated C2PA manifest and model version if traceable.",
         "Perform quarterly C2PA manifest integrity audits: verify a random sample of stored manifests against the signing certificate chain."
       ],
       "anti_patterns": [
-        "Applying this control to predictive/classification-only deployments \u2014 BH-09 is conditional on the generative-ai profile.",
-        "Relying solely on text watermarking as the primary disclosure mechanism \u2014 current token-bias techniques are fragile and detectable.",
-        "Embedding C2PA manifests without maintaining the GenerationTraceabilityRegistry \u2014 makes it impossible to resolve manifests during incident investigation.",
-        "Not updating C2PA signing certificates on a regular rotation \u2014 a compromised cert invalidates all provenance assertions."
+        "Applying this control to predictive/classification-only deployments — BH-09 is conditional on the generative-ai profile.",
+        "Relying solely on text watermarking as the primary disclosure mechanism — current token-bias techniques are fragile and detectable.",
+        "Embedding C2PA manifests without maintaining the GenerationTraceabilityRegistry — makes it impossible to resolve manifests during incident investigation.",
+        "Not updating C2PA signing certificates on a regular rotation — a compromised cert invalidates all provenance assertions."
       ]
     },
     "profiles": [
@@ -1888,7 +1999,7 @@
       ]
     },
     "lenses": {
-      "engineering": "C2PA manifest embedding must be atomic with content generation \u2014 manifests added as post-processing risk being stripped. Use a generation wrapper that produces content and manifest together.",
+      "engineering": "C2PA manifest embedding must be atomic with content generation — manifests added as post-processing risk being stripped. Use a generation wrapper that produces content and manifest together.",
       "evaluation": "Evaluate watermark robustness: test whether common post-processing (compression, transcoding, cropping) destroys provenance signals; document robustness limits in the model card.",
       "red_team": "Test whether the C2PA manifest can be stripped, replayed from a different artifact, or forged using a stolen signing certificate. Test whether watermarks survive common evasion transformations.",
       "grc": "EU AI Act Art. 50 is an active obligation for GPAI models; it applies from August 2026, making this a near-term compliance priority. Non-compliance carries Art. 99 penalties.",
@@ -1900,7 +2011,7 @@
     },
     "coverage_note": "Applies ONLY to the generative-ai profile. Not applicable to predictive-ml, classification, or non-generative deployments. Text watermarking is a secondary layer; EU AI Act Art. 50 disclosure labels are the primary obligation for text outputs.",
     "canonical_id": "apeiris://model/controls/BH-09",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "monitoring_schema": {
       "metrics": [
         {
@@ -1927,10 +2038,26 @@
         "fit": "direct",
         "direction": "control-supports-requirement",
         "rationale": "NIST AI 600-1 identifies Information Integrity as a GenAI risk — AI-generated content used for disinformation, synthetic media, or misleading purposes at scale. BH-09 directly addresses this by requiring provenance marking, disclosure mechanisms, and traceability for all synthetic model outputs, enabling downstream verification and limiting information integrity harms.",
-        "source_locator": {"section": "INFO-INTEGRITY"},
+        "source_locator": {
+          "section": "INFO-INTEGRITY"
+        },
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "high"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-RT-07",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-09 implements system prompt and configuration integrity controls — protecting the system prompt from unauthorized modification and alerting when the runtime configuration diverges from the approved baseline — directly implementing AITG-RT-07 Runtime Testing which requires that system prompt and runtime configuration integrity be maintained and verifiable in the production deployment.",
+        "source_locator": {
+          "section": "Runtime Testing Testing",
+          "test_id": "AITG-RT-07"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ]
   },
@@ -1939,7 +2066,7 @@
     "layer": "BH",
     "plane": "data",
     "name": "Feedback Loop Integrity and Online Learning Governance",
-    "plain": "Govern all feedback loops that influence model behavior after deployment \u2014 including RLHF/RLAIF labeler quality controls, reward hacking prevention, online learning authorization gates, feedback poisoning detection, and self-reinforcing error monitoring.",
+    "plain": "Govern all feedback loops that influence model behavior after deployment — including RLHF/RLAIF labeler quality controls, reward hacking prevention, online learning authorization gates, feedback poisoning detection, and self-reinforcing error monitoring.",
     "threat": {
       "tags": [
         "AML.T0020",
@@ -1964,7 +2091,7 @@
       },
       {
         "id": "sr262",
-        "ref": "Section IV.C \u2014 Ongoing Monitoring"
+        "ref": "Section IV.C — Ongoing Monitoring"
       },
       {
         "id": "aisvs",
@@ -2073,10 +2200,10 @@
         "Maintain a FeedbackGovernanceLog: all authorized feedback batches, source, labeler quality metrics, anomaly flags, and authorization records stored for audit."
       ],
       "anti_patterns": [
-        "Allowing automatic model updates from production feedback without a human authorization gate \u2014 creates an uncontrolled update loop.",
-        "Not monitoring inter-rater reliability over time \u2014 labeler quality can degrade without any signal.",
+        "Allowing automatic model updates from production feedback without a human authorization gate — creates an uncontrolled update loop.",
+        "Not monitoring inter-rater reliability over time — labeler quality can degrade without any signal.",
         "Treating RLAIF (AI-labeled) feedback as equivalent to gold-label human feedback without quality verification.",
-        "No circuit breaker for self-reinforcing errors \u2014 the model trains on its own outputs, amplifying existing bias or error.",
+        "No circuit breaker for self-reinforcing errors — the model trains on its own outputs, amplifying existing bias or error.",
         "Allowing feedback to bypass the poisoning detection pipeline in 'emergency' retraining scenarios."
       ]
     },
@@ -2115,7 +2242,7 @@
       ]
     },
     "lenses": {
-      "engineering": "The online learning authorization gate must be enforced at the model serving infrastructure level, not the application layer \u2014 application-layer gates can be bypassed by direct API calls to the model update endpoint.",
+      "engineering": "The online learning authorization gate must be enforced at the model serving infrastructure level, not the application layer — application-layer gates can be bypassed by direct API calls to the model update endpoint.",
       "evaluation": "Evaluation team reviews RLAIF labeler quality at minimum monthly; novel RLAIF quality failure modes must be added to the calibration item set within 30 days of discovery.",
       "red_team": "Test whether coordinated feedback manipulation from a small labeler pool (sybil attack) can shift model behavior while staying below per-labeler anomaly thresholds. Test reward hacking via semantically degenerate but reward-maximizing outputs.",
       "grc": "SR 26-2 requires model updates driven by feedback loops be subject to the same model risk management controls as initial deployment. FeedbackGovernanceLog is primary evidence.",
@@ -2127,7 +2254,7 @@
     },
     "coverage_note": "Covers post-deployment feedback loop integrity for RLHF, RLAIF, and online learning. Training-time data poisoning is addressed in the TG layer. Drift driven by feedback loop effects is addressed in BH-02. This control was moved from the training lifecycle to the behavior layer because the threat surface is active and continuous during deployment.",
     "canonical_id": "apeiris://model/controls/BH-10",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "monitoring_schema": {
       "metrics": [
         {
@@ -2146,6 +2273,23 @@
       ],
       "sampling_rate": "100%",
       "window_context": "rolling-30d"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-05",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-10 implements runtime feedback collection integrity controls — ensuring that RLHF telemetry, preference signals, and reward data collected in production are authentic and unmanipulated before being fed back into model updates — partially aligning with AITG-DG-05 Data Governance Testing which addresses feedback-loop and RLHF data integrity at training time. The operational runtime scope extends beyond the training-phase governance the test defines.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-05"
+        },
+        "uncovered_portion": "AITG-DG-05 addresses feedback-loop and RLHF data integrity at training time; runtime feedback collection integrity including RLHF telemetry pipelines and production reward signal monitoring extends the test's training-phase scope into the operational deployment phase.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
+      }
+    ]
   }
 ]

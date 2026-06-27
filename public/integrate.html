@@ -282,7 +282,7 @@
   <div class="header-sep"></div>
   <a class="header-link" href="/">Matrix</a>
   <a class="header-link active" href="/integrate.html" style="margin-left:12px">Integrate</a>
-  <a class="header-link" href="https://apeiris.io" target="_blank" style="margin-left:12px">apeiris.io</a>
+  <a class="header-link" href="https://apeiris.ai" target="_blank" style="margin-left:12px">apeiris.ai</a>
 </header>
 
 <div class="page-wrap">
@@ -291,7 +291,7 @@
   <p class="page-lead">
     The AI Model &amp; System Assurance Control Matrix is available as a
     CORS-enabled JSON API — fetch from any origin, no key required.
-    54 controls, 9 framework mappings, 11 deployment profiles, machine-readable
+    54 controls, 10 framework mappings, 11 deployment profiles, machine-readable
     obligation objects, and structured implementation guidance.
   </p>
 
@@ -352,6 +352,7 @@
       <li><a href="#s8">Scope boundaries — what this covers and doesn't</a></li>
       <li><a href="#s9">Release manifest verification</a></li>
       <li><a href="#s10">License</a></li>
+      <li><a href="#s11">Evidence claim graph</a></li>
     </ol>
   </div>
 
@@ -507,7 +508,7 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
       <tr><td>llm10</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP LLM Top 10 2025 v2.0</td></tr>
       <tr><td>aicm</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>CSA AI Controls Matrix v1.1 (247 objectives, 18 domains — released 2026-06-22)</td></tr>
       <tr><td>mitre</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>MITRE ATLAS v5.6.0</td></tr>
-      <tr class="fw-planned"><td>owasp_aitg</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Testing Guide v1 — repeatable trustworthiness testing across EV/BH/CR (mapping in progress)</td></tr>
+      <tr><td>owasp_aitg</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Testing Guide v1 — structured test procedures mapped across all 6 layers (pre-release; mapping_confidence: medium)</td></tr>
     </tbody>
   </table>
 
@@ -709,59 +710,213 @@ refs.<span class="hlf">forEach</span>(uri => {
   <div class="section-divider"></div>
 
   <!-- §9 Release manifest -->
-  <h2 id="s9"><span class="section-num">09</span> Release manifest verification</h2>
+  <h2 id="s9"><span class="section-num">09</span> Release manifest &amp; signature verification</h2>
 
   <p>
-    Every build signs the dataset with a SHA-256 content hash. The manifest at
-    <code>/integration/release-manifest.json</code> carries the hash of the canonical
-    dataset object (computed before the <code>generated_at</code> timestamp is applied,
-    so the hash is stable across fetches).
+    Every production build is signed with an Ed25519 key. The manifest at
+    <code>/integration/release-manifest.json</code> carries a SHA-256 content hash of the
+    dataset and an Ed25519 signature over that hash. The public key is published at
+    <code>/.well-known/apeiris-release.pub</code>. Local and CI builds without the private
+    key produce an unsigned manifest (<code>signature: null</code>).
   </p>
 
-  <pre><code><span class="hlc">// Step 1 — fetch both artifacts in parallel</span>
-<span class="hlk">const</span> [dataset, manifest] = <span class="hlk">await</span> Promise.<span class="hlf">all</span>([
-  fetch(<span class="hlk">'https://modelverifier.ai/integration/model-controls-full.json'</span>).<span class="hlf">then</span>(r => r.<span class="hlf">json</span>()),
-  fetch(<span class="hlk">'https://modelverifier.ai/integration/release-manifest.json'</span>).<span class="hlf">then</span>(r => r.<span class="hlf">json</span>()),
-]);
+  <p>
+    Verification is a three-step chain: <strong>(1)</strong> verify the Ed25519 signature
+    over <code>content_hash</code> using the published public key,
+    <strong>(2)</strong> trust the <code>content_hash</code> value, and
+    <strong>(3)</strong> compare <code>dataset.meta.content_hash</code> to the manifest's
+    <code>content_hash</code> to confirm the downloaded dataset has not been altered.
+  </p>
 
-<span class="hlc">// Step 2 — locate the dataset artifact entry in the manifest</span>
-<span class="hlk">const</span> artifact = manifest.artifacts.<span class="hlf">find</span>(
-  a => a.artifact_id === <span class="hlk">'model-controls-full.json'</span>
-);
-<span class="hlk">if</span> (!artifact) <span class="hlk">throw new</span> Error(<span class="hlk">'Artifact not found in manifest'</span>);
+  <pre><code><span class="hlc">// Full verification — browser (Web Crypto API) or Node.js equivalent</span>
+<span class="hlk">async function</span> <span class="hlf">verifyDataset</span>() {
 
-<span class="hlc">// Step 3 — compare manifest hash to the hash in the dataset itself</span>
-<span class="hlc">// Both should be identical — if not, the dataset was modified after signing</span>
-<span class="hlk">const</span> manifestHash = artifact.content_hash;   <span class="hlc">// from release-manifest.json</span>
-<span class="hlk">const</span> datasetHash  = dataset.meta.content_hash; <span class="hlc">// from model-controls-full.json</span>
+  <span class="hlc">// Step 1 — fetch manifest and (optionally) the public key in parallel</span>
+  <span class="hlk">const</span> [manifest, pubKeyPem] = <span class="hlk">await</span> Promise.<span class="hlf">all</span>([
+    fetch(<span class="hlk">'https://modelverifier.ai/integration/release-manifest.json'</span>).<span class="hlf">then</span>(r => r.<span class="hlf">json</span>()),
+    fetch(<span class="hlk">'https://modelverifier.ai/.well-known/apeiris-release.pub'</span>).<span class="hlf">then</span>(r => r.<span class="hlf">text</span>()),
+  ]);
 
-<span class="hlk">if</span> (manifestHash !== datasetHash) {
-  <span class="hlk">throw new</span> Error(
-    <span class="hlk">`Integrity check failed: manifest hash (${manifestHash}) `</span> +
-    <span class="hlk">`does not match dataset hash (${datasetHash})`</span>
+  <span class="hlc">// Step 2 — verify Ed25519 signature (fails closed on any error)</span>
+  <span class="hlk">if</span> (!manifest.signature?.value) {
+    <span class="hlk">throw new</span> Error(<span class="hlk">'Manifest is unsigned — reject for high-assurance use'</span>);
+  }
+  <span class="hlk">const</span> pemBody  = pubKeyPem.<span class="hlf">replace</span>(<span class="hlk">/-----[^-]+-----/g</span>, <span class="hlk">''</span>).<span class="hlf">replace</span>(<span class="hlk">/\s+/g</span>, <span class="hlk">''</span>);
+  <span class="hlk">const</span> spkiBuf  = Uint8Array.<span class="hlf">from</span>(<span class="hlf">atob</span>(pemBody), c => c.<span class="hlf">charCodeAt</span>(<span class="hlk">0</span>));
+  <span class="hlk">const</span> sigBuf   = Uint8Array.<span class="hlf">from</span>(<span class="hlf">atob</span>(manifest.signature.value), c => c.<span class="hlf">charCodeAt</span>(<span class="hlk">0</span>));
+  <span class="hlk">const</span> msgBuf   = <span class="hlk">new</span> TextEncoder().<span class="hlf">encode</span>(manifest.artifacts[<span class="hlk">0</span>].content_hash);
+
+  <span class="hlk">const</span> key = <span class="hlk">await</span> crypto.subtle.<span class="hlf">importKey</span>(
+    <span class="hlk">'spki'</span>, spkiBuf, <span class="hlk">{ name: 'Ed25519' }</span>, <span class="hlk">false</span>, [<span class="hlk">'verify'</span>]
   );
-}
+  <span class="hlk">const</span> valid = <span class="hlk">await</span> crypto.subtle.<span class="hlf">verify</span>(<span class="hlk">'Ed25519'</span>, key, sigBuf, msgBuf);
+  <span class="hlk">if</span> (!valid) <span class="hlk">throw new</span> Error(<span class="hlk">'Ed25519 signature verification failed'</span>);
 
-<span class="hlc">// Step 4 — verify the dataset version and schema</span>
-<span class="hlk">if</span> (dataset.meta.schema !== <span class="hlk">'apeiris://model-assurance/v1'</span>) {
-  console.<span class="hlf">warn</span>(<span class="hlk">'Unexpected schema version — check for breaking changes'</span>);
-}
+  <span class="hlc">// Step 3 — fetch dataset and compare hash</span>
+  <span class="hlk">const</span> artifact = manifest.artifacts.<span class="hlf">find</span>(a => a.artifact_id === <span class="hlk">'model-controls-full.json'</span>);
+  <span class="hlk">const</span> { dataset } = <span class="hlk">await</span> fetch(artifact.url).<span class="hlf">then</span>(r => r.<span class="hlf">json</span>());
 
-console.<span class="hlf">log</span>(<span class="hlk">'✓ Dataset integrity verified'</span>, {
-  hash:     manifestHash,
-  version:  dataset.meta.version,
-  controls: dataset.controls.length,
-  built_at: artifact.built_at,
-});</code></pre>
+  <span class="hlk">if</span> (artifact.content_hash !== dataset.meta.content_hash) {
+    <span class="hlk">throw new</span> Error(
+      <span class="hlk">`Hash mismatch: manifest=${artifact.content_hash} dataset=${dataset.meta.content_hash}`</span>
+    );
+  }
+
+  console.<span class="hlf">log</span>(<span class="hlk">'✓ Signature valid. ✓ Dataset integrity confirmed.'</span>, {
+    signed_at:   manifest.signature.signed_at,
+    content_hash: artifact.content_hash,
+    controls:    dataset.controls.length,
+    version:     dataset.meta.version,
+  });
+  <span class="hlk">return</span> dataset;
+}</code></pre>
+
+  <p style="margin-top:12px">
+    <strong>Public key</strong> (Ed25519 SPKI/PEM):
+    <code style="font-size:0.72rem">https://modelverifier.ai/.well-known/apeiris-release.pub</code>
+  </p>
+  <p>
+    <strong>Browser compatibility:</strong> <code>Ed25519</code> in Web Crypto is supported
+    in Chrome 113+, Firefox 130+, and Safari 17+. For Node.js verification, replace
+    <code>crypto.subtle</code> calls with the <code>node:crypto</code>
+    <code>verify(null, msgBuf, pubKey, sigBuf)</code> API.
+    The private key is stored as GitHub Actions secret <code>MODEL_VERIFIER_SIGNING_KEY</code>
+    and is never committed to the repository.
+  </p>
+
+  <div class="section-divider"></div>
+
+  <!-- §11 Evidence claim graph -->
+  <h2 id="s11"><span class="section-num">11</span> Evidence claim graph</h2>
 
   <p>
-    This check proves internal consistency between two co-signed artifacts. It confirms
-    that neither file was modified after the build process produced them, and that the hash
-    recorded in the manifest matches the hash embedded in the dataset. For air-gapped or
-    high-assurance environments where full cryptographic signature verification is required,
-    contact <a href="mailto:security@apeiris.io" style="color:var(--accent)">security@apeiris.io</a>
-    for the manifest signing key and algorithm.
+    An evidence claim is a machine-readable attestation object that links a specific assertion
+    about a deployed AI model — "this model blocks 97% of adversarial injection attempts" — to
+    the test that produced it, the artifacts that prove it, and the regulatory obligations it
+    satisfies. Claims are produced by the model operator, deployer, or an independent auditor;
+    consumed by the Apeiris verifier to construct an attestation graph across all controls.
   </p>
+
+  <p>
+    The claim graph is what turns the Control Matrix from a checklist into an attestation platform.
+    Each claim record binds a <code>control_ref</code> (e.g., <code>EV-04</code>) to an
+    <code>observed_result</code>, a structured <code>decision</code>, one or more
+    <code>evidence_artifacts</code> with content hashes, and an <code>obligation_links</code>
+    array that maps directly to EU AI Act provisions, SR 26-2 sections, or other regulatory
+    requirements. Claims expire (<code>expires_at</code>) and must be re-validated on a defined
+    cadence — enabling automated compliance freshness checks.
+  </p>
+
+  <table class="dataset-table">
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>schema</td><td>string (const)</td><td>Always <code>apeiris://model/claims/v1</code></td></tr>
+      <tr><td>claim_id</td><td>string (URI)</td><td>Globally unique apeiris:// URI for this claim, e.g. <code>apeiris://model/claims/EV-04/injection-resistance</code></td></tr>
+      <tr><td>claim</td><td>string</td><td>Human-readable, falsifiable statement of what is being claimed</td></tr>
+      <tr><td>control_ref</td><td>string</td><td>Control ID this claim tests (e.g., <code>EV-04</code>, <code>TG-01</code>)</td></tr>
+      <tr><td>control_name</td><td>string</td><td>Human-readable name of the control</td></tr>
+      <tr><td>layer</td><td>enum</td><td>LI / TG / EV / OA / BH / CR</td></tr>
+      <tr><td>test_method</td><td>string</td><td>How the test was conducted (e.g., <code>adversarial_probe_suite</code>, <code>independent_audit</code>)</td></tr>
+      <tr><td>test_method_version</td><td>string (opt.)</td><td>Version of the test methodology or tooling</td></tr>
+      <tr><td>threshold</td><td>string</td><td>Pass criterion against which the result is evaluated</td></tr>
+      <tr><td>observed_result</td><td>string</td><td>What the test actually found</td></tr>
+      <tr><td>confidence</td><td>enum</td><td><code>high</code> | <code>medium</code> | <code>low</code></td></tr>
+      <tr><td>evidence_artifacts[]</td><td>array</td><td>Each artifact carries: <code>artifact_id</code>, <code>artifact_type</code>, <code>description</code>, <code>location</code>, <code>hash</code> (sha256:…), <code>collected_at</code></td></tr>
+      <tr><td>obligation_links[]</td><td>array</td><td>Each entry: <code>obligation_instrument</code>, <code>provision</code>, <code>jurisdiction</code>, <code>actor_role</code> — maps the claim to the regulatory obligation it helps satisfy</td></tr>
+      <tr><td>assurance_target</td><td>object</td><td><code>model_provider</code>, <code>model_id</code>, <code>deployment_context</code>, <code>use_case</code> — identifies what is being attested</td></tr>
+      <tr><td>tested_by</td><td>enum</td><td><code>internal</code> | <code>independent-auditor</code> | <code>automated-pipeline</code></td></tr>
+      <tr><td>tested_at</td><td>date-time</td><td>When the test was performed</td></tr>
+      <tr><td>expires_at</td><td>date-time</td><td>When this claim must be re-validated</td></tr>
+      <tr><td>decision</td><td>enum</td><td><code>pass</code> | <code>fail</code> | <code>inconclusive</code> | <code>conditional-pass</code></td></tr>
+      <tr><td>decision_rationale</td><td>string</td><td>Why this decision was reached, referencing the threshold and observed result</td></tr>
+      <tr><td>claim_version</td><td>string</td><td>Version of this claim record (increment on re-evaluation)</td></tr>
+      <tr><td>produced_by</td><td>string</td><td>Tool or system that produced this claim</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Claims link to controls via <code>control_ref</code>: the value must match a control
+    <code>id</code> in the dataset (e.g., <code>EV-04</code>). The canonical cross-domain identifier
+    <code>apeiris://model/controls/EV-04</code> can be used in <code>claim_id</code> paths to make
+    the linkage machine-navigable. Claims link to regulatory obligations via <code>obligation_links[]</code>
+    using the same framework keys as the matrix (<code>eu_ai_act</code>, <code>sr262</code>, <code>nist_rmf</code>,
+    etc.) plus explicit provision references — enabling automated gap analysis against an obligation inventory.
+  </p>
+
+  <p>
+    Claims are produced by the operator or auditor and consumed by the verifier. The verifier does not
+    produce claims itself — it evaluates whether existing claims are current, sufficient, and consistent
+    with the matrix's control definitions and evidence requirements.
+  </p>
+
+  <p>
+    Fetch the 5-claim example file:
+    <code>https://modelverifier.ai/integration/model-claims-example.json</code><br>
+    Fetch the JSON Schema (Draft-07):
+    <code>https://modelverifier.ai/integration/claim.schema.json</code>
+  </p>
+
+  <pre><code><span class="hlc">// Fetch and validate a claim graph</span>
+<span class="hlk">const</span> { claims } = <span class="hlk">await</span> fetch(
+  <span class="hlk">'https://modelverifier.ai/integration/model-claims-example.json'</span>
+).<span class="hlf">then</span>(r => r.<span class="hlf">json</span>());
+
+<span class="hlc">// Find all passing EV-layer claims that cover eu_ai_act obligations</span>
+<span class="hlk">const</span> evEuPassing = claims.<span class="hlf">filter</span>(c =>
+  c.layer === <span class="hlk">'EV'</span> &&
+  c.decision === <span class="hlk">'pass'</span> &&
+  c.obligation_links.<span class="hlf">some</span>(o => o.obligation_instrument === <span class="hlk">'eu_ai_act'</span>)
+);
+
+<span class="hlc">// Check for expired claims that need re-validation</span>
+<span class="hlk">const</span> now = <span class="hlk">new</span> Date();
+<span class="hlk">const</span> expired = claims.<span class="hlf">filter</span>(c => <span class="hlk">new</span> Date(c.expires_at) &lt; now);
+<span class="hlk">if</span> (expired.length) {
+  console.<span class="hlf">warn</span>(<span class="hlk">`${expired.length} claim(s) require re-validation`</span>,
+    expired.<span class="hlf">map</span>(c => c.claim_id));
+}</code></pre>
+
+  <p>Full example — EV-04 injection resistance claim:</p>
+
+  <pre><code>{
+  <span class="hlp">"schema"</span>:           <span class="hlk">"apeiris://model/claims/v1"</span>,
+  <span class="hlp">"claim_id"</span>:         <span class="hlk">"apeiris://model/claims/EV-04/injection-resistance"</span>,
+  <span class="hlp">"claim"</span>:            <span class="hlk">"The model blocks &gt;= 95% of adversarial prompt injection attempts across the approved probe suite."</span>,
+  <span class="hlp">"control_ref"</span>:      <span class="hlk">"EV-04"</span>,
+  <span class="hlp">"control_name"</span>:     <span class="hlk">"Adversarial Testing &amp; Red-Team Evaluation"</span>,
+  <span class="hlp">"layer"</span>:            <span class="hlk">"EV"</span>,
+  <span class="hlp">"test_method"</span>:      <span class="hlk">"adversarial_probe_suite"</span>,
+  <span class="hlp">"test_method_version"</span>: <span class="hlk">"apeiris-probe-suite-v3.1.0"</span>,
+  <span class="hlp">"threshold"</span>:        <span class="hlk">"&gt;= 95% block rate over minimum 1,000 adversarial probes"</span>,
+  <span class="hlp">"observed_result"</span>:  <span class="hlk">"97.2% block rate over 1,000 adversarial probes"</span>,
+  <span class="hlp">"confidence"</span>:       <span class="hlk">"high"</span>,
+  <span class="hlp">"evidence_artifacts"</span>: [{
+    <span class="hlp">"artifact_id"</span>:   <span class="hlk">"ev04-probe-report-2026-q2"</span>,
+    <span class="hlp">"artifact_type"</span>: <span class="hlk">"test_report"</span>,
+    <span class="hlp">"description"</span>:   <span class="hlk">"Adversarial probe report: 1,000 injection attempts, per-category breakdown."</span>,
+    <span class="hlp">"location"</span>:      <span class="hlk">"s3://acme-ai-evidence/ev04/probe-report-2026-q2.json"</span>,
+    <span class="hlp">"hash"</span>:          <span class="hlk">"sha256:a3f8c1d94e2b57f0..."</span>,
+    <span class="hlp">"collected_at"</span>:  <span class="hlk">"2026-06-01T14:30:00Z"</span>
+  }],
+  <span class="hlp">"obligation_links"</span>: [
+    { <span class="hlp">"obligation_instrument"</span>: <span class="hlk">"eu_ai_act"</span>, <span class="hlp">"provision"</span>: <span class="hlk">"Article 9"</span>,  <span class="hlp">"jurisdiction"</span>: <span class="hlk">"eu"</span>, <span class="hlp">"actor_role"</span>: <span class="hlk">"deployer"</span> },
+    { <span class="hlp">"obligation_instrument"</span>: <span class="hlk">"eu_ai_act"</span>, <span class="hlp">"provision"</span>: <span class="hlk">"Article 15"</span>, <span class="hlp">"jurisdiction"</span>: <span class="hlk">"eu"</span>, <span class="hlp">"actor_role"</span>: <span class="hlk">"deployer"</span> },
+    { <span class="hlp">"obligation_instrument"</span>: <span class="hlk">"aisvs"</span>,     <span class="hlp">"provision"</span>: <span class="hlk">"LLM-2.1"</span>,    <span class="hlp">"jurisdiction"</span>: <span class="hlk">"global"</span>, <span class="hlp">"actor_role"</span>: <span class="hlk">"deployer"</span> }
+  ],
+  <span class="hlp">"assurance_target"</span>: {
+    <span class="hlp">"model_provider"</span>:     <span class="hlk">"anthropic"</span>,
+    <span class="hlp">"model_id"</span>:           <span class="hlk">"claude-sonnet-4-20260601"</span>,
+    <span class="hlp">"deployment_context"</span>: <span class="hlk">"production-eu-west-1 — customer support automation"</span>,
+    <span class="hlp">"use_case"</span>:           <span class="hlk">"Enterprise customer support with CRM read API access"</span>
+  },
+  <span class="hlp">"tested_by"</span>:          <span class="hlk">"independent-auditor"</span>,
+  <span class="hlp">"tested_at"</span>:          <span class="hlk">"2026-06-01T17:45:00Z"</span>,
+  <span class="hlp">"expires_at"</span>:         <span class="hlk">"2026-12-01T00:00:00Z"</span>,
+  <span class="hlp">"decision"</span>:           <span class="hlk">"pass"</span>,
+  <span class="hlp">"decision_rationale"</span>: <span class="hlk">"97.2% exceeds 95% threshold across all attack categories. Independent auditor confirmed."</span>,
+  <span class="hlp">"claim_version"</span>:      <span class="hlk">"1.0.0"</span>,
+  <span class="hlp">"produced_by"</span>:        <span class="hlk">"modelverifier.ai"</span>
+}</code></pre>
 
   <div class="section-divider"></div>
 
@@ -770,7 +925,7 @@ console.<span class="hlf">log</span>(<span class="hlk">'✓ Dataset integrity ve
 
   <p>
     <strong>CC BY-NC 4.0</strong> — non-commercial use, attribution required.
-    Commercial licensing: <a href="https://apeiris.io" style="color:var(--accent)">apeiris.io</a>.
+    Commercial licensing: <a href="https://apeiris.ai" style="color:var(--accent)">apeiris.ai</a>.
   </p>
 
   <div class="notice">
@@ -778,6 +933,10 @@ console.<span class="hlf">log</span>(<span class="hlk">'✓ Dataset integrity ve
     AISVS requirement IDs are used as locators only; requirement text is paraphrased,
     never reproduced verbatim. The matrix's CC BY-NC 4.0 license applies to the control
     content, not to AISVS text.
+  </div>
+
+  <div class="notice">
+    <strong>Claim graph note:</strong> The claim schema (<code>apeiris://model/claims/v1</code>) is an open format for AI assurance attestation. Claim objects produced using this schema are owned by the producing organization and not subject to this dataset's CC BY-NC 4.0 license.
   </div>
 
 </div>

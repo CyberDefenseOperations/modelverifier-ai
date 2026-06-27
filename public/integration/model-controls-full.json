@@ -9,9 +9,9 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T02:59:31.784Z",
+      "generated_at": "2026-06-27T03:22:06.057Z",
       "generated_by": "build-integration.mjs",
-      "source_schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+      "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
       "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
       "aisvs_compatibility_note": "Portions of this dataset reference OWASP AI Security Verification Standard v1.0 (CC BY-SA 4.0). Requirement text is paraphrased under fair use and independent authorship — not reproduced verbatim. Mapping identifiers (e.g., C1.1) are used as locators only. See INTEGRATION-GUIDE.md §License.",
@@ -38,7 +38,7 @@
       ],
       "layer_count": 6,
       "profile_count": 11,
-      "framework_count": 9,
+      "framework_count": 10,
       "frameworks": [
         "nist_rmf",
         "nist_ai_600_1",
@@ -48,7 +48,8 @@
         "aisvs",
         "llm10",
         "aicm",
-        "mitre"
+        "mitre",
+        "owasp_aitg"
       ],
       "profiles": [
         "general-predictive-ml",
@@ -70,8 +71,8 @@
         "lifecycle"
       ],
       "has_warnings": true,
-      "warning_count": 5,
-      "content_hash": "sha256:fdef4f1b90db01daa3e704aa0bfaebd20237d00ececb4e573b7d1a41e219ac98"
+      "warning_count": 35,
+      "content_hash": "sha256:dc6d7d963c0ceab9d6431ea4723b78e44852c50e42f98a2015ed61d9747d6049"
     },
     "controls": [
       {
@@ -394,6 +395,20 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-01 establishes unique model identity and content-addressed hash verification, which are the foundational artifacts that AITG-GV-01 Governance Testing requires to confirm a model artifact's identity and version are unambiguously traceable and tamper-evident throughout the deployment lifecycle.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-01"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "cross_domain": {
@@ -712,6 +727,20 @@
             "implementation_maturity": "initial",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-02 records a structured provenance graph covering base models, fine-tuning steps, merge contributors, and adapter lineage, directly supporting AITG-GV-02 Governance Testing which requires that the full ancestral lineage of a model artifact be documented and auditable.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-02"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "readiness": "approved",
@@ -1009,6 +1038,21 @@
             "implementation_maturity": "initial",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-01",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-03 verifies third-party model artifacts against publisher-signed checksums and generates a model SBOM (mSBOM), supporting the AITG-GV-01 Governance Testing requirement that artifact identity and version integrity be confirmed before deployment. However, the mSBOM and chain-of-custody procedures extend into supply-chain documentation that AITG-GV-01 does not fully prescribe.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-01"
+            },
+            "uncovered_portion": "AITG-GV-01 addresses identity and versioning of the model artifact itself; third-party supply-chain verification procedures including mSBOM generation and publisher-signed checksum workflows exceed what the test prescribes.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "readiness": "approved",
@@ -1406,6 +1450,20 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-04 mandates a schema-validated model card with all nine Mitchell et al. sections, directly implementing the AITG-GV-02 Governance Testing expectation that model card documentation be complete, structured, and linked to the deployed artifact so downstream users and auditors can understand capabilities, limitations, and intended use.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-02"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "readiness": "approved",
@@ -1701,6 +1759,20 @@
             "implementation_maturity": "none",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-05 creates a structured pointer from the model registry entry to the authoritative TG-layer dataset record, directly satisfying the AITG-DG-01 Data Governance Testing requirement that the provenance and lineage of training data used by a model be documented and traceable from the model artifact to its data sources.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-01"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "readiness": "approved",
@@ -2099,6 +2171,20 @@
             "implementation_maturity": "initial",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-06",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-06 requires that every material change to a deployed model or system configuration pass a formal authorization gate before reaching production, directly supporting AITG-RT-06 Runtime Testing which validates that change authorization controls prevent unauthorized model updates from entering the production serving environment.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-06"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "cross_domain": {
@@ -2819,6 +2905,20 @@
               "section": "GOV — Governance",
               "clause": "GOV-02"
             }
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-04",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-08 enforces license compliance across the model provenance chain by inventorying all license obligations inherited from base models, adapters, and training datasets, directly supporting AITG-GV-04 Governance Testing which requires that the permitted-use scope of a deployed model be governed by documented and verified license and rights constraints.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-04"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "readiness": "approved",
@@ -3224,6 +3324,20 @@
             "implementation_maturity": "none",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-09 establishes system-level composite identity covering the model artifact, system prompt, RAG corpus, and tool integrations, and defines a change-authorization process for any material alteration — directly implementing the AITG-IR-03 Incident Response Testing requirement that the system configuration at the time of any incident be uniquely identifiable and reconstructable for post-incident analysis.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-03"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "readiness": "approved",
@@ -3522,6 +3636,21 @@
             "implementation_maturity": "none",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-08",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "LI-10 tracks system-level composition across heterogeneous model stacks and monitors for changes to any constituent component, partially aligning with AITG-RT-08 Runtime Testing which requires monitoring for changes to AI providers and upstream supply-chain components. LI-10 extends this scope to multi-model stacks and tool integrations beyond what the test prescribes.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-08"
+            },
+            "uncovered_portion": "AITG-RT-08 focuses on monitoring changes to AI providers and upstream supply chain components; system-level composition tracking across heterogeneous model stacks and tool integrations extends beyond the provider-change monitoring scope of the test.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "readiness": "approved",
@@ -3936,6 +4065,20 @@
             "uncovered_portion": "Cryptographic integrity of individual shards is covered in TG-04",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-01 gates training pipeline execution behind automated schema validation, completeness checks, and signed provenance verification, directly implementing the AITG-DG-01 Data Governance Testing requirement that training data quality and provenance be verified and attested before any model training run proceeds.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-01"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -4325,6 +4468,21 @@
             "uncovered_portion": "Active poisoning detection is TG-04",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-01",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-02 conducts subgroup and intersectional fairness analysis on training data to assess population representativeness, partially aligning with AITG-DG-01 Data Governance Testing which addresses data quality and provenance validation. Bias and representativeness assessment goes beyond provenance chain verification into fairness measurement that the test does not fully cover.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-01"
+            },
+            "uncovered_portion": "AITG-DG-01 addresses data quality and provenance validation; bias and representativeness assessment of training data subgroups extends beyond the quality-gate and provenance-chain checks defined in the test.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -4703,6 +4861,20 @@
             "source_version": "1.0",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "high"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-03 establishes a Data Rights Registry documenting the specific legal basis, jurisdiction treatment, and permitted-use scope for every training dataset, directly implementing AITG-DG-02 Data Governance Testing which requires that lawful authority and data rights documentation be established and verified for all data used in model training.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-02"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -5044,6 +5216,21 @@
             "uncovered_portion": "Inference API exfiltration (AML.T0024) is addressed in BH layer",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-04",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-04 implements cryptographic hash-pinning, chain-of-custody logging, and adversarial content screening to prevent data poisoning during training, partially aligning with AITG-ME-04 Model Evaluation Testing which covers adversarial robustness. The training-time poisoning prevention focus addresses the upstream threat origin rather than the post-deployment adversarial probe methodology the test defines.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-04"
+            },
+            "uncovered_portion": "AITG-ME-04 covers adversarial robustness testing on the deployed model; data poisoning prevention at training time addresses the upstream threat source rather than the adversarial probe suite the test defines for production models.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -5285,6 +5472,20 @@
             "uncovered_portion": "Active poisoning attack detection is TG-04",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-05 enforces strict separation between training, evaluation, and test splits and implements contamination detection including exact-match deduplication, near-duplicate semantic detection, and retrieval leakage checks — directly implementing AITG-DG-03 Data Governance Testing which requires that training and evaluation data partitions be segregated and contamination-free to ensure valid performance measurement.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-03"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -5673,6 +5874,20 @@
             "uncovered_portion": "Runtime exfiltration controls addressed in BH layer",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-04",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-06 establishes data retention, deletion, and lifecycle governance policies for training datasets including right-to-erasure operationalization and pipeline quarantine workflows, directly supporting AITG-DG-04 Data Governance Testing which requires that training data lifecycle controls — including retention limits and deletion procedures — be documented and operationally enforced.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-04"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -5967,6 +6182,21 @@
             "uncovered_portion": "Model supply chain compromise (foundation models) is addressed in LI layer",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-01",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-07 performs supply-chain integrity verification for third-party training datasets including vendor checksum validation and contractual due-diligence, partially aligning with AITG-DG-01 Data Governance Testing which defines data quality and provenance checks. The third-party vendor verification and contractual scope extend beyond the dataset-level provenance validation in the test.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-01"
+            },
+            "uncovered_portion": "AITG-DG-01 defines data quality and provenance checks for training datasets; third-party data supply chain verification including vendor checksum and contractual due-diligence procedures go beyond the dataset-level provenance validation in the test.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -6380,6 +6610,20 @@
               "section": "MITRE ATLAS v5.6.0",
               "clause": "AML.T0024"
             }
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-05",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "TG-08 implements controls over feedback-loop data used for RLHF and continual learning — including feedback integrity verification, preference data quality gates, and reward signal validation — directly implementing AITG-DG-05 Data Governance Testing which requires that feedback and reinforcement learning data used in model updates be governed with the same rigor as initial training data.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-05"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -6690,6 +6934,20 @@
             "rationale": "MITRE ATLAS v5.6.0 addresses adversarial ML attack tactics, not deployment gate governance processes.",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-01 establishes the baseline performance evaluation framework including benchmark selection, metric definition, and disaggregated accuracy assessment, directly implementing AITG-ME-01 Model Evaluation Testing which requires that a model's core performance characteristics be systematically measured and documented before deployment.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-01"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -6958,6 +7216,20 @@
             "source_version": "1.0",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "high"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-02 conducts capability boundary testing to determine what the model can and cannot reliably do under realistic conditions, directly implementing AITG-ME-02 Model Evaluation Testing which requires that a model's functional capability envelope be formally characterized and documented to prevent deployment in contexts exceeding validated capability.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-02"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -7290,6 +7562,20 @@
             "source_version": "1.0",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "high"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-03 performs safety and alignment evaluation including harmful output testing, instruction-following compliance, and value alignment probes, directly implementing AITG-ME-03 Model Evaluation Testing which requires that safety-relevant behaviors and alignment properties be explicitly tested and attested before a model is approved for deployment.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-03"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "assurance_target": {
@@ -7592,6 +7878,20 @@
             "source_version": "1.0",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "high"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-04",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-04 conducts adversarial robustness evaluation including red-team attacks, jailbreak probing, prompt injection resistance testing, and backdoor detection, directly implementing AITG-ME-04 Model Evaluation Testing which requires that a model's resilience to adversarial inputs and manipulation attempts be systematically assessed before release.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-04"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -7911,6 +8211,20 @@
             "source_version": "1.0",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "medium"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-05",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-05 performs fairness and bias evaluation by measuring disaggregated error rates across protected attribute subgroups and intersectional populations, directly implementing AITG-ME-05 Model Evaluation Testing which requires that differential performance across demographic groups be measured and documented as a prerequisite for deployment in contexts affecting people.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-05"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -8198,6 +8512,20 @@
             "rationale": "MITRE ATLAS v5.6.0 does not address evaluation reproducibility or benchmark integrity.",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-06",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-06 evaluates calibration and uncertainty quantification — verifying that the model's confidence scores are statistically reliable and that it can communicate uncertainty appropriately — directly implementing AITG-ME-06 Model Evaluation Testing which requires that a model's uncertainty estimation capabilities be assessed and validated before deployment in decision-support contexts.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-06"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -8610,6 +8938,20 @@
             "rationale": "MITRE ATLAS v5.6.0 addresses adversarial attack techniques; regression testing on model updates is not an adversarial threat category.",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-07",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-07 assesses the model's privacy risk properties including susceptibility to membership inference attacks, training data extraction, and personally identifiable information leakage, directly implementing AITG-ME-07 Model Evaluation Testing which requires that privacy-relevant attack surfaces in the model be evaluated and documented before deployment.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-07"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -8964,6 +9306,20 @@
             "rationale": "MITRE ATLAS v5.6.0 does not address organizational separation of duties for model validation.",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-08",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-08 evaluates the model's behavior under distribution shift and out-of-distribution inputs — testing reliability when inputs differ from the training distribution — directly implementing AITG-ME-08 Model Evaluation Testing which requires that model robustness under input distribution shift be characterized before deployment in production environments with diverse real-world inputs.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-08"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -9307,6 +9663,20 @@
             "rationale": "MITRE ATLAS v5.6.0 does not address risk classification or regulatory categorization.",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-09",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-09 performs use-case-specific impact assessment evaluating the model's suitability, risk profile, and potential harms in the specific deployment context, directly implementing AITG-ME-09 Model Evaluation Testing which requires that evaluation scope be tailored to the intended deployment use case and that context-specific risk factors be explicitly assessed.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-09"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -9567,6 +9937,21 @@
             "rationale": "MITRE ATLAS v5.6.0 does not address evaluation result provenance or record-keeping integrity.",
             "reviewed_on": "2026-06-26",
             "source_version": "5.6.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-05",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "EV-10 ensures that all evaluation evidence — including benchmark results, red-team findings, and evaluation attestations — is integrity-protected and retained as a tamper-evident record, partially aligning with AITG-IR-05 Incident Response Testing which validates audit trail and evidence integrity. The pre-release evidence integrity focus is prospective assurance rather than the retrospective audit-trail preservation the test defines.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-05"
+            },
+            "uncovered_portion": "AITG-IR-05 focuses on audit trail and evidence integrity verification for post-incident investigation; evaluation evidence integrity as a gate-keeping mechanism before model release addresses the prospective assurance chain rather than the retrospective audit-trail preservation that IR-05 defines.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "profiles": [
@@ -9861,6 +10246,20 @@
             "uncovered_portion": "Validation independence requirements covered in EV layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "SR 26-2"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-01 defines and assigns clear accountability structures for AI system ownership, including model owner roles, decision authority, and escalation paths, directly implementing AITG-GV-03 Governance Testing which requires that accountable parties and their responsibilities be formally designated and verifiable for each deployed AI system.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-03"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "assurance_target": {
@@ -10288,6 +10687,21 @@
             "uncovered_portion": "None significant.",
             "reviewed_on": "2026-06-26",
             "source_version": "SR 26-2"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-03",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-02 assesses whether the level of human oversight is adequate relative to the model's capability tier and deployment risk profile, partially aligning with AITG-GV-03 Governance Testing which addresses accountability assignment and human oversight mechanisms. Adequacy assessment of oversight levels relative to capability and context extends beyond the accountability designation scope of the test.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-03"
+            },
+            "uncovered_portion": "AITG-GV-03 addresses accountability assignment and human oversight mechanisms; adequacy assessment of oversight levels relative to capability tiers and deployment contexts extends beyond the accountability designation scope of the test.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "assurance_target": {
@@ -10508,6 +10922,20 @@
             "uncovered_portion": "Technical documentation requirements addressed in LI layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "2024/1689"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-05",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-03 establishes the governance decision-making structure for AI systems including approval authorities, policy ownership, and cross-functional governance bodies, directly implementing AITG-GV-05 Governance Testing which requires that AI governance decision authority be formally established and that the governance structure be verifiable through documented policies and roles.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-05"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "canonical_id": "apeiris://model/controls/OA-03",
@@ -10734,6 +11162,20 @@
             "uncovered_portion": "None significant for the governance aspect of tier management.",
             "reviewed_on": "2026-06-26",
             "source_version": "2023"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-07",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-04 implements controls for human override and intervention in AI-driven decisions — including override procedures, audit logging of overrides, and escalation triggers — directly implementing AITG-GV-07 Governance Testing which requires that human override mechanisms for AI decisions be defined, accessible, and operationally tested.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-07"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "assurance_target": {
@@ -11034,6 +11476,21 @@
             "uncovered_portion": "None significant.",
             "reviewed_on": "2026-06-26",
             "source_version": "1.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-04",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-05 defines and enforces a deployed model use policy specifying permitted and prohibited use patterns, user obligations, and deployment constraints, partially aligning with AITG-GV-04 Governance Testing which defines use-case risk classification and policy requirements. The deployed use policy is a downstream governance artifact that extends beyond the risk classification and tier assignment that the test validates.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-04"
+            },
+            "uncovered_portion": "AITG-GV-04 defines use-case risk classification and policy requirements; a deployed model use policy that specifies permitted and prohibited use patterns is a downstream governance artifact that goes beyond the classification and risk-tier assignment the test validates.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "canonical_id": "apeiris://model/controls/OA-05",
@@ -11266,6 +11723,21 @@
             "uncovered_portion": "None significant.",
             "reviewed_on": "2026-06-26",
             "source_version": "1.0"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-01",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-06 assigns authority for incident response decisions — designating who can declare an AI incident, authorize emergency interventions, and approve remediation actions — partially aligning with AITG-IR-01 Incident Response Testing which covers incident detection, investigation, and corrective action procedures. Authority assignment is a governance precondition that the test does not directly assess.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-01"
+            },
+            "uncovered_portion": "AITG-IR-01 covers incident detection, investigation, and corrective action procedures; authority assignment for incident response decisions is a governance precondition that the test does not directly assess.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "canonical_id": "apeiris://model/controls/OA-06",
@@ -11524,6 +11996,21 @@
             "uncovered_portion": "None significant.",
             "reviewed_on": "2026-06-26",
             "source_version": "SR 26-2"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-05",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-07 defines escalation paths and cross-functional authority resolution mechanisms for AI governance decisions that span multiple teams or organizational boundaries, partially aligning with AITG-GV-05 Governance Testing which validates the existence and structure of AI governance decision authority. Escalation path definitions and cross-functional resolution mechanisms extend into organizational process territory beyond what the governance structure test checks.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-05"
+            },
+            "uncovered_portion": "AITG-GV-05 validates the existence and structure of AI governance decision authority; escalation path definitions and cross-functional authority resolution mechanisms extend into organizational process territory beyond what the governance structure test checks.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "canonical_id": "apeiris://model/controls/OA-07",
@@ -12012,6 +12499,20 @@
             "uncovered_portion": "Factual accuracy of model outputs is a separate concern addressed in EV layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "2025"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-06",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-08 implements audit logging and accountability trail requirements for all AI-driven decisions and human interventions, ensuring that a complete, tamper-evident record of model actions and oversight events is maintained — directly implementing AITG-GV-06 Governance Testing which requires that accountability audit trails for AI decisions be maintained and verifiable.",
+            "source_locator": {
+              "section": "Governance Testing",
+              "test_id": "AITG-GV-06"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ],
         "assurance_target": {
@@ -12257,7 +12758,23 @@
           "data_sensitivity": "internal",
           "deployment_scale": "enterprise",
           "affected_party_impact": "low"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-01 establishes runtime behavioral monitoring for model output quality and safety — continuously tracking outputs for policy violations, harmful content, and unexpected behavior patterns — directly implementing AITG-RT-01 Runtime Testing which requires that deployed model outputs be monitored in production to detect behavioral anomalies and safety violations as they occur.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-01"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "BH-02",
@@ -12519,7 +13036,23 @@
           "data_sensitivity": "internal",
           "deployment_scale": "enterprise",
           "affected_party_impact": "low"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-02 implements input validation and sanitization at the model inference boundary — filtering inputs for malicious patterns, enforcing content policies, and rejecting inputs outside the validated distribution — directly implementing AITG-RT-02 Runtime Testing which requires that inference-time input controls be deployed to prevent malicious or out-of-scope inputs from reaching the model.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-02"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "BH-03",
@@ -12760,7 +13293,23 @@
           "data_sensitivity": "internal",
           "deployment_scale": "enterprise",
           "affected_party_impact": "low"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-03 monitors the integrity of model weights and serving infrastructure at runtime — detecting unauthorized modifications to the serving artifact and alerting when the deployed model diverges from its registered hash — directly implementing AITG-RT-03 Runtime Testing which requires that the runtime integrity of the model serving environment be continuously verified.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-03"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "BH-04",
@@ -12948,6 +13497,20 @@
             "source_version": "1.0",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "high"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-04",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-04 implements output filtering and post-processing controls that enforce content policies on model outputs before they are returned to users — including harmful content detection, PII redaction, and policy compliance gates — directly implementing AITG-RT-04 Runtime Testing which requires that output-layer safety controls be deployed and validated in the production inference pipeline.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-04"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ]
       },
@@ -13158,7 +13721,23 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-7d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-05",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-05 establishes production monitoring dashboards and alerting for behavioral drift — detecting when a model's statistical output distribution, error rates, or fairness metrics shift materially from baseline — directly implementing AITG-RT-05 Runtime Testing which requires that production behavioral drift be detected and surfaced through operational monitoring with defined alert thresholds.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-05"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "BH-06",
@@ -13340,7 +13919,24 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-7d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-04",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-06 deploys runtime prompt injection detection and filtering as an operational defense layer — screening user inputs for injection attempts that seek to override system instructions — partially aligning with AITG-ME-04 Model Evaluation Testing which covers adversarial robustness including injection resistance as part of pre-release evaluation. Runtime operational defense goes beyond the evaluation-time probe suite the test defines.",
+            "source_locator": {
+              "section": "Model Evaluation Testing",
+              "test_id": "AITG-ME-04"
+            },
+            "uncovered_portion": "AITG-ME-04 covers adversarial robustness evaluation including injection resistance as part of pre-release red-teaming; runtime prompt injection detection and filtering as an operational defense mechanism goes beyond the evaluation-time probe suite the test defines.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "BH-07",
@@ -13739,7 +14335,23 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-30d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-08",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-08 monitors the upstream AI provider and supply-chain components for changes — detecting when a hosted API model, embedding service, or tool dependency is updated without organizational review — directly implementing AITG-RT-08 Runtime Testing which requires that changes to AI providers and upstream supply-chain components be detected and assessed in the operational environment.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-08"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "BH-09",
@@ -13947,6 +14559,20 @@
             "source_version": "1.0",
             "reviewed_on": "2026-06-26",
             "mapping_confidence": "high"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-07",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-09 implements system prompt and configuration integrity controls — protecting the system prompt from unauthorized modification and alerting when the runtime configuration diverges from the approved baseline — directly implementing AITG-RT-07 Runtime Testing which requires that system prompt and runtime configuration integrity be maintained and verifiable in the production deployment.",
+            "source_locator": {
+              "section": "Runtime Testing Testing",
+              "test_id": "AITG-RT-07"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
           }
         ]
       },
@@ -14161,7 +14787,24 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-30d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-05",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-10 implements runtime feedback collection integrity controls — ensuring that RLHF telemetry, preference signals, and reward data collected in production are authentic and unmanipulated before being fed back into model updates — partially aligning with AITG-DG-05 Data Governance Testing which addresses feedback-loop and RLHF data integrity at training time. The operational runtime scope extends beyond the training-phase governance the test defines.",
+            "source_locator": {
+              "section": "Data Governance Testing",
+              "test_id": "AITG-DG-05"
+            },
+            "uncovered_portion": "AITG-DG-05 addresses feedback-loop and RLHF data integrity at training time; runtime feedback collection integrity including RLHF telemetry pipelines and production reward signal monitoring extends the test's training-phase scope into the operational deployment phase.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-01",
@@ -14445,7 +15088,23 @@
           ],
           "capability_level": "none"
         },
-        "canonical_id": "apeiris://model/controls/CR-01"
+        "canonical_id": "apeiris://model/controls/CR-01",
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-01 establishes the model risk assessment framework — defining risk tiers, scoring criteria, and periodic re-evaluation cadence — directly implementing AITG-IR-02 Incident Response Testing which requires that AI systems undergo structured risk re-evaluation on a defined schedule and that the assessment process be formally documented and auditable.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-02"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-02",
@@ -14670,7 +15329,23 @@
           ],
           "capability_level": "none"
         },
-        "canonical_id": "apeiris://model/controls/CR-02"
+        "canonical_id": "apeiris://model/controls/CR-02",
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-02 implements the AI incident detection, classification, and response process — defining what constitutes a model-level incident, the investigation procedure, and corrective action requirements — directly implementing AITG-IR-01 Incident Response Testing which requires that incident detection and response capabilities be established and exercised for AI system failures.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-01"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-03",
@@ -14875,7 +15550,23 @@
           "data_sensitivity": "internal",
           "deployment_scale": "enterprise",
           "affected_party_impact": "low"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-03 maintains system-state snapshots and configuration records that enable reconstruction of the exact system state at the time of any incident — directly implementing AITG-IR-03 Incident Response Testing which requires that the AI system state be reconstructable for any point in time to support post-incident forensic analysis and root-cause determination.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-03"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-04",
@@ -15046,7 +15737,23 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-30d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-04",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-04 defines and implements model retirement and rollback procedures — including rollback triggers, artifact selection criteria, and validation requirements before a prior version is restored — directly implementing AITG-IR-04 Incident Response Testing which requires that rollback and recovery procedures for AI systems be formally defined and tested.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-04"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-05",
@@ -15204,7 +15911,23 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-30d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-05",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-05 implements audit trail integrity controls for all model lifecycle events — ensuring that deployment records, evaluation evidence, and incident documentation are tamper-evident and retained with appropriate access controls — directly implementing AITG-IR-05 Incident Response Testing which requires that audit trail integrity be maintained and verifiable for AI system accountability.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-05"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-06",
@@ -15408,7 +16131,24 @@
           "data_sensitivity": "internal",
           "deployment_scale": "enterprise",
           "affected_party_impact": "low"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-02",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-06 implements continuous real-time risk monitoring with automated alerting and risk score aggregation across multiple model behaviors, partially aligning with AITG-IR-02 Incident Response Testing which defines periodic and event-triggered re-evaluation procedures. The continuous monitoring scope with automated risk aggregation across behaviors extends beyond the scheduled re-evaluation cadence the test prescribes.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-02"
+            },
+            "uncovered_portion": "AITG-IR-02 defines periodic and event-triggered re-evaluation procedures; continuous real-time risk monitoring with automated alerting and risk score aggregation across multiple model behaviors extends beyond the scheduled re-evaluation cadence the test prescribes.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-07",
@@ -15568,7 +16308,23 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-30d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-06",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-07 establishes stakeholder notification procedures for model-related incidents and material changes — defining notification triggers, recipient scope, content requirements, and timing obligations — directly implementing AITG-IR-06 Incident Response Testing which requires that communication procedures for AI incidents be formally defined and that appropriate stakeholders be notified in a timely manner.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-06"
+            },
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       },
       {
         "id": "CR-08",
@@ -15715,7 +16471,24 @@
           ],
           "sampling_rate": "100%",
           "window_context": "rolling-30d"
-        }
+        },
+        "frameworks": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-05",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-08 aggregates compliance evidence across multiple regulatory frameworks and control domains — maintaining cross-domain audit records that satisfy the evidentiary requirements of multiple compliance regimes simultaneously — partially aligning with AITG-IR-05 Incident Response Testing which validates evidence integrity for a single audit trail. Cross-domain evidence aggregation spanning multiple frameworks extends beyond the single-audit-trail integrity the test addresses.",
+            "source_locator": {
+              "section": "Incident Response Testing",
+              "test_id": "AITG-IR-05"
+            },
+            "uncovered_portion": "AITG-IR-05 validates evidence integrity for a single audit trail; cross-domain compliance evidence aggregation spanning multiple regulatory frameworks and control domains goes beyond the single-audit-trail integrity the test addresses.",
+            "source_version": "1.0",
+            "mapping_confidence": "medium",
+            "reviewed_on": "2026-06-26"
+          }
+        ]
       }
     ],
     "references": [
@@ -16926,6 +17699,12 @@
             "requirement_id": "AML.T0018",
             "fit": "partial",
             "uncovered_portion": "AML.T0018 includes backdoor injection at training time or by a malicious publisher — LI-03 only detects post-signing substitution, not a backdoor embedded by the original publisher."
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-01",
+            "fit": "partial",
+            "uncovered_portion": "AITG-GV-01 addresses identity and versioning of the model artifact itself; third-party supply-chain verification procedures including mSBOM generation and publisher-signed checksum workflows exceed what the test prescribes."
           }
         ]
       },
@@ -17074,6 +17853,12 @@
             "requirement_id": "Art-12",
             "fit": "partial",
             "uncovered_portion": "Art-12 addresses the content and duration of logging during active deployment; LI-10 addresses evidence preservation after retirement. Active logging during deployment is addressed in BH-05."
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-RT-08",
+            "fit": "partial",
+            "uncovered_portion": "AITG-RT-08 focuses on monitoring changes to AI providers and upstream supply chain components; system-level composition tracking across heterogeneous model stacks and tool integrations extends beyond the provider-change monitoring scope of the test."
           }
         ]
       },
@@ -17118,6 +17903,12 @@
             "requirement_id": "AML.T0020",
             "fit": "partial",
             "uncovered_portion": "Active poisoning detection is TG-04"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-01",
+            "fit": "partial",
+            "uncovered_portion": "AITG-DG-01 addresses data quality and provenance validation; bias and representativeness assessment of training data subgroups extends beyond the quality-gate and provenance-chain checks defined in the test."
           }
         ]
       },
@@ -17156,6 +17947,12 @@
             "requirement_id": "AML.T0020",
             "fit": "partial",
             "uncovered_portion": "Inference API exfiltration (AML.T0024) is addressed in BH layer"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-04",
+            "fit": "partial",
+            "uncovered_portion": "AITG-ME-04 covers adversarial robustness testing on the deployed model; data poisoning prevention at training time addresses the upstream threat source rather than the adversarial probe suite the test defines for production models."
           }
         ]
       },
@@ -17195,6 +17992,12 @@
             "requirement_id": "AML.T0018",
             "fit": "partial",
             "uncovered_portion": "Model supply chain compromise (foundation models) is addressed in LI layer"
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-01",
+            "fit": "partial",
+            "uncovered_portion": "AITG-DG-01 defines data quality and provenance checks for training datasets; third-party data supply chain verification including vendor checksum and contractual due-diligence procedures go beyond the dataset-level provenance validation in the test."
           }
         ]
       },
@@ -17775,6 +18578,12 @@
             "fit": "adjacent",
             "uncovered_portion": null,
             "note": "MITRE ATLAS v5.6.0 does not address evaluation result provenance or record-keeping integrity."
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-05",
+            "fit": "partial",
+            "uncovered_portion": "AITG-IR-05 focuses on audit trail and evidence integrity verification for post-incident investigation; evaluation evidence integrity as a gate-keeping mechanism before model release addresses the prospective assurance chain rather than the retrospective audit-trail preservation that IR-05 defines."
           }
         ]
       },
@@ -17837,6 +18646,12 @@
             "requirement_id": "S-1.1",
             "fit": "partial",
             "uncovered_portion": "None significant."
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-03",
+            "fit": "partial",
+            "uncovered_portion": "AITG-GV-03 addresses accountability assignment and human oversight mechanisms; adequacy assessment of oversight levels relative to capability tiers and deployment contexts extends beyond the accountability designation scope of the test."
           }
         ]
       },
@@ -17918,6 +18733,12 @@
             "requirement_id": "GOVERN-1.3",
             "fit": "partial",
             "uncovered_portion": "None significant."
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-04",
+            "fit": "partial",
+            "uncovered_portion": "AITG-GV-04 defines use-case risk classification and policy requirements; a deployed model use policy that specifies permitted and prohibited use patterns is a downstream governance artifact that goes beyond the classification and risk-tier assignment the test validates."
           }
         ]
       },
@@ -17949,6 +18770,12 @@
             "requirement_id": "GOVERN-1.5",
             "fit": "partial",
             "uncovered_portion": "None significant."
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-01",
+            "fit": "partial",
+            "uncovered_portion": "AITG-IR-01 covers incident detection, investigation, and corrective action procedures; authority assignment for incident response decisions is a governance precondition that the test does not directly assess."
           }
         ]
       },
@@ -17980,6 +18807,12 @@
             "requirement_id": "S-5.1",
             "fit": "partial",
             "uncovered_portion": "None significant."
+          },
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-GV-05",
+            "fit": "partial",
+            "uncovered_portion": "AITG-GV-05 validates the existence and structure of AI governance decision authority; escalation path definitions and cross-functional authority resolution mechanisms extend into organizational process territory beyond what the governance structure test checks."
           }
         ]
       },
@@ -18030,6 +18863,58 @@
             "requirement_id": "INFO-SECURITY",
             "fit": "partial",
             "uncovered_portion": "EV-04 (red-team evaluation) handles the pre-deployment adversarial testing component; BH-04 handles runtime detection only."
+          }
+        ]
+      },
+      {
+        "control_id": "BH-06",
+        "control_name": "Injection-Resistance Evaluation in Production",
+        "layer": "BH",
+        "gaps": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-ME-04",
+            "fit": "partial",
+            "uncovered_portion": "AITG-ME-04 covers adversarial robustness evaluation including injection resistance as part of pre-release red-teaming; runtime prompt injection detection and filtering as an operational defense mechanism goes beyond the evaluation-time probe suite the test defines."
+          }
+        ]
+      },
+      {
+        "control_id": "BH-10",
+        "control_name": "Feedback Loop Integrity and Online Learning Governance",
+        "layer": "BH",
+        "gaps": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-DG-05",
+            "fit": "partial",
+            "uncovered_portion": "AITG-DG-05 addresses feedback-loop and RLHF data integrity at training time; runtime feedback collection integrity including RLHF telemetry pipelines and production reward signal monitoring extends the test's training-phase scope into the operational deployment phase."
+          }
+        ]
+      },
+      {
+        "control_id": "CR-06",
+        "control_name": "Post-Market Surveillance",
+        "layer": "CR",
+        "gaps": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-02",
+            "fit": "partial",
+            "uncovered_portion": "AITG-IR-02 defines periodic and event-triggered re-evaluation procedures; continuous real-time risk monitoring with automated alerting and risk score aggregation across multiple model behaviors extends beyond the scheduled re-evaluation cadence the test prescribes."
+          }
+        ]
+      },
+      {
+        "control_id": "CR-08",
+        "control_name": "Cross-Domain Assurance Coordination",
+        "layer": "CR",
+        "gaps": [
+          {
+            "framework": "owasp_aitg",
+            "requirement_id": "AITG-IR-05",
+            "fit": "partial",
+            "uncovered_portion": "AITG-IR-05 validates evidence integrity for a single audit trail; cross-domain compliance evidence aggregation spanning multiple regulatory frameworks and control domains goes beyond the single-audit-trail integrity the test addresses."
           }
         ]
       }
@@ -21115,6 +22000,90 @@
         ],
         "controls_mapped_count": 25,
         "coverage_pct": 46
+      },
+      {
+        "framework": "owasp_aitg",
+        "display_name": "OWASP AI Testing Guide v1",
+        "authority": "OWASP",
+        "total_mappings": 52,
+        "by_fit": {
+          "direct": 38,
+          "partial": 14,
+          "adjacent": 0,
+          "supporting": 0,
+          "none": 0
+        },
+        "by_layer": {
+          "LI": 9,
+          "TG": 8,
+          "EV": 10,
+          "OA": 8,
+          "BH": 9,
+          "CR": 8
+        },
+        "by_confidence": {
+          "verified": 0,
+          "high": 0,
+          "medium": 52,
+          "low": 0,
+          "speculative": 0
+        },
+        "controls_mapped": [
+          "LI-01",
+          "LI-02",
+          "LI-03",
+          "LI-04",
+          "LI-05",
+          "LI-06",
+          "LI-08",
+          "LI-09",
+          "LI-10",
+          "TG-01",
+          "TG-02",
+          "TG-03",
+          "TG-04",
+          "TG-05",
+          "TG-06",
+          "TG-07",
+          "TG-08",
+          "EV-01",
+          "EV-02",
+          "EV-03",
+          "EV-04",
+          "EV-05",
+          "EV-06",
+          "EV-07",
+          "EV-08",
+          "EV-09",
+          "EV-10",
+          "OA-01",
+          "OA-02",
+          "OA-03",
+          "OA-04",
+          "OA-05",
+          "OA-06",
+          "OA-07",
+          "OA-08",
+          "BH-01",
+          "BH-02",
+          "BH-03",
+          "BH-04",
+          "BH-05",
+          "BH-06",
+          "BH-08",
+          "BH-09",
+          "BH-10",
+          "CR-01",
+          "CR-02",
+          "CR-03",
+          "CR-04",
+          "CR-05",
+          "CR-06",
+          "CR-07",
+          "CR-08"
+        ],
+        "controls_mapped_count": 52,
+        "coverage_pct": 96
       }
     ],
     "regulatory_coverage": [

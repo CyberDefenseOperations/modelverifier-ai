@@ -14,7 +14,7 @@
       "desc": "Corrupted, incomplete, or unverifiable training data produces models with systematic failure modes that are invisible at inference time. Quality gate bypass enables adversarial data injection and introduces silent degradation that persists into deployed model behavior."
     },
     "standard": [
-      "ISO/IEC 42001:2023 \u00a78.4",
+      "ISO/IEC 42001:2023 §8.4",
       "EU AI Act Art. 10(2)",
       "NIST AI RMF MAP 2.2",
       "NIST AI RMF GOVERN 6.1"
@@ -22,7 +22,7 @@
     "sources": [
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -35,7 +35,7 @@
       },
       {
         "id": "eu_ai_act_art10",
-        "title": "EU AI Act \u2014 Article 10: Data and Data Governance",
+        "title": "EU AI Act — Article 10: Data and Data Governance",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -73,7 +73,7 @@
         "Integrate gate execution into CI/CD so no training job is submitted without a valid attestation."
       ],
       "anti_patterns": [
-        "Skipping schema validation for 'trusted' internal data sources \u2014 all sources must pass.",
+        "Skipping schema validation for 'trusted' internal data sources — all sources must pass.",
         "Soft-failing quality gates that log warnings but allow training to proceed.",
         "Defining quality thresholds once and never revisiting them as data pipelines evolve.",
         "Storing quality attestations in mutable locations where they can be overwritten."
@@ -183,7 +183,7 @@
           "severity": "medium"
         }
       ],
-      "sampling_rate": "100% \u2014 all training datasets evaluated; no sampling",
+      "sampling_rate": "100% — all training datasets evaluated; no sampling",
       "alert_routing": "on-call ML platform team + model owner",
       "window_context": "rolling-7d"
     },
@@ -191,7 +191,7 @@
       "engineering": "Implement quality gate as a composable pipeline stage (e.g., Great Expectations, custom harness) with output artifacts consumed by the experiment tracker. Schema registry should be GitOps-managed.",
       "evaluation": "Quality gate failures are evaluation signals; track gate pass/fail rates over time as a leading indicator of data pipeline health and model quality risk.",
       "red_team": "Attempt to bypass the gate by manipulating provenance metadata, submitting datasets under alternate pipeline paths, or exploiting race conditions in the attestation workflow.",
-      "grc": "Quality attestations constitute audit evidence for EU AI Act Art. 10 data governance obligations and ISO 42001 \u00a78.4 compliance. Retain for the full post-deployment audit window.",
+      "grc": "Quality attestations constitute audit evidence for EU AI Act Art. 10 data governance obligations and ISO 42001 §8.4 compliance. Retain for the full post-deployment audit window.",
       "mlops": "Integrate gate into ML CI/CD as a blocking step; surface gate metrics on the MLOps observability dashboard; alert on rising null rates as a leading indicator of upstream data-pipeline drift."
     },
     "maturity": {
@@ -202,13 +202,13 @@
     "obligations": [
       {
         "id": "eu_ai_act_art10_2",
-        "text": "EU AI Act Art. 10(2) \u2014 high-risk AI systems must use training data that meets quality criteria including relevance, representativeness, and freedom from errors",
+        "text": "EU AI Act Art. 10(2) — high-risk AI systems must use training data that meets quality criteria including relevance, representativeness, and freedom from errors",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
         "binding": true
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -274,7 +274,7 @@
         "requirement_id": "8.4",
         "fit": "direct",
         "direction": "control-supports-requirement",
-        "rationale": "Schema validation and provenance checks implement ISO 42001 \u00a78.4 data quality requirements",
+        "rationale": "Schema validation and provenance checks implement ISO 42001 §8.4 data quality requirements",
         "reviewed_on": "2026-06-26",
         "source_version": "2023",
         "source_locator": {
@@ -301,7 +301,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-5.2"
         }
       },
@@ -350,6 +350,20 @@
         "uncovered_portion": "Cryptographic integrity of individual shards is covered in TG-04",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-01 gates training pipeline execution behind automated schema validation, completeness checks, and signed provenance verification, directly implementing the AITG-DG-01 Data Governance Testing requirement that training data quality and provenance be verified and attested before any model training run proceeds.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-01"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -372,7 +386,7 @@
     ],
     "enforcement_point": "training-pipeline-entry",
     "canonical_id": "apeiris://model/controls/TG-01",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -400,14 +414,14 @@
     },
     "standard": [
       "EU AI Act Art. 10(2)(f) and Art. 10(3)",
-      "ISO/IEC 42001:2023 \u00a78.4",
+      "ISO/IEC 42001:2023 §8.4",
       "NIST AI RMF MAP 5.1, GOVERN 5.1",
-      "SR 26-2 \u00a7IV.B"
+      "SR 26-2 §IV.B"
     ],
     "sources": [
       {
         "id": "eu_ai_act_art10",
-        "title": "EU AI Act \u2014 Article 10: Data and Data Governance",
+        "title": "EU AI Act — Article 10: Data and Data Governance",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -434,7 +448,7 @@
       },
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -447,7 +461,7 @@
       },
       {
         "id": "sr262",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -468,7 +482,7 @@
       "steps": [
         "Map training dataset schema to demographic and protected-class attributes; document which attributes are available, proxied, or absent.",
         "Compute per-subgroup record counts and compare against target-population proportions derived from authoritative census or domain reference data.",
-        "Perform intersectional analysis across combinations of protected attributes (e.g., gender \u00d7 race, age \u00d7 disability status) to surface compound underrepresentation.",
+        "Perform intersectional analysis across combinations of protected attributes (e.g., gender × race, age × disability status) to surface compound underrepresentation.",
         "Flag subgroups below minimum representation threshold and document whether the gap is addressable by resampling, data augmentation, or requires a model-card coverage limitation.",
         "Produce a signed Bias Assessment Report with subgroup coverage statistics, identified gaps, approved mitigations, and residual limitations.",
         "Store BAR in the model card system and reference it in the training run metadata.",
@@ -579,17 +593,17 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers training-data representativeness. Post-deployment subgroup performance monitoring is addressed in BH-05 and CR-01. Does not cover fairness of synthetic data augmentation \u2014 that requires separate treatment.",
+    "coverage_note": "Covers training-data representativeness. Post-deployment subgroup performance monitoring is addressed in BH-05 and CR-01. Does not cover fairness of synthetic data augmentation — that requires separate treatment.",
     "obligations": [
       {
         "id": "eu_ai_act_art10_3",
-        "text": "EU AI Act Art. 10(3) \u2014 high-risk AI systems must examine training data for possible biases that may affect fundamental rights or lead to discrimination",
+        "text": "EU AI Act Art. 10(3) — high-risk AI systems must examine training data for possible biases that may affect fundamental rights or lead to discrimination",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
         "binding": true
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -675,7 +689,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689",
         "source_locator": {
-          "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
+          "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
           "clause": "Article 10"
         }
       },
@@ -688,7 +702,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-1.1"
         }
       },
@@ -740,6 +754,21 @@
         "uncovered_portion": "Active poisoning detection is TG-04",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-01",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-02 conducts subgroup and intersectional fairness analysis on training data to assess population representativeness, partially aligning with AITG-DG-01 Data Governance Testing which addresses data quality and provenance validation. Bias and representativeness assessment goes beyond provenance chain verification into fairness measurement that the test does not fully cover.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-01"
+        },
+        "uncovered_portion": "AITG-DG-01 addresses data quality and provenance validation; bias and representativeness assessment of training data subgroups extends beyond the quality-gate and provenance-chain checks defined in the test.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -749,7 +778,7 @@
       },
       {
         "id": "eu-high-risk",
-        "note": "Mandatory; BAR must be included in technical documentation per EU AI Act Annex IV \u00a72(c)"
+        "note": "Mandatory; BAR must be included in technical documentation per EU AI Act Annex IV §2(c)"
       },
       {
         "id": "us-regulated-banking",
@@ -766,7 +795,7 @@
     ],
     "enforcement_point": "dataset-finalization",
     "canonical_id": "apeiris://model/controls/TG-02",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -789,20 +818,20 @@
         "MR-DEV",
         "EU-AIA-AnnexIII"
       ],
-      "desc": "Training on data without documented lawful authority creates regulatory liability, copyright infringement exposure, and model outputs that embed unlicensed intellectual property \u2014 resulting in forced model withdrawal, regulatory fines, and litigation. A single cross-jurisdictional framework fails because GDPR, CCPA, UK GDPR, and other regimes have materially different legal bases and opt-out mechanisms."
+      "desc": "Training on data without documented lawful authority creates regulatory liability, copyright infringement exposure, and model outputs that embed unlicensed intellectual property — resulting in forced model withdrawal, regulatory fines, and litigation. A single cross-jurisdictional framework fails because GDPR, CCPA, UK GDPR, and other regimes have materially different legal bases and opt-out mechanisms."
     },
     "standard": [
       "GDPR Art. 6, 9, 17",
       "EU AI Act Art. 10(2)(c)",
-      "CCPA/CPRA Cal. Civ. Code \u00a71798.100 et seq.",
+      "CCPA/CPRA Cal. Civ. Code §1798.100 et seq.",
       "UK GDPR Art. 6",
-      "ISO/IEC 42001:2023 \u00a78.4",
-      "SR 26-2 \u00a7IV.B"
+      "ISO/IEC 42001:2023 §8.4",
+      "SR 26-2 §IV.B"
     ],
     "sources": [
       {
         "id": "gdpr",
-        "title": "Regulation (EU) 2016/679 \u2014 General Data Protection Regulation",
+        "title": "Regulation (EU) 2016/679 — General Data Protection Regulation",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -816,7 +845,7 @@
       },
       {
         "id": "eu_ai_act_art10",
-        "title": "EU AI Act \u2014 Article 10: Data and Data Governance",
+        "title": "EU AI Act — Article 10: Data and Data Governance",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -829,7 +858,7 @@
       },
       {
         "id": "ccpa_cpra",
-        "title": "California Consumer Privacy Act / California Privacy Rights Act \u2014 Cal. Civ. Code \u00a71798.100 et seq.",
+        "title": "California Consumer Privacy Act / California Privacy Rights Act — Cal. Civ. Code §1798.100 et seq.",
         "authority": "California Legislature",
         "source_type": "regulation",
         "license": "public",
@@ -842,7 +871,7 @@
       },
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -855,7 +884,7 @@
       },
       {
         "id": "sr262",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -877,15 +906,15 @@
         "For each training dataset, determine applicable jurisdictions based on data subject residence and data collection location.",
         "Document the specific legal basis per jurisdiction: EU/UK GDPR Art. 6 lawful basis (consent, legitimate interest, legal obligation, vital interests, public task, contract); CCPA/CPRA business purpose and opt-out rights; statutory authority for government data; contractual license terms for third-party data.",
         "For special-category data (GDPR Art. 9), document the additional Art. 9 condition (explicit consent, substantial public interest, etc.) per jurisdiction.",
-        "Map copyright and IP licensing constraints: Creative Commons variants, proprietary data licenses, scraping terms-of-service analysis, robots.txt compliance review \u2014 do not assume public availability equals training permission.",
+        "Map copyright and IP licensing constraints: Creative Commons variants, proprietary data licenses, scraping terms-of-service analysis, robots.txt compliance review — do not assume public availability equals training permission.",
         "Record purpose limitations and confirm that model training is within the originally stated or consented purpose. If not, document the legal basis for purpose extension per jurisdiction.",
         "Implement opt-out and deletion request workflows that quarantine affected records from training datasets and trigger impact assessment for already-trained models.",
         "Require legal counsel sign-off for datasets relying on legitimate interest or statutory authority claims.",
         "Review the DRR annually and upon material change to applicable law or vendor contract."
       ],
       "anti_patterns": [
-        "Treating GDPR and CCPA as equivalent and applying a single consent framework to both \u2014 they have materially different legal bases and opt-out mechanisms.",
-        "Assuming web-scraped public data is freely usable for AI training \u2014 robots.txt, ToS, and copyright law impose jurisdiction-specific restrictions.",
+        "Treating GDPR and CCPA as equivalent and applying a single consent framework to both — they have materially different legal bases and opt-out mechanisms.",
+        "Assuming web-scraped public data is freely usable for AI training — robots.txt, ToS, and copyright law impose jurisdiction-specific restrictions.",
         "Documenting a single legal basis for a dataset covering data subjects in multiple jurisdictions with different requirements.",
         "Failing to build opt-out propagation from the DRR to training pipeline exclusion lists.",
         "Conflating the data processor / data controller distinction when training data is licensed from a third-party controller."
@@ -919,45 +948,45 @@
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers training-time data rights. Inference-time data rights (e.g., user query data used for fine-tuning) require a separate assessment. Does not cover output copyright \u2014 a distinct legal question. Non-EU/US jurisdictions require DRR addenda.",
+    "coverage_note": "Covers training-time data rights. Inference-time data rights (e.g., user query data used for fine-tuning) require a separate assessment. Does not cover output copyright — a distinct legal question. Non-EU/US jurisdictions require DRR addenda.",
     "obligations": [
       {
         "id": "gdpr_art6",
-        "text": "GDPR Art. 6 \u2014 processing of personal data requires a lawful basis; purpose limitation applies",
+        "text": "GDPR Art. 6 — processing of personal data requires a lawful basis; purpose limitation applies",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
         "binding": true
       },
       {
         "id": "gdpr_art9",
-        "text": "GDPR Art. 9 \u2014 additional conditions required for processing special-category data",
+        "text": "GDPR Art. 9 — additional conditions required for processing special-category data",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
         "binding": true
       },
       {
         "id": "gdpr_art17",
-        "text": "GDPR Art. 17 \u2014 right to erasure must be operationalized in training data pipelines",
+        "text": "GDPR Art. 17 — right to erasure must be operationalized in training data pipelines",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
         "binding": true
       },
       {
         "id": "eu_ai_act_art10_2c",
-        "text": "EU AI Act Art. 10(2)(c) \u2014 training data must meet data governance requirements including lawful collection",
+        "text": "EU AI Act Art. 10(2)(c) — training data must meet data governance requirements including lawful collection",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
         "binding": true
       },
       {
         "id": "ccpa_cpra",
-        "text": "CCPA/CPRA \u2014 California residents have opt-out and deletion rights that apply to training data where personal information is used for commercial AI development",
+        "text": "CCPA/CPRA — California residents have opt-out and deletion rights that apply to training data where personal information is used for commercial AI development",
         "jurisdiction": "California, USA",
         "effective_date": "2023-01-01",
         "binding": true
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1043,7 +1072,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689",
         "source_locator": {
-          "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
+          "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
           "clause": "Article 10"
         }
       },
@@ -1056,7 +1085,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-5.2"
         }
       },
@@ -1119,6 +1148,20 @@
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
         "mapping_confidence": "high"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-03 establishes a Data Rights Registry documenting the specific legal basis, jurisdiction treatment, and permitted-use scope for every training dataset, directly implementing AITG-DG-02 Data Governance Testing which requires that lawful authority and data rights documentation be established and verified for all data used in model training.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-02"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -1141,7 +1184,7 @@
     ],
     "enforcement_point": "dataset-approval",
     "canonical_id": "apeiris://model/controls/TG-03",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1166,11 +1209,11 @@
         "AML.T0018",
         "MR-DEV"
       ],
-      "desc": "Adversaries who can inject, manipulate, or substitute training data can cause targeted model misbehavior \u2014 backdoors, biased outputs, capability suppression \u2014 that persists through deployment and is difficult to detect without specific probing. Supply chain compromise of third-party datasets (AML.T0018) is the highest-scale vector; insider-path injection (AML.T0020) is the highest-stealth vector."
+      "desc": "Adversaries who can inject, manipulate, or substitute training data can cause targeted model misbehavior — backdoors, biased outputs, capability suppression — that persists through deployment and is difficult to detect without specific probing. Supply chain compromise of third-party datasets (AML.T0018) is the highest-scale vector; insider-path injection (AML.T0020) is the highest-stealth vector."
     },
     "standard": [
       "NIST AI RMF MAP 3.5",
-      "ISO/IEC 42001:2023 \u00a78.4",
+      "ISO/IEC 42001:2023 §8.4",
       "EU AI Act Art. 10(2)",
       "OWASP LLM Top 10 2025 LLM04",
       "MITRE ATLAS v5.6.0 AML.T0020, AML.T0018"
@@ -1178,7 +1221,7 @@
     "sources": [
       {
         "id": "mitre_atlas_t0020",
-        "title": "MITRE ATLAS v5.6.0 \u2014 AML.T0020: Poison Training Data",
+        "title": "MITRE ATLAS v5.6.0 — AML.T0020: Poison Training Data",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "license": "public",
@@ -1190,7 +1233,7 @@
       },
       {
         "id": "mitre_atlas_t0018",
-        "title": "MITRE ATLAS v5.6.0 \u2014 AML.T0018: Supply Chain Compromise",
+        "title": "MITRE ATLAS v5.6.0 — AML.T0018: Supply Chain Compromise",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "license": "public",
@@ -1203,7 +1246,7 @@
       },
       {
         "id": "owasp_llm04",
-        "title": "OWASP LLM Top 10 2025 \u2014 LLM04: Data and Model Poisoning",
+        "title": "OWASP LLM Top 10 2025 — LLM04: Data and Model Poisoning",
         "authority": "OWASP Foundation",
         "source_type": "voluntary-standard",
         "license": "CC BY-SA 4.0",
@@ -1229,7 +1272,7 @@
       },
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1252,7 +1295,7 @@
         "For externally sourced data (see also TG-07): verify vendor-provided checksums and independently re-derive hashes from source downloads; do not rely on CDN or mirror copies without re-verification.",
         "Implement write-once / append-only storage for training datasets; restrict mutation access to privileged accounts subject to dual-approval workflow.",
         "Conduct periodic integrity audits: re-verify stored hashes against archives on a scheduled basis and on any suspicion of compromise.",
-        "Define and exercise a poisoning incident response playbook: detection \u2192 quarantine \u2192 root cause \u2192 retraining assessment \u2192 recovery."
+        "Define and exercise a poisoning incident response playbook: detection → quarantine → root cause → retraining assessment → recovery."
       ],
       "anti_patterns": [
         "Relying on perimeter security alone without hashing individual data shards.",
@@ -1285,7 +1328,7 @@
     "lenses": {
       "engineering": "Implement integrity registry as an immutable ledger (append-only log store or cryptographic accumulator). Integrate hash verification as a native pipeline step, not a pre-job script that can be bypassed. Use hardware-isolated key management for signing processes.",
       "evaluation": "Red-team the data integrity system before each major model release. Include poisoning detection efficacy in the evaluation report. Verify that chain-of-custody logs are complete for all datasets used in the evaluated model.",
-      "red_team": "Attempt label-flip attacks, backdoor triggers, and distributional poisoning via the data ingestion pipeline. Test whether hash stores can be substituted. Probe for alternate ingestion paths that bypass screening. Evaluate detection latency \u2014 how many poisoned batches can enter before screening alerts?",
+      "red_team": "Attempt label-flip attacks, backdoor triggers, and distributional poisoning via the data ingestion pipeline. Test whether hash stores can be substituted. Probe for alternate ingestion paths that bypass screening. Evaluate detection latency — how many poisoned batches can enter before screening alerts?",
       "grc": "Data poisoning incidents must be classified as security incidents under the incident response policy. MITRE ATLAS AML.T0020 and AML.T0018 provide the threat taxonomy for risk register entries. Maintain poisoning incident history as evidence for regulatory reporting.",
       "mlops": "Monitor hash verification failure rates and adversarial screening alert rates as operational security metrics. Sudden spikes in screening alerts warrant immediate pipeline suspension and investigation."
     },
@@ -1307,13 +1350,13 @@
     "obligations": [
       {
         "id": "eu_ai_act_art10_2",
-        "text": "EU AI Act Art. 10(2) \u2014 training data for high-risk AI must meet quality criteria; data integrity is a prerequisite",
+        "text": "EU AI Act Art. 10(2) — training data for high-risk AI must meet quality criteria; data integrity is a prerequisite",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
         "binding": true
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1399,7 +1442,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689",
         "source_locator": {
-          "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
+          "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
           "clause": "Article 10"
         }
       },
@@ -1412,7 +1455,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-5.2"
         }
       },
@@ -1461,6 +1504,21 @@
         "uncovered_portion": "Inference API exfiltration (AML.T0024) is addressed in BH layer",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-ME-04",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-04 implements cryptographic hash-pinning, chain-of-custody logging, and adversarial content screening to prevent data poisoning during training, partially aligning with AITG-ME-04 Model Evaluation Testing which covers adversarial robustness. The training-time poisoning prevention focus addresses the upstream threat origin rather than the post-deployment adversarial probe methodology the test defines.",
+        "source_locator": {
+          "section": "Model Evaluation Testing",
+          "test_id": "AITG-ME-04"
+        },
+        "uncovered_portion": "AITG-ME-04 covers adversarial robustness testing on the deployed model; data poisoning prevention at training time addresses the upstream threat source rather than the adversarial probe suite the test defines for production models.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -1483,7 +1541,7 @@
     ],
     "enforcement_point": "data-ingestion and training-pipeline-entry",
     "canonical_id": "apeiris://model/controls/TG-04",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json"
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json"
   },
   {
     "id": "TG-05",
@@ -1500,14 +1558,14 @@
       "desc": "Contamination between training and evaluation data produces inflated performance metrics that do not reflect real-world capability, causing unsafe or inadequate models to pass release gates. Benchmark contamination is especially dangerous for frontier models evaluated on standard public benchmarks where it may be undetectable without specific analysis."
     },
     "standard": [
-      "ISO/IEC 42001:2023 \u00a78.4, \u00a78.5",
+      "ISO/IEC 42001:2023 §8.4, §8.5",
       "NIST AI RMF MAP 2.2, EVAL 4.1",
-      "SR 26-2 \u00a7IV.C Model Validation"
+      "SR 26-2 §IV.C Model Validation"
     ],
     "sources": [
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1533,7 +1591,7 @@
       },
       {
         "id": "sr262",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -1553,7 +1611,7 @@
     "implementation": {
       "pattern": "Establish and enforce a documented data partitioning policy that defines split creation methodology, contamination detection procedures, and the governance process for managing test-set access. Contamination checks run automatically before training and validation; detected contamination is a hard blocker.",
       "steps": [
-        "Define a formal data partitioning policy specifying: split ratios, stratification methodology, temporal cutoff approach, and access control for each split \u2014 test sets must be held out from all model training personnel.",
+        "Define a formal data partitioning policy specifying: split ratios, stratification methodology, temporal cutoff approach, and access control for each split — test sets must be held out from all model training personnel.",
         "Implement exact-match deduplication across all splits using content hashes before training begins.",
         "Implement near-duplicate and semantic-similarity detection (e.g., MinHash LSH, embedding-based similarity) to catch paraphrased or reformatted benchmark contamination.",
         "Apply temporal leakage checks: for time-series or temporally structured data, ensure no future-dated records appear in training relative to the evaluation period.",
@@ -1567,7 +1625,7 @@
         "Relying on random split assignment without checking for semantic duplicates across splits.",
         "Allowing model development personnel unrestricted access to test set content.",
         "Reusing the same test set across multiple model iterations without contamination controls, enabling evaluation overfitting.",
-        "Ignoring retrieval corpus contamination in RAG systems \u2014 the retrieval index is part of the effective training surface.",
+        "Ignoring retrieval corpus contamination in RAG systems — the retrieval index is part of the effective training surface.",
         "Not re-checking contamination after synthetic data is added to training."
       ]
     },
@@ -1594,14 +1652,14 @@
       "engineering": "Implement contamination detection as a pipeline stage using content-addressable hashing for exact matches and LSH/embedding similarity for near-duplicates. Enforce test-set access controls at the storage layer, not just the application layer. Version-pin evaluation benchmarks.",
       "evaluation": "The independent validation team (EV-01) must own and control test sets. Evaluate models on externally managed benchmarks not accessible to the development team. Document any known contamination and its estimated effect on reported metrics.",
       "red_team": "Probe whether benchmark examples from known public datasets (e.g., MMLU, HumanEval) can be found in the training corpus using fuzzy matching. Test whether evaluation personnel can inadvertently leak test-set content to the development team. Probe for retrieval leakage in RAG deployments.",
-      "grc": "Contamination check audit logs are model validation evidence required by SR 26-2 \u00a7IV.C and ISO 42001. Reported benchmark scores must be accompanied by contamination check results in regulatory filings and model documentation.",
+      "grc": "Contamination check audit logs are model validation evidence required by SR 26-2 §IV.C and ISO 42001. Reported benchmark scores must be accompanied by contamination check results in regulatory filings and model documentation.",
       "mlops": "Track contamination rates and near-duplicate counts as dataset-quality metrics in the experiment tracker. Alert if contamination rate exceeds threshold after data pipeline changes."
     },
     "maturity": {
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers data-level contamination prevention. Evaluation independence and benchmark selection are addressed in EV-01. Does not fully address contamination from model memorization \u2014 that requires separate membership inference analysis.",
+    "coverage_note": "Covers data-level contamination prevention. Evaluation independence and benchmark selection are addressed in EV-01. Does not fully address contamination from model memorization — that requires separate membership inference analysis.",
     "frameworks": [
       {
         "framework": "nist_rmf",
@@ -1638,7 +1696,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689",
         "source_locator": {
-          "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
+          "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
           "clause": "Article 9"
         }
       },
@@ -1651,7 +1709,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-2.2"
         }
       },
@@ -1703,12 +1761,26 @@
         "uncovered_portion": "Active poisoning attack detection is TG-04",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-03",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-05 enforces strict separation between training, evaluation, and test splits and implements contamination detection including exact-match deduplication, near-duplicate semantic detection, and retrieval leakage checks — directly implementing AITG-DG-03 Data Governance Testing which requires that training and evaluation data partitions be segregated and contamination-free to ensure valid performance measurement.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-03"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
       {
         "id": "frontier-capability",
-        "note": "Critical; benchmark contamination invalidates safety evaluations \u2014 mandatory contamination disclosure in model cards and eval reports"
+        "note": "Critical; benchmark contamination invalidates safety evaluations — mandatory contamination disclosure in model cards and eval reports"
       },
       {
         "id": "generative-ai",
@@ -1729,7 +1801,7 @@
     ],
     "enforcement_point": "dataset-finalization and training-pipeline-entry",
     "canonical_id": "apeiris://model/controls/TG-05",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -1742,7 +1814,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -1805,19 +1877,19 @@
         "EU-AIA-AnnexIII",
         "LLM04:2025"
       ],
-      "desc": "Over-retention of PII and protected-class data in training corpora creates privacy harm, regulatory liability, and a model that can memorize and regurgitate personal information. Protected attributes are simultaneously a privacy risk and a fairness control instrument \u2014 their handling requires careful governance to serve both goals without conflating them."
+      "desc": "Over-retention of PII and protected-class data in training corpora creates privacy harm, regulatory liability, and a model that can memorize and regurgitate personal information. Protected attributes are simultaneously a privacy risk and a fairness control instrument — their handling requires careful governance to serve both goals without conflating them."
     },
     "standard": [
-      "GDPR Art. 5(1)(c) \u2014 data minimisation",
-      "GDPR Art. 25 \u2014 data protection by design",
+      "GDPR Art. 5(1)(c) — data minimisation",
+      "GDPR Art. 25 — data protection by design",
       "EU AI Act Art. 10(5)",
-      "ISO/IEC 42001:2023 \u00a78.4",
+      "ISO/IEC 42001:2023 §8.4",
       "NIST AI RMF GOVERN 5.1"
     ],
     "sources": [
       {
         "id": "gdpr",
-        "title": "Regulation (EU) 2016/679 \u2014 General Data Protection Regulation",
+        "title": "Regulation (EU) 2016/679 — General Data Protection Regulation",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -1831,7 +1903,7 @@
       },
       {
         "id": "eu_ai_act_art10",
-        "title": "EU AI Act \u2014 Article 10: Data and Data Governance",
+        "title": "EU AI Act — Article 10: Data and Data Governance",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -1857,7 +1929,7 @@
       },
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1881,10 +1953,10 @@
         "Run minimization review at each data refresh cycle; re-assess necessity as model capabilities and use cases evolve."
       ],
       "anti_patterns": [
-        "Retaining PII 'just in case' it improves model quality \u2014 necessity must be demonstrated, not assumed.",
-        "Using protected-class attributes freely throughout the data pipeline and only restricting them at model deployment \u2014 control must be applied at the data layer.",
-        "Conflating de-identification with anonymization \u2014 pseudonymized data remains personal data under GDPR; full anonymization requires meeting a high technical bar.",
-        "Not logging access to the fairness audit vault \u2014 retention of access logs is itself a compliance requirement.",
+        "Retaining PII 'just in case' it improves model quality — necessity must be demonstrated, not assumed.",
+        "Using protected-class attributes freely throughout the data pipeline and only restricting them at model deployment — control must be applied at the data layer.",
+        "Conflating de-identification with anonymization — pseudonymized data remains personal data under GDPR; full anonymization requires meeting a high technical bar.",
+        "Not logging access to the fairness audit vault — retention of access logs is itself a compliance requirement.",
         "Scanning for PII at ingestion only and not re-scanning after data transformations that might recombine quasi-identifiers."
       ]
     },
@@ -1908,9 +1980,9 @@
     },
     "lenses": {
       "engineering": "Integrate PII scanning into the data ingestion pipeline using automated scanners (e.g., Microsoft Presidio, custom NER models) with scanning after each transformation step. Implement vault access as a service with short-lived tokens and mandatory access-reason logging.",
-      "evaluation": "Verify that models trained on de-identified data do not memorize PII from pre-training \u2014 run membership inference and PII extraction probes as part of evaluation (EV-06). Validate that fairness audit vault access does not create a side channel for PII exposure.",
+      "evaluation": "Verify that models trained on de-identified data do not memorize PII from pre-training — run membership inference and PII extraction probes as part of evaluation (EV-06). Validate that fairness audit vault access does not create a side channel for PII exposure.",
       "red_team": "Probe model outputs for PII memorization via targeted prompting and extraction attacks. Attempt vault access bypass through indirect paths. Test whether de-identified training records can be re-identified using auxiliary data.",
-      "grc": "GDPR Art. 5(1)(c) minimization and Art. 25 by-design requirements must be documented with necessity assessments as evidence. EU AI Act Art. 10(5) provides the specific carve-out for protected attribute processing for bias detection \u2014 document this legal basis explicitly when invoked. Coordinate with DPA for high-risk processing.",
+      "grc": "GDPR Art. 5(1)(c) minimization and Art. 25 by-design requirements must be documented with necessity assessments as evidence. EU AI Act Art. 10(5) provides the specific carve-out for protected attribute processing for bias detection — document this legal basis explicitly when invoked. Coordinate with DPA for high-risk processing.",
       "mlops": "Track PII scan detection rates and false-positive rates as data pipeline quality metrics. Alert on unexpected spikes in PII detections after pipeline changes. Monitor vault access frequency as an anomaly signal."
     },
     "maturity": {
@@ -1921,27 +1993,27 @@
     "obligations": [
       {
         "id": "gdpr_art5_1c",
-        "text": "GDPR Art. 5(1)(c) \u2014 data minimisation: personal data must be adequate, relevant and limited to what is necessary for the purpose",
+        "text": "GDPR Art. 5(1)(c) — data minimisation: personal data must be adequate, relevant and limited to what is necessary for the purpose",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
         "binding": true
       },
       {
         "id": "gdpr_art25",
-        "text": "GDPR Art. 25 \u2014 data protection by design and by default: controller must implement minimisation by design",
+        "text": "GDPR Art. 25 — data protection by design and by default: controller must implement minimisation by design",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
         "binding": true
       },
       {
         "id": "eu_ai_act_art10_5",
-        "text": "EU AI Act Art. 10(5) \u2014 processing of special category data is permitted to the extent strictly necessary for bias detection and correction, with appropriate safeguards",
+        "text": "EU AI Act Art. 10(5) — processing of special category data is permitted to the extent strictly necessary for bias detection and correction, with appropriate safeguards",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
         "binding": true
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2027,7 +2099,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689",
         "source_locator": {
-          "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
+          "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
           "clause": "Article 10"
         }
       },
@@ -2040,7 +2112,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-5.2"
         }
       },
@@ -2092,6 +2164,20 @@
         "uncovered_portion": "Runtime exfiltration controls addressed in BH layer",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-04",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-06 establishes data retention, deletion, and lifecycle governance policies for training datasets including right-to-erasure operationalization and pipeline quarantine workflows, directly supporting AITG-DG-04 Data Governance Testing which requires that training data lifecycle controls — including retention limits and deletion procedures — be documented and operationally enforced.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-04"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -2109,7 +2195,7 @@
       },
       {
         "id": "high-impact-decision",
-        "note": "Protected-class attribute access controls are critical for decision-making models subject to anti-discrimination law \u2014 document Art. 10(5) or equivalent legal basis"
+        "note": "Protected-class attribute access controls are critical for decision-making models subject to anti-discrimination law — document Art. 10(5) or equivalent legal basis"
       },
       {
         "id": "continuously-learning",
@@ -2118,7 +2204,7 @@
     ],
     "enforcement_point": "dataset-approval and data-ingestion",
     "canonical_id": "apeiris://model/controls/TG-06",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",
@@ -2145,16 +2231,16 @@
       "desc": "Third-party datasets are the highest-risk supply chain vector for training data poisoning, license violations, and unknown data quality defects. Vendors may update datasets without notice, removing quality assurances relied upon at training time and introducing new risks silently."
     },
     "standard": [
-      "ISO/IEC 42001:2023 \u00a78.4",
+      "ISO/IEC 42001:2023 §8.4",
       "NIST AI RMF GOVERN 6.2",
       "MITRE ATLAS v5.6.0 AML.T0018",
       "EU AI Act Art. 10(2)(c)",
-      "SR 26-2 \u00a7V Third-Party Model Risk"
+      "SR 26-2 §V Third-Party Model Risk"
     ],
     "sources": [
       {
         "id": "mitre_atlas_t0018",
-        "title": "MITRE ATLAS v5.6.0 \u2014 AML.T0018: Supply Chain Compromise",
+        "title": "MITRE ATLAS v5.6.0 — AML.T0018: Supply Chain Compromise",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "license": "public",
@@ -2167,7 +2253,7 @@
       },
       {
         "id": "owasp_llm04",
-        "title": "OWASP LLM Top 10 2025 \u2014 LLM04: Data and Model Poisoning",
+        "title": "OWASP LLM Top 10 2025 — LLM04: Data and Model Poisoning",
         "authority": "OWASP Foundation",
         "source_type": "voluntary-standard",
         "license": "CC BY-SA 4.0",
@@ -2180,7 +2266,7 @@
       },
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2206,7 +2292,7 @@
       },
       {
         "id": "eu_ai_act_art10",
-        "title": "EU AI Act \u2014 Article 10: Data and Data Governance",
+        "title": "EU AI Act — Article 10: Data and Data Governance",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -2220,7 +2306,7 @@
       },
       {
         "id": "sr262",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -2250,10 +2336,10 @@
       ],
       "anti_patterns": [
         "Pinning to a version range or 'latest' tag instead of an exact versioned release.",
-        "Treating public domain or Creative Commons datasets as requiring no due diligence \u2014 license terms and data quality still require review.",
-        "Not establishing update notification channels with vendors \u2014 dataset changes can introduce new legal or quality risks silently.",
+        "Treating public domain or Creative Commons datasets as requiring no due diligence — license terms and data quality still require review.",
+        "Not establishing update notification channels with vendors — dataset changes can introduce new legal or quality risks silently.",
         "Using a dataset in training that was approved for a different model or use case without re-reviewing applicability.",
-        "Omitting hash verification for datasets obtained from CDNs or mirrors \u2014 the canonical source hash must be verified."
+        "Omitting hash verification for datasets obtained from CDNs or mirrors — the canonical source hash must be verified."
       ]
     },
     "validation": {
@@ -2278,7 +2364,7 @@
       "engineering": "Implement TPDR as a machine-readable catalog integrated with the training pipeline gate. Use cryptographically signed TPDR entries to prevent tampering. Implement automated version-pin enforcement in data ingestion tooling.",
       "evaluation": "Independent validation (EV-01) must verify that all third-party datasets used in a model have valid, current TPDR entries. Evaluators should probe for datasets used in training that are not listed in TPDR.",
       "red_team": "Attempt supply chain attacks via compromised vendor CDN, DNS hijacking of dataset download URLs, or man-in-the-middle substitution. Test whether unpinned dataset references can be introduced through indirect pipeline paths. Probe for datasets used in training with no TPDR entry.",
-      "grc": "TPDR is the primary evidence artifact for third-party data supply chain governance. SR 26-2 \u00a7V third-party risk requirements apply to dataset vendors. EU AI Act Art. 10(2)(c) requires documentation of data origin \u2014 TPDR entries satisfy this requirement.",
+      "grc": "TPDR is the primary evidence artifact for third-party data supply chain governance. SR 26-2 §V third-party risk requirements apply to dataset vendors. EU AI Act Art. 10(2)(c) requires documentation of data origin — TPDR entries satisfy this requirement.",
       "mlops": "Surface TPDR status in the dataset catalog UI. Alert on TPDR entries approaching annual re-review deadline. Integrate vendor security advisory feeds into TPDR monitoring workflow."
     },
     "maturity": {
@@ -2322,7 +2408,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689",
         "source_locator": {
-          "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
+          "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
           "clause": "Article 10"
         }
       },
@@ -2335,7 +2421,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-3.1"
         }
       },
@@ -2387,6 +2473,21 @@
         "uncovered_portion": "Model supply chain compromise (foundation models) is addressed in LI layer",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-01",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-07 performs supply-chain integrity verification for third-party training datasets including vendor checksum validation and contractual due-diligence, partially aligning with AITG-DG-01 Data Governance Testing which defines data quality and provenance checks. The third-party vendor verification and contractual scope extend beyond the dataset-level provenance validation in the test.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-01"
+        },
+        "uncovered_portion": "AITG-DG-01 defines data quality and provenance checks for training datasets; third-party data supply chain verification including vendor checksum and contractual due-diligence procedures go beyond the dataset-level provenance validation in the test.",
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
@@ -2400,7 +2501,7 @@
       },
       {
         "id": "us-regulated-banking",
-        "note": "Required per SR 26-2 \u00a7V; third-party dataset vendors may constitute third-party service providers requiring vendor risk management program coverage"
+        "note": "Required per SR 26-2 §V; third-party dataset vendors may constitute third-party service providers requiring vendor risk management program coverage"
       },
       {
         "id": "generative-ai",
@@ -2409,7 +2510,7 @@
     ],
     "enforcement_point": "dataset-approval and training-pipeline-entry",
     "canonical_id": "apeiris://model/controls/TG-07",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "frontier",
       "access_mode": "internal",
@@ -2422,7 +2523,7 @@
     },
     "obligations": [
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2487,17 +2588,17 @@
       "desc": "Unmanaged retention of training data and derived artifacts creates ongoing regulatory liability under GDPR and CCPA erasure obligations, security exposure from stale sensitive data, and operational confusion from training on superseded or legally contested data. Failure to distinguish raw training data from derived model artifacts leads to incorrect deletion scope and potential regulatory non-compliance."
     },
     "standard": [
-      "GDPR Art. 5(1)(e) \u2014 storage limitation",
-      "GDPR Art. 17 \u2014 right to erasure",
-      "CCPA/CPRA \u00a71798.105",
-      "EU AI Act Art. 10(2), Annex IV \u00a72",
-      "ISO/IEC 42001:2023 \u00a78.4",
-      "SR 26-2 \u00a7IV record-keeping"
+      "GDPR Art. 5(1)(e) — storage limitation",
+      "GDPR Art. 17 — right to erasure",
+      "CCPA/CPRA §1798.105",
+      "EU AI Act Art. 10(2), Annex IV §2",
+      "ISO/IEC 42001:2023 §8.4",
+      "SR 26-2 §IV record-keeping"
     ],
     "sources": [
       {
         "id": "gdpr",
-        "title": "Regulation (EU) 2016/679 \u2014 General Data Protection Regulation",
+        "title": "Regulation (EU) 2016/679 — General Data Protection Regulation",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -2511,7 +2612,7 @@
       },
       {
         "id": "eu_ai_act_annex_iv",
-        "title": "EU AI Act \u2014 Annex IV: Technical Documentation",
+        "title": "EU AI Act — Annex IV: Technical Documentation",
         "authority": "European Parliament and Council",
         "source_type": "regulation",
         "license": "public",
@@ -2524,7 +2625,7 @@
       },
       {
         "id": "ccpa_cpra",
-        "title": "California Consumer Privacy Act / California Privacy Rights Act \u2014 Cal. Civ. Code \u00a71798.100 et seq.",
+        "title": "California Consumer Privacy Act / California Privacy Rights Act — Cal. Civ. Code §1798.100 et seq.",
         "authority": "California Legislature",
         "source_type": "regulation",
         "license": "public",
@@ -2537,7 +2638,7 @@
       },
       {
         "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 \u2014 AI Management Systems",
+        "title": "ISO/IEC 42001:2023 — AI Management Systems",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2550,7 +2651,7 @@
       },
       {
         "id": "sr262",
-        "title": "SR 26-2 \u2014 Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -2570,18 +2671,18 @@
       "pattern": "Implement a Data Lifecycle Policy (DLP) that classifies training artifacts into categories and assigns retention periods, deletion procedures, and hold exceptions for each. Erasure requests trigger automated propagation across all artifact categories with documented impact assessment for trained models.",
       "steps": [
         "Classify all training-related artifacts: raw source data, ingested and processed training datasets, training data shards, model checkpoints, evaluation datasets, experiment metadata, quality attestations, and audit logs.",
-        "Define retention periods per artifact class and jurisdiction: raw training data (shortest operationally feasible period; minimum legally required where mandated); model checkpoints (aligned to post-deployment audit window); audit logs (longest applicable regulatory retention \u2014 typically 7-10 years for financial institutions).",
-        "Distinguish between deletion of raw training data (fully deletable) and removal from derived model artifacts (machine unlearning or model retraining may be required \u2014 document the technical limitations and legal position explicitly).",
-        "Implement GDPR Art. 17 erasure workflows: deletion request received \u2192 search across all artifact categories \u2192 deletion of raw records \u2192 impact assessment for derived models \u2192 documented response to data subject within Art. 17 timeframe (one month, extendable to three with notice).",
-        "For CCPA \u00a71798.105 deletion requests from California residents: implement equivalent workflow with 45-day response timeline.",
+        "Define retention periods per artifact class and jurisdiction: raw training data (shortest operationally feasible period; minimum legally required where mandated); model checkpoints (aligned to post-deployment audit window); audit logs (longest applicable regulatory retention — typically 7-10 years for financial institutions).",
+        "Distinguish between deletion of raw training data (fully deletable) and removal from derived model artifacts (machine unlearning or model retraining may be required — document the technical limitations and legal position explicitly).",
+        "Implement GDPR Art. 17 erasure workflows: deletion request received → search across all artifact categories → deletion of raw records → impact assessment for derived models → documented response to data subject within Art. 17 timeframe (one month, extendable to three with notice).",
+        "For CCPA §1798.105 deletion requests from California residents: implement equivalent workflow with 45-day response timeline.",
         "Implement litigation hold procedures that freeze deletion of specified artifacts without extending retention for non-held artifacts.",
         "Enforce deletion at the storage layer using cryptographic key destruction (for encrypted stores) or verified overwrite with deletion certificates.",
         "Conduct annual lifecycle policy reviews to incorporate regulatory developments in machine unlearning obligations."
       ],
       "anti_patterns": [
-        "Treating model weights as containing no personal data and therefore outside the scope of erasure obligations \u2014 regulators are increasingly examining this position.",
+        "Treating model weights as containing no personal data and therefore outside the scope of erasure obligations — regulators are increasingly examining this position.",
         "Retaining all training artifacts indefinitely 'for reproducibility' without a documented legal basis for extended retention.",
-        "Using a single retention period for all artifact types \u2014 raw PII-containing training data and anonymized evaluation artifacts have different requirements.",
+        "Using a single retention period for all artifact types — raw PII-containing training data and anonymized evaluation artifacts have different requirements.",
         "Responding to erasure requests by deleting only the raw data store without propagating to processed datasets, training shards, and checkpoints.",
         "Providing misleading assurances that trained models have been 'cleansed' of erased data without documenting the technical limitations of machine unlearning."
       ]
@@ -2589,7 +2690,7 @@
     "validation": {
       "design_check": [
         "Data Lifecycle Policy documents retention periods and deletion procedures for each artifact class with jurisdiction-specific treatment. [ref:gdpr]",
-        "GDPR Art. 17 and CCPA \u00a71798.105 erasure workflows are documented, tested, and include impact assessment for derived model artifacts. [ref:gdpr]",
+        "GDPR Art. 17 and CCPA §1798.105 erasure workflows are documented, tested, and include impact assessment for derived model artifacts. [ref:gdpr]",
         "Deletion is implemented at the storage layer (key destruction or verified overwrite) with deletion certificates produced. [ref:gdpr]",
         "Audit logs are subject to a separate, longer retention period and excluded from standard data deletion workflows; litigation hold procedures exist. [ref:sr262]"
       ],
@@ -2609,45 +2710,45 @@
       "engineering": "Implement the DLP in the data catalog and storage management system as enforced metadata rules, not just documentation. Use cryptographic key destruction for encrypted training data stores to ensure deletion is technically verifiable. Automate retention schedule enforcement.",
       "evaluation": "Include DLP compliance in the model card: document which training dataset versions were used, their current retention status, and any erasure events that occurred post-training. Evaluators should flag models where training data retention status is unknown.",
       "red_team": "Probe whether erased data records can be recovered from backup systems, derivative datasets, or model outputs via memorization probing. Test whether litigation holds can be applied and released without affecting non-held artifact deletion schedules.",
-      "grc": "GDPR Art. 5(1)(e) storage limitation and Art. 17 erasure are hard legal requirements. CCPA \u00a71798.105 imposes parallel obligations in California. SR 26-2 requires record-keeping sufficient to support model validation and regulatory examination \u2014 coordinate with legal to ensure audit log retention satisfies both the longest retention obligation and applicable data protection minimization requirements. These obligations may conflict; document the resolution.",
+      "grc": "GDPR Art. 5(1)(e) storage limitation and Art. 17 erasure are hard legal requirements. CCPA §1798.105 imposes parallel obligations in California. SR 26-2 requires record-keeping sufficient to support model validation and regulatory examination — coordinate with legal to ensure audit log retention satisfies both the longest retention obligation and applicable data protection minimization requirements. These obligations may conflict; document the resolution.",
       "mlops": "Integrate retention schedule enforcement into the data catalog; automate deletion triggers on retention expiry. Surface erasure request status in the ML platform dashboard. Alert on artifact stores approaching retention expiry that have not been scheduled for deletion."
     },
     "maturity": {
       "current": "initial",
       "target": "defined"
     },
-    "coverage_note": "Covers training-data and training-artifact lifecycle. Inference log retention is addressed in the CR layer. Machine unlearning is an emerging technical area; this control documents the obligation and current technical limitations but does not specify implementation \u2014 see cross_domain pointer to privacy controls domain.",
+    "coverage_note": "Covers training-data and training-artifact lifecycle. Inference log retention is addressed in the CR layer. Machine unlearning is an emerging technical area; this control documents the obligation and current technical limitations but does not specify implementation — see cross_domain pointer to privacy controls domain.",
     "obligations": [
       {
         "id": "gdpr_art5_1e",
-        "text": "GDPR Art. 5(1)(e) \u2014 storage limitation: personal data must not be kept for longer than necessary for the specified purpose",
+        "text": "GDPR Art. 5(1)(e) — storage limitation: personal data must not be kept for longer than necessary for the specified purpose",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
         "binding": true
       },
       {
         "id": "gdpr_art17",
-        "text": "GDPR Art. 17 \u2014 right to erasure: data subjects can request deletion; controller must comply within one month, extendable to three with notice",
+        "text": "GDPR Art. 17 — right to erasure: data subjects can request deletion; controller must comply within one month, extendable to three with notice",
         "jurisdiction": "EU / EEA",
         "effective_date": "2018-05-25",
         "binding": true
       },
       {
         "id": "ccpa_1798_105",
-        "text": "CCPA/CPRA \u00a71798.105 \u2014 California consumers have the right to request deletion of personal information; businesses must comply within 45 days",
+        "text": "CCPA/CPRA §1798.105 — California consumers have the right to request deletion of personal information; businesses must comply within 45 days",
         "jurisdiction": "California, USA",
         "effective_date": "2023-01-01",
         "binding": true
       },
       {
         "id": "eu_ai_act_annex_iv",
-        "text": "EU AI Act Annex IV \u00a72 \u2014 technical documentation must include description of training data including provenance, requiring sufficient retention to reconstruct the documentation during the post-market monitoring period",
+        "text": "EU AI Act Annex IV §2 — technical documentation must include description of training data including provenance, requiring sufficient retention to reconstruct the documentation during the post-market monitoring period",
         "jurisdiction": "EU",
         "effective_date": "2027-08-02",
         "binding": true
       },
       {
-        "authority": "European Union \u2014 European Parliament and Council",
+        "authority": "European Union — European Parliament and Council",
         "instrument": "Regulation (EU) 2024/1689",
         "jurisdiction": [
           "eu"
@@ -2733,7 +2834,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689",
         "source_locator": {
-          "section": "Chapter III, Section 2 \u2014 Requirements for high-risk AI systems",
+          "section": "Chapter III, Section 2 — Requirements for high-risk AI systems",
           "clause": "Article 10"
         }
       },
@@ -2746,7 +2847,7 @@
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2",
         "source_locator": {
-          "section": "SR 26-2 \u2014 Model Risk Management",
+          "section": "SR 26-2 — Model Risk Management",
           "clause": "S-4.2"
         }
       },
@@ -2801,12 +2902,26 @@
           "section": "MITRE ATLAS v5.6.0",
           "clause": "AML.T0024"
         }
+      },
+      {
+        "framework": "owasp_aitg",
+        "requirement_id": "AITG-DG-05",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "TG-08 implements controls over feedback-loop data used for RLHF and continual learning — including feedback integrity verification, preference data quality gates, and reward signal validation — directly implementing AITG-DG-05 Data Governance Testing which requires that feedback and reinforcement learning data used in model updates be governed with the same rigor as initial training data.",
+        "source_locator": {
+          "section": "Data Governance Testing",
+          "test_id": "AITG-DG-05"
+        },
+        "source_version": "1.0",
+        "mapping_confidence": "medium",
+        "reviewed_on": "2026-06-26"
       }
     ],
     "profiles": [
       {
         "id": "eu-high-risk",
-        "note": "Mandatory; GDPR Art. 17 erasure workflows required; EU AI Act Annex IV documentation retention must be balanced against storage limitation obligations \u2014 document the legal resolution"
+        "note": "Mandatory; GDPR Art. 17 erasure workflows required; EU AI Act Annex IV documentation retention must be balanced against storage limitation obligations — document the legal resolution"
       },
       {
         "id": "us-regulated-banking",
@@ -2814,7 +2929,7 @@
       },
       {
         "id": "generative-ai",
-        "note": "Machine unlearning obligations for large pre-training corpora are legally and technically complex \u2014 engage legal counsel; document current technical limitations in DLP explicitly"
+        "note": "Machine unlearning obligations for large pre-training corpora are legally and technically complex — engage legal counsel; document current technical limitations in DLP explicitly"
       },
       {
         "id": "frontier-capability",
@@ -2828,7 +2943,7 @@
     },
     "enforcement_point": "data-catalog and storage-management",
     "canonical_id": "apeiris://model/controls/TG-08",
-    "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
+    "$schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
     "capability_risk": {
       "capability_level": "none",
       "access_mode": "internal",

@@ -1,0 +1,251 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://modelverifier.ai/integration/claim.schema.json",
+  "title": "Apeiris Evidence Claim",
+  "description": "Schema for a single AI model assurance claim object. A claim links a control reference to a specific test result, observed evidence, regulatory obligation coverage, and a pass/fail decision. Claims are produced by the model operator, deployer, or independent auditor and consumed by the Apeiris verifier to construct an attestation graph.",
+  "type": "object",
+  "required": [
+    "claim_id",
+    "claim",
+    "control_ref",
+    "control_name",
+    "layer",
+    "test_method",
+    "threshold",
+    "observed_result",
+    "confidence",
+    "evidence_artifacts",
+    "obligation_links",
+    "assurance_target",
+    "tested_by",
+    "tested_at",
+    "expires_at",
+    "decision",
+    "decision_rationale",
+    "claim_version",
+    "produced_by",
+    "schema"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "description": "Claim schema URI. Always apeiris://model/claims/v1 for this schema version.",
+      "const": "apeiris://model/claims/v1"
+    },
+    "claim_id": {
+      "type": "string",
+      "description": "Globally unique claim identifier in apeiris:// URI format. Encodes the control reference and a short slug describing the specific claim.",
+      "pattern": "^apeiris://[a-z][a-z0-9._/-]{1,255}$",
+      "examples": [
+        "apeiris://model/claims/EV-04/injection-resistance",
+        "apeiris://model/claims/BH-03/latency-sla-p95"
+      ]
+    },
+    "claim": {
+      "type": "string",
+      "description": "Human-readable statement of what is being claimed. Must be falsifiable and specific enough to evaluate against the threshold.",
+      "minLength": 10
+    },
+    "control_ref": {
+      "type": "string",
+      "description": "The control ID this claim tests, matching the ID in the AI Model Assurance Control Matrix.",
+      "pattern": "^(LI|TG|EV|OA|BH|CR)-\\d{2}$",
+      "examples": ["EV-04", "TG-01", "BH-03"]
+    },
+    "control_name": {
+      "type": "string",
+      "description": "Human-readable name of the control being tested.",
+      "minLength": 3
+    },
+    "layer": {
+      "type": "string",
+      "description": "The assurance layer this control belongs to: LI (Lineage), TG (Training/Data), EV (Evaluation), OA (Governance), BH (Deployment/Runtime), CR (Continuous Risk).",
+      "enum": ["LI", "TG", "EV", "OA", "BH", "CR"]
+    },
+    "test_method": {
+      "type": "string",
+      "description": "How the test was conducted. Use canonical method names where possible.",
+      "examples": [
+        "adversarial_probe_suite",
+        "statistical_analysis",
+        "independent_audit",
+        "automated_benchmark",
+        "red_team_exercise",
+        "dataset_quality_scan",
+        "performance_monitoring",
+        "periodic_review"
+      ]
+    },
+    "test_method_version": {
+      "type": "string",
+      "description": "Version or release of the test methodology or tool suite used. Include if the methodology is versioned.",
+      "examples": ["v2.1.0", "2025-Q4", "NIST AI 600-1 rev1"]
+    },
+    "threshold": {
+      "type": "string",
+      "description": "The pass criterion. State the condition that must be true for the decision to be 'pass' or 'conditional-pass'.",
+      "minLength": 3,
+      "examples": [">= 95% block rate", "p95 latency <= 2,000ms", "0 critical data quality violations"]
+    },
+    "observed_result": {
+      "type": "string",
+      "description": "What the test actually measured. Must be comparable to the threshold to justify the decision.",
+      "minLength": 3,
+      "examples": ["97.2% block rate over 1,000 adversarial probes", "p95 = 1,240ms over 30-day rolling window"]
+    },
+    "confidence": {
+      "type": "string",
+      "description": "Evaluator confidence in the observed result and decision. High: repeatable, statistically validated, independently verified. Medium: tested but limited sample or methodology. Low: limited evidence, extrapolated, or estimated.",
+      "enum": ["high", "medium", "low"]
+    },
+    "evidence_artifacts": {
+      "type": "array",
+      "description": "One or more evidence artifacts that support this claim. Each artifact must be independently retrievable and verifiable.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["artifact_id", "artifact_type", "description", "location", "hash", "collected_at"],
+        "additionalProperties": false,
+        "properties": {
+          "artifact_id": {
+            "type": "string",
+            "description": "Unique identifier for this artifact within the claim.",
+            "minLength": 3
+          },
+          "artifact_type": {
+            "type": "string",
+            "description": "Class of artifact.",
+            "enum": [
+              "test_report",
+              "benchmark_result",
+              "audit_report",
+              "monitoring_export",
+              "dataset_scan_result",
+              "red_team_report",
+              "policy_document",
+              "schedule_record",
+              "model_card",
+              "sbom",
+              "other"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of what this artifact is and what it proves.",
+            "minLength": 5
+          },
+          "location": {
+            "type": "string",
+            "description": "URI, S3 path, or other stable locator for the artifact. Use internal URIs if the artifact is not publicly accessible.",
+            "minLength": 5
+          },
+          "hash": {
+            "type": "string",
+            "description": "Content hash of the artifact for integrity verification.",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "collected_at": {
+            "type": "string",
+            "description": "ISO 8601 date-time when this artifact was collected or produced.",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "obligation_links": {
+      "type": "array",
+      "description": "Regulatory or standards obligations this claim helps satisfy. Links the evidence directly to compliance obligations, enabling automated gap analysis.",
+      "items": {
+        "type": "object",
+        "required": ["obligation_instrument", "provision", "jurisdiction", "actor_role"],
+        "additionalProperties": false,
+        "properties": {
+          "obligation_instrument": {
+            "type": "string",
+            "description": "The regulatory instrument or standard. Use the framework keys from the AI Model Assurance Control Matrix where applicable.",
+            "examples": ["eu_ai_act", "sr262", "nist_rmf", "iso_42001", "aisvs", "llm10"]
+          },
+          "provision": {
+            "type": "string",
+            "description": "Specific provision, article, section, or clause.",
+            "examples": ["Article 9", "Section 3.2", "S-3.1", "MG-2.2"]
+          },
+          "jurisdiction": {
+            "type": "string",
+            "description": "Jurisdiction this obligation applies in.",
+            "examples": ["eu", "us", "us-banking", "global"]
+          },
+          "actor_role": {
+            "type": "string",
+            "description": "The actor role to which this obligation attaches for this claim.",
+            "enum": ["provider", "deployer", "importer", "distributor", "user", "operator", "developer", "authorised-representative"]
+          }
+        }
+      }
+    },
+    "assurance_target": {
+      "type": "object",
+      "description": "Identifies who and what this claim is about — the model, its deployment context, and use case.",
+      "required": ["model_provider", "model_id", "deployment_context", "use_case"],
+      "additionalProperties": false,
+      "properties": {
+        "model_provider": {
+          "type": "string",
+          "description": "Organization that trained or provides the model.",
+          "minLength": 1
+        },
+        "model_id": {
+          "type": "string",
+          "description": "Model identifier, version, or checkpoint hash. Must be stable and unambiguous.",
+          "minLength": 1
+        },
+        "deployment_context": {
+          "type": "string",
+          "description": "Where and how the model is deployed.",
+          "minLength": 3
+        },
+        "use_case": {
+          "type": "string",
+          "description": "The intended use case for which this claim applies.",
+          "minLength": 3
+        }
+      }
+    },
+    "tested_by": {
+      "type": "string",
+      "description": "Who performed the test. 'internal' means the deploying organization ran the test itself. 'independent-auditor' means a third party with no stake in the outcome. 'automated-pipeline' means a fully automated CI/CD or monitoring system.",
+      "enum": ["internal", "independent-auditor", "automated-pipeline"]
+    },
+    "tested_at": {
+      "type": "string",
+      "description": "ISO 8601 date-time when the test was performed or the observation period ended.",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "description": "ISO 8601 date-time when this claim must be re-validated. After this date the claim should be treated as expired and not relied on for compliance.",
+      "format": "date-time"
+    },
+    "decision": {
+      "type": "string",
+      "description": "The outcome of evaluating the observed result against the threshold. conditional-pass: passes with documented exceptions or compensating controls.",
+      "enum": ["pass", "fail", "inconclusive", "conditional-pass"]
+    },
+    "decision_rationale": {
+      "type": "string",
+      "description": "Explanation of why this decision was reached. Must reference the threshold and the observed result. For conditional-pass, must describe the conditions and compensating controls.",
+      "minLength": 10
+    },
+    "claim_version": {
+      "type": "string",
+      "description": "Version of this claim record. Increment when the claim is re-evaluated or updated.",
+      "examples": ["1.0.0", "1.1.0", "2.0.0"]
+    },
+    "produced_by": {
+      "type": "string",
+      "description": "Tool, system, or process that produced this claim record.",
+      "examples": ["modelverifier.ai", "apeiris-eval-pipeline-v2", "manual-audit-acme-2026"]
+    }
+  }
+}

@@ -84,7 +84,7 @@ const CITE_REF_RE     = /\[ref:([a-z][a-z0-9_]{0,31})\]/;
 /** runtime_test alternative: the item is explicitly flagged as unverified. */
 const UNVERIFIED_RE   = /\[unverified\]/;
 
-const SCHEMA_URI = 'https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json';
+const SCHEMA_URI = 'https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json';
 
 // Superseded source IDs that must never appear.
 const BANNED_SOURCE_IDS = new Set(['sr_11_7', 'sr11_7', 'sr_21_8', 'sr21_8']);

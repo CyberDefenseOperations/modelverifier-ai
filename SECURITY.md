@@ -8,7 +8,7 @@ This policy covers the security of **modelverifier.ai** — the AI Model & Syste
 
 ## Reporting a Vulnerability
 
-Send security reports to **security@apeiris.io**.
+Send security reports to **security@apeiris.ai**.
 
 Include:
 

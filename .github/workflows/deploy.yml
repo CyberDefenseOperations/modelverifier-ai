@@ -43,12 +43,7 @@ jobs:
         env:
           COMMIT_SHA: ${{ github.sha }}
           BUILD_DATE: ${{ github.event.head_commit.timestamp }}
-
-      - name: Sign release manifest
-        run: npm run sign:release-manifest
-        env:
-          MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
-          MANIFEST_REF_DATE: ${{ github.event.head_commit.timestamp }}
+          MODEL_VERIFIER_SIGNING_KEY: ${{ secrets.MODEL_VERIFIER_SIGNING_KEY }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -83,12 +78,7 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           BUILD_DATE: ${{ github.event.head_commit.timestamp }}
           NODE_ENV: production
-
-      - name: Sign release manifest (production)
-        run: npm run sign:release-manifest
-        env:
-          MANIFEST_SIGNING_KEY: ${{ secrets.MANIFEST_SIGNING_KEY }}
-          MANIFEST_REF_DATE: ${{ github.event.head_commit.timestamp }}
+          MODEL_VERIFIER_SIGNING_KEY: ${{ secrets.MODEL_VERIFIER_SIGNING_KEY }}
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
