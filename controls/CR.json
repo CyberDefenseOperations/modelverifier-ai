@@ -237,7 +237,7 @@
     "coverage_note": "Aggregates signals from BH-01, BH-02, BH-03, EV-05, EV-06, EV-07, TG-05. Cross-references OA-04 escalation paths. Feeds CR-02 evidence archive.",
     "obligations": [
       {
-        "id": "OB-CA-01-EU",
+        "id": "OB-CR-01-EU",
         "framework": "eu_ai_act",
         "article": "Art-72",
         "requirement_summary": "Providers of high-risk AI systems must operate a post-market monitoring plan that actively collects, documents, and analyses data on the performance of AI systems throughout their lifetime.",
@@ -252,7 +252,7 @@
         ]
       },
       {
-        "id": "OB-CA-01-SR",
+        "id": "OB-CR-01-SR",
         "framework": "sr262",
         "article": "S-5.1",
         "requirement_summary": "Ongoing monitoring must track model performance outcomes, input distributions, and material changes in the use environment. Results must be reviewed at a frequency commensurate with model risk.",
@@ -483,7 +483,7 @@
     "coverage_note": "Receives artifacts from all 53 other controls. Is cited as the primary evidence store by LI-01, LI-06, EV-01, EV-03, EV-08, OA-07, BH-01, BH-09. Feeds CR-05 regulatory submissions.",
     "obligations": [
       {
-        "id": "OB-CA-02-EU",
+        "id": "OB-CR-02-EU",
         "framework": "eu_ai_act",
         "article": "Art-12",
         "requirement_summary": "Providers of high-risk AI systems shall keep logs generated automatically by the AI system to the extent such logs are under their control, for a period appropriate to the intended purpose of the AI system.",
@@ -1001,7 +1001,7 @@
     "coverage_note": "Triggered by CR-04. Notification submissions archived in CR-02. For EU high-risk systems, links to LI-04 model card and EV-03 dangerous capability registry as potential attachments. Cross-references OA-05 (human oversight escalation) for incident narrative.",
     "obligations": [
       {
-        "id": "OB-CA-05-EU",
+        "id": "OB-CR-05-EU",
         "framework": "eu_ai_act",
         "article": "Art-73",
         "requirement_summary": "Providers of high-risk AI systems shall report any serious incident to the market surveillance authorities of the Member States where that incident occurred without undue delay and, in any event, immediately after the provider has established a causal link.",
@@ -1225,7 +1225,7 @@
     "coverage_note": "Complements CR-01 (runtime signals). Feeds CR-04 (incident response) and CR-05 (regulatory notifications). Annual surveillance summary feeds LI-04 (model card). Third-party research findings may trigger CR-03 (re-validation).",
     "obligations": [
       {
-        "id": "OB-CA-06-EU",
+        "id": "OB-CR-06-EU",
         "framework": "eu_ai_act",
         "article": "Art-72",
         "requirement_summary": "Providers of high-risk AI systems shall establish and document a post-market monitoring system that actively collects, documents, and analyses data on the performance of high-risk AI systems throughout their lifetime.",

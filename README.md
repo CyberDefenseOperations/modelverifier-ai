@@ -439,4 +439,4 @@ The following source versions are pinned at the time of initial authoring. Contr
 | ISO/IEC 42005:2025 | 2025 | 2025-05-01 | AI system impact assessment |
 | ISO/IEC 42001 | 2023 | 2023-12-18 | AI management system |
 | NIST AI RMF | 1.0 | 2023-01-26 | NIST AI 100-1 |
-| CSA AICM | 1.0.3 | 2024-06-01 | Cloud Security Alliance AI Controls Matrix |
+| CSA AICM | 1.1 | 2026-06-22 | Cloud Security Alliance AI Controls Matrix (247 control objectives, 18 domains) |

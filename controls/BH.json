@@ -2099,7 +2099,7 @@
       "current": "none",
       "target": "defined"
     },
-    "coverage_note": "Covers post-deployment feedback loop integrity for RLHF, RLAIF, and online learning. Training-time data poisoning is addressed in the DT layer. Drift driven by feedback loop effects is addressed in BH-02. This control was moved from the training lifecycle to the behavior layer because the threat surface is active and continuous during deployment.",
+    "coverage_note": "Covers post-deployment feedback loop integrity for RLHF, RLAIF, and online learning. Training-time data poisoning is addressed in the TG layer. Drift driven by feedback loop effects is addressed in BH-02. This control was moved from the training lifecycle to the behavior layer because the threat surface is active and continuous during deployment.",
     "canonical_id": "apeiris://model/controls/BH-10",
     "$schema": "https://schema.apeiris.io/model-assurance/v1/model-controls.schema.json",
     "monitoring_schema": {
