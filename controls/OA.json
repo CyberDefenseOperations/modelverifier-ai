@@ -2454,14 +2454,14 @@
         "authority": "OWASP",
         "title": "OWASP AI Security Verification Standard v1.0",
         "source_type": "certification-standard",
-        "url": "https://owasp.org/www-project-ai-security-and-privacy-guide/",
+        "url": "https://github.com/OWASP/AISVS",
         "license": "CC BY-SA 4.0",
-        "artifact_hash": null,
+        "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "unverified": true,
         "status": "current",
         "retrieved_on": "2026-06-26",
-        "normative_force": "voluntary",
-        "version": "1.0-pre"
+        "normative_force": "voluntary-standard",
+        "version": "1.0"
       },
       {
         "id": "nist_ai_rmf_1_0",

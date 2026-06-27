@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T16:22:24.554Z",
+      "generated_at": "2026-06-27T16:28:35.189Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:67631a05e1ce872602b35aa184c1a435fd5bacd08b6f3d1cff4e8c204d4073a3"
+      "content_hash": "sha256:65a1d3369138f6706d8045cbae83273c79e5d953cfcc7efcef5cdc7ba2c5b723"
     },
     "controls": [
       {
@@ -158,13 +158,15 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary",
+            "normative_force": "voluntary-standard",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
             "canonical_url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
             "license": "CC BY-SA 4.0",
-            "status": "current"
+            "status": "current",
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
+            "url": "https://github.com/OWASP/AISVS"
           }
         ],
         "implementation": {
@@ -508,13 +510,15 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary",
+            "normative_force": "voluntary-standard",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
             "canonical_url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
             "license": "CC BY-SA 4.0",
-            "status": "current"
+            "status": "current",
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
+            "url": "https://github.com/OWASP/AISVS"
           },
           {
             "id": "mitre_atlas_v5_6_0",
@@ -1559,13 +1563,15 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary",
+            "normative_force": "voluntary-standard",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
             "canonical_url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
             "license": "CC BY-SA 4.0",
-            "status": "current"
+            "status": "current",
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
+            "url": "https://github.com/OWASP/AISVS"
           }
         ],
         "implementation": {
@@ -2355,13 +2361,15 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary",
+            "normative_force": "voluntary-standard",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
             "canonical_url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
             "license": "CC BY-SA 4.0",
-            "status": "current"
+            "status": "current",
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
+            "url": "https://github.com/OWASP/AISVS"
           }
         ],
         "implementation": {
@@ -2686,13 +2694,15 @@
             "title": "OWASP AI Security Verification Standard v1.0",
             "authority": "Open Worldwide Application Security Project (OWASP)",
             "source_type": "voluntary-standard",
-            "normative_force": "voluntary",
+            "normative_force": "voluntary-standard",
             "version": "1.0",
             "published_on": "2026-06-24",
             "retrieved_on": "2026-06-26",
             "canonical_url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
             "license": "CC BY-SA 4.0",
-            "status": "current"
+            "status": "current",
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
+            "url": "https://github.com/OWASP/AISVS"
           },
           {
             "id": "csa_aicm_v1",
@@ -7887,14 +7897,14 @@
             "id": "owasp_aisvs_v1",
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
-            "url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
+            "url": "https://github.com/OWASP/AISVS",
             "source_type": "voluntary-standard",
             "license": "CC BY-SA 4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "supersedes": null,
             "status": "current",
-            "normative_force": "voluntary",
-            "version": "1.0-pre",
+            "normative_force": "voluntary-standard",
+            "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
           },
@@ -8572,14 +8582,14 @@
             "id": "owasp_aisvs_v1",
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
-            "url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
+            "url": "https://github.com/OWASP/AISVS",
             "source_type": "voluntary-standard",
             "license": "CC BY-SA 4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "supersedes": null,
             "status": "current",
-            "normative_force": "voluntary",
-            "version": "1.0-pre",
+            "normative_force": "voluntary-standard",
+            "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
           }
@@ -12719,14 +12729,14 @@
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
             "source_type": "certification-standard",
-            "url": "https://owasp.org/www-project-ai-security-and-privacy-guide/",
+            "url": "https://github.com/OWASP/AISVS",
             "license": "CC BY-SA 4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "unverified": true,
             "status": "current",
             "retrieved_on": "2026-06-26",
-            "normative_force": "voluntary",
-            "version": "1.0-pre"
+            "normative_force": "voluntary-standard",
+            "version": "1.0"
           },
           {
             "id": "nist_ai_rmf_1_0",
@@ -13111,13 +13121,13 @@
             "id": "owasp_aisvs_v1",
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
-            "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+            "url": "https://github.com/OWASP/AISVS",
             "source_type": "voluntary-standard",
             "license": "CC-BY-SA-4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary",
-            "version": "1.0-pre",
+            "normative_force": "voluntary-standard",
+            "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
           }
@@ -14317,13 +14327,13 @@
             "id": "owasp_aisvs_v1",
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
-            "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+            "url": "https://github.com/OWASP/AISVS",
             "source_type": "voluntary-standard",
             "license": "CC-BY-SA-4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary",
-            "version": "1.0-pre",
+            "normative_force": "voluntary-standard",
+            "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
           }
@@ -15071,13 +15081,13 @@
             "id": "owasp_aisvs_v1",
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
-            "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+            "url": "https://github.com/OWASP/AISVS",
             "source_type": "voluntary-standard",
             "license": "CC-BY-SA-4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary",
-            "version": "1.0-pre",
+            "normative_force": "voluntary-standard",
+            "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
           }
@@ -15387,13 +15397,13 @@
             "id": "owasp_aisvs_v1",
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
-            "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+            "url": "https://github.com/OWASP/AISVS",
             "source_type": "voluntary-standard",
             "license": "CC-BY-SA-4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary",
-            "version": "1.0-pre",
+            "normative_force": "voluntary-standard",
+            "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
           }
@@ -16476,13 +16486,13 @@
             "id": "owasp_aisvs_v1",
             "authority": "OWASP",
             "title": "OWASP AI Security Verification Standard v1.0",
-            "url": "https://github.com/OWASP/www-project-ai-security-and-privacy-guide",
+            "url": "https://github.com/OWASP/AISVS",
             "source_type": "voluntary-standard",
             "license": "CC-BY-SA-4.0",
-            "artifact_hash": null,
+            "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
             "status": "current",
-            "normative_force": "voluntary",
-            "version": "1.0-pre",
+            "normative_force": "voluntary-standard",
+            "version": "1.0",
             "published_on": "2026-06-26",
             "retrieved_on": "2026-06-26"
           }
@@ -20056,11 +20066,11 @@
         "title": "OWASP AI Security Verification Standard v1.0",
         "authority": "Open Worldwide Application Security Project (OWASP)",
         "source_type": "voluntary-standard",
-        "normative_force": "voluntary",
+        "normative_force": "voluntary-standard",
         "version": "1.0",
         "published_on": "2026-06-24",
         "retrieved_on": "2026-06-26",
-        "artifact_hash": null,
+        "artifact_hash": "git:f2bade20a5255a2f023e770784bd7b3cf1ebb599",
         "canonical_url": "https://github.com/OWASP/www-project-ai-security-verification-standard",
         "license": "CC BY-SA 4.0",
         "supersedes": null,

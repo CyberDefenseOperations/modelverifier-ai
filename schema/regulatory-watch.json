@@ -159,27 +159,27 @@
       "catalog_key": "aisvs",
       "name": "OWASP AI Security Verification Standard v1.0",
       "authority": "OWASP AI Security Verification Standard Project",
-      "current_version": "v1.0 (no formal release tag as of 2026-06-26)",
-      "published_on": null,
-      "last_checked": "2026-06-26",
+      "current_version": "v1.0",
+      "release_commit": "f2bade20a5255a2f023e770784bd7b3cf1ebb599",
+      "published_on": "2026-06-26",
+      "last_checked": "2026-06-27",
       "check_interval_days": 30,
       "official_url": "https://owasp.org/www-project-ai-security-verification-standard/",
       "github_releases_url": "https://api.github.com/repos/OWASP/AISVS/releases",
-      "status": "pre-release",
+      "status": "current",
       "watch_for": [
-        "AISVS v1.0 formal GitHub release tag (CRITICAL — updates source_status from pre-release to verified)",
-        "AISVS requirement ID changes between current repo state and final v1.0",
         "AISVS v1.1 or v2.0 announcements",
+        "AISVS requirement ID changes in a future release",
         "License clarification (CC BY-SA 4.0 compatibility with matrix CC BY-NC 4.0)"
       ],
-      "upcoming_milestones": [
+      "completed_milestones": [
         {
-          "date": null,
-          "event": "AISVS v1.0 formal release tag — expected but date unconfirmed",
-          "severity": "high",
-          "matrix_impact": "All aisvs framework mappings move from pre-release to verified status; existing C-IDs must be validated against released version"
+          "date": "2026-06-26",
+          "event": "AISVS v1.0 formally released — commit f2bade20a5255a2f023e770784bd7b3cf1ebb599",
+          "matrix_impact": "aisvs source_status updated to current; version updated from 1.0-pre to 1.0; normative_force updated to voluntary-standard; AISVS_COMMIT_HASH GitHub secret set"
         }
-      ]
+      ],
+      "upcoming_milestones": []
     },
     {
       "id": "csa_aicm",
