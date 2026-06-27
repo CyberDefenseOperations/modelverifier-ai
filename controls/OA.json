@@ -113,9 +113,9 @@
         "Verify annual review completion rate across all production models. [unverified]"
       ],
       "evidence": [
-        "artifact:model-ownership-register-extract-masked \u2014 Model ownership register extract (masked PII) showing 100% coverage of production models. [unverified]",
-        "artifact:deployment-pipeline-gate-logs-showing-bl \u2014 Deployment pipeline gate logs showing blocked deployments for missing ownership. [unverified]",
-        "artifact:governance-committee-minutes-showing-own \u2014 Governance committee minutes showing ownership review agenda items. [unverified]"
+        "model:model-ownership-register-extract-masked \u2014 Model ownership register extract (masked PII) showing 100% coverage of production models. [unverified]",
+        "model:deployment-pipeline-gate-logs-showing-bl \u2014 Deployment pipeline gate logs showing blocked deployments for missing ownership. [unverified]",
+        "model:governance-committee-minutes-showing-own \u2014 Governance committee minutes showing ownership review agenda items. [unverified]"
       ]
     },
     "lenses": {
@@ -512,10 +512,10 @@
         "Verify reviewer authority: confirm that override decisions propagate without requiring secondary approval that negates reviewer authority. [unverified]"
       ],
       "evidence": [
-        "artifact:five-factor-oversight-design-documents-f \u2014 Five-factor oversight design documents for each high-stakes use case. [unverified]",
-        "artifact:override-rate-time-series-for-past-12-mo \u2014 Override rate time series for past 12 months, by model and reviewer cohort. [unverified]",
-        "artifact:reviewer-training-completion-records-and \u2014 Reviewer training completion records and competence assessment results. [ref:eu_ai_act_2024]",
-        "artifact:automation-bias-simulation-exercise-resu \u2014 Automation bias simulation exercise results and trend analysis. [unverified]"
+        "model:five-factor-oversight-design-documents-f \u2014 Five-factor oversight design documents for each high-stakes use case. [unverified]",
+        "model:override-rate-time-series-for-past-12-mo \u2014 Override rate time series for past 12 months, by model and reviewer cohort. [unverified]",
+        "model:reviewer-training-completion-records-and \u2014 Reviewer training completion records and competence assessment results. [ref:eu_ai_act_2024]",
+        "model:automation-bias-simulation-exercise-resu \u2014 Automation bias simulation exercise results and trend analysis. [unverified]"
       ]
     },
     "lenses": {
@@ -856,10 +856,10 @@
         "Confirm minutes are retained in a document management system with access controls and audit trail. [unverified]"
       ],
       "evidence": [
-        "artifact:committee-charter-current-version-with \u2014 Committee charter (current version, with approval signature and date). [unverified]",
-        "artifact:meeting-minutes-for-preceding-12-month-p \u2014 Meeting minutes for preceding 12-month period. [unverified]",
-        "artifact:decision-log-showing-high-risk-model-app \u2014 Decision log showing high-risk model approvals and risk appetite decisions. [unverified]",
-        "artifact:membership-list-with-functional-affiliat \u2014 Membership list with functional affiliations. [unverified]"
+        "model:committee-charter-current-version-with \u2014 Committee charter (current version, with approval signature and date). [unverified]",
+        "model:meeting-minutes-for-preceding-12-month-p \u2014 Meeting minutes for preceding 12-month period. [unverified]",
+        "model:decision-log-showing-high-risk-model-app \u2014 Decision log showing high-risk model approvals and risk appetite decisions. [unverified]",
+        "model:membership-list-with-functional-affiliat \u2014 Membership list with functional affiliations. [unverified]"
       ]
     },
     "lenses": {
@@ -1135,10 +1135,10 @@
         "Check for tier-action scope mismatches: verify models are not observed taking actions outside their tier-permitted scope. [unverified]"
       ],
       "evidence": [
-        "artifact:model-register-extract-showing-tier-assi \u2014 Model register extract showing tier assignments for all production models. [unverified]",
-        "artifact:aigc-approval-records-for-tier-3-tier-a \u2014 AIGC approval records for Tier 3+ tier assignments. [unverified]",
-        "artifact:tier-escalation-change-control-records \u2014 Tier escalation change control records. [unverified]",
-        "artifact:tier-assignment-model-id-version-jso \u2014 tier_assignment_{model_id}_{version}.json artifacts consumed from Security Verifier domain. [unverified]"
+        "model:model-register-extract-showing-tier-assi \u2014 Model register extract showing tier assignments for all production models. [unverified]",
+        "model:aigc-approval-records-for-tier-3-tier-a \u2014 AIGC approval records for Tier 3+ tier assignments. [unverified]",
+        "model:tier-escalation-change-control-records \u2014 Tier escalation change control records. [unverified]",
+        "model:tier-assignment-model-id-version-jso \u2014 tier_assignment_{model_id}_{version}.json artifacts consumed from Security Verifier domain. [unverified]"
       ]
     },
     "lenses": {
@@ -1483,10 +1483,10 @@
         "Verify sign-off records are retained in the document management system with the required retention period. [unverified]"
       ],
       "evidence": [
-        "artifact:legal-sign-off-records-for-all-regulated \u2014 Legal sign-off records for all regulated-use models deployed in the past 12 months. [unverified]",
-        "artifact:eu-declaration-of-conformity-for-eu-high \u2014 EU Declaration of Conformity for eu-high-risk models. [ref:eu_ai_act_2024]",
-        "artifact:sr-26-2-validation-reports-for-banking-m \u2014 SR 26-2 validation reports for banking models. [ref:sr262_2026]",
-        "artifact:regulatory-applicability-matrix-current \u2014 Regulatory applicability matrix (current version). [unverified]"
+        "model:legal-sign-off-records-for-all-regulated \u2014 Legal sign-off records for all regulated-use models deployed in the past 12 months. [unverified]",
+        "model:eu-declaration-of-conformity-for-eu-high \u2014 EU Declaration of Conformity for eu-high-risk models. [ref:eu_ai_act_2024]",
+        "model:sr-26-2-validation-reports-for-banking-m \u2014 SR 26-2 validation reports for banking models. [ref:sr262_2026]",
+        "model:regulatory-applicability-matrix-current \u2014 Regulatory applicability matrix (current version). [unverified]"
       ]
     },
     "lenses": {
@@ -1746,10 +1746,10 @@
         "Simulate vendor incident notification: verify internal escalation path and response SLA. [unverified]"
       ],
       "evidence": [
-        "artifact:third-party-ai-model-inventory-current \u2014 Third-party AI model inventory (current). [unverified]",
-        "artifact:vendor-due-diligence-records-for-all-act \u2014 Vendor due diligence records for all active AI model vendors. [unverified]",
-        "artifact:contract-review-checklist-completion-rec \u2014 Contract review checklist completion records for vendor agreements. [unverified]",
-        "artifact:annual-vendor-risk-review-reports \u2014 Annual vendor risk review reports. [unverified]"
+        "model:third-party-ai-model-inventory-current \u2014 Third-party AI model inventory (current). [unverified]",
+        "model:vendor-due-diligence-records-for-all-act \u2014 Vendor due diligence records for all active AI model vendors. [unverified]",
+        "model:contract-review-checklist-completion-rec \u2014 Contract review checklist completion records for vendor agreements. [unverified]",
+        "model:annual-vendor-risk-review-reports \u2014 Annual vendor risk review reports. [unverified]"
       ]
     },
     "lenses": {
@@ -1867,7 +1867,7 @@
       {
         "framework": "aicm",
         "requirement_id": "STA-09",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "OA-06 applies systematic vendor governance to all third-party AI models and components \u2014 requiring risk-based due diligence before first use, contract terms mandating model change notification and audit rights, annual vendor risk reviews, and a documented substitution plan for critical vendors. This directly implements SUP-02's third-party AI model and vendor risk management program requirement by covering the full vendor lifecycle from intake due diligence through ongoing performance monitoring and exit planning.",
         "source_locator": {
@@ -1882,7 +1882,8 @@
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
-        "provisional": true
+        "provisional": true,
+        "uncovered_portion": "STA-09 additionally requires BOM documentation for cloud infrastructure, software dependencies, and third-party service components beyond AI model and dataset provenance."
       },
       {
         "framework": "owasp_aitg",
@@ -2012,10 +2013,10 @@
         "Verify escalation contact list is current \u2014 no departed employees or invalid contact information. [unverified]"
       ],
       "evidence": [
-        "artifact:escalation-authority-chain-document-cur \u2014 Escalation authority chain document (current version, with approval date). [unverified]",
-        "artifact:annual-tabletop-exercise-record-includi \u2014 Annual tabletop exercise record, including identified gaps and remediation actions. [unverified]",
-        "artifact:incident-post-mortem-records-showing-esc \u2014 Incident post-mortem records showing escalation chain adherence. [unverified]",
-        "artifact:regulatory-notification-log-if-any-noti \u2014 Regulatory notification log (if any notifications were required in the past 12 months). [unverified]"
+        "model:escalation-authority-chain-document-cur \u2014 Escalation authority chain document (current version, with approval date). [unverified]",
+        "model:annual-tabletop-exercise-record-includi \u2014 Annual tabletop exercise record, including identified gaps and remediation actions. [unverified]",
+        "model:incident-post-mortem-records-showing-esc \u2014 Incident post-mortem records showing escalation chain adherence. [unverified]",
+        "model:regulatory-notification-log-if-any-noti \u2014 Regulatory notification log (if any notifications were required in the past 12 months). [unverified]"
       ]
     },
     "lenses": {
@@ -2525,11 +2526,11 @@
         "Audit human review requests; verify reviewers had authority and information to change outcomes. [ref:eu_ai_act_2024]"
       ],
       "evidence": [
-        "artifact:applicability-determination-log-for-all \u2014 Applicability determination log for all production use cases. [unverified]",
-        "artifact:explanation-mechanism-validation-test-re \u2014 Explanation mechanism validation test results. [unverified]",
-        "artifact:contestability-process-documentation-and \u2014 Contestability process documentation and response timeline compliance records. [ref:eu_ai_act_2024]",
-        "artifact:sample-of-adverse-action-notices-or-equi \u2014 Sample of adverse action notices or equivalent disclosure documents (redacted). [unverified]",
-        "artifact:human-review-access-log-showing-request \u2014 Human review access log showing request volume, outcomes, and reviewer qualification. [unverified]"
+        "model:applicability-determination-log-for-all \u2014 Applicability determination log for all production use cases. [unverified]",
+        "model:explanation-mechanism-validation-test-re \u2014 Explanation mechanism validation test results. [unverified]",
+        "model:contestability-process-documentation-and \u2014 Contestability process documentation and response timeline compliance records. [ref:eu_ai_act_2024]",
+        "model:sample-of-adverse-action-notices-or-equi \u2014 Sample of adverse action notices or equivalent disclosure documents (redacted). [unverified]",
+        "model:human-review-access-log-showing-request \u2014 Human review access log showing request volume, outcomes, and reviewer qualification. [unverified]"
       ]
     },
     "lenses": {

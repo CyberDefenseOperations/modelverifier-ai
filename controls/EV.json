@@ -185,10 +185,10 @@
         "{'test': 'Confirm that evaluation manifests appear in the tamper-evident log and that log integrity verification (inclusion proof) passes for each manifest.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:signed-evaluation-manifest-for-each-prod \u2014 Signed evaluation manifest for each production model version, stored in the tamper-evident log. [ref:iso_42001_2023]",
-        "artifact:pipeline-execution-logs-showing-the-eval \u2014 Pipeline execution logs showing the evaluation gate blocking a promotion attempt when the manifest is absent or invalid. [unverified]",
-        "artifact:dual-approval-records-linking-named-appr \u2014 Dual-approval records linking named approver identities to specific evaluation manifest hashes. [ref:sr262_2026]",
-        "artifact:exception-log-documenting-any-gate-bypas \u2014 Exception log documenting any gate bypass approvals with named risk-accepter, rationale, and time-bound remediation commitment. [ref:sr262_2026]"
+        "model:signed-evaluation-manifest-for-each-prod \u2014 Signed evaluation manifest for each production model version, stored in the tamper-evident log. [ref:iso_42001_2023]",
+        "model:pipeline-execution-logs-showing-the-eval \u2014 Pipeline execution logs showing the evaluation gate blocking a promotion attempt when the manifest is absent or invalid. [unverified]",
+        "model:dual-approval-records-linking-named-appr \u2014 Dual-approval records linking named approver identities to specific evaluation manifest hashes. [ref:sr262_2026]",
+        "model:exception-log-documenting-any-gate-bypas \u2014 Exception log documenting any gate bypass approvals with named risk-accepter, rationale, and time-bound remediation commitment. [ref:sr262_2026]"
       ]
     },
     "lenses": {
@@ -456,10 +456,10 @@
         "{'test': 'Confirm that dimension-level results are recorded independently and that a safety dimension failure cannot be overridden by fitness dimension pass.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:pre-specified-evaluation-protocol-docume \u2014 Pre-specified evaluation protocol document with per-dimension thresholds, signed before evaluation execution. [ref:iso_42001_2023]",
-        "artifact:dimension-level-evaluation-results-linke \u2014 Dimension-level evaluation results linked to the model artifact hash and evaluation suite version. [ref:nist_ai_rmf_1_0]",
-        "artifact:dataset-provenance-records-confirming-tr \u2014 Dataset provenance records confirming training-evaluation disjointness. [ref:iso_42001_2023]",
-        "artifact:risk-acceptance-records-for-any-dimensio \u2014 Risk-acceptance records for any dimension threshold trade-off decisions. [ref:eu_ai_act_2024]"
+        "model:pre-specified-evaluation-protocol-docume \u2014 Pre-specified evaluation protocol document with per-dimension thresholds, signed before evaluation execution. [ref:iso_42001_2023]",
+        "model:dimension-level-evaluation-results-linke \u2014 Dimension-level evaluation results linked to the model artifact hash and evaluation suite version. [ref:nist_ai_rmf_1_0]",
+        "model:dataset-provenance-records-confirming-tr \u2014 Dataset provenance records confirming training-evaluation disjointness. [ref:iso_42001_2023]",
+        "model:risk-acceptance-records-for-any-dimensio \u2014 Risk-acceptance records for any dimension threshold trade-off decisions. [ref:eu_ai_act_2024]"
       ]
     },
     "lenses": {
@@ -792,10 +792,10 @@
         "{'test': 'For a model with a known above-threshold synthetic capability indicator: verify that the assessment process correctly classifies it and blocks deployment.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:scoping-determination-record-for-each-ev \u2014 Scoping determination record for each evaluated model, referencing the applicable threshold framework. [ref:anthropic_rsp_v3_3]",
-        "artifact:capability-elicitation-results-per-domai \u2014 Capability elicitation results per domain with methodology documentation, evaluator identities, and threshold comparison. [ref:anthropic_rsp_v3_3]",
-        "artifact:safety-committee-review-and-deployment-a \u2014 Safety committee review and deployment authorization record for models evaluated as below threshold. [unverified]",
-        "artifact:for-eu-scope-gpai-models-systemic-risk \u2014 For EU-scope GPAI models: systemic risk classification record per EU AI Act Art. 51. [ref:eu_ai_act_2024]"
+        "model:scoping-determination-record-for-each-ev \u2014 Scoping determination record for each evaluated model, referencing the applicable threshold framework. [ref:anthropic_rsp_v3_3]",
+        "model:capability-elicitation-results-per-domai \u2014 Capability elicitation results per domain with methodology documentation, evaluator identities, and threshold comparison. [ref:anthropic_rsp_v3_3]",
+        "model:safety-committee-review-and-deployment-a \u2014 Safety committee review and deployment authorization record for models evaluated as below threshold. [unverified]",
+        "model:for-eu-scope-gpai-models-systemic-risk \u2014 For EU-scope GPAI models: systemic risk classification record per EU AI Act Art. 51. [ref:eu_ai_act_2024]"
       ]
     },
     "capability_risk": {
@@ -1128,11 +1128,11 @@
         "{'test': 'For a model with a known exploitable failure mode: confirm the red-team exercise correctly identifies and documents it.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:signed-red-team-scope-and-threat-model-d \u2014 Signed red-team scope and threat model document, version-controlled, approved before exercise. [ref:nist_ai_rmf_1_0]",
-        "artifact:red-team-findings-log-with-severity-clas \u2014 Red-team findings log with severity classifications, reproduction steps, affected populations, and remediation status. [ref:owasp_aisvs_v1]",
-        "artifact:signed-red-team-report-with-residual-ris \u2014 Signed red-team report with residual risk statement, linked to the model artifact hash. [ref:nist_ai_rmf_1_0]",
-        "artifact:evidence-of-remediation-for-all-critical \u2014 Evidence of remediation for all critical and high findings, including re-test results. [unverified]",
-        "artifact:for-frontier-capability-profile-escalat \u2014 For frontier-capability profile: escalation records for any capability elicited that approaches threshold levels. [ref:mitre_atlas_v5_6_0]"
+        "model:signed-red-team-scope-and-threat-model-d \u2014 Signed red-team scope and threat model document, version-controlled, approved before exercise. [ref:nist_ai_rmf_1_0]",
+        "model:red-team-findings-log-with-severity-clas \u2014 Red-team findings log with severity classifications, reproduction steps, affected populations, and remediation status. [ref:owasp_aisvs_v1]",
+        "model:signed-red-team-report-with-residual-ris \u2014 Signed red-team report with residual risk statement, linked to the model artifact hash. [ref:nist_ai_rmf_1_0]",
+        "model:evidence-of-remediation-for-all-critical \u2014 Evidence of remediation for all critical and high findings, including re-test results. [unverified]",
+        "model:for-frontier-capability-profile-escalat \u2014 For frontier-capability profile: escalation records for any capability elicited that approaches threshold levels. [ref:mitre_atlas_v5_6_0]"
       ]
     },
     "lenses": {
@@ -1466,11 +1466,11 @@
         "{'test': 'Confirm that evaluation data for each population group is disjoint from training data.', 'ref': 'iso_42001_2023'} [ref:iso_42001_2023]"
       ],
       "evidence": [
-        "artifact:fairness-evaluation-protocol-document-wi \u2014 Fairness evaluation protocol document with pre-specified populations, harms, metrics, rationale, legal basis, and thresholds. [ref:eu_ai_act_2024]",
-        "artifact:disaggregated-evaluation-results-per-pop \u2014 Disaggregated evaluation results per population group and harm type, linked to model artifact hash. [ref:nist_ai_rmf_1_0]",
-        "artifact:trade-off-decision-record-with-explicit \u2014 Trade-off decision record with explicit rationale and risk-acceptance sign-off. [unverified]",
-        "artifact:legal-review-record-for-deployments-invo \u2014 Legal review record for deployments involving legally protected characteristics. [ref:eu_ai_act_2024]",
-        "artifact:iso-42005-2025-impact-assessment-record \u2014 ISO 42005:2025 impact assessment record for high-impact-decision and eu-high-risk profiles. [ref:iso_42005_2025]"
+        "model:fairness-evaluation-protocol-document-wi \u2014 Fairness evaluation protocol document with pre-specified populations, harms, metrics, rationale, legal basis, and thresholds. [ref:eu_ai_act_2024]",
+        "model:disaggregated-evaluation-results-per-pop \u2014 Disaggregated evaluation results per population group and harm type, linked to model artifact hash. [ref:nist_ai_rmf_1_0]",
+        "model:trade-off-decision-record-with-explicit \u2014 Trade-off decision record with explicit rationale and risk-acceptance sign-off. [unverified]",
+        "model:legal-review-record-for-deployments-invo \u2014 Legal review record for deployments involving legally protected characteristics. [ref:eu_ai_act_2024]",
+        "model:iso-42005-2025-impact-assessment-record \u2014 ISO 42005:2025 impact assessment record for high-impact-decision and eu-high-risk profiles. [ref:iso_42005_2025]"
       ]
     },
     "lenses": {
@@ -1784,11 +1784,11 @@
         "{'test': 'Confirm that contamination screening results are present for each benchmark and that contaminated benchmarks are absent from the final evaluation suite.', 'ref': 'nist_ai_600_1'} [ref:nist_ai_600_1]"
       ],
       "evidence": [
-        "artifact:version-controlled-signed-benchmark-sel \u2014 Version-controlled, signed benchmark selection document with pre-specified selection criteria. [ref:nist_ai_rmf_1_0]",
-        "artifact:contamination-screening-report-documenti \u2014 Contamination screening report documenting methodology, training corpus reference, and benchmark-level results. [ref:nist_ai_600_1]",
-        "artifact:evaluation-design-document-capturing-all \u2014 Evaluation design document capturing all reproduction parameters, version-controlled and signed. [ref:iso_42001_2023]",
-        "artifact:independent-reproduction-run-results-wit \u2014 Independent reproduction run results within tolerance, confirming design document sufficiency. [unverified]",
-        "artifact:signed-evaluation-artifacts-scripts-da \u2014 Signed evaluation artifacts (scripts, datasets, results) with hashes recorded in the evaluation manifest. [unverified]"
+        "model:version-controlled-signed-benchmark-sel \u2014 Version-controlled, signed benchmark selection document with pre-specified selection criteria. [ref:nist_ai_rmf_1_0]",
+        "model:contamination-screening-report-documenti \u2014 Contamination screening report documenting methodology, training corpus reference, and benchmark-level results. [ref:nist_ai_600_1]",
+        "model:evaluation-design-document-capturing-all \u2014 Evaluation design document capturing all reproduction parameters, version-controlled and signed. [ref:iso_42001_2023]",
+        "model:independent-reproduction-run-results-wit \u2014 Independent reproduction run results within tolerance, confirming design document sufficiency. [unverified]",
+        "model:signed-evaluation-artifacts-scripts-da \u2014 Signed evaluation artifacts (scripts, datasets, results) with hashes recorded in the evaluation manifest. [unverified]"
       ]
     },
     "lenses": {
@@ -2212,11 +2212,11 @@
         "{'test': 'Confirm that sampling (if used for capability metrics) meets the defined minimum coverage threshold and is documented consistently.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:versioned-regression-evaluation-suite-ar \u2014 Versioned regression evaluation suite artifact with signed hash. [ref:iso_42001_2023]",
-        "artifact:signed-regression-manifests-for-each-upd \u2014 Signed regression manifests for each update event, linked to updated artifact hash, baseline artifact hash, and regression suite version. [ref:nist_ai_rmf_1_0]",
-        "artifact:signed-baseline-evaluation-results-for-e \u2014 Signed baseline evaluation results for each production model version. [ref:sr262_2026]",
-        "artifact:blocking-records-for-any-regression-find \u2014 Blocking records for any regression finding, including root-cause analysis for safety regressions. [unverified]",
-        "artifact:risk-acceptance-records-for-sub-threshol \u2014 Risk-acceptance records for sub-threshold capability regression findings with time-bound remediation commitments. [ref:sr262_2026]"
+        "model:versioned-regression-evaluation-suite-ar \u2014 Versioned regression evaluation suite artifact with signed hash. [ref:iso_42001_2023]",
+        "model:signed-regression-manifests-for-each-upd \u2014 Signed regression manifests for each update event, linked to updated artifact hash, baseline artifact hash, and regression suite version. [ref:nist_ai_rmf_1_0]",
+        "model:signed-baseline-evaluation-results-for-e \u2014 Signed baseline evaluation results for each production model version. [ref:sr262_2026]",
+        "model:blocking-records-for-any-regression-find \u2014 Blocking records for any regression finding, including root-cause analysis for safety regressions. [unverified]",
+        "model:risk-acceptance-records-for-sub-threshol \u2014 Risk-acceptance records for sub-threshold capability regression findings with time-bound remediation commitments. [ref:sr262_2026]"
       ]
     },
     "lenses": {
@@ -2593,11 +2593,11 @@
         "{'test': 'Confirm that validator identity in the evaluation manifest can be independently verified (e.g., via PKI certificate or directory lookup).', 'ref': 'sr262_2026'} [ref:sr262_2026]"
       ],
       "evidence": [
-        "artifact:organizational-chart-and-reporting-struc \u2014 Organizational chart and reporting structure documentation confirming validator independence from development function. [ref:sr262_2026]",
-        "artifact:validation-function-authority-policy-doc \u2014 Validation function authority policy document, version-controlled and approved by governance committee. [ref:sr262_2026]",
-        "artifact:evaluation-manifests-with-named-attribu \u2014 Evaluation manifests with named, attributed validator approvals distinct from development team lead. [ref:nist_ai_rmf_1_0]",
-        "artifact:validation-dispute-log-if-any-confirmi \u2014 Validation dispute log (if any) confirming escalation to governance committee. [unverified]",
-        "artifact:annual-independence-structure-review-doc \u2014 Annual independence structure review documentation for us-regulated-banking profile. [ref:sr262_2026]"
+        "model:organizational-chart-and-reporting-struc \u2014 Organizational chart and reporting structure documentation confirming validator independence from development function. [ref:sr262_2026]",
+        "model:validation-function-authority-policy-doc \u2014 Validation function authority policy document, version-controlled and approved by governance committee. [ref:sr262_2026]",
+        "model:evaluation-manifests-with-named-attribu \u2014 Evaluation manifests with named, attributed validator approvals distinct from development team lead. [ref:nist_ai_rmf_1_0]",
+        "model:validation-dispute-log-if-any-confirmi \u2014 Validation dispute log (if any) confirming escalation to governance committee. [unverified]",
+        "model:annual-independence-structure-review-doc \u2014 Annual independence structure review documentation for us-regulated-banking profile. [ref:sr262_2026]"
       ]
     },
     "lenses": {
@@ -2959,10 +2959,10 @@
         "{'test': 'Confirm that a change to use case scope triggers a classification review notification in the model registry.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:signed-classification-record-for-each-mo \u2014 Signed classification record for each model system, containing EU AI Act classification, SR 26-2 tier (where applicable), capability tier, profiles, and obligations inventory. [ref:eu_ai_act_2024]",
-        "artifact:classification-questionnaire-responses-a \u2014 Classification questionnaire responses and rationale documentation, version-controlled. [ref:iso_42001_2023]",
-        "artifact:classification-review-records-for-all-re \u2014 Classification review records for all re-classification events, documenting the trigger, prior classification, new classification, and rationale. [ref:sr262_2026]",
-        "artifact:iso-42005-2025-impact-assessment-for-hig \u2014 ISO 42005:2025 impact assessment for high-impact-decision and eu-high-risk profile systems. [ref:iso_42005_2025]"
+        "model:signed-classification-record-for-each-mo \u2014 Signed classification record for each model system, containing EU AI Act classification, SR 26-2 tier (where applicable), capability tier, profiles, and obligations inventory. [ref:eu_ai_act_2024]",
+        "model:classification-questionnaire-responses-a \u2014 Classification questionnaire responses and rationale documentation, version-controlled. [ref:iso_42001_2023]",
+        "model:classification-review-records-for-all-re \u2014 Classification review records for all re-classification events, documenting the trigger, prior classification, new classification, and rationale. [ref:sr262_2026]",
+        "model:iso-42005-2025-impact-assessment-for-hig \u2014 ISO 42005:2025 impact assessment for high-impact-decision and eu-high-risk profile systems. [ref:iso_42005_2025]"
       ]
     },
     "lenses": {
@@ -3235,11 +3235,11 @@
         "{'test': 'Confirm that signer identity in evaluation result artifacts can be independently verified via PKI or equivalent directory lookup.', 'ref': 'sr262_2026'} [ref:sr262_2026]"
       ],
       "evidence": [
-        "artifact:signed-content-addressed-evaluation-res \u2014 Signed, content-addressed evaluation result artifacts for each evaluation run, stored in the tamper-evident log with inclusion proofs. [ref:iso_42001_2023]",
-        "artifact:provenance-chain-traversal-records-demon \u2014 Provenance chain traversal records demonstrating machine-verifiable linkage from model artifact to deployment decision for each production model version. [ref:nist_ai_rmf_1_0]",
-        "artifact:tamper-evident-log-integrity-verificatio \u2014 Tamper-evident log integrity verification records (inclusion proofs) for all evaluation result submissions. [unverified]",
-        "artifact:retention-compliance-records-confirming \u2014 Retention compliance records confirming artifact availability for the required retention period. [ref:eu_ai_act_2024]",
-        "artifact:for-eu-high-risk-profile-record-keeping \u2014 For eu-high-risk profile: record-keeping compliance assessment per EU AI Act Art. 12 and Art. 18. [ref:eu_ai_act_2024]"
+        "model:signed-content-addressed-evaluation-res \u2014 Signed, content-addressed evaluation result artifacts for each evaluation run, stored in the tamper-evident log with inclusion proofs. [ref:iso_42001_2023]",
+        "model:provenance-chain-traversal-records-demon \u2014 Provenance chain traversal records demonstrating machine-verifiable linkage from model artifact to deployment decision for each production model version. [ref:nist_ai_rmf_1_0]",
+        "model:tamper-evident-log-integrity-verificatio \u2014 Tamper-evident log integrity verification records (inclusion proofs) for all evaluation result submissions. [unverified]",
+        "model:retention-compliance-records-confirming \u2014 Retention compliance records confirming artifact availability for the required retention period. [ref:eu_ai_act_2024]",
+        "model:for-eu-high-risk-profile-record-keeping \u2014 For eu-high-risk profile: record-keeping compliance assessment per EU AI Act Art. 12 and Art. 18. [ref:eu_ai_act_2024]"
       ]
     },
     "lenses": {

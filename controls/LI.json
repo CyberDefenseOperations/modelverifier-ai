@@ -1346,7 +1346,7 @@
       {
         "framework": "iso_42001",
         "requirement_id": "A.6.2",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "ISO/IEC 42001:2023 A.6.2 requires documented records of AI system design and development decisions. A complete, versioned model card linked to the artifact hash satisfies A.6.2 by providing a structured, retrievable development record.",
         "source_locator": {
@@ -1361,7 +1361,8 @@
         "control_readiness": "approved",
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
-        "evidence_status": "no-evidence"
+        "evidence_status": "no-evidence",
+        "uncovered_portion": "A.6.2 additionally addresses documentation governance, document control procedures, version approval workflows, and distribution controls beyond model card content requirements."
       },
       {
         "framework": "mitre",
@@ -1692,7 +1693,7 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-DG-01",
-        "fit": "direct",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
         "rationale": "LI-05 creates a structured pointer from the model registry entry to the authoritative TG-layer dataset record, directly satisfying the AITG-DG-01 Data Governance Testing requirement that the provenance and lineage of training data used by a model be documented and traceable from the model artifact to its data sources.",
         "source_locator": {
@@ -3263,7 +3264,7 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-03",
-        "fit": "direct",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
         "rationale": "LI-09 establishes system-level composite identity covering the model artifact, system prompt, RAG corpus, and tool integrations, and defines a change-authorization process for any material alteration \u2014 directly implementing the AITG-IR-03 Incident Response Testing requirement that the system configuration at the time of any incident be uniquely identifiable and reconstructable for post-incident analysis.",
         "source_locator": {

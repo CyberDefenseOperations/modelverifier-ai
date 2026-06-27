@@ -288,7 +288,7 @@ The 10 supported framework keys used in `frameworks[].framework`:
 | `mitre` | MITRE ATLAS v5.6.0 |
 | `owasp_aitg` | OWASP AI Testing Guide v1 (pre-release; mapping_confidence: medium) |
 
-Every control must have at least one mapping to `nist_rmf` and one to `iso_42001`. The `audit:mappings` step validates all requirement IDs against `schema/framework-mapping-catalog.json`. As of the v1.0 release, all 6 layers — including BH and CR — achieve this with 0 build warnings.
+Every control must have at least one mapping to `nist_rmf` and one to `iso_42001`. The `audit:mappings` step validates all requirement IDs against `schema/framework-mapping-catalog.json`. The step passes with 0 errors and 1 warning (AISVS_COMMIT_HASH env pin — requires the `AISVS_COMMIT_HASH` GitHub Actions secret to be set; see CONTRIBUTING.md §8.7).
 
 **Framework-specific conventions:**
 

@@ -207,9 +207,9 @@
         "{'test': 'Inject low-amplitude persistent shift (0.5 sigma over 6 hours) and verify EWMA detects it.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "artifact:baseline-distribution-artifact-with-vers \u2014 Baseline distribution artifact with version, timestamp, and statistical parameters for current production model. [ref:nist_ai_rmf_1_0]",
-        "artifact:spc-alert-log-for-trailing-90-days-with \u2014 SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification. [unverified]",
-        "artifact:quarterly-threshold-review-sign-off-from \u2014 Quarterly threshold review sign-off from model owner. [ref:iso_42001_2023]"
+        "model:baseline-distribution-artifact-with-vers \u2014 Baseline distribution artifact with version, timestamp, and statistical parameters for current production model. [ref:nist_ai_rmf_1_0]",
+        "model:spc-alert-log-for-trailing-90-days-with \u2014 SPC alert log for trailing 90 days with alert count, resolution time, and outcome classification. [unverified]",
+        "model:quarterly-threshold-review-sign-off-from \u2014 Quarterly threshold review sign-off from model owner. [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
@@ -625,9 +625,9 @@
         "{'test': 'Confirm DriftReference artifact hash is validated on load before any comparison proceeds.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:driftreference-artifact-for-current-prod \u2014 DriftReference artifact for current production model with version, training date, and per-feature statistics. [ref:nist_ai_rmf_1_0]",
-        "artifact:drift-event-log-for-trailing-90-days-wit \u2014 Drift event log for trailing 90 days with per-feature statistics and action-taken records. [ref:sr262_2026]",
-        "artifact:monthly-drift-summary-report-signed-by-m \u2014 Monthly drift summary report signed by model owner. [ref:iso_42001_2023]"
+        "model:driftreference-artifact-for-current-prod \u2014 DriftReference artifact for current production model with version, training date, and per-feature statistics. [ref:nist_ai_rmf_1_0]",
+        "model:drift-event-log-for-trailing-90-days-wit \u2014 Drift event log for trailing 90 days with per-feature statistics and action-taken records. [ref:sr262_2026]",
+        "model:monthly-drift-summary-report-signed-by-m \u2014 Monthly drift summary report signed by model owner. [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
@@ -692,7 +692,7 @@
       {
         "framework": "aicm",
         "requirement_id": "MDS-10",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact, applying profile-conditional thresholds and triggering model review workflows when distribution shift exceeds safe bounds \u2014 directly implementing MON-02's production data and concept drift detection requirement. The control's separate handling of feature drift versus prediction drift, and its stricter thresholds for continuously-learning models, give MON-02 the granularity needed to distinguish different categories of distributional change and their risk implications.",
         "source_locator": {
@@ -707,7 +707,8 @@
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
-        "provisional": true
+        "provisional": true,
+        "uncovered_portion": "MDS-10 additionally requires ongoing security event correlation, adversarial input monitoring, and model artifact integrity checks beyond the scope of this control."
       },
       {
         "framework": "owasp_aitg",
@@ -1022,9 +1023,9 @@
         "{'test': 'Confirm subgroup regression alerts fire independently of aggregate metric alerts.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:evaluationbaseline-artifact-for-current \u2014 EvaluationBaseline artifact for current production model version. [ref:nist_ai_rmf_1_0]",
-        "artifact:alert-log-for-trailing-90-days-with-root \u2014 Alert log for trailing 90 days with root cause and remediation records. [ref:sr262_2026]",
-        "artifact:quarterly-threshold-review-sign-off-by-m \u2014 Quarterly threshold review sign-off by model owner. [ref:iso_42001_2023]"
+        "model:evaluationbaseline-artifact-for-current \u2014 EvaluationBaseline artifact for current production model version. [ref:nist_ai_rmf_1_0]",
+        "model:alert-log-for-trailing-90-days-with-root \u2014 Alert log for trailing 90 days with root cause and remediation records. [ref:sr262_2026]",
+        "model:quarterly-threshold-review-sign-off-by-m \u2014 Quarterly threshold review sign-off by model owner. [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
@@ -1335,9 +1336,9 @@
         "{'test': 'Verify probe inputs are not accessible via any public API or logging endpoint.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "artifact:boundarytestsuite-artifact-with-version \u2014 BoundaryTestSuite artifact with version and review date. [ref:nist_ai_rmf_1_0]",
-        "artifact:boundaryadherencerate-time-series-for-tr \u2014 BoundaryAdherenceRate time-series for trailing 90 days per boundary category. [ref:iso_42001_2023]",
-        "artifact:cross-domain-alert-log-showing-securityc \u2014 Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops. [unverified]"
+        "model:boundarytestsuite-artifact-with-version \u2014 BoundaryTestSuite artifact with version and review date. [ref:nist_ai_rmf_1_0]",
+        "model:boundaryadherencerate-time-series-for-tr \u2014 BoundaryAdherenceRate time-series for trailing 90 days per boundary category. [ref:iso_42001_2023]",
+        "model:cross-domain-alert-log-showing-securityc \u2014 Cross-domain alert log showing securitycontrols.ai notifications for boundary adherence drops. [unverified]"
       ]
     },
     "lenses": {
@@ -1801,10 +1802,10 @@
         "{'test': 'Verify caller_id resolves to human-readable identity; no raw auth tokens in logs.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "artifact:decisionlog-schema-documentation-with-fi \u2014 DecisionLog schema documentation with field definitions and masking policy. [ref:nist_ai_rmf_1_0]",
-        "artifact:privacy-review-sign-off-confirming-no-di \u2014 Privacy review sign-off confirming no direct PII in stored logs. [ref:eu_ai_act_2024]",
-        "artifact:retention-policy-configuration-and-autom \u2014 Retention policy configuration and automated deletion audit log. [ref:iso_42001_2023]",
-        "artifact:daily-merkle-root-hash-publication-log-f \u2014 Daily Merkle root hash publication log for trailing 90 days. [unverified]"
+        "model:decisionlog-schema-documentation-with-fi \u2014 DecisionLog schema documentation with field definitions and masking policy. [ref:nist_ai_rmf_1_0]",
+        "model:privacy-review-sign-off-confirming-no-di \u2014 Privacy review sign-off confirming no direct PII in stored logs. [ref:eu_ai_act_2024]",
+        "model:retention-policy-configuration-and-autom \u2014 Retention policy configuration and automated deletion audit log. [ref:iso_42001_2023]",
+        "model:daily-merkle-root-hash-publication-log-f \u2014 Daily Merkle root hash publication log for trailing 90 days. [unverified]"
       ]
     },
     "lenses": {
@@ -2091,10 +2092,10 @@
         "{'test': 'Verify probe runs do not appear in operational traffic metrics (probe identity correctly filtered).', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:injectionprobelibrary-artifact-with-vers \u2014 InjectionProbeLibrary artifact with version, category coverage, and last review date. [ref:mitre_atlas_v5_6_0]",
-        "artifact:injectionresistancescore-time-series-for \u2014 InjectionResistanceScore time-series for trailing 90 days per attack category. [ref:owasp_llm10_2025]",
-        "artifact:cross-domain-alert-log-showing-securityc \u2014 Cross-domain alert log showing securitycontrols.ai notifications. [unverified]",
-        "artifact:monthly-injectionresistancescore-trend-r \u2014 Monthly InjectionResistanceScore trend report to governance board. [ref:nist_ai_rmf_1_0]"
+        "model:injectionprobelibrary-artifact-with-vers \u2014 InjectionProbeLibrary artifact with version, category coverage, and last review date. [ref:mitre_atlas_v5_6_0]",
+        "model:injectionresistancescore-time-series-for \u2014 InjectionResistanceScore time-series for trailing 90 days per attack category. [ref:owasp_llm10_2025]",
+        "model:cross-domain-alert-log-showing-securityc \u2014 Cross-domain alert log showing securitycontrols.ai notifications. [unverified]",
+        "model:monthly-injectionresistancescore-trend-r \u2014 Monthly InjectionResistanceScore trend report to governance board. [ref:nist_ai_rmf_1_0]"
       ]
     },
     "lenses": {
@@ -2491,9 +2492,9 @@
         "{'test': 'Confirm cost spikes correlated with high call volume (potential AML.T0024 pattern) are routed to securitycontrols.ai.', 'ref': 'atlas_v560'} [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "artifact:costevent-time-series-for-trailing-90-da \u2014 CostEvent time-series for trailing 90 days with per-caller attribution. [ref:nist_ai_rmf_1_0]",
-        "artifact:alert-log-for-cost-anomalies-with-root-c \u2014 Alert log for cost anomalies with root cause and resolution records. [unverified]",
-        "artifact:budget-cap-configuration-document-review \u2014 Budget cap configuration document reviewed by finance operations and model owner. [unverified]"
+        "model:costevent-time-series-for-trailing-90-da \u2014 CostEvent time-series for trailing 90 days with per-caller attribution. [ref:nist_ai_rmf_1_0]",
+        "model:alert-log-for-cost-anomalies-with-root-c \u2014 Alert log for cost anomalies with root cause and resolution records. [unverified]",
+        "model:budget-cap-configuration-document-review \u2014 Budget cap configuration document reviewed by finance operations and model owner. [unverified]"
       ]
     },
     "lenses": {
@@ -2753,10 +2754,10 @@
         "{'test': 'Confirm shadow comparison report is generated and stored before any canary authorization gate is presented.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:deploymentgovernancelog-for-all-producti \u2014 DeploymentGovernanceLog for all production deployments in trailing 12 months. [ref:sr262_2026]",
-        "artifact:signed-authorization-artifacts-for-each \u2014 Signed authorization artifacts for each canary deployment. [ref:iso_42001_2023]",
-        "artifact:shadow-comparison-reports-with-output-di \u2014 Shadow comparison reports with output divergence metrics for each deployment. [ref:nist_ai_rmf_1_0]",
-        "artifact:rollback-event-log-with-trigger-conditio \u2014 Rollback event log with trigger condition and resolution time. [unverified]"
+        "model:deploymentgovernancelog-for-all-producti \u2014 DeploymentGovernanceLog for all production deployments in trailing 12 months. [ref:sr262_2026]",
+        "model:signed-authorization-artifacts-for-each \u2014 Signed authorization artifacts for each canary deployment. [ref:iso_42001_2023]",
+        "model:shadow-comparison-reports-with-output-di \u2014 Shadow comparison reports with output divergence metrics for each deployment. [ref:nist_ai_rmf_1_0]",
+        "model:rollback-event-log-with-trigger-conditio \u2014 Rollback event log with trigger condition and resolution time. [unverified]"
       ]
     },
     "lenses": {
@@ -2840,7 +2841,7 @@
       {
         "framework": "aicm",
         "requirement_id": "DSP-08",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-08 requires signed authorization artifacts from both the model owner and evaluation team lead before any new model version receives live production traffic, implements a four-stage pipeline with pre-defined health gates and automated rollback triggers, and archives all transition records in a DeploymentGovernanceLog \u2014 directly implementing DP-01's AI model deployment gates, canary release governance, and rollback controls requirement. The shadow scoring comparison requirement, which demands less than 5% output divergence on safety-critical categories before canary authorization, provides the pre-traffic quantitative gate that DP-01 requires.",
         "source_locator": {
@@ -2855,7 +2856,8 @@
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
-        "provisional": true
+        "provisional": true,
+        "uncovered_portion": "DSP-08 additionally covers privacy engineering practices for application interfaces, access controls on personal data, and privacy-by-default configuration across the full data lifecycle."
       },
       {
         "framework": "owasp_aitg",
@@ -3188,10 +3190,10 @@
         "{'test': 'Attempt to remove the C2PA manifest from a generated image and verify the verification endpoint detects tampering.', 'ref': 'c2pa_spec_v2'} [ref:c2pa_spec_v2]"
       ],
       "evidence": [
-        "artifact:c2pa-signing-certificate-and-rotation-sc \u2014 C2PA signing certificate and rotation schedule documentation. [ref:c2pa_spec_v2]",
-        "artifact:generationtraceabilityregistry-sample-au \u2014 GenerationTraceabilityRegistry sample audit for trailing 90 days. [ref:nist_ai_100_4]",
-        "artifact:quarterly-c2pa-manifest-integrity-audit \u2014 Quarterly C2PA manifest integrity audit report. [ref:c2pa_spec_v2]",
-        "artifact:eu-ai-act-art-50-compliance-mapping-doc \u2014 EU AI Act Art. 50 compliance mapping document. [ref:eu_ai_act_2024]"
+        "model:c2pa-signing-certificate-and-rotation-sc \u2014 C2PA signing certificate and rotation schedule documentation. [ref:c2pa_spec_v2]",
+        "model:generationtraceabilityregistry-sample-au \u2014 GenerationTraceabilityRegistry sample audit for trailing 90 days. [ref:nist_ai_100_4]",
+        "model:quarterly-c2pa-manifest-integrity-audit \u2014 Quarterly C2PA manifest integrity audit report. [ref:c2pa_spec_v2]",
+        "model:eu-ai-act-art-50-compliance-mapping-doc \u2014 EU AI Act Art. 50 compliance mapping document. [ref:eu_ai_act_2024]"
       ]
     },
     "lenses": {
@@ -3280,7 +3282,7 @@
       {
         "framework": "aicm",
         "requirement_id": "DSP-20",
-        "fit": "direct",
+        "fit": "partial",
         "direction": "control-supports-requirement",
         "rationale": "BH-09 embeds C2PA-compliant cryptographic provenance assertions in all AI-generated content artifacts, maintains a GenerationTraceabilityRegistry linking every output to the generating model version with a provenance verification endpoint, and applies mandatory disclosure labels to satisfy EU AI Act Art. 50 \u2014 directly implementing TE-02's AI-generated content provenance, disclosure labeling, and traceability requirement. The quarterly manifest integrity audits and certificate rotation schedule provide the ongoing assurance that the cryptographic provenance chain remains valid over the content lifecycle.",
         "source_locator": {
@@ -3295,7 +3297,8 @@
         "implementation_maturity": "developing",
         "assurance_result": "not-assessed",
         "evidence_status": "no-evidence",
-        "provisional": true
+        "provisional": true,
+        "uncovered_portion": "DSP-20 additionally covers data provenance for input datasets, third-party data origin attestation, and lineage documentation requirements beyond AI-generated output provenance."
       },
       {
         "framework": "owasp_aitg",
@@ -3507,11 +3510,11 @@
         "{'test': 'Simulate self-reinforcing error pattern (output-to-label correlation exceeding threshold) and verify circuit breaker suspends online learning.', 'unverified': True} [unverified]"
       ],
       "evidence": [
-        "artifact:feedbackgovernancelog-for-trailing-90-da \u2014 FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags. [ref:nist_ai_rmf_1_0]",
-        "artifact:signed-authorization-artifacts-for-all-o \u2014 Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days. [ref:iso_42001_2023]",
-        "artifact:artifact-irr-cohen-s-kappa-time-s \u2014 {'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
-        "artifact:feedback-poisoning-detection-alert-log-f \u2014 Feedback poisoning detection alert log for trailing 90 days. [ref:mitre_atlas_v5_6_0]",
-        "artifact:reward-model-health-report-showing-rewar \u2014 Reward model health report showing reward score distribution vs. training-time baseline. [ref:nist_ai_rmf_1_0]"
+        "model:feedbackgovernancelog-for-trailing-90-da \u2014 FeedbackGovernanceLog for trailing 90 days with labeler quality metrics and anomaly flags. [ref:nist_ai_rmf_1_0]",
+        "model:signed-authorization-artifacts-for-all-o \u2014 Signed authorization artifacts for all online learning updates applied to production models in trailing 90 days. [ref:iso_42001_2023]",
+        "model:artifact-irr-cohen-s-kappa-time-s \u2014 {'artifact': \"IRR (Cohen's Kappa) time-series for RLHF labeler pool.\", 'unverified': True} [unverified]",
+        "model:feedback-poisoning-detection-alert-log-f \u2014 Feedback poisoning detection alert log for trailing 90 days. [ref:mitre_atlas_v5_6_0]",
+        "model:reward-model-health-report-showing-rewar \u2014 Reward model health report showing reward score distribution vs. training-time baseline. [ref:nist_ai_rmf_1_0]"
       ]
     },
     "lenses": {

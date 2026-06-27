@@ -512,6 +512,33 @@ Control records are stored as JSON arrays in `controls/<LAYER>.json`. Each file 
 
 The `$schema` field at the top of each control object must reference `https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json`. This enables IDE validation via the schema file at `schema/model-controls.schema.json`.
 
+### 8.6 Evidence Entry Format
+
+`validation.evidence[]` entries must use the `type:name — description` format. The type prefix identifies the artifact category:
+
+| Prefix | Use for |
+|---|---|
+| `model:` | Model-assurance artifacts (evaluation reports, drift logs, model cards, performance metrics, registry entries) |
+| `doc:` | Policy documents, written procedures, signed attestations |
+| `log:` | System logs, audit trails, event records |
+| `test:` | Test results, red team reports, penetration test outputs |
+| `config:` | Configuration files, deployment manifests, access control settings |
+
+Example: `model:drift-report — Drift detection report for trailing 90 days with alert count and resolution time [unverified]`
+
+The `audit:mappings` step warns if evidence entries use the generic `artifact:` prefix instead of a specific type.
+
+### 8.7 AISVS Source Pinning
+
+The `audit:mappings` step checks for the `AISVS_COMMIT_HASH` environment variable. Set this to the 40-character git SHA of the OWASP AISVS repository commit from which the AISVS control IDs were authored. In CI, add to the workflow's `env:` block:
+
+```yaml
+env:
+  AISVS_COMMIT_HASH: ${{ secrets.AISVS_COMMIT_HASH }}
+```
+
+Store the commit SHA as a GitHub Actions secret. To find the current SHA: visit the AISVS GitHub repository, navigate to the v1.0 content, and copy the full commit hash from the commit history. Without this variable, `audit:mappings` emits a warning but does not fail.
+
 ### 8.5 Schema Files
 
 Do not edit `schema/model-controls.schema.json` or `schema/model-assurance-extension.schema.json` in a control contribution PR. Schema changes require a separate PR, a migration plan for any controls that become invalid, and explicit sign-off.
