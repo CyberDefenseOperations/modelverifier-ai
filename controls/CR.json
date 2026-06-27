@@ -42,8 +42,8 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -56,8 +56,8 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -86,9 +86,9 @@
     "implementation": {
       "pattern": "Instrument all production inference endpoints with structured metric emission. Route metrics to a time-series store. Define alert thresholds per metric type. Maintain a risk-aggregation dashboard that combines performance, drift, fairness, safety, and incident signals into a single risk score updated on each operational window (typically ≤24h).",
       "steps": [
-        "Define metric taxonomy: performance (accuracy, latency, error rate), drift (PSI, KL-divergence on inputs), fairness (demographic parity delta), safety (refusal rate, toxicity flag rate), cost (inference cost per request) [ref:nist_rmf_100_1]",
+        "Define metric taxonomy: performance (accuracy, latency, error rate), drift (PSI, KL-divergence on inputs), fairness (demographic parity delta), safety (refusal rate, toxicity flag rate), cost (inference cost per request) [ref:nist_ai_rmf_1_0]",
         "Instrument all serving endpoints with OpenTelemetry or equivalent to emit structured metric events at inference time",
-        "Configure time-series retention: 90-day hot store, 3-year cold archive minimum for regulated contexts [ref:sr_26_2]",
+        "Configure time-series retention: 90-day hot store, 3-year cold archive minimum for regulated contexts [ref:sr262_2026]",
         "Implement alert rules: performance metric outside baseline ±2σ triggers P2 alert; fairness delta >0.05 triggers P1; safety metric exceeds threshold triggers immediate escalation [ref:eu_ai_act_2024]",
         "Build aggregated risk dashboard combining all metric streams into a composite risk score; expose via read-only API to GRC consumers",
         "Test alert routing with synthetic anomaly injection quarterly; document test results as evidence artifact"
@@ -102,12 +102,12 @@
     },
     "validation": {
       "design_check": [
-        "Verify metric taxonomy covers all five types: performance, drift, fairness, safety, cost [ref:nist_rmf_100_1]",
-        "Confirm alert thresholds are documented with rationale and signed by model owner [ref:sr_26_2]",
-        "Confirm risk dashboard is accessible to GRC function with read-only access [ref:nist_rmf_100_1]"
+        "Verify metric taxonomy covers all five types: performance, drift, fairness, safety, cost [ref:nist_ai_rmf_1_0]",
+        "Confirm alert thresholds are documented with rationale and signed by model owner [ref:sr262_2026]",
+        "Confirm risk dashboard is accessible to GRC function with read-only access [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
-        "Inject synthetic drift event; confirm P2 alert fires within one operational window [ref:nist_rmf_100_1]",
+        "Inject synthetic drift event; confirm P2 alert fires within one operational window [ref:nist_ai_rmf_1_0]",
         "Inject synthetic fairness violation; confirm P1 alert fires and escalation path is triggered [ref:eu_ai_act_2024]",
         "Verify cold-archive retrieval for a 24-month-old metric batch completes within SLA [unverified]"
       ],
@@ -495,8 +495,8 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -526,9 +526,9 @@
       "pattern": "Generate a content-addressed SHA-256 manifest for every evaluation artifact, monitoring snapshot, and incident record at creation time. Anchor the manifest hash to a transparency log (Sigstore Rekor or equivalent). Store the full artifact in append-only cold storage. Expose a read-only evidence retrieval API. Retention schedule: 3 years minimum; 10 years for regulated banking contexts.",
       "steps": [
         "Define evidence artifact types: evaluation-manifest, monitoring-snapshot, incident-record, regulatory-submission, model-card-version [ref:eu_ai_act_2024]",
-        "For each artifact at creation, compute artifact_hash = sha256:<64-hex> over the canonical JSON serialization (sorted keys, no trailing whitespace) [ref:nist_rmf_100_1]",
+        "For each artifact at creation, compute artifact_hash = sha256:<64-hex> over the canonical JSON serialization (sorted keys, no trailing whitespace) [ref:nist_ai_rmf_1_0]",
         "Anchor artifact_hash to Sigstore Rekor transparency log; store the rekor_log_entry_uuid alongside the artifact [ref:sigstore_rekor]",
-        "Write artifact and metadata to append-only object storage (S3 Object Lock COMPLIANCE mode or equivalent); no delete permission for any IAM role [ref:sr_26_2]",
+        "Write artifact and metadata to append-only object storage (S3 Object Lock COMPLIANCE mode or equivalent); no delete permission for any IAM role [ref:sr262_2026]",
         "Index artifacts in a queryable metadata store (artifact_id, control_ids[], date_range, audit_tags[]) for retrieval",
         "Implement evidence retrieval API: GET /evidence/{evidence_id} returns artifact + metadata + rekor proof; available to auditors with read-only credentials",
         "Test retrieval of 3-year-old artifact annually; document test result as a CR-02 runtime_test evidence item"
@@ -542,9 +542,9 @@
     },
     "validation": {
       "design_check": [
-        "Confirm object storage is configured with Object Lock in COMPLIANCE mode or equivalent; no IAM role can delete [ref:sr_26_2]",
+        "Confirm object storage is configured with Object Lock in COMPLIANCE mode or equivalent; no IAM role can delete [ref:sr262_2026]",
         "Verify Sigstore Rekor anchoring is implemented for all artifact types [ref:sigstore_rekor]",
-        "Confirm retention schedule is documented: 3-year default, 10-year for SR 26-2 banking contexts [ref:sr_26_2]"
+        "Confirm retention schedule is documented: 3-year default, 10-year for SR 26-2 banking contexts [ref:sr262_2026]"
       ],
       "runtime_test": [
         "Attempt to delete an archived artifact; confirm the operation is rejected [ref:eu_ai_act_2024]",
@@ -859,8 +859,8 @@
     ],
     "sources": [
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -887,8 +887,8 @@
         "flagship": true
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Nist Rmf 100 1",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "retrieved_on": "2026-06-26",
         "normative_force": "voluntary",
@@ -902,7 +902,7 @@
     "implementation": {
       "pattern": "Define re-validation cadences by model risk tier: Tier 1 (frontier/high-impact) quarterly, Tier 2 (standard predictive) semi-annually, Tier 3 (low-risk) annually. Re-validation runs the full evaluation suite from EV-01 through EV-10. Results are archived via CR-02. Trigger unscheduled re-validation on: CR-01 P1 alert, significant input distribution shift (PSI >0.25), or provider-announced model update.",
       "steps": [
-        "Assign each deployed model a risk tier (1/2/3) in the assurance target registry; document tier rationale [ref:sr_26_2]",
+        "Assign each deployed model a risk tier (1/2/3) in the assurance target registry; document tier rationale [ref:sr262_2026]",
         "Schedule automated re-validation pipeline runs at cadence determined by tier; pipeline is identical to pre-deployment evaluation suite",
         "Re-validation results compared to baseline evaluation results; delta report generated and signed",
         "Delta report archived in CR-02 evidence archive; if any metric degrades beyond threshold, trigger CR-04 incident response [ref:eu_ai_act_2024]",
@@ -918,13 +918,13 @@
     },
     "validation": {
       "design_check": [
-        "Confirm risk tier assignments exist for all deployed models in the assurance target registry [ref:sr_26_2]",
-        "Verify re-validation pipeline is identical to pre-deployment evaluation pipeline (same benchmark suite, same datasets) [ref:nist_rmf_100_1]",
+        "Confirm risk tier assignments exist for all deployed models in the assurance target registry [ref:sr262_2026]",
+        "Verify re-validation pipeline is identical to pre-deployment evaluation pipeline (same benchmark suite, same datasets) [ref:nist_ai_rmf_1_0]",
         "Confirm EU high-risk models have a documented conformity re-assessment trigger for substantial modifications [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
-        "Trigger an unscheduled re-validation via CR-01 P1 alert simulation; confirm pipeline executes within 24h [ref:sr_26_2]",
-        "Review last 4 re-validation reports for a Tier-1 model; confirm all were completed within quarterly cadence [ref:sr_26_2]",
+        "Trigger an unscheduled re-validation via CR-01 P1 alert simulation; confirm pipeline executes within 24h [ref:sr262_2026]",
+        "Review last 4 re-validation reports for a Tier-1 model; confirm all were completed within quarterly cadence [ref:sr262_2026]",
         "Verify delta report is automatically archived in CR-02 and retrievable [unverified]"
       ],
       "evidence": [
@@ -1233,8 +1233,8 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1247,8 +1247,8 @@
         "status": "current"
       },
       {
-        "id": "mitre_atlas_5_6",
-        "title": "MITRE ATLAS — Adversarial Threat Landscape for Artificial-Intelligence Systems v5.6.0",
+        "id": "mitre_atlas_v5_6_0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "normative_force": "informative",
@@ -1260,8 +1260,8 @@
         "status": "current"
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Nist Rmf 100 1",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "retrieved_on": "2026-06-26",
         "normative_force": "voluntary",
@@ -1276,10 +1276,10 @@
       "pattern": "Maintain an AI Incident Response Plan (AIRP) as a versioned document. Define 4 severity levels (P1: immediate user harm or regulatory trigger; P2: threshold breach without confirmed user harm; P3: anomaly with investigation required; P4: informational). Define containment playbooks for: model rollback, traffic shaping, output filtering override, full model shutdown. Run tabletop exercises quarterly. Integrate with CR-05 for regulatory notification triggers.",
       "steps": [
         "Draft AI Incident Response Plan with severity classification criteria, escalation contacts, and notification timelines [ref:eu_ai_act_2024]",
-        "Define containment playbooks specific to AI model incidents: (1) rollback to prior version via LI-06, (2) output-filter enforcement via BH-10, (3) traffic shaping to reduce exposure, (4) full model shutdown with fallback path [ref:sr_26_2]",
+        "Define containment playbooks specific to AI model incidents: (1) rollback to prior version via LI-06, (2) output-filter enforcement via BH-10, (3) traffic shaping to reduce exposure, (4) full model shutdown with fallback path [ref:sr262_2026]",
         "Map severity levels to regulatory notification triggers: P1 events that meet EU AI Act Art. 73 'serious incident' definition trigger CR-05 within 15 days [ref:eu_ai_act_2024]",
-        "Establish post-incident review process: 5-day post-incident report for P1/P2, covering root cause, impact scope, timeline, and remediation [ref:nist_rmf_100_1]",
-        "Test AIRP via tabletop exercise quarterly using MITRE ATLAS adversarial scenario cards; document exercise results [ref:mitre_atlas_5_6]",
+        "Establish post-incident review process: 5-day post-incident report for P1/P2, covering root cause, impact scope, timeline, and remediation [ref:nist_ai_rmf_1_0]",
+        "Test AIRP via tabletop exercise quarterly using MITRE ATLAS adversarial scenario cards; document exercise results [ref:mitre_atlas_v5_6_0]",
         "Archive all incident records, post-incident reports, and exercise results in CR-02 evidence archive"
       ],
       "anti_patterns": [
@@ -1291,13 +1291,13 @@
     },
     "validation": {
       "design_check": [
-        "Confirm AI Incident Response Plan exists as a versioned, reviewed document [ref:nist_rmf_100_1]",
-        "Verify containment playbooks cover all four options: rollback, filtering, traffic shaping, shutdown [ref:sr_26_2]",
+        "Confirm AI Incident Response Plan exists as a versioned, reviewed document [ref:nist_ai_rmf_1_0]",
+        "Verify containment playbooks cover all four options: rollback, filtering, traffic shaping, shutdown [ref:sr262_2026]",
         "Confirm EU Art. 73 notification trigger is documented with <15-day timeline for serious incidents [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
-        "Execute tabletop exercise using AML.T0020 (Poison Training Data) scenario; verify containment playbook execution and notification timeline [ref:mitre_atlas_5_6]",
-        "Review last 12 months of incident records; confirm all P1/P2 events have 5-day post-incident reports [ref:sr_26_2]",
+        "Execute tabletop exercise using AML.T0020 (Poison Training Data) scenario; verify containment playbook execution and notification timeline [ref:mitre_atlas_v5_6_0]",
+        "Review last 12 months of incident records; confirm all P1/P2 events have 5-day post-incident reports [ref:sr262_2026]",
         "Simulate a P1 severity event in staging; confirm CR-05 notification workflow is triggered [unverified]"
       ],
       "evidence": [
@@ -1554,8 +1554,8 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1573,7 +1573,7 @@
       "steps": [
         "Build regulatory notification matrix: columns = jurisdiction, authority, trigger_event, timeline_days, liaison_contact, template_ref [ref:eu_ai_act_2024]",
         "EU high-risk systems: map Art. 73 'serious incident' criteria to CR-04 severity classification; P1 with user harm or rights impact triggers <15-day notification [ref:eu_ai_act_2024]",
-        "US banking: map SR 26-2 S-6.1 board reporting cadence (quarterly minimum, immediate for material events) to CR-04 escalation [ref:sr_26_2]",
+        "US banking: map SR 26-2 S-6.1 board reporting cadence (quarterly minimum, immediate for material events) to CR-04 escalation [ref:sr262_2026]",
         "Pre-draft notification templates for each regulatory authority; have templates reviewed by legal counsel annually",
         "Automate notification task creation in CR-04 workflow for P1 events meeting notification criteria; assign countdown timer; page regulatory liaison",
         "Archive notification submission, delivery confirmation, and any regulatory response in CR-02 with artifact_hash"
@@ -1588,12 +1588,12 @@
     "validation": {
       "design_check": [
         "Confirm regulatory notification matrix covers all jurisdictions in which the system is deployed [ref:eu_ai_act_2024]",
-        "Verify legal counsel has reviewed notification triggers and timelines in last 12 months [ref:sr_26_2]",
+        "Verify legal counsel has reviewed notification triggers and timelines in last 12 months [ref:sr262_2026]",
         "Confirm notification workflow is integrated into CR-04 P1 escalation path [ref:eu_ai_act_2024]"
       ],
       "runtime_test": [
         "Simulate a P1 incident in the EU jurisdiction; verify Art. 73 notification task is created with 15-day countdown [ref:eu_ai_act_2024]",
-        "Review all notification records in CR-02 for last 12 months; confirm delivery confirmations are present [ref:sr_26_2]",
+        "Review all notification records in CR-02 for last 12 months; confirm delivery confirmations are present [ref:sr262_2026]",
         "Confirm notification matrix was updated within 30 days of EU AI Act Art. 50 effective date (August 2026) [unverified]"
       ],
       "evidence": [
@@ -1866,8 +1866,8 @@
         "status": "current"
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -1884,7 +1884,7 @@
       "pattern": "Establish three surveillance channels: (1) in-product user feedback mechanism for harm/error reporting; (2) coordinated vulnerability disclosure (CVD) program with security.txt and a responsible disclosure policy; (3) quarterly literature and media monitoring for third-party findings on your model or similar systems. Aggregate all signals into a monthly surveillance report reviewed by the AI risk function.",
       "steps": [
         "Deploy user-facing harm reporting mechanism: in-app feedback form with structured fields (harm_type, severity_self_assessed, description); store in CR-02 archive [ref:eu_ai_act_2024]",
-        "Publish coordinated vulnerability disclosure policy at /security.txt and a dedicated CVD page; designate a security email alias with monitored inbox [ref:nist_rmf_100_1]",
+        "Publish coordinated vulnerability disclosure policy at /security.txt and a dedicated CVD page; designate a security email alias with monitored inbox [ref:nist_ai_rmf_1_0]",
         "Establish quarterly AI research literature monitoring process: assign analyst to review arXiv, CVE, AI safety publications for findings relevant to deployed models",
         "Aggregate user reports, CVD submissions, and literature findings into a monthly post-market surveillance report",
         "Monthly report reviewed by AI risk function; any item meeting P1/P2 severity criteria triggers CR-04 incident response",
@@ -1900,12 +1900,12 @@
     "validation": {
       "design_check": [
         "Confirm user-facing harm reporting mechanism is deployed and accessible [ref:eu_ai_act_2024]",
-        "Verify CVD policy is published and security email is monitored [ref:nist_rmf_100_1]",
-        "Confirm monthly surveillance report process is documented with designated owner [ref:nist_rmf_100_1]"
+        "Verify CVD policy is published and security email is monitored [ref:nist_ai_rmf_1_0]",
+        "Confirm monthly surveillance report process is documented with designated owner [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
         "Submit a test harm report via the user feedback mechanism; verify it is archived in CR-02 within 24h [ref:eu_ai_act_2024]",
-        "Submit a test CVD disclosure via the security email; verify acknowledgement is received within 5 business days [ref:nist_rmf_100_1]",
+        "Submit a test CVD disclosure via the security email; verify acknowledgement is received within 5 business days [ref:nist_ai_rmf_1_0]",
         "Review last 12 monthly surveillance reports; confirm consistent production and review sign-off [unverified]"
       ],
       "evidence": [
@@ -2233,8 +2233,8 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -2247,8 +2247,8 @@
         "status": "current"
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Nist Rmf 100 1",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "retrieved_on": "2026-06-26",
         "normative_force": "voluntary",
@@ -2262,11 +2262,11 @@
     "implementation": {
       "pattern": "Retirement checklist driven by a signed retirement decision record. Steps: (1) announce retirement with notice period (≥30 days for external users); (2) drain traffic; (3) revoke all API credentials; (4) decommission serving infrastructure; (5) confirm evidence archive completeness; (6) move all CR-02 artifacts to long-term cold archive; (7) produce final retirement record. GDPR Art. 17 right-to-erasure compliance for any training data linked to the retired model must be evaluated at retirement.",
       "steps": [
-        "Designate model for retirement; obtain approval from model owner and AI risk function; produce signed retirement decision record [ref:nist_rmf_100_1]",
+        "Designate model for retirement; obtain approval from model owner and AI risk function; produce signed retirement decision record [ref:nist_ai_rmf_1_0]",
         "Issue retirement notice to affected users/deployers with ≥30-day notice period and migration path documentation",
         "Execute traffic drain: route traffic to successor model or return 410 Gone; verify zero traffic on retired endpoint for 7 days before decommission",
         "Revoke all API keys, service accounts, and OAuth credentials associated with the retired model; audit IAM for orphaned permissions",
-        "Decommission serving infrastructure: destroy VM/container images, delete endpoints, remove DNS records [ref:sr_26_2]",
+        "Decommission serving infrastructure: destroy VM/container images, delete endpoints, remove DNS records [ref:sr262_2026]",
         "Verify CR-02 evidence archive completeness: all evaluation manifests, monitoring snapshots, and incident records are archived",
         "Execute GDPR Art. 17 evaluation: identify any personal data in training set; verify right-to-erasure obligations are satisfied or document lawful retention basis [ref:eu_ai_act_2024]",
         "Produce final retirement record archived in CR-02 with artifact_hash; mark model as 'retired' in model registry (LI-01)"
@@ -2280,13 +2280,13 @@
     },
     "validation": {
       "design_check": [
-        "Confirm retirement checklist exists as a documented, version-controlled process [ref:nist_rmf_100_1]",
+        "Confirm retirement checklist exists as a documented, version-controlled process [ref:nist_ai_rmf_1_0]",
         "Verify GDPR Art. 17 evaluation step is included in the retirement checklist [ref:eu_ai_act_2024]",
-        "Confirm long-term archive tier is configured for retired model evidence (10-year retention for banking) [ref:sr_26_2]"
+        "Confirm long-term archive tier is configured for retired model evidence (10-year retention for banking) [ref:sr262_2026]"
       ],
       "runtime_test": [
-        "Review last 3 model retirements; confirm each has a signed retirement decision record and final retirement record in CR-02 [ref:sr_26_2]",
-        "Verify that a retired model's API credentials are not resolvable after retirement [ref:nist_rmf_100_1]",
+        "Review last 3 model retirements; confirm each has a signed retirement decision record and final retirement record in CR-02 [ref:sr262_2026]",
+        "Verify that a retired model's API credentials are not resolvable after retirement [ref:nist_ai_rmf_1_0]",
         "Confirm a retired model's CR-02 evidence is accessible 12 months after retirement [unverified]"
       ],
       "evidence": [
@@ -2537,8 +2537,8 @@
         "status": "current"
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -2555,7 +2555,7 @@
       "pattern": "At build time, the audit:cross-domain check (audit-mappings.mjs) resolves all apeiris:// URIs against the namespace-registry.json resolver_map. At audit time, cross-domain evidence references are resolved to their canonical HTTP URLs or flagged as unresolved. Maintain a cross-domain dependency map (model→security, model→privacy) updated when any control gains a cross-domain reference. Gap 3 is tracked as an open finding until a dedicated cross-domain federation protocol is implemented.",
       "steps": [
         "Enumerate all cross_domain.references[] fields across all 54 controls; build a dependency map (source_control → target_domain → target_control) [ref:apeiris_thesis]",
-        "For each apeiris:// URI, resolve against namespace-registry.json resolver_map; any URI with no resolver entry must be flagged as unresolved and documented as a gap finding [ref:nist_rmf_100_1]",
+        "For each apeiris:// URI, resolve against namespace-registry.json resolver_map; any URI with no resolver entry must be flagged as unresolved and documented as a gap finding [ref:nist_ai_rmf_1_0]",
         "Establish a quarterly cross-domain sync review: model-domain owners and security-domain owners review mutual evidence references for staleness",
         "For gap3 (cross-domain assurance federation): document compensating measures — all cross-domain references in BH-04 and BH-06 are additionally verified by the security-domain owner at each quarterly sync",
         "As new Apeiris domains are added, run namespace-registry.json update before adding cross_domain.references[] in controls",
@@ -2571,12 +2571,12 @@
     "validation": {
       "design_check": [
         "Confirm namespace-registry.json resolver_map has entries for all domains referenced in cross_domain.references[] fields [ref:apeiris_thesis]",
-        "Verify audit:cross-domain check runs in CI and fails on unresolved URIs that are not documented as gap findings [ref:nist_rmf_100_1]",
-        "Confirm cross-domain dependency map is produced as a release manifest artifact [ref:nist_rmf_100_1]"
+        "Verify audit:cross-domain check runs in CI and fails on unresolved URIs that are not documented as gap findings [ref:nist_ai_rmf_1_0]",
+        "Confirm cross-domain dependency map is produced as a release manifest artifact [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
         "Add a deliberate unregistered apeiris:// URI to a test control; confirm audit:cross-domain check fails [ref:apeiris_thesis]",
-        "Review last quarterly cross-domain sync record; confirm both model-domain and security-domain owners signed off [ref:nist_rmf_100_1]",
+        "Review last quarterly cross-domain sync record; confirm both model-domain and security-domain owners signed off [ref:nist_ai_rmf_1_0]",
         "Verify gap3 is documented as an open finding in the release manifest with compensating control reference (this control, CR-08) [unverified]"
       ],
       "evidence": [

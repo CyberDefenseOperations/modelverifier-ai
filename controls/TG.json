@@ -21,8 +21,8 @@
     ],
     "sources": [
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -48,7 +48,7 @@
         "flagship": true
       },
       {
-        "id": "nist_ai_rmf",
+        "id": "nist_ai_rmf_1_0",
         "title": "NIST AI Risk Management Framework 1.0",
         "authority": "NIST",
         "source_type": "voluntary-standard",
@@ -81,19 +81,19 @@
     },
     "validation": {
       "design_check": [
-        "Schema registry exists and is versioned; all training datasets reference a schema entry. [ref:iso42001]",
+        "Schema registry exists and is versioned; all training datasets reference a schema entry. [ref:iso_42001_2023]",
         "Quality gate is a hard blocker in the training pipeline with cryptographic attestation output. [ref:eu_ai_act_art10]",
-        "Completeness thresholds are documented per dataset and reviewed at least annually. [ref:nist_ai_rmf]"
+        "Completeness thresholds are documented per dataset and reviewed at least annually. [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
-        "Inject a dataset with 30% null values in a required field; confirm gate blocks training and issues rejection report. [ref:iso42001]",
+        "Inject a dataset with 30% null values in a required field; confirm gate blocks training and issues rejection report. [ref:iso_42001_2023]",
         "Introduce a schema type mismatch in a test shard; confirm detection and pipeline halt. [ref:eu_ai_act_art10]",
         "Replay a historical dataset known to have class imbalance beyond threshold; confirm gate failure. [unverified]"
       ],
       "evidence": [
         "{'artifact': 'Signed quality attestation records for all completed training runs, retained for audit.', 'ref': 'eu_ai_act_art10'} [ref:eu_ai_act_art10]",
-        "{'artifact': 'Gate rejection reports with root-cause classification and remediation timestamps.', 'ref': 'iso42001'} [ref:iso42001]",
-        "{'artifact': 'Schema registry audit log showing version history and approver identities.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf]"
+        "{'artifact': 'Gate rejection reports with root-cause classification and remediation timestamps.', 'ref': 'iso42001'} [ref:iso_42001_2023]",
+        "{'artifact': 'Schema registry audit log showing version history and approver identities.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf_1_0]"
       ]
     },
     "monitoring_schema": {
@@ -340,7 +340,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -435,7 +437,7 @@
         "flagship": true
       },
       {
-        "id": "nist_ai_rmf",
+        "id": "nist_ai_rmf_1_0",
         "title": "NIST AI Risk Management Framework 1.0",
         "authority": "NIST",
         "source_type": "voluntary-standard",
@@ -448,8 +450,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -461,8 +463,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr262",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -499,18 +501,18 @@
     "validation": {
       "design_check": [
         "BAR template includes per-subgroup counts, target-population comparisons, intersectional analysis, and residual limitations. [ref:eu_ai_act_art10]",
-        "Process requires sign-off from model owner before training proceeds; sign-off is recorded in the experiment tracker. [ref:iso42001]",
-        "Minimum representation thresholds are defined per deployment domain and reviewed at least annually. [ref:nist_ai_rmf]"
+        "Process requires sign-off from model owner before training proceeds; sign-off is recorded in the experiment tracker. [ref:iso_42001_2023]",
+        "Minimum representation thresholds are defined per deployment domain and reviewed at least annually. [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
         "Inject a dataset with an underrepresented subgroup (<1% of records for a 15%-prevalent population); confirm BAR flags the gap. [ref:eu_ai_act_art10]",
-        "Verify that intersectional analysis runs and produces non-null output for all defined attribute combinations. [ref:nist_ai_rmf]",
-        "Confirm training pipeline is blocked when BAR is absent or unsigned. [ref:iso42001]"
+        "Verify that intersectional analysis runs and produces non-null output for all defined attribute combinations. [ref:nist_ai_rmf_1_0]",
+        "Confirm training pipeline is blocked when BAR is absent or unsigned. [ref:iso_42001_2023]"
       ],
       "evidence": [
         "{'artifact': 'Signed Bias Assessment Reports for each training run, retained in model documentation repository.', 'ref': 'eu_ai_act_art10'} [ref:eu_ai_act_art10]",
-        "{'artifact': 'Subgroup representativeness dashboards showing coverage over time and across model versions.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf]",
-        "{'artifact': 'Audit log of BAR approvals with approver identity and timestamp.', 'ref': 'iso42001'} [ref:iso42001]"
+        "{'artifact': 'Subgroup representativeness dashboards showing coverage over time and across model versions.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf_1_0]",
+        "{'artifact': 'Audit log of BAR approvals with approver identity and timestamp.', 'ref': 'iso42001'} [ref:iso_42001_2023]"
       ]
     },
     "monitoring_schema": {
@@ -745,7 +747,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "GOV-04"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -872,8 +876,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -885,8 +889,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr262",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -1133,7 +1137,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -1229,20 +1235,8 @@
     ],
     "sources": [
       {
-        "id": "mitre_atlas_t0020",
-        "title": "MITRE ATLAS v5.6.0 — AML.T0020: Poison Training Data",
-        "authority": "MITRE Corporation",
-        "source_type": "threat-knowledge-base",
-        "license": "public",
-        "artifact_hash": null,
-        "status": "current",
-        "retrieved_on": "2026-06-26",
-        "normative_force": "informative",
-        "version": "5.6.0"
-      },
-      {
-        "id": "mitre_atlas_t0018",
-        "title": "MITRE ATLAS v5.6.0 — AML.T0018: Supply Chain Compromise",
+        "id": "mitre_atlas_v5_6_0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "license": "public",
@@ -1254,8 +1248,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "owasp_llm04",
-        "title": "OWASP LLM Top 10 2025 — LLM04: Data and Model Poisoning",
+        "id": "owasp_llm10_2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "authority": "OWASP Foundation",
         "source_type": "voluntary-standard",
         "license": "CC BY-SA 4.0",
@@ -1267,7 +1261,7 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_ai_rmf",
+        "id": "nist_ai_rmf_1_0",
         "title": "NIST AI Risk Management Framework 1.0",
         "authority": "NIST",
         "source_type": "voluntary-standard",
@@ -1280,8 +1274,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1316,22 +1310,22 @@
     },
     "validation": {
       "design_check": [
-        "SHA-256 or stronger hash is computed and stored for every training shard in an append-only integrity registry separate from the training data store. [ref:nist_ai_rmf]",
-        "Hash verification is a mandatory, non-bypassable step in the training pipeline with CISO-escalation required for any override. [ref:mitre_atlas_t0020]",
-        "Chain-of-custody logging captures all data transformations with process identity, timestamp, and input/output hashes. [ref:owasp_llm04]",
-        "Adversarial input screening is deployed at data ingestion and is tuned with documented sensitivity/specificity targets. [ref:mitre_atlas_t0020]"
+        "SHA-256 or stronger hash is computed and stored for every training shard in an append-only integrity registry separate from the training data store. [ref:nist_ai_rmf_1_0]",
+        "Hash verification is a mandatory, non-bypassable step in the training pipeline with CISO-escalation required for any override. [ref:mitre_atlas_v5_6_0]",
+        "Chain-of-custody logging captures all data transformations with process identity, timestamp, and input/output hashes. [ref:owasp_llm10_2025]",
+        "Adversarial input screening is deployed at data ingestion and is tuned with documented sensitivity/specificity targets. [ref:mitre_atlas_v5_6_0]"
       ],
       "runtime_test": [
-        "Modify 0.1% of records in a training shard and re-run hash verification; confirm mismatch is detected and training is blocked. [ref:mitre_atlas_t0020]",
-        "Inject a batch of adversarially crafted records (label-flip attack on a minority class) at the ingestion point; verify screening detects statistical anomaly. [ref:owasp_llm04]",
-        "Attempt to submit a training job that bypasses hash verification via an alternate pipeline path; confirm gate blocks submission. [ref:nist_ai_rmf]",
-        "Simulate supply chain compromise by substituting a third-party dataset shard with a modified version; verify checksum mismatch is caught before training. [ref:mitre_atlas_t0018]"
+        "Modify 0.1% of records in a training shard and re-run hash verification; confirm mismatch is detected and training is blocked. [ref:mitre_atlas_v5_6_0]",
+        "Inject a batch of adversarially crafted records (label-flip attack on a minority class) at the ingestion point; verify screening detects statistical anomaly. [ref:owasp_llm10_2025]",
+        "Attempt to submit a training job that bypasses hash verification via an alternate pipeline path; confirm gate blocks submission. [ref:nist_ai_rmf_1_0]",
+        "Simulate supply chain compromise by substituting a third-party dataset shard with a modified version; verify checksum mismatch is caught before training. [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'Integrity registry with hash entries for all training shards, showing hash algorithm, timestamp, and verifying process identity.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf]",
-        "{'artifact': 'Pre-training hash verification logs for each training run, showing pass/fail status and any overrides with CISO approval records.', 'ref': 'mitre_atlas_t0020'} [ref:mitre_atlas_t0020]",
-        "{'artifact': 'Chain-of-custody audit trail for each training dataset version.', 'ref': 'owasp_llm04'} [ref:owasp_llm04]",
-        "{'artifact': 'Adversarial screening alert logs and investigation records.', 'ref': 'mitre_atlas_t0018'} [ref:mitre_atlas_t0018]"
+        "{'artifact': 'Integrity registry with hash entries for all training shards, showing hash algorithm, timestamp, and verifying process identity.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf_1_0]",
+        "{'artifact': 'Pre-training hash verification logs for each training run, showing pass/fail status and any overrides with CISO approval records.', 'ref': 'mitre_atlas_t0020'} [ref:mitre_atlas_v5_6_0]",
+        "{'artifact': 'Chain-of-custody audit trail for each training dataset version.', 'ref': 'owasp_llm04'} [ref:owasp_llm10_2025]",
+        "{'artifact': 'Adversarial screening alert logs and investigation records.', 'ref': 'mitre_atlas_t0018'} [ref:mitre_atlas_v5_6_0]"
       ]
     },
     "lenses": {
@@ -1503,7 +1497,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -1574,8 +1570,8 @@
     ],
     "sources": [
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1587,7 +1583,7 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_ai_rmf",
+        "id": "nist_ai_rmf_1_0",
         "title": "NIST AI Risk Management Framework 1.0",
         "authority": "NIST",
         "source_type": "voluntary-standard",
@@ -1600,8 +1596,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr262",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -1641,21 +1637,21 @@
     },
     "validation": {
       "design_check": [
-        "Data partitioning policy is documented and specifies stratification methodology, temporal cutoff rules, and access controls for test splits. [ref:nist_ai_rmf]",
-        "Exact-match and near-duplicate deduplication runs automatically across all splits before training. [ref:iso42001]",
-        "Test split access is restricted to the validation function; model training team members do not have read access to test set content. [ref:sr262]",
-        "Evaluation overfitting controls are documented: benchmark rotation policy, maximum evaluation runs per benchmark, use of held-out external benchmarks. [ref:nist_ai_rmf]"
+        "Data partitioning policy is documented and specifies stratification methodology, temporal cutoff rules, and access controls for test splits. [ref:nist_ai_rmf_1_0]",
+        "Exact-match and near-duplicate deduplication runs automatically across all splits before training. [ref:iso_42001_2023]",
+        "Test split access is restricted to the validation function; model training team members do not have read access to test set content. [ref:sr262_2026]",
+        "Evaluation overfitting controls are documented: benchmark rotation policy, maximum evaluation runs per benchmark, use of held-out external benchmarks. [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
-        "Inject 1% of evaluation benchmark examples verbatim into the training set; verify contamination detection flags them before training proceeds. [ref:iso42001]",
-        "Inject paraphrased versions of benchmark examples (semantic duplicates) and verify near-duplicate detection catches them. [ref:nist_ai_rmf]",
+        "Inject 1% of evaluation benchmark examples verbatim into the training set; verify contamination detection flags them before training proceeds. [ref:iso_42001_2023]",
+        "Inject paraphrased versions of benchmark examples (semantic duplicates) and verify near-duplicate detection catches them. [ref:nist_ai_rmf_1_0]",
         "For a RAG model, insert a benchmark question-answer pair into the retrieval corpus; verify retrieval leakage detection flags the contamination. [unverified]",
-        "Verify that a training run submitted with a missing contamination-check attestation is blocked at the pipeline gate. [ref:sr262]"
+        "Verify that a training run submitted with a missing contamination-check attestation is blocked at the pipeline gate. [ref:sr262_2026]"
       ],
       "evidence": [
-        "{'artifact': 'Contamination-check audit logs for each training run and evaluation cycle, showing contamination counts per split pair.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf]",
-        "{'artifact': 'Deduplication reports showing exact-match and near-duplicate counts per split pair.', 'ref': 'iso42001'} [ref:iso42001]",
-        "{'artifact': 'Test-set access control audit logs showing who accessed test data and when.', 'ref': 'sr262'} [ref:sr262]"
+        "{'artifact': 'Contamination-check audit logs for each training run and evaluation cycle, showing contamination counts per split pair.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf_1_0]",
+        "{'artifact': 'Deduplication reports showing exact-match and near-duplicate counts per split pair.', 'ref': 'iso42001'} [ref:iso_42001_2023]",
+        "{'artifact': 'Test-set access control audit logs showing who accessed test data and when.', 'ref': 'sr262'} [ref:sr262_2026]"
       ]
     },
     "lenses": {
@@ -1760,7 +1756,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "EVA-01"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -1925,7 +1923,7 @@
         "published_on": "2024-08-01"
       },
       {
-        "id": "nist_ai_rmf",
+        "id": "nist_ai_rmf_1_0",
         "title": "NIST AI Risk Management Framework 1.0",
         "authority": "NIST",
         "source_type": "voluntary-standard",
@@ -1938,8 +1936,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -1975,7 +1973,7 @@
         "Data necessity assessment is conducted for each training dataset; results are documented and approved before dataset is used in training. [ref:gdpr]",
         "PII scanning covers direct identifiers, quasi-identifiers, and sensitive categories and is applied after each transformation step. [ref:gdpr]",
         "Fairness audit vault has documented access controls, time-bounded grants, and access logging; access is restricted to roles with explicit need. [ref:eu_ai_act_art10]",
-        "Synthetic data replacement policy is documented and synthetic datasets have re-identification risk assessments. [ref:nist_ai_rmf]"
+        "Synthetic data replacement policy is documented and synthetic datasets have re-identification risk assessments. [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
         "Run PII scanner against a training dataset sample known to contain PII; verify detection rate exceeds documented threshold. [ref:gdpr]",
@@ -2166,7 +2164,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "PRV-01"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -2252,8 +2252,8 @@
     ],
     "sources": [
       {
-        "id": "mitre_atlas_t0018",
-        "title": "MITRE ATLAS v5.6.0 — AML.T0018: Supply Chain Compromise",
+        "id": "mitre_atlas_v5_6_0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "license": "public",
@@ -2265,8 +2265,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "owasp_llm04",
-        "title": "OWASP LLM Top 10 2025 — LLM04: Data and Model Poisoning",
+        "id": "owasp_llm10_2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "authority": "OWASP Foundation",
         "source_type": "voluntary-standard",
         "license": "CC BY-SA 4.0",
@@ -2278,8 +2278,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2291,7 +2291,7 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "nist_ai_rmf",
+        "id": "nist_ai_rmf_1_0",
         "title": "NIST AI Risk Management Framework 1.0",
         "authority": "NIST",
         "source_type": "voluntary-standard",
@@ -2318,8 +2318,8 @@
         "flagship": true
       },
       {
-        "id": "sr262",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -2357,20 +2357,20 @@
     },
     "validation": {
       "design_check": [
-        "TPDR exists and has entries for all third-party datasets; entries include version pin, license terms, provenance claims, and security/legal review sign-offs. [ref:iso42001]",
-        "Training pipelines are configured to pull only pinned versioned releases; 'latest' references are blocked at the pipeline gate. [ref:nist_ai_rmf]",
-        "Update notification process is established with vendors; pipeline blocks updated dataset versions pending re-review. [ref:mitre_atlas_t0018]",
-        "TG-04 integrity controls (hash pinning, chain-of-custody) are applied to all third-party dataset shards without exception. [ref:mitre_atlas_t0018]"
+        "TPDR exists and has entries for all third-party datasets; entries include version pin, license terms, provenance claims, and security/legal review sign-offs. [ref:iso_42001_2023]",
+        "Training pipelines are configured to pull only pinned versioned releases; 'latest' references are blocked at the pipeline gate. [ref:nist_ai_rmf_1_0]",
+        "Update notification process is established with vendors; pipeline blocks updated dataset versions pending re-review. [ref:mitre_atlas_v5_6_0]",
+        "TG-04 integrity controls (hash pinning, chain-of-custody) are applied to all third-party dataset shards without exception. [ref:mitre_atlas_v5_6_0]"
       ],
       "runtime_test": [
-        "Attempt to add an unpinned ('latest') dataset reference to the training pipeline; verify the gate blocks submission. [ref:nist_ai_rmf]",
-        "Simulate a dataset update from a vendor (new version with modified records); verify pipeline detects version mismatch and requires re-review before training. [ref:mitre_atlas_t0018]",
-        "Substitute a third-party dataset shard with a modified version and verify TG-04 hash verification catches the substitution. [ref:mitre_atlas_t0018]"
+        "Attempt to add an unpinned ('latest') dataset reference to the training pipeline; verify the gate blocks submission. [ref:nist_ai_rmf_1_0]",
+        "Simulate a dataset update from a vendor (new version with modified records); verify pipeline detects version mismatch and requires re-review before training. [ref:mitre_atlas_v5_6_0]",
+        "Substitute a third-party dataset shard with a modified version and verify TG-04 hash verification catches the substitution. [ref:mitre_atlas_v5_6_0]"
       ],
       "evidence": [
-        "{'artifact': 'Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates.', 'ref': 'iso42001'} [ref:iso42001]",
-        "{'artifact': 'Security and legal due-diligence records for each TPDR entry.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf]",
-        "{'artifact': 'Update notification logs and re-review records for dataset updates received during the retention window.', 'ref': 'mitre_atlas_t0018'} [ref:mitre_atlas_t0018]"
+        "{'artifact': 'Third-Party Dataset Registry with entries for all active third-party datasets, showing current approval status and review dates.', 'ref': 'iso42001'} [ref:iso_42001_2023]",
+        "{'artifact': 'Security and legal due-diligence records for each TPDR entry.', 'ref': 'nist_ai_rmf'} [ref:nist_ai_rmf_1_0]",
+        "{'artifact': 'Update notification logs and re-review records for dataset updates received during the retention window.', 'ref': 'mitre_atlas_t0018'} [ref:mitre_atlas_v5_6_0]"
       ]
     },
     "lenses": {
@@ -2475,7 +2475,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "SUP-01"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",
@@ -2650,8 +2652,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "iso42001",
-        "title": "ISO/IEC 42001:2023 — AI Management Systems",
+        "id": "iso_42001_2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "license": "commercial",
@@ -2663,8 +2665,8 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr262",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Federal Reserve Board",
         "source_type": "supervisory-guidance",
         "license": "public",
@@ -2705,18 +2707,18 @@
         "Data Lifecycle Policy documents retention periods and deletion procedures for each artifact class with jurisdiction-specific treatment. [ref:gdpr]",
         "GDPR Art. 17 and CCPA §1798.105 erasure workflows are documented, tested, and include impact assessment for derived model artifacts. [ref:gdpr]",
         "Deletion is implemented at the storage layer (key destruction or verified overwrite) with deletion certificates produced. [ref:gdpr]",
-        "Audit logs are subject to a separate, longer retention period and excluded from standard data deletion workflows; litigation hold procedures exist. [ref:sr262]"
+        "Audit logs are subject to a separate, longer retention period and excluded from standard data deletion workflows; litigation hold procedures exist. [ref:sr262_2026]"
       ],
       "runtime_test": [
         "Submit a simulated GDPR Art. 17 erasure request; verify deletion propagates across all artifact categories within the required timeframe and a deletion certificate is produced. [ref:gdpr]",
-        "Verify that audit logs are not deleted when raw training data is purged on schedule. [ref:sr262]",
-        "Attempt to use an artifact past its documented retention date; verify the lifecycle management system flags or blocks access. [ref:iso42001]",
+        "Verify that audit logs are not deleted when raw training data is purged on schedule. [ref:sr262_2026]",
+        "Attempt to use an artifact past its documented retention date; verify the lifecycle management system flags or blocks access. [ref:iso_42001_2023]",
         "Submit a CCPA deletion request and verify the response timeline and artifact deletion scope meet California requirements. [ref:ccpa_cpra]"
       ],
       "evidence": [
         "{'artifact': 'Data Lifecycle Policy document with retention schedules, deletion procedures, and jurisdiction-specific treatment.', 'ref': 'gdpr'} [ref:gdpr]",
         "{'artifact': 'Erasure request processing logs with artifact-category deletion records and deletion certificates.', 'ref': 'gdpr'} [ref:gdpr]",
-        "{'artifact': 'Annual lifecycle policy review records showing consideration of regulatory developments including machine unlearning.', 'ref': 'iso42001'} [ref:iso42001]"
+        "{'artifact': 'Annual lifecycle policy review records showing consideration of regulatory developments including machine unlearning.', 'ref': 'iso42001'} [ref:iso_42001_2023]"
       ]
     },
     "lenses": {
@@ -2905,7 +2907,9 @@
         "source_locator": {
           "section": "CSA AI Controls Matrix v1.1",
           "clause": "DM-01"
-        }
+        },
+        "mapping_confidence": "medium",
+        "provisional": true
       },
       {
         "framework": "mitre",

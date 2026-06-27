@@ -38,8 +38,8 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -53,7 +53,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -65,8 +65,8 @@
         "status": "current"
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -108,12 +108,12 @@
     },
     "validation": {
       "design_check": [
-        "Confirm the model registry schema enforces uniqueness on the (model-family, version, provider) triple and rejects or errors on duplicate version entries rather than overwriting them [ref:sr_26_2].",
-        "Verify the artifact hash computation procedure specification covers weights, tokenizer, and inference configuration as a bundle, and that SHA-256 or stronger is mandated [ref:nist_rmf_100_1].",
+        "Confirm the model registry schema enforces uniqueness on the (model-family, version, provider) triple and rejects or errors on duplicate version entries rather than overwriting them [ref:sr262_2026].",
+        "Verify the artifact hash computation procedure specification covers weights, tokenizer, and inference configuration as a bundle, and that SHA-256 or stronger is mandated [ref:nist_ai_rmf_1_0].",
         "Inspect CI/CD pipeline configuration to confirm hash verification is a blocking gate before promotion to each environment — not a logging-only step [ref:iso_42001_2023]."
       ],
       "runtime_test": [
-        "Attempt to deploy an artifact with a modified configuration file while retaining the original model-ID tag; confirm the pipeline rejects the artifact and raises an auditable alert [ref:nist_rmf_100_1].",
+        "Attempt to deploy an artifact with a modified configuration file while retaining the original model-ID tag; confirm the pipeline rejects the artifact and raises an auditable alert [ref:nist_ai_rmf_1_0].",
         "Query the inference API after deployment and confirm the model ID and artifact hash appear in response headers or structured audit log entries for sampled requests [ref:owasp_aisvs_v1].",
         "Retrieve the deployed artifact hash from the registry and independently recompute SHA-256 over the production artifact bundle; confirm the values match [ref:iso_42001_2023]."
       ],
@@ -324,9 +324,9 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-01",
-        "fit": "direct",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "LI-01 establishes unique model identity and content-addressed hash verification, which are the foundational artifacts that AITG-GV-01 Governance Testing requires to confirm a model artifact's identity and version are unambiguously traceable and tamper-evident throughout the deployment lifecycle.",
+        "rationale": "AITG-GV-01 governance verification confirms that a unique model identifier registry is established and maintained; LI-01 is the implementation control that produces the artifact AITG-GV-01 checks, making this a supporting rather than direct test relationship.",
         "source_locator": {
           "section": "Governance Testing",
           "test_id": "AITG-GV-01"
@@ -403,8 +403,8 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -418,7 +418,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -443,8 +443,8 @@
         "status": "current"
       },
       {
-        "id": "mitre_atlas_560",
-        "title": "MITRE ATLAS — Adversarial Threat Landscape for Artificial Intelligence Systems v5.6.0",
+        "id": "mitre_atlas_v5_6_0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "normative_force": "informative",
@@ -473,11 +473,11 @@
     "validation": {
       "design_check": [
         "Confirm the model registry schema includes a structured provenance block with typed fields for base-model hash, fine-tuning steps, merge contributors, and adapter components — not just a free-text description field [ref:iso_42001_2023].",
-        "Verify that the provenance manifest format is machine-readable (JSON or similar) and that a query interface exists to find all models derived from a given base model ID [ref:nist_rmf_100_1].",
+        "Verify that the provenance manifest format is machine-readable (JSON or similar) and that a query interface exists to find all models derived from a given base model ID [ref:nist_ai_rmf_1_0].",
         "Review the provenance record for at least one production model end-to-end; confirm it can be traced from the deployed artifact hash back to a documented base model release [ref:owasp_aisvs_v1]."
       ],
       "runtime_test": [
-        "Simulate a base-model vulnerability disclosure: use the provenance graph query to identify all downstream derived models in the registry and confirm the query returns a complete, accurate list within an operationally acceptable time [ref:nist_rmf_100_1].",
+        "Simulate a base-model vulnerability disclosure: use the provenance graph query to identify all downstream derived models in the registry and confirm the query returns a complete, accurate list within an operationally acceptable time [ref:nist_ai_rmf_1_0].",
         "Register a new fine-tuned model without providing a required provenance field; confirm the registry rejects the submission [ref:iso_42001_2023].",
         "Verify that adapter lineage is captured: deploy a model with an attached LoRA adapter and confirm the registry entry records the adapter source, version, and base compatibility hash [unverified]."
       ],
@@ -732,8 +732,8 @@
         "flagship": true
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -746,7 +746,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -758,8 +758,8 @@
         "status": "current"
       },
       {
-        "id": "mitre_atlas_560",
-        "title": "MITRE ATLAS — Adversarial Threat Landscape for Artificial Intelligence Systems v5.6.0",
+        "id": "mitre_atlas_v5_6_0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "authority": "MITRE Corporation",
         "source_type": "threat-knowledge-base",
         "normative_force": "informative",
@@ -788,11 +788,11 @@
     "validation": {
       "design_check": [
         "Confirm the model onboarding procedure requires publisher-signed checksum verification before registration, with the verification source documented as distinct from the artifact source [ref:owasp_llm10_2025].",
-        "Verify that the mSBOM schema includes individual component hashes, declared license(s), provenance metadata, and verification method — not just a single artifact-level hash [ref:nist_rmf_100_1].",
+        "Verify that the mSBOM schema includes individual component hashes, declared license(s), provenance metadata, and verification method — not just a single artifact-level hash [ref:nist_ai_rmf_1_0].",
         "Confirm the mSBOM is stored as an immutable attachment to the LI-01 registry entry with a creation timestamp and verifier identity [ref:iso_42001_2023]."
       ],
       "runtime_test": [
-        "Corrupt a single byte in a third-party model weight shard and attempt registration; confirm the pipeline detects the mismatch and rejects the artifact [ref:nist_rmf_100_1].",
+        "Corrupt a single byte in a third-party model weight shard and attempt registration; confirm the pipeline detects the mismatch and rejects the artifact [ref:nist_ai_rmf_1_0].",
         "Verify that the mSBOM for a deployed model is retrievable from the registry and contains all required fields including per-component hashes [ref:iso_42001_2023].",
         "For a hosted-API model, confirm that the mSBOM documents the verification scope limitation explicitly and includes behavioral regression test results as the substituted evidence [unverified]."
       ],
@@ -1062,8 +1062,8 @@
         "status": "current"
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -1075,8 +1075,8 @@
         "status": "current"
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1090,7 +1090,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "Iso 42001 2023",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "source_type": "voluntary-standard",
         "retrieved_on": "2026-06-26",
         "normative_force": "voluntary",
@@ -1122,7 +1122,7 @@
       ],
       "runtime_test": [
         "Attempt to register a model with a card that is missing section (7) Quantitative Analyses or section (8) Ethical Considerations; confirm the pipeline blocks registration and identifies the specific missing section [ref:mitchell_2019].",
-        "Update a production model's performance characteristics and verify that the model card version is incremented and linked to the same artifact hash — confirm the prior card version is retained in the registry [ref:sr_26_2].",
+        "Update a production model's performance characteristics and verify that the model card version is incremented and linked to the same artifact hash — confirm the prior card version is retained in the registry [ref:sr262_2026].",
         "Retrieve the model card for a deployed model and independently assess section completeness using the Mitchell et al. criteria; flag any sections found to be substantively empty or placeholder text [ref:mitchell_2019]."
       ],
       "evidence": [
@@ -1382,9 +1382,9 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-02",
-        "fit": "direct",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "LI-04 mandates a schema-validated model card with all nine Mitchell et al. sections, directly implementing the AITG-GV-02 Governance Testing expectation that model card documentation be complete, structured, and linked to the deployed artifact so downstream users and auditors can understand capabilities, limitations, and intended use.",
+        "rationale": "AITG-GV-02 reviews whether structured model documentation exists and is complete; LI-04 implements the model card that AITG-GV-02 checks, making this a supporting relationship — AITG verifies the artifact, LI-04 produces it.",
         "source_locator": {
           "section": "Governance Testing",
           "test_id": "AITG-GV-02"
@@ -1442,8 +1442,8 @@
     ],
     "sources": [
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1457,8 +1457,8 @@
         "flagship": true
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -1471,7 +1471,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -1512,13 +1512,13 @@
     },
     "validation": {
       "design_check": [
-        "Confirm that the model registry schema includes a structured training-data reference field that accepts TG-layer record IDs and that the field is mandatory and validated at registration [ref:sr_26_2].",
+        "Confirm that the model registry schema includes a structured training-data reference field that accepts TG-layer record IDs and that the field is mandatory and validated at registration [ref:sr262_2026].",
         "Verify that the model registry enforces referential integrity: a model cannot be registered with a dataset reference that does not resolve to a valid, non-flagged TG-layer record [ref:iso_42001_2023].",
-        "Review the dataset recall alert mechanism: confirm that when a TG-layer dataset record status changes to flagged or recalled, all model registry entries referencing that record receive an automated impact alert [ref:nist_rmf_100_1]."
+        "Review the dataset recall alert mechanism: confirm that when a TG-layer dataset record status changes to flagged or recalled, all model registry entries referencing that record receive an automated impact alert [ref:nist_ai_rmf_1_0]."
       ],
       "runtime_test": [
-        "Attempt to register a model with a dataset reference pointing to a non-existent TG-layer record ID; confirm the pipeline blocks registration [ref:sr_26_2].",
-        "Manually flag a TG-layer dataset record as recalled and verify that an automated alert is generated to all model registry entries referencing that dataset within the defined SLA [ref:nist_rmf_100_1].",
+        "Attempt to register a model with a dataset reference pointing to a non-existent TG-layer record ID; confirm the pipeline blocks registration [ref:sr262_2026].",
+        "Manually flag a TG-layer dataset record as recalled and verify that an automated alert is generated to all model registry entries referencing that dataset within the defined SLA [ref:nist_ai_rmf_1_0].",
         "For a production model, trace the training-data pointer to the TG-layer record and verify the record is accessible to the independent validation team without escalation [ref:owasp_aisvs_v1]."
       ],
       "evidence": [
@@ -1758,8 +1758,8 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -1773,7 +1773,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -1798,8 +1798,8 @@
         "status": "current"
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -1829,12 +1829,12 @@
     "validation": {
       "design_check": [
         "Confirm the model registry schema prevents in-place update or delete of existing version entries; verify by attempting to modify a registry entry directly and confirming rejection [ref:iso_42001_2023].",
-        "Verify the rollback map contains the artifact hash and pipeline artifact location for the previous two approved versions for every production model, and that rollback procedures are documented with time estimates [ref:nist_rmf_100_1].",
-        "Confirm the emergency disable mechanism operates independently of the CI/CD pipeline and has a documented SLA for activation time; verify that on-call personnel have the credentials and access needed to execute it without escalation [ref:sr_26_2]."
+        "Verify the rollback map contains the artifact hash and pipeline artifact location for the previous two approved versions for every production model, and that rollback procedures are documented with time estimates [ref:nist_ai_rmf_1_0].",
+        "Confirm the emergency disable mechanism operates independently of the CI/CD pipeline and has a documented SLA for activation time; verify that on-call personnel have the credentials and access needed to execute it without escalation [ref:sr262_2026]."
       ],
       "runtime_test": [
-        "Execute a rollback test for at least one production model per quarter: roll back to a prior approved version, verify the artifact hash of the serving model matches the prior-version registry entry, and measure rollback time against the documented SLA [ref:nist_rmf_100_1].",
-        "Execute an emergency disable test: activate the emergency disable path in a staging environment, measure time to full suspension of model serving, and confirm the disable operates without requiring CI/CD pipeline access [ref:sr_26_2].",
+        "Execute a rollback test for at least one production model per quarter: roll back to a prior approved version, verify the artifact hash of the serving model matches the prior-version registry entry, and measure rollback time against the documented SLA [ref:nist_ai_rmf_1_0].",
+        "Execute an emergency disable test: activate the emergency disable path in a staging environment, measure time to full suspension of model serving, and confirm the disable operates without requiring CI/CD pipeline access [ref:sr262_2026].",
         "Inject a hash mismatch event in the deployment monitoring pipeline and confirm the version drift alert fires within the monitoring window defined in the monitoring_schema [ref:iso_42001_2023]."
       ],
       "evidence": [
@@ -2255,8 +2255,8 @@
         "flagship": true
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -2269,7 +2269,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -2311,12 +2311,12 @@
     "validation": {
       "design_check": [
         "Confirm the capability-limitation declaration schema enforces non-emptiness of all five dimensions (intended_uses, stated_limitations, out_of_scope_uses, uncertainty_bounds, knowledge_cutoff) and that registration is blocked when any dimension is absent [ref:eu_ai_act_2024].",
-        "Review the declaration for a production model and verify that intended_uses include population and context qualifiers, and that out_of_scope_uses lists at least one explicitly disallowed use case [ref:nist_rmf_100_1].",
+        "Review the declaration for a production model and verify that intended_uses include population and context qualifiers, and that out_of_scope_uses lists at least one explicitly disallowed use case [ref:nist_ai_rmf_1_0].",
         "Confirm the declaration is surfaced at model consumption points — verify that the registry API response for a given model ID includes the current capability-limitation declaration in structured form [ref:owasp_aisvs_v1]."
       ],
       "runtime_test": [
         "Attempt to register a model with an empty out_of_scope_uses field; confirm the pipeline blocks registration and identifies the specific missing dimension [ref:eu_ai_act_2024].",
-        "For a production model with a defined knowledge_cutoff, query the model with a question about a current event post-cutoff; verify the model's response behavior is consistent with the declared uncertainty_bounds (e.g., the model acknowledges the limitation rather than confidently confabulating) [ref:nist_rmf_100_1].",
+        "For a production model with a defined knowledge_cutoff, query the model with a question about a current event post-cutoff; verify the model's response behavior is consistent with the declared uncertainty_bounds (e.g., the model acknowledges the limitation rather than confidently confabulating) [ref:nist_ai_rmf_1_0].",
         "Verify that a deployer accessing the model via the internal registry API receives the capability-limitation declaration in the model metadata response without requiring separate documentation lookup [ref:owasp_aisvs_v1]."
       ],
       "evidence": [
@@ -2587,7 +2587,7 @@
     "sources": [
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -2600,8 +2600,8 @@
         "flagship": true
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -2656,12 +2656,12 @@
     "validation": {
       "design_check": [
         "Confirm the model registry schema includes a license chain record with fields for each dataset license, base model license, and adapter license, and that the record uses SPDX identifiers where available [ref:iso_42001_2023].",
-        "Verify that the automated license compatibility analysis tool covers the declared deployment use types and common AI-specific license restriction patterns (CC BY-NC, CC BY-SA, no-derivatives, non-commercial clauses) [ref:nist_rmf_100_1].",
+        "Verify that the automated license compatibility analysis tool covers the declared deployment use types and common AI-specific license restriction patterns (CC BY-NC, CC BY-SA, no-derivatives, non-commercial clauses) [ref:nist_ai_rmf_1_0].",
         "Confirm that deployment is blocked when a hard compatibility incompatibility is detected and that the incompatibility details are logged in the registry entry [ref:owasp_aisvs_v1]."
       ],
       "runtime_test": [
         "Attempt to deploy a model whose license chain includes a non-commercial training dataset against a commercial deployment use type; confirm the pipeline blocks deployment and logs the specific incompatibility [ref:iso_42001_2023].",
-        "Register a model fine-tuned from a base model with a no-derivatives license clause; confirm the compatibility analysis flags the fine-tune distribution use case as incompatible [ref:nist_rmf_100_1].",
+        "Register a model fine-tuned from a base model with a no-derivatives license clause; confirm the compatibility analysis flags the fine-tune distribution use case as incompatible [ref:nist_ai_rmf_1_0].",
         "Verify that the license chain record for a production model is retrievable and contains SPDX-identified licenses for all training datasets referenced in the LI-05 training-data pointer [ref:owasp_aisvs_v1]."
       ],
       "evidence": [
@@ -2841,9 +2841,9 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-04",
-        "fit": "direct",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "LI-08 enforces license compliance across the model provenance chain by inventorying all license obligations inherited from base models, adapters, and training datasets, directly supporting AITG-GV-04 Governance Testing which requires that the permitted-use scope of a deployed model be governed by documented and verified license and rights constraints.",
+        "rationale": "AITG-GV-04 reviews AI governance committee structure and oversight accountability; LI-08 establishes the governance body whose existence AITG-GV-04 verifies, making this a supporting relationship.",
         "source_locator": {
           "section": "Governance Testing",
           "test_id": "AITG-GV-04"
@@ -2906,8 +2906,8 @@
     ],
     "sources": [
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -2934,8 +2934,8 @@
         "status": "current"
       },
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -2948,7 +2948,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -2976,12 +2976,12 @@
     },
     "validation": {
       "design_check": [
-        "Confirm the material-change taxonomy covers all seven change categories and that quantitative or qualitative materiality thresholds are documented for each category in a written policy [ref:sr_26_2].",
+        "Confirm the material-change taxonomy covers all seven change categories and that quantitative or qualitative materiality thresholds are documented for each category in a written policy [ref:sr262_2026].",
         "Verify the change classification gate is integrated into all production deployment pipelines for the seven change categories — confirm that at least system prompt, RAG corpus, and guardrail changes are covered in addition to model weight changes [ref:eu_ai_act_2024].",
-        "Review the material-change log for completeness: confirm that all non-material determinations are also logged with rationale, not just material determinations [ref:nist_rmf_100_1]."
+        "Review the material-change log for completeness: confirm that all non-material determinations are also logged with rationale, not just material determinations [ref:nist_ai_rmf_1_0]."
       ],
       "runtime_test": [
-        "Submit a system prompt change that adds a new capability domain (e.g., adding medical advice functionality to a general-purpose assistant) and verify the change classification gate correctly classifies it as material and routes it to an authorization cycle [ref:sr_26_2].",
+        "Submit a system prompt change that adds a new capability domain (e.g., adding medical advice functionality to a general-purpose assistant) and verify the change classification gate correctly classifies it as material and routes it to an authorization cycle [ref:sr262_2026].",
         "Simulate a provider-version change by detecting a behavioral shift at an API endpoint (via BH-10 monitoring) and verify that the detection automatically triggers a materiality determination review rather than requiring manual discovery [ref:eu_ai_act_2024].",
         "For a RAG corpus update in production, confirm that the change was classified before deployment and that the classification decision is logged in the model registry with reviewer identity [ref:iso_42001_2023]."
       ],
@@ -3321,8 +3321,8 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_100_1",
-        "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+        "id": "nist_ai_rmf_1_0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "authority": "National Institute of Standards and Technology (NIST)",
         "source_type": "voluntary-standard",
         "normative_force": "voluntary",
@@ -3336,7 +3336,7 @@
       },
       {
         "id": "iso_42001_2023",
-        "title": "ISO/IEC 42001:2023 — Artificial intelligence — Management system",
+        "title": "ISO/IEC 42001:2023 — AI Management System",
         "authority": "ISO/IEC JTC 1/SC 42",
         "source_type": "certification-standard",
         "normative_force": "voluntary",
@@ -3348,8 +3348,8 @@
         "status": "current"
       },
       {
-        "id": "sr_26_2",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "id": "sr262_2026",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "authority": "Board of Governors of the Federal Reserve System",
         "source_type": "supervisory-guidance",
         "normative_force": "guidance",
@@ -3391,14 +3391,14 @@
     },
     "validation": {
       "design_check": [
-        "Confirm the model retirement workflow requires an authorized approver, a dependent-system impact assessment, and a confirmed archive location before the retirement date is finalized [ref:sr_26_2].",
+        "Confirm the model retirement workflow requires an authorized approver, a dependent-system impact assessment, and a confirmed archive location before the retirement date is finalized [ref:sr262_2026].",
         "Verify the model registry supports a 'retired' status that prevents deployment without explicit re-authorization, and that the 'retired' entry retains all metadata including archive location and retirement approver [ref:iso_42001_2023].",
-        "Confirm the evidence archive system has a documented retention policy meeting applicable regulatory minimums (7 years for SR 26-2 material models; EU AI Act post-market monitoring plan duration for high-risk systems) and is accessible to authorized regulators [ref:nist_rmf_100_1]."
+        "Confirm the evidence archive system has a documented retention policy meeting applicable regulatory minimums (7 years for SR 26-2 material models; EU AI Act post-market monitoring plan duration for high-risk systems) and is accessible to authorized regulators [ref:nist_ai_rmf_1_0]."
       ],
       "runtime_test": [
-        "Initiate a test model retirement and verify the dependent-system impact assessment correctly identifies all services registered as consumers of the model ID in the registry [ref:nist_rmf_100_1].",
+        "Initiate a test model retirement and verify the dependent-system impact assessment correctly identifies all services registered as consumers of the model ID in the registry [ref:nist_ai_rmf_1_0].",
         "Attempt to deploy a 'retired' model artifact without re-authorization; confirm the deployment pipeline rejects the attempt with a 'retired status' error [ref:iso_42001_2023].",
-        "Retrieve archived evidence records for a previously retired model and verify all required evidence types (evaluation report, validation report, deployment log) are present and readable in the archive [ref:sr_26_2]."
+        "Retrieve archived evidence records for a previously retired model and verify all required evidence types (evaluation report, validation report, deployment log) are present and readable in the archive [ref:sr262_2026]."
       ],
       "evidence": [
         "model:retirement-authorization-record — signed retirement authorization record with approver identity, retirement date, reason, replacement or fallback reference, and dependent-system impact assessment [unverified]",

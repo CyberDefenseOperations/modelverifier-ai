@@ -21,9 +21,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "license": "public domain",
@@ -67,9 +67,9 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -103,7 +103,7 @@
     },
     "validation": {
       "design_check": [
-        "Model registry schema includes required ownership fields (owner, team, sponsor, effective_date, review_date). [ref:nist_rmf_1_0]",
+        "Model registry schema includes required ownership fields (owner, team, sponsor, effective_date, review_date). [ref:nist_ai_rmf_1_0]",
         "Deployment pipeline has an automated gate that blocks production push when ownership fields are null. [ref:eu_ai_act_2024]",
         "HR integration or manual process exists to trigger ownership reassignment on employee departure. [ref:iso_42001_2023]"
       ],
@@ -235,9 +235,9 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-03",
-        "fit": "direct",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "OA-01 defines and assigns clear accountability structures for AI system ownership, including model owner roles, decision authority, and escalation paths, directly implementing AITG-GV-03 Governance Testing which requires that accountable parties and their responsibilities be formally designated and verifiable for each deployed AI system.",
+        "rationale": "AITG-GV-03 verifies that AI system accountability is assigned and documented; OA-01 implements the accountable ownership assignment that AITG-GV-03 checks — AITG verifies the governance artifact, OA-01 produces it.",
         "source_locator": {
           "section": "Governance Testing",
           "test_id": "AITG-GV-03"
@@ -430,9 +430,9 @@
         "flagship": true
       },
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "license": "public domain",
@@ -482,7 +482,7 @@
         "Five-factor oversight design document exists for each high-stakes use case. [ref:eu_ai_act_2024]",
         "Override mechanism is technically implemented and tested — confirm override propagates correctly through downstream systems. [ref:eu_ai_act_2024]",
         "Reviewer competence requirements and training curriculum are documented. [ref:eu_ai_act_2024]",
-        "Information display design provides model inputs, confidence, and reasoning — not only the final output. [ref:nist_rmf_1_0]"
+        "Information display design provides model inputs, confidence, and reasoning — not only the final output. [ref:nist_ai_rmf_1_0]"
       ],
       "runtime_test": [
         "Inject seeded incorrect model outputs into the review queue; measure reviewer detection rate. [unverified]",
@@ -741,9 +741,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "license": "public domain",
@@ -787,9 +787,9 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -1052,9 +1052,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "license": "public domain",
@@ -1102,7 +1102,7 @@
     },
     "validation": {
       "design_check": [
-        "Model registry schema includes autonomy_tier field with reference to Security Verifier tier taxonomy. [ref:nist_rmf_1_0]",
+        "Model registry schema includes autonomy_tier field with reference to Security Verifier tier taxonomy. [ref:nist_ai_rmf_1_0]",
         "Evaluation requirement lookup table maps each tier to specific evidence requirements. [ref:iso_42001_2023]",
         "AIGC decision rights matrix includes tier escalation approval authority. [ref:iso_42001_2023]"
       ],
@@ -1210,9 +1210,9 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-07",
-        "fit": "direct",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "OA-04 implements controls for human override and intervention in AI-driven decisions — including override procedures, audit logging of overrides, and escalation triggers — directly implementing AITG-GV-07 Governance Testing which requires that human override mechanisms for AI decisions be defined, accessible, and operationally tested.",
+        "rationale": "AITG-GV-07 reviews autonomy and agency control governance documentation; OA-04 implements the autonomy tier classification that AITG-GV-07 checks, making this a supporting relationship.",
         "source_locator": {
           "section": "Governance Testing",
           "test_id": "AITG-GV-07"
@@ -1366,9 +1366,9 @@
         "flagship": true
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -1431,7 +1431,7 @@
       "evidence": [
         "{'artifact': 'Legal sign-off records for all regulated-use models deployed in the past 12 months.', 'unverified': True} [unverified]",
         "{'artifact': 'EU Declaration of Conformity for eu-high-risk models.', 'ref': 'eu-ai-act-2024'} [ref:eu_ai_act_2024]",
-        "{'artifact': 'SR 26-2 validation reports for banking models.', 'ref': 'sr-26-2'} [ref:sr_26_2]",
+        "{'artifact': 'SR 26-2 validation reports for banking models.', 'ref': 'sr-26-2'} [ref:sr262_2026]",
         "{'artifact': 'Regulatory applicability matrix (current version).', 'unverified': True} [unverified]"
       ]
     },
@@ -1597,9 +1597,9 @@
     ],
     "sources": [
       {
-        "id": "owasp_llm_top10_2025",
+        "id": "owasp_llm10_2025",
         "authority": "OWASP",
-        "title": "OWASP LLM Top 10 2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "source_type": "supervisory-guidance",
         "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
         "license": "CC BY-SA 4.0",
@@ -1614,7 +1614,7 @@
       {
         "id": "mitre_atlas_v5_6_0",
         "authority": "MITRE",
-        "title": "MITRE ATLAS v5.6.0",
+        "title": "MITRE ATLAS v5.6.0 — Adversarial Threat Landscape for Artificial-Intelligence Systems",
         "source_type": "voluntary-standard",
         "url": "https://atlas.mitre.org/",
         "license": "Apache 2.0",
@@ -1627,9 +1627,9 @@
         "published_on": "2026-05-04"
       },
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "license": "public domain",
@@ -1642,9 +1642,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "sr_26_2",
+        "id": "sr262_2026",
         "authority": "Federal Reserve / OCC / FDIC",
-        "title": "SR 26-2 — Supervisory Guidance on Model Risk Management",
+        "title": "SR 26-2: Supervisory Guidance on Model Risk Management",
         "source_type": "supervisory-guidance",
         "url": "https://www.federalreserve.gov/supervisionreg/srletters/sr2602.htm",
         "license": "public",
@@ -1681,9 +1681,9 @@
     },
     "validation": {
       "design_check": [
-        "Third-party AI model inventory exists as part of or linked to the model register. [ref:sr_26_2]",
-        "Vendor contract template includes required AI-specific clauses (notification, audit, SLA, confidentiality). [ref:sr_26_2]",
-        "Due diligence questionnaire covers AI-specific governance and safety practices. [ref:sr_26_2]"
+        "Third-party AI model inventory exists as part of or linked to the model register. [ref:sr262_2026]",
+        "Vendor contract template includes required AI-specific clauses (notification, audit, SLA, confidentiality). [ref:sr262_2026]",
+        "Due diligence questionnaire covers AI-specific governance and safety practices. [ref:sr262_2026]"
       ],
       "runtime_test": [
         "Select a sample of active third-party model vendors; verify annual risk review records exist. [unverified]",
@@ -1880,9 +1880,9 @@
     ],
     "sources": [
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "license": "public domain",
@@ -2340,9 +2340,9 @@
         "flagship": true
       },
       {
-        "id": "gdpr_2016",
+        "id": "gdpr",
         "authority": "European Union",
-        "title": "General Data Protection Regulation 2016/679",
+        "title": "Regulation (EU) 2016/679 — General Data Protection Regulation",
         "source_type": "regulation",
         "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679",
         "license": "public",
@@ -2354,7 +2354,7 @@
         "version": "2016/679"
       },
       {
-        "id": "owasp_aisvs_v1_0",
+        "id": "owasp_aisvs_v1",
         "authority": "OWASP",
         "title": "OWASP AI Security Verification Standard v1.0",
         "source_type": "certification-standard",
@@ -2368,9 +2368,9 @@
         "version": "1.0-pre"
       },
       {
-        "id": "nist_rmf_1_0",
+        "id": "nist_ai_rmf_1_0",
         "authority": "NIST",
-        "title": "AI Risk Management Framework 1.0",
+        "title": "NIST AI Risk Management Framework 1.0",
         "source_type": "voluntary-standard",
         "url": "https://doi.org/10.6028/NIST.AI.100-1",
         "license": "public domain",
@@ -2383,9 +2383,9 @@
         "retrieved_on": "2026-06-26"
       },
       {
-        "id": "owasp_llm_top10_2025",
+        "id": "owasp_llm10_2025",
         "authority": "OWASP",
-        "title": "OWASP LLM Top 10 2025",
+        "title": "OWASP Top 10 for LLM Applications 2025",
         "source_type": "supervisory-guidance",
         "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
         "license": "CC BY-SA 4.0",

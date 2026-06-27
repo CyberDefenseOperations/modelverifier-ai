@@ -40,9 +40,9 @@ Never invent, guess, or paraphrase a framework requirement ID. This includes:
 - SR 26-2 section codes (S-1.1, S-3.2, etc.)
 - OWASP AISVS requirement IDs (C1.1, C5.3, etc.)
 - OWASP LLM Top 10 entries (LLM01:2025 through LLM10:2025)
-- CSA AICM control IDs (MG-01, GOV-03, etc.)
+- CSA AICM control IDs (GOV-01, DM-01, MON-03, SEC-04, etc.)
 - MITRE ATLAS technique IDs (AML.T####)
-- OWASP AI Testing Guide requirement IDs (AITG-XX-NN format, e.g., AITG-OT-01)
+- OWASP AI Testing Guide requirement IDs (AITG-{DG|ME|RT|GV|IR}-NN format, e.g., AITG-GV-01, AITG-ME-03)
 
 Verify each ID against the primary source before submitting. The `schema/framework-mapping-catalog.json` file defines the allowed `requirement_id` patterns for each framework. The `audit:mappings` build step validates all IDs against these patterns and will fail on any unrecognized ID. If a valid ID does not match the catalog pattern, update the catalog first with a documented rationale.
 
@@ -163,6 +163,23 @@ Every source object must include:
 `artifact_hash` (sha256:...) is strongly recommended and required for `status: verified` mapping confidence levels. Compute it over the canonical document file (PDF or HTML) at `canonical_url`.
 
 `flagship: true` must be set on exactly one source per control — the primary normative source grounding the control's existence.
+
+### 3.1.1 Canonical Source IDs
+
+The following source IDs are canonical across all control files. Always use these exact IDs — do not create new variants. If you encounter a legacy ID, rename it to the canonical form.
+
+| Canonical ID | Document | Notes |
+|---|---|---|
+| `nist_ai_rmf_1_0` | NIST AI Risk Management Framework 1.0 | Replaces: `nist_rmf_100_1`, `nist_rmf_1_0`, `nist_rmf_v1`, `nist_ai_rmf` |
+| `nist_ai_600_1` | NIST AI 600-1 GenAI Profile | Stable — no legacy variants |
+| `iso_42001_2023` | ISO/IEC 42001:2023 AI Management System | Replaces: `iso42001` |
+| `eu_ai_act_2024` | EU AI Act — Regulation (EU) 2024/1689 | Stable |
+| `mitre_atlas_v5_6_0` | MITRE ATLAS v5.6.0 | Replaces: `mitre_atlas_560`, `mitre_atlas_5_6`, `atlas_v560`, tactic-specific variants |
+| `sr262_2026` | SR 26-2 Model Risk Management | Replaces: `sr262`, `sr_26_2` |
+| `owasp_aisvs_v1` | OWASP AISVS v1.0 | Replaces: `owasp_aisvs_v1_0` |
+| `owasp_llm10_2025` | OWASP LLM Top 10 2025 | Replaces: `owasp_llm_top10_2025`, `owasp_llm04` |
+| `csa_aicm_v1` | CSA AICM v1.1 | Stable |
+| `gdpr` | Regulation (EU) 2016/679 GDPR | Replaces: `gdpr_2016` |
 
 ### 3.2 Allowed `source_type` Values
 
@@ -477,7 +494,7 @@ nist_rmf  nist_ai_600_1  iso_42001  eu_ai_act  sr262
 aisvs     llm10          aicm       mitre       owasp_aitg
 ```
 
-When adding a mapping to `owasp_aitg`, use the AITG-XX-NN format (e.g., `AITG-OT-01`, `AITG-ML-03`). The framework has 52 total mappings across all 6 layers. Because the OWASP AI Testing Guide is a pre-release document, all owasp_aitg mappings must carry `mapping_confidence: medium`. Use `fit: direct`, `fit: supporting`, or `fit: adjacent` — not `fit: partial`. See section 4.6 for fit value criteria.
+When adding a mapping to `owasp_aitg`, use the AITG-XX-NN format (e.g., `AITG-GV-01`, `AITG-ME-03`). The framework has 52 total mappings across all 6 layers. Because the OWASP AI Testing Guide is a pre-release document, all owasp_aitg mappings must carry `mapping_confidence: medium`. Use `fit: direct`, `fit: supporting`, or `fit: adjacent` — not `fit: partial`. See section 4.6 for fit value criteria.
 
 When adding a mapping to `nist_ai_600_1`, always set `provisional: true` and `mapping_confidence: "medium"`. See section 4.5 for required fields and the rationale.
 
