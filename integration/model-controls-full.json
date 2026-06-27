@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T04:35:48.346Z",
+      "generated_at": "2026-06-27T04:51:51.662Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:8954d7c9ed0422084e37f8dccf7a8d862949fe2e9a60a37c6d14aff245f2b624"
+      "content_hash": "sha256:72caab916e43bdc5d84360932b66e99ee35d2580b2902ea25cf4a024ccaccd4f"
     },
     "controls": [
       {
@@ -10277,6 +10277,25 @@
             "source_version": "SR 26-2"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "GOV-05",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-01 mandates that every production AI model is assigned a named human owner with performance accountability, a team responsible for day-to-day operation, and an executive sponsor at director level or above for high-impact models — all recorded in the model register and reviewed at defined intervals. This directly satisfies GOV-05's requirement for AI system ownership and accountability role assignment by establishing the named, role-bound accountability structure that regulators and auditors require to answer who is accountable for a model's outcomes.",
+            "source_locator": {
+              "section": "Governance and Organizational Accountability"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-GV-03",
             "fit": "direct",
@@ -10720,6 +10739,25 @@
             "source_version": "SR 26-2"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "HO-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-02 operationalizes genuine human oversight through a five-factor adequacy framework that verifies reviewers have sufficient time, access to model reasoning, authority to override without penalty, domain competence, and a technically effective override mechanism — all of which HO-01 requires for consequential AI decisions. The control additionally mandates override rate monitoring and quarterly automation bias simulation exercises, producing measurable evidence that HO-01 uses to assess whether oversight is substantive rather than nominal.",
+            "source_locator": {
+              "section": "Human Oversight and Control"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-GV-03",
             "fit": "supporting",
@@ -10952,6 +10990,25 @@
             "uncovered_portion": "Technical documentation requirements addressed in LI layer.",
             "reviewed_on": "2026-06-26",
             "source_version": "2024/1689"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "GOV-06",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-03 establishes a formally chartered cross-functional AI Model Governance Committee with documented membership spanning engineering, validation, legal, compliance, risk, and business lines — giving collective authority to approve high-risk deployments, set risk appetite, review incidents, and adjudicate threshold decisions. This directly implements GOV-06 by creating the institutional body and decision-making structure that a cross-functional AI governance review board requires, including quorum requirements, binding decision rights, and mandatory seven-year record retention.",
+            "source_locator": {
+              "section": "Governance and Organizational Accountability"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
           },
           {
             "framework": "owasp_aitg",
@@ -11192,6 +11249,23 @@
             "uncovered_portion": "None significant for the governance aspect of tier management.",
             "reviewed_on": "2026-06-26",
             "source_version": "2023"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "RM-01",
+            "fit": "supporting",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-04 implements the governance process for assigning AI models to autonomy tiers that define the permissible scope of actions without human approval, with AIGC approval required for Tier 3 and above and formal change control for any tier escalation. By calibrating evaluation requirements to tier level and integrating tier assignment into the model registry, this control provides the classification and boundary definition component of RM-01's AI risk tier classification and autonomy scope management requirement.",
+            "uncovered_portion": "RM-01 covers the full risk classification and treatment lifecycle including ongoing risk monitoring and treatment adequacy assessment; OA-04 addresses only the model-side tier classification and boundary definition governance — enforcement of tier boundaries and authorization of specific actions within tiers is owned by the Security Verifier domain.",
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
           },
           {
             "framework": "owasp_aitg",
@@ -11511,6 +11585,25 @@
             "source_version": "1.0"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "CL-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-05 requires compliance counsel to review and sign off on all regulated-use AI model deployments before production promotion, documenting applicable regulations, compliance posture, and residual legal risks — functions that directly implement CL-01's requirement for regulatory applicability review and legal sign-off before AI deployment. For EU high-risk AI systems, the control additionally requires a completed conformity assessment and EU Declaration of Conformity, satisfying the formal pre-market authorization element of CL-01 for the most regulated AI contexts.",
+            "source_locator": {
+              "section": "Compliance and Legal Obligations"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-GV-04",
             "fit": "partial",
@@ -11765,6 +11858,25 @@
             "rationale": "OA-06 implements operational planning and control for third-party AI model procurement — requiring risk-based due diligence before first use, contract terms covering model change notification and audit rights, annual vendor risk review, and substitutability planning — directly supporting ISO 42001 Clause 8.1's requirement that operational processes including the use of externally-provided AI components be planned, implemented, controlled, and reviewed. Annex B's AI system supply chain considerations are additionally addressed because OA-06's vendor governance framework governs the intake, monitoring, and exit of third-party AI components throughout their operational lifecycle.",
             "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases and components; OA-06 covers only the third-party vendor and model risk oversight dimension and does not address operational controls for internally-developed AI systems covered by other OA layer controls and the BH layer.",
             "source_version": "2023",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "SUP-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-06 applies systematic vendor governance to all third-party AI models and components — requiring risk-based due diligence before first use, contract terms mandating model change notification and audit rights, annual vendor risk reviews, and a documented substitution plan for critical vendors. This directly implements SUP-02's third-party AI model and vendor risk management program requirement by covering the full vendor lifecycle from intake due diligence through ongoing performance monitoring and exit planning.",
+            "source_locator": {
+              "section": "Supply Chain and Third-Party"
+            },
+            "source_version": "1.1",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -12046,6 +12158,23 @@
             "uncovered_portion": "None significant.",
             "reviewed_on": "2026-06-26",
             "source_version": "SR 26-2"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "IR-01",
+            "fit": "supporting",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-07 defines the governance structure of the incident escalation authority chain — specifying named individuals at four escalation levels with explicit decision rights, time bounds, board-level notification thresholds, and mapping to regulatory notification obligations — which IR-01 requires as the organizational authority prerequisite for AI incident response. This control enables the IR-01 process by establishing who has authority to escalate and halt deployments, while the full operational incident response procedures that IR-01 encompasses are implemented by CR-04.",
+            "uncovered_portion": "IR-01 covers the full AI incident response and recovery lifecycle including detection, containment, remediation, and recovery procedures; OA-07 addresses only the escalation authority chain governance structure — the operational incident detection, containment, and response procedures are covered by CR-04.",
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
           },
           {
             "framework": "owasp_aitg",
@@ -12555,6 +12684,25 @@
             "source_version": "2025"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "TE-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "OA-08 implements the notice, explanation, human review, and contestability obligations for individuals affected by consequential AI outputs — directly addressing TE-01's requirements for transparency, notice, and contestability by mandating per-use-case applicability determination, technically accurate explanation mechanisms validated against model attribution, genuine human review access, and a re-evaluation-capable contestability process. The control's phased applicability model and legal-counsel-reviewed determination log provide the structured compliance evidence that TE-01 requires across diverse jurisdictions and decision types.",
+            "source_locator": {
+              "section": "Transparency and Explainability"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-GV-06",
             "fit": "direct",
@@ -12842,6 +12990,25 @@
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "MON-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-01 deploys a statistical process control pipeline that continuously samples model output distributions, computes PSI against a signed 30-day post-deployment baseline, and fires tiered alerts when outputs deviate beyond control limits — directly implementing MON-01's runtime output monitoring and anomaly detection requirement. The control produces a signed baseline artifact, an anomaly event log linked to BH-01 in the evidence registry, and quarterly threshold review records that together constitute the evidence chain MON-01 expects from a production output monitoring system.",
+            "source_locator": {
+              "section": "Monitoring and Alerting"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
             "legal_status": "voluntary",
             "control_readiness": "approved",
             "implementation_maturity": "developing",
@@ -13161,6 +13328,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "MON-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-02 computes PSI and KS-test statistics on production input features against a versioned DriftReference artifact, applying profile-conditional thresholds and triggering model review workflows when distribution shift exceeds safe bounds — directly implementing MON-02's production data and concept drift detection requirement. The control's separate handling of feature drift versus prediction drift, and its stricter thresholds for continuously-learning models, give MON-02 the granularity needed to distinguish different categories of distributional change and their risk implications.",
+            "source_locator": {
+              "section": "Monitoring and Alerting"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-RT-02",
             "fit": "direct",
@@ -13452,6 +13638,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "MON-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-03 anchors all production performance metrics to a signed EvaluationBaseline artifact established at each release, fires tiered alerts when primary metrics regress beyond accepted tolerances, and provides separate tracking for subgroup regression — directly implementing MON-03's performance monitoring and threshold alerting against deployment baseline requirement. The three-tier alert escalation (warning, critical, sev1) and automatic incident commander notification ensure that performance degradation signals reach decision-makers with enough time to intervene before user harm accumulates.",
+            "source_locator": {
+              "section": "Monitoring and Alerting"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-RT-03",
             "fit": "direct",
@@ -13681,6 +13886,23 @@
             "rationale": "BH-04 implements scheduled behavioral boundary testing in production using a versioned BoundaryTestSuite with defined BoundaryAdherenceRate thresholds reviewed quarterly — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations. Clause 6.1 on addressing risks and opportunities is additionally relevant because behavioral boundary testing directly operationalizes the risk treatment selected during the risk assessment phase to maintain intended-use constraints in production.",
             "uncovered_portion": "Clauses 9.1 and 6.1 address performance monitoring and risk management across the full AI system scope; BH-04 covers only behavioral boundary adherence measurement and does not address other monitoring dimensions, fairness metrics, or management system effectiveness evaluation.",
             "source_version": "2023",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "SEC-04",
+            "fit": "partial",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-04 runs a continuous BoundaryTestSuite against production inference endpoints, computing BoundaryAdherenceRate per behavioral boundary category and trending results over a 30-day rolling window, with critical alerts routed to both the model owner and securitycontrols.ai — directly implementing the measurement component of SEC-04's runtime behavioral security boundary testing requirement. Because this control quantifies boundary adherence from the Model Assurance perspective while enforcement and guardrail modification remain with the Security Verifier domain, the fit is partial.",
+            "uncovered_portion": "SEC-04 covers the full behavioral security boundary enforcement regime including detection of active violations and enforcement mechanisms such as blocking and guardrail updates; BH-04 addresses only the measurement and quantification of boundary adherence from the Model Assurance perspective — enforcement infrastructure is owned by the Security Verifier domain.",
+            "source_version": "1.1",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -13981,6 +14203,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "MON-04",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-05 instruments every model inference endpoint to emit a structured DecisionLog record capturing caller identity, HMAC-masked inputs, sampled outputs, latency, and decision outcomes, stored in a tamper-evident append-only store with daily Merkle tree root hash publication — directly implementing MON-04's AI system usage telemetry, decision logging, and audit trail requirement. The control's tiered retention schedules, access-controlled query API, and PII masking pipeline provide the privacy-safe, regulatory-ready logging infrastructure that MON-04 requires across deployment profiles.",
+            "source_locator": {
+              "section": "Monitoring and Alerting"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-RT-05",
             "fit": "supporting",
@@ -14203,6 +14444,25 @@
             "rationale": "BH-06 implements scheduled adversarial probe runs against the production model with defined InjectionResistanceScore thresholds, monthly governance board reports, and documented cross-domain alert routing — providing systematic measurement evidence for ISO 42001 Clause 9.1's monitoring and measurement obligations for security-relevant AI risks. Annex B identifies adversarial robustness as a core AI system risk requiring operational monitoring; BH-06 satisfies this obligation for the injection-resistance dimension through continuous production testing.",
             "uncovered_portion": "Clause 9.1 and Annex B address AI system performance monitoring and risk management across multiple dimensions; BH-06 covers only production injection resistance measurement and does not address other robustness dimensions, fairness monitoring, or management system effectiveness evaluation.",
             "source_version": "2023",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "SEC-03",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-06 implements a continuous production probe suite that measures prompt injection resistance and adversarial input failure rates against live model endpoints. SEC-03 requires adversarial and security testing of AI systems in production contexts; BH-06 directly satisfies this by running structured injection probes, recording failure rates, and triggering remediation workflows when resistance degrades below threshold.",
+            "source_locator": {
+              "section": "Security Controls and Adversarial Testing"
+            },
+            "source_version": "1.1",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -14503,6 +14763,25 @@
             "implementation_maturity": "developing",
             "assurance_result": "not-assessed",
             "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "MON-05",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-07 deploys a cost and resource telemetry pipeline that aggregates compute spend, token consumption, and API call volume per caller using Z-score and EWMA anomaly detection against rolling baselines, firing tiered cost-spike alerts and enforcing configurable per-caller budget guardrails — directly implementing MON-05's resource utilization and cost anomaly monitoring requirement for AI systems. The control's correlation of cost spikes with AML.T0024 bulk inference patterns and routing of correlated events to securitycontrols.ai adds a security-aware dimension that extends MON-05's financial monitoring function into adversarial resource abuse detection.",
+            "source_locator": {
+              "section": "Monitoring and Alerting"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
           }
         ]
       },
@@ -14692,6 +14971,25 @@
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "DP-01",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-08 requires signed authorization artifacts from both the model owner and evaluation team lead before any new model version receives live production traffic, implements a four-stage pipeline with pre-defined health gates and automated rollback triggers, and archives all transition records in a DeploymentGovernanceLog — directly implementing DP-01's AI model deployment gates, canary release governance, and rollback controls requirement. The shadow scoring comparison requirement, which demands less than 5% output divergence on safety-critical categories before canary authorization, provides the pre-traffic quantitative gate that DP-01 requires.",
+            "source_locator": {
+              "section": "Deployment and Change Management"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
             "legal_status": "voluntary",
             "control_readiness": "approved",
             "implementation_maturity": "developing",
@@ -14980,6 +15278,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "TE-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-09 embeds C2PA-compliant cryptographic provenance assertions in all AI-generated content artifacts, maintains a GenerationTraceabilityRegistry linking every output to the generating model version with a provenance verification endpoint, and applies mandatory disclosure labels to satisfy EU AI Act Art. 50 — directly implementing TE-02's AI-generated content provenance, disclosure labeling, and traceability requirement. The quarterly manifest integrity audits and certificate rotation schedule provide the ongoing assurance that the cryptographic provenance chain remains valid over the content lifecycle.",
+            "source_locator": {
+              "section": "Transparency and Explainability"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-RT-07",
             "fit": "adjacent",
@@ -15234,6 +15551,25 @@
             "rationale": "BH-10 implements governance controls for all feedback data that influences model behavior after deployment — including inter-rater reliability monitoring, feedback poisoning detection with PSI threshold of 0.2, and a signed authorization gate for online learning updates — directly operationalizing ISO 42001 Clause 8.6's requirement for data governance controls throughout the AI system lifecycle. For continuously-learning deployments, Clause 8.6's obligations extend to production feedback data, which BH-10 governs through labeler quality controls, anomaly detection, and the FeedbackGovernanceLog.",
             "uncovered_portion": "Clause 8.6 addresses data governance across the full AI system lifecycle including training and evaluation data; BH-10 covers only post-deployment feedback data integrity and online learning governance, not training data governance covered by TG layer controls or evaluation data governance.",
             "source_version": "2023",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "DM-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "BH-10 governs all post-deployment feedback loops influencing model behavior — requiring inter-rater reliability monitoring via Cohen's Kappa for RLHF labelers, PSI-based feedback poisoning detection, reward hacking monitoring, a signed authorization gate before any online learning update is applied to production weights, and a self-reinforcing error circuit breaker — directly implementing DM-02's feedback data integrity, labeler quality, and online learning governance requirement. The FeedbackGovernanceLog provides the documented audit trail that DM-02 requires to demonstrate that model behavior changes driven by post-deployment feedback are authorized, monitored, and free from adversarial manipulation.",
+            "source_locator": {
+              "section": "Data Management and Lifecycle"
+            },
+            "source_version": "1.1",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -15581,6 +15917,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "MON-06",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, cost, and incident flags — into a unified composite risk dashboard with documented P1/P2 alerting thresholds calibrated at ±2σ from baseline, providing the continuous assurance posture view that MON-06's aggregated AI risk monitoring dashboard requirement specifies. The quarterly synthetic anomaly injection test and read-only GRC dashboard access ensure the risk aggregation function remains demonstrably operational and accessible to decision-makers throughout the model's production lifetime.",
+            "source_locator": {
+              "section": "Monitoring and Alerting"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-02",
             "fit": "direct",
@@ -15857,6 +16212,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "GOV-07",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-02 maintains an immutable, content-addressed archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage — covering all evaluation manifests, monitoring snapshots, incident records, and regulatory submissions with retention schedules of 3 years (default) and 10 years (regulated banking) — directly implementing GOV-07's model evidence archival, audit trail, and records management requirement. The evidence retrieval API with auditor read-only access and annual retrieval testing fulfill GOV-07's expectation that archived evidence is verifiably accessible and tamper-evident throughout the retention period.",
+            "source_locator": {
+              "section": "Governance and Organizational Accountability"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-01",
             "fit": "supporting",
@@ -16112,6 +16486,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "EVA-06",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-03 runs the full benchmark, bias, and safety evaluation suite on a defined schedule — quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 — with delta reports comparing current performance against the pre-deployment baseline and archived in CR-02, directly implementing EVA-06's scheduled post-deployment model re-validation and periodic evaluation requirement. The trigger mechanism for unscheduled re-validation on CR-01 P1 alerts, PSI exceeding 0.25, or provider-announced model updates ensures that re-validation occurs whenever material risk signals emerge rather than only on the calendar schedule.",
+            "source_locator": {
+              "section": "Evaluation and Validation"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-03",
             "fit": "direct",
@@ -16333,6 +16726,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "IR-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan covering four severity levels with model-specific containment playbooks for rollback, output-filter enforcement, traffic shaping, and full shutdown with fallback — mapping P1 events to EU AI Act Art. 73 notification triggers in CR-05 and requiring 5-day post-incident reviews for P1/P2 events — directly implementing IR-02's AI-specific incident response plan requirement for detection, containment, remediation, and recovery. The quarterly MITRE ATLAS tabletop exercises with signed results archives provide the testing evidence that IR-02 requires to demonstrate the plan is operationally viable.",
+            "source_locator": {
+              "section": "Incident Response and Recovery"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-04",
             "fit": "direct",
@@ -16535,6 +16947,25 @@
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "CL-02",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events across jurisdictions to notification timelines, designated liaison contacts, and pre-approved templates — integrating automated countdown timer creation into the CR-04 P1 incident escalation path and archiving all notification submissions with delivery confirmations in CR-02 — directly implementing CL-02's regulatory notification obligations and statutory AI incident reporting requirement. Legal-counsel annual review of the notification matrix ensures that statutory reporting obligations remain current as the regulatory landscape evolves.",
+            "source_locator": {
+              "section": "Compliance and Legal Obligations"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
             "legal_status": "voluntary",
             "control_readiness": "approved",
             "implementation_maturity": "developing",
@@ -16798,6 +17229,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "MON-07",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-06 establishes three structured post-market surveillance channels — in-product user harm reporting with structured fields, a coordinated vulnerability disclosure program with a monitored security alias, and quarterly AI research literature monitoring — aggregated into a monthly report reviewed by the AI risk function, directly implementing MON-07's post-deployment surveillance and external harm signal collection requirement. The annual surveillance summary included in EU high-risk AI technical documentation fulfills MON-07's expectation that surveillance findings are formally documented and incorporated into the model's assurance record.",
+            "source_locator": {
+              "section": "Monitoring and Alerting"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "medium",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-02",
             "fit": "supporting",
@@ -17008,6 +17458,25 @@
             "evidence_status": "no-evidence"
           },
           {
+            "framework": "aicm",
+            "requirement_id": "GOV-08",
+            "fit": "direct",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-07 executes a formal model retirement checklist encompassing retirement decision approval, minimum 30-day user notice, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 right-to-erasure evaluation, and a final retirement record — directly implementing GOV-08's AI model retirement, lifecycle closure, and evidence archival obligations requirement. Marking the model as retired in the model registry and archiving all assurance evidence before infrastructure destruction ensures that regulatory obligations do not outlast the model's serving infrastructure.",
+            "source_locator": {
+              "section": "Governance and Organizational Accountability"
+            },
+            "source_version": "1.1",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
             "framework": "owasp_aitg",
             "requirement_id": "AITG-IR-06",
             "fit": "direct",
@@ -17195,6 +17664,23 @@
             "rationale": "CR-08 implements governance for cross-domain evidence references through the audit:cross-domain build check, namespace-registry.json resolver validation, and quarterly cross-domain sync reviews — supporting ISO 42001 Clause 8.3's requirement for processes that govern AI system design activities including coordination across organizational and domain boundaries. Annex A.4.2 on organizational context for AI risk management is additionally addressed because CR-08 explicitly compensates the gap3 cross-domain federation finding through structured inter-domain accountability and documented open findings.",
             "uncovered_portion": "Clause 8.3 addresses AI system design and development process governance across the full system scope; CR-08 covers only the cross-domain assurance coordination dimension and does not address intra-domain design and development governance covered by other controls.",
             "source_version": "2023",
+            "reviewed_on": "2026-06-26",
+            "source_status": "authoritative",
+            "mapping_confidence": "high",
+            "legal_status": "voluntary",
+            "control_readiness": "approved",
+            "implementation_maturity": "developing",
+            "assurance_result": "not-assessed",
+            "evidence_status": "no-evidence"
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "GOV-09",
+            "fit": "supporting",
+            "direction": "control-supports-requirement",
+            "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners — providing the technical evidence synchronization and reference resolution mechanism that supports GOV-09's cross-domain AI assurance coordination and evidence synchronization requirement. GOV-09's broader organizational governance coordination scope extends beyond the technical inter-domain evidence linkage that this control directly implements.",
+            "uncovered_portion": "GOV-09 covers the full organizational AI governance coordination framework including policy alignment, reporting lines, and cross-functional accountability structures; CR-08 addresses only the technical evidence synchronization and reference resolution mechanism between Apeiris verifier domains — organizational governance coordination is addressed by OA-03 (governance committee) and OA-07 (escalation authority chain).",
+            "source_version": "1.1",
             "reviewed_on": "2026-06-26",
             "source_status": "authoritative",
             "mapping_confidence": "high",
@@ -19664,6 +20150,12 @@
             "requirement_id": "9.1",
             "fit": "partial",
             "uncovered_portion": "Clauses 9.1 and 6.1 address performance monitoring and risk management across the full AI system scope; BH-04 covers only behavioral boundary adherence measurement and does not address other monitoring dimensions, fairness metrics, or management system effectiveness evaluation."
+          },
+          {
+            "framework": "aicm",
+            "requirement_id": "SEC-04",
+            "fit": "partial",
+            "uncovered_portion": "SEC-04 covers the full behavioral security boundary enforcement regime including detection of active violations and enforcement mechanisms such as blocking and guardrail updates; BH-04 addresses only the measurement and quantification of boundary adherence from the Model Assurance perspective — enforcement infrastructure is owned by the Security Verifier domain."
           }
         ]
       },
@@ -22982,26 +23474,26 @@
         "framework": "aicm",
         "display_name": "CSA AI Controls Matrix v1.1",
         "authority": "Cloud Security Alliance",
-        "total_mappings": 19,
+        "total_mappings": 45,
         "by_fit": {
-          "direct": 9,
-          "partial": 9,
+          "direct": 31,
+          "partial": 10,
           "adjacent": 1,
-          "supporting": 0,
+          "supporting": 3,
           "none": 0
         },
         "by_layer": {
           "LI": 1,
           "TG": 8,
           "EV": 10,
-          "OA": 0,
-          "BH": 0,
-          "CR": 0
+          "OA": 8,
+          "BH": 10,
+          "CR": 8
         },
         "by_confidence": {
           "verified": 0,
-          "high": 1,
-          "medium": 0,
+          "high": 11,
+          "medium": 16,
           "low": 0,
           "speculative": 0
         },
@@ -23024,10 +23516,36 @@
           "EV-07",
           "EV-08",
           "EV-09",
-          "EV-10"
+          "EV-10",
+          "OA-01",
+          "OA-02",
+          "OA-03",
+          "OA-04",
+          "OA-05",
+          "OA-06",
+          "OA-07",
+          "OA-08",
+          "BH-01",
+          "BH-02",
+          "BH-03",
+          "BH-04",
+          "BH-05",
+          "BH-06",
+          "BH-07",
+          "BH-08",
+          "BH-09",
+          "BH-10",
+          "CR-01",
+          "CR-02",
+          "CR-03",
+          "CR-04",
+          "CR-05",
+          "CR-06",
+          "CR-07",
+          "CR-08"
         ],
-        "controls_mapped_count": 19,
-        "coverage_pct": 35
+        "controls_mapped_count": 45,
+        "coverage_pct": 83
       },
       {
         "framework": "mitre",
