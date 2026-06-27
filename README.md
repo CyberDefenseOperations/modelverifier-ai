@@ -156,29 +156,29 @@ Establishes governance structures, accountability chains, and human oversight fo
 
 Governs model behavior in production, including monitoring, anomaly detection, and runtime guardrails. Controls cover:
 
-- Input validation and pre-processing integrity (BH-01)
-- Output filtering, post-processing, and safety guardrails (BH-02)
-- Runtime performance and drift monitoring (BH-03)
-- Prompt injection resistance and runtime attack surface monitoring (BH-04)
-- Audit logging and inference-level traceability (BH-05)
-- Rate limiting and consumption boundary enforcement (BH-06)
-- Fallback and graceful degradation procedures (BH-07)
-- Feedback loop integrity monitoring for continuously-learning systems (BH-08)
-- Synthetic content provenance and disclosure controls (BH-09)
-- Provider change monitoring for hosted-API deployments (BH-10)
+- Output Anomaly Detection (BH-01)
+- Concept and Data Drift Detection (BH-02)
+- Production Performance Degradation Alerting (BH-03)
+- Behavioral Boundary Enforcement (BH-04)
+- Usage and Decision Logging (BH-05)
+- Injection-Resistance Monitoring (BH-06)
+- Resource and Cost Anomaly Detection (BH-07)
+- Canary Deployment Governance (BH-08)
+- Synthetic Content Provenance (BH-09)
+- Feedback Loop Integrity (BH-10)
 
 ### CR — Continuous Risk, Incident & Evidence Assurance (8 controls | plane: lifecycle)
 
 Provides ongoing risk assurance, incident response, and evidence collection across the model lifecycle. Controls cover:
 
-- Ongoing monitoring programme and assurance cadence (CR-01)
-- Outcomes analysis and model performance validation against real-world results (CR-02)
-- Material change determination and re-evaluation triggering (CR-03)
-- Post-incident review and model risk update procedures (CR-04)
-- Evidence retention and audit artifact management (CR-05)
-- Regulatory change monitoring and control update process (CR-06)
-- Model retirement and decommissioning procedures (CR-07)
-- Cross-domain assurance integration with securitycontrols.ai evidence (CR-08)
+- Continuous Production Monitoring and Risk Aggregation (CR-01)
+- Model Evidence Archive and Audit Trail (CR-02)
+- Model Re-evaluation Scheduling and Triggers (CR-03)
+- Incident Response Management (CR-04)
+- Outcomes and Disparate Impact Analysis (CR-05)
+- Regulatory Notification and Market Surveillance Reporting (CR-06)
+- Model Retirement and Decommissioning (CR-07)
+- Cross-Domain Compliance Evidence (CR-08)
 
 ---
 
@@ -195,7 +195,7 @@ Profile membership is determined by evaluating `trigger_conditions` against the 
 | **hosted-api** | Model accessed via external API; provider_type is third-party or open-weight | LI-01, LI-04, LI-06, BH-03, BH-05, BH-10, CR-01, OA-01 |
 | **continuously-learning** | Training regime includes online-learning, RLHF, continual-learning, or adaptive fine-tuning | TG-01, TG-04, TG-05, EV-01, EV-06, EV-07, CR-01, CR-02, CR-03, BH-05, BH-08 |
 | **high-impact-decision** | Decisions affecting credit, hiring, healthcare, benefits, housing, law enforcement, or judicial outcomes | LI-01, LI-04, LI-06, EV-01, EV-05, EV-06, EV-09, OA-01, OA-02, OA-07, OA-08, CR-01, CR-02 |
-| **us-regulated-banking** | US supervised financial institution (SR 26-2 scope; heightened for $30B+ assets) | LI-01, LI-04, LI-05, TG-01, EV-01, EV-06, EV-08, EV-09, OA-01, OA-03, CR-01, CR-02 |
+| **us-regulated-banking** | US supervised banking institution (SR 26-2 scope; heightened for $30B+ assets); banking only — SR 26-2 does not apply to GenAI or agentic AI systems | LI-01, LI-04, LI-05, TG-01, EV-01, EV-06, EV-08, EV-09, OA-01, OA-03, CR-01, CR-02 |
 | **eu-high-risk** | EU AI Act Annex III system or product-embedded high-risk system in EU jurisdiction | LI-01, LI-04, LI-06, LI-07, TG-01, TG-03, TG-06, EV-01, EV-05, EV-06, EV-09, OA-01, OA-02, OA-07, OA-08, BH-05, CR-01, CR-02 |
 | **frontier-capability** | capability_level: frontier, or dangerous capability domains detected in EV-03 | Full set — 24 required controls; all 54 recommended |
 
@@ -220,10 +220,10 @@ Every deployment, regardless of profile, must implement these 15 controls. The b
 | EV-09 | EV | Use-Case Risk Assessment and Impact Analysis |
 | OA-01 | OA | AI Model Risk Policy and Governance Framework |
 | OA-07 | OA | Affected Party Notice, Explanation, and Contestability |
-| BH-03 | BH | Runtime Performance and Drift Monitoring |
-| BH-05 | BH | Audit Logging and Inference-Level Traceability |
-| CR-01 | CR | Ongoing Monitoring Programme and Assurance Cadence |
-| CR-02 | CR | Outcomes Analysis and Model Performance Validation |
+| BH-03 | BH | Production Performance Degradation Alerting |
+| BH-05 | BH | Usage and Decision Logging |
+| CR-01 | CR | Continuous Production Monitoring and Risk Aggregation |
+| CR-02 | CR | Model Evidence Archive and Audit Trail |
 
 The 15-control baseline is validated by the `validate:baselines` build step, which enforces that all baseline controls are present and have `readiness: approved` before the integration bundle is published.
 
@@ -321,6 +321,27 @@ Verify the signature with any Ed25519-capable tool:
 # Using OpenSSL (Ed25519 support requires OpenSSL 1.1.1 or later)
 openssl pkeyutl -verify -pubin -inkey apeiris-release.pub \
   -sigfile release-manifest.sig -in release-manifest.json
+```
+
+### Dataset content hash
+
+`model-controls-full.json` includes `dataset.meta.content_hash` — a SHA-256 hash of the dataset. The hash is **non-self-referential**: it is computed over the serialized JSON with the `content_hash` field itself excluded. To verify independently:
+
+```javascript
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+
+const raw = readFileSync('model-controls-full.json', 'utf8');
+const parsed = JSON.parse(raw);
+const storedHash = parsed.dataset.meta.content_hash;
+
+// Strip the hash field before re-hashing
+delete parsed.dataset.meta.content_hash;
+const recomputed = createHash('sha256')
+  .update(JSON.stringify(parsed, null, 2))
+  .digest('hex');
+
+console.log(recomputed === storedHash); // true if the file is unmodified
 ```
 
 ### Evidence claim graph
