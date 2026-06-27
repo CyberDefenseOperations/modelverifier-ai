@@ -1,0 +1,14 @@
+# Cloudflare Pages _headers
+# Applied to all files served from the integration/ directory.
+# This enables any runtime, CI pipeline, or GRC tool to consume the
+# modelverifier.ai matrix without CORS restrictions.
+
+/integration/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Accept
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Content-Type: application/json; charset=utf-8
+  X-Content-Type-Options: nosniff
+  X-Apeiris-Domain: model-assurance
+  X-Apeiris-Schema-Version: 1.0.0

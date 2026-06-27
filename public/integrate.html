@@ -291,7 +291,7 @@
   <p class="page-lead">
     The AI Model &amp; System Assurance Control Matrix is available as a
     CORS-enabled JSON API — fetch from any origin, no key required.
-    54 controls, 8 framework mappings, 8 deployment profiles, machine-readable
+    54 controls, 8 framework mappings, 11 deployment profiles, machine-readable
     obligation objects, and structured implementation guidance.
   </p>
 
@@ -367,7 +367,7 @@
 dataset.meta.control_count    <span class="hlc">// 54</span>
 dataset.meta.version          <span class="hlc">// "1.0.0"</span>
 dataset.controls.length       <span class="hlc">// 54</span>
-dataset.profiles.length       <span class="hlc">// 8</span></code></pre>
+dataset.profiles.length       <span class="hlc">// 11</span></code></pre>
 
   <pre><code><span class="hlc"># curl</span>
 curl https://modelverifier.ai/integration/model-controls-full.json \
@@ -387,7 +387,7 @@ curl https://modelverifier.ai/integration/model-controls-full.json \
       <tr><td>references[]</td><td>array</td><td>Deduplicated source documents cited by controls</td></tr>
       <tr><td>layers[]</td><td>array</td><td>6 layer definitions with control ID lists</td></tr>
       <tr><td>planes[]</td><td>array</td><td>4 assurance plane definitions</td></tr>
-      <tr><td>profiles[]</td><td>array</td><td>8 deployment profiles with required/recommended control IDs</td></tr>
+      <tr><td>profiles[]</td><td>array</td><td>11 deployment profiles with required/recommended control IDs</td></tr>
       <tr><td>patterns[]</td><td>array</td><td>Implementation pattern summaries per control</td></tr>
       <tr><td>framework_coverage[]</td><td>array</td><td>Per-framework mapping statistics</td></tr>
       <tr><td>capability_coverage[]</td><td>array</td><td>Controls indexed by capability level and domain</td></tr>
@@ -440,22 +440,25 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
   <div class="profile-grid">
     <div class="profile-card"><div class="profile-id">general-predictive-ml</div><div class="profile-name">General Predictive ML</div><div class="profile-trigger">Supervised/unsupervised ML, no elevated capability</div></div>
     <div class="profile-card"><div class="profile-id">generative-ai</div><div class="profile-name">Generative AI</div><div class="profile-trigger">Generative paradigm or text/image/code output</div></div>
+    <div class="profile-card"><div class="profile-id">multimodal</div><div class="profile-name">Multimodal AI System</div><div class="profile-trigger">Non-text input modalities (image, audio, video, document) or multi-modal output — cross-modal attack surface and visual/audio data governance</div></div>
     <div class="profile-card"><div class="profile-id">hosted-api</div><div class="profile-name">Hosted / Third-Party API</div><div class="profile-trigger">Third-party model or open-weight provider; black-box assurance pattern applies</div></div>
     <div class="profile-card"><div class="profile-id">continuously-learning</div><div class="profile-name">Continuously Learning</div><div class="profile-trigger">RLHF, online-learning, continual-learning — separate lifecycle from static models</div></div>
     <div class="profile-card"><div class="profile-id">high-impact-decision</div><div class="profile-name">High-Impact Decision</div><div class="profile-trigger">Credit, hiring, healthcare, judicial — materially affects individuals</div></div>
     <div class="profile-card"><div class="profile-id">us-regulated-banking</div><div class="profile-name">US Regulated Banking / Financial Institution</div><div class="profile-trigger">Supervised banking organizations; heightened expectations scaled by size, complexity, and model risk profile</div></div>
     <div class="profile-card"><div class="profile-id">eu-high-risk</div><div class="profile-name">EU High-Risk AI System</div><div class="profile-trigger">EU AI Act Annex III or product-embedded (Ch. III/IV obligations; deployer and provider duties differ)</div></div>
+    <div class="profile-card"><div class="profile-id">gpai-provider</div><div class="profile-name">GPAI Model Provider</div><div class="profile-trigger">EU AI Act Ch. V — providers of general-purpose AI models; technical documentation, copyright compliance, training data summary, downstream provider access</div></div>
+    <div class="profile-card"><div class="profile-id">gpai-systemic-risk</div><div class="profile-name">GPAI with Systemic Risk</div><div class="profile-trigger">EU AI Act Ch. VI — ≥10²⁵ FLOPs or AI Office designation; adversarial testing, incident reporting to AI Office, systemic-risk assessment and mitigation</div></div>
     <div class="profile-card"><div class="profile-id">frontier-capability</div><div class="profile-name">Frontier Capability</div><div class="profile-trigger">capability_level: "frontier" or dangerous domains — ~ASL-3+ evaluation requirements</div></div>
-    <div class="profile-card planned"><div class="profile-id">gpai-provider</div><div class="profile-name">GPAI Model Provider</div><div class="profile-trigger">EU AI Act Ch. V — providers of general-purpose AI models; transparency and copyright documentation obligations</div><div class="profile-label-planned">planned — v1.1</div></div>
-    <div class="profile-card planned"><div class="profile-id">gpai-systemic-risk</div><div class="profile-name">GPAI with Systemic Risk</div><div class="profile-trigger">EU AI Act Ch. VI — GPAI models with systemic risk; adversarial testing, incident reporting, cybersecurity protection, systemic-risk assessment</div><div class="profile-label-planned">planned — v1.1</div></div>
   </div>
 
   <div class="notice">
     <strong>GPAI profiles:</strong> EU AI Act Chapter V and VI impose distinct obligations on <em>providers</em> of
     general-purpose AI models that are separate from, and additive to, high-risk system obligations.
     A frontier model provider, a downstream enterprise deployer, and an orchestrated-service provider
-    do not have the same duties. The current <code>frontier-capability</code> and <code>eu-high-risk</code>
-    profiles do not capture GPAI-specific provider obligations. GPAI profiles are mapped and planned for v1.1.
+    do not have the same duties. The <code>gpai-provider</code> and <code>gpai-systemic-risk</code> profiles
+    are now live — both profiles became applicable 2025-08-02 (12 months after EU AI Act entry into force).
+    The systemic risk profile (Ch. VI) is additive to the GPAI provider profile (Ch. V) — both are simultaneously
+    active for providers above the 10²⁵ FLOPs threshold or designated by the AI Office.
   </div>
 
   <pre><code><span class="hlc">// Get all required controls for a profile + the baseline</span>
@@ -497,11 +500,11 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
     <tbody>
       <tr><td>nist_rmf</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI Risk Management Framework 1.0 + AI 600-1 GenAI Profile</td></tr>
       <tr><td>iso_42001</td><td><span class="fw-force fw-voluntary">standard</span></td><td>ISO/IEC 42001:2023 AI Management Systems</td></tr>
-      <tr><td>eu_ai_act</td><td><span class="fw-force fw-binding">binding (EU)</span></td><td>EU AI Act — Regulation 2024/1689 (Ch. III–VI; GPAI obligations in v1.1)</td></tr>
+      <tr><td>eu_ai_act</td><td><span class="fw-force fw-binding">binding (EU)</span></td><td>EU AI Act — Regulation 2024/1689 (Ch. III–VI; includes GPAI provider and systemic risk obligations)</td></tr>
       <tr><td>sr262</td><td><span class="fw-force fw-guidance">guidance</span></td><td>Fed SR 26-2 — Supervisory Guidance on Model Risk Management</td></tr>
       <tr><td>aisvs</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Security Verification Standard v1.0</td></tr>
       <tr><td>llm10</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP LLM Top 10 2025 v2.0</td></tr>
-      <tr><td>aicm</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>CSA AI Controls Matrix v1.0.3 <span class="version-stale">⚠ v1.1 released 2026-06-22</span></td></tr>
+      <tr><td>aicm</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>CSA AI Controls Matrix v1.1 (247 objectives, 18 domains — released 2026-06-22)</td></tr>
       <tr><td>mitre</td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>MITRE ATLAS v5.6.0</td></tr>
       <tr class="fw-planned"><td>nist_ai_600_1 <span style="font-size:.65rem;color:var(--muted)">(v1.1)</span></td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>NIST AI 600-1 GenAI Profile — confabulation, IP, CBRN, info integrity, compute</td></tr>
       <tr class="fw-planned"><td>owasp_aitg <span style="font-size:.65rem;color:var(--muted)">(v1.1)</span></td><td><span class="fw-force fw-voluntary">voluntary</span></td><td>OWASP AI Testing Guide v1 — repeatable trustworthiness testing across EV/BH/CR</td></tr>
@@ -509,10 +512,10 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
   </table>
 
   <div class="notice">
-    <strong>AICM v1.1 (June 22, 2026):</strong> CSA released AICM v1.1 with 247 control objectives across 18 domains,
-    plus EU AI Act mapping, AI-CAIQ, and STAR for AI materials. Current controls map against v1.0.3.
-    The v1.1 update is planned for the next source review cycle. Consumers should treat AICM mappings
-    as valid against v1.0.3 and check for v1.1 ID changes before relying on AICM control IDs downstream.<br><br>
+    <strong>AICM v1.1 (June 22, 2026):</strong> The framework catalog is updated to CSA AICM v1.1 (247 control objectives,
+    18 domains). Existing control-level AICM mappings were authored against v1.0.3 IDs — validate these against
+    the v1.1 document before relying on specific AICM control IDs in downstream tooling. New domains from the
+    8-domain expansion require ID mapping validation in the next authoring cycle.<br><br>
     <strong>NIST AI 600-1:</strong> Currently implied through <code>nist_rmf</code> citations. The GenAI Profile
     has distinct coverage (confabulation, CBRN uplift, IP, compute) that doesn't map cleanly to base RMF subcategories.
     It will be split into a separate <code>nist_ai_600_1</code> key in v1.1, primarily affecting EV and BH layer controls.<br><br>

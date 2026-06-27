@@ -7,7 +7,7 @@
   <meta name="description" content="54 machine-readable model assurance controls across 6 layers. Citation-backed, profile-aware, obligation-linked. Feeds the Apeiris Model Assurance Verifier.">
   <link rel="canonical" href="https://modelverifier.ai/">
   <meta property="og:title" content="AI Model &amp; System Assurance Control Matrix">
-  <meta property="og:description" content="54 controls · 6 layers · 8 frameworks · 8 profiles. Zero runtime deps.">
+  <meta property="og:description" content="54 controls · 6 layers · 8 frameworks · 11 profiles. Zero runtime deps.">
   <meta property="og:url" content="https://modelverifier.ai/">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -417,28 +417,24 @@
       background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
     }
 
-    /* ── Tooltip popovers ── */
-    .has-tip { position: relative; }
-    .has-tip::after {
-      content: attr(data-tip);
-      position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    /* ── Tooltip popovers — fixed-position so they escape overflow containers ── */
+    #mvTip {
+      display: none; position: fixed; z-index: 9999; pointer-events: none;
       background: #1a2030; border: 1px solid var(--border2);
       color: var(--text2); font-size: 0.72rem; font-weight: 400;
       padding: 8px 11px; border-radius: 7px;
       min-width: 160px; max-width: 240px; white-space: normal; text-align: left;
-      pointer-events: none; opacity: 0; z-index: 999;
-      line-height: 1.5; letter-spacing: 0;
-      transition: opacity 0.15s; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      line-height: 1.5; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      transform: translateX(-50%);
     }
-    .has-tip::before {
-      content: ''; position: absolute; bottom: calc(100% + 3px); left: 50%; transform: translateX(-50%);
+    #mvTip.tip-arrow-down::after {
+      content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
       border: 5px solid transparent; border-top-color: var(--border2);
-      pointer-events: none; opacity: 0; z-index: 999; transition: opacity 0.15s;
     }
-    .has-tip:hover::after, .has-tip:focus::after { opacity: 1; }
-    .has-tip:hover::before, .has-tip:focus::before { opacity: 1; }
-    .has-tip.tip-left::after { left: 0; transform: none; }
-    .has-tip.tip-left::before { left: 14px; transform: none; }
+    #mvTip.tip-arrow-up::after {
+      content: ''; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+      border: 5px solid transparent; border-bottom-color: var(--border2);
+    }
 
     .filter-label-row {
       display: flex; align-items: center; gap: 5px;
@@ -623,7 +619,6 @@
   <a class="wordmark" href="/">modelverifier<span class="wordmark-dot">.</span>ai <span class="wordmark-sub">Apeiris</span></a>
   <div class="header-sep"></div>
   <a class="header-link" href="/integrate.html">Integrate</a>
-  <a class="header-link" href="https://apeiris.io" target="_blank" style="margin-left:12px">apeiris.io</a>
   <button class="assess-toggle" id="assessToggle" title="Switch to self-assessment mode">⊕ Assess</button>
   <button class="export-btn" id="exportBtn" title="Export your assessment as JSON">↓ Export</button>
   <a class="api-btn" href="/integration/model-controls-full.json" target="_blank" style="margin-left:4px">↓ JSON</a>
@@ -668,11 +663,14 @@
         <option value="">All profiles</option>
         <option value="general-predictive-ml">General Predictive ML</option>
         <option value="generative-ai">Generative AI</option>
+        <option value="multimodal">Multimodal AI System</option>
         <option value="hosted-api">Hosted / Third-Party API</option>
         <option value="continuously-learning">Continuously Learning</option>
         <option value="high-impact-decision">High-Impact Decision</option>
         <option value="us-regulated-banking">US Regulated Banking / Financial Institution</option>
         <option value="eu-high-risk">EU High-Risk AI System (AI Act)</option>
+        <option value="gpai-provider">GPAI Model Provider (EU AI Act Ch. V)</option>
+        <option value="gpai-systemic-risk">GPAI with Systemic Risk (EU AI Act Ch. VI)</option>
         <option value="frontier-capability">Frontier Capability</option>
       </select>
     </div>
@@ -710,13 +708,12 @@
   <!-- Main content -->
   <main class="main">
     <div class="stats-bar">
-      <div class="stat-item"><div class="stat-num" id="statControls">54</div><div class="stat-label">Controls</div></div>
-      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Layers</div></div>
-      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Profiles</div></div>
-      <div class="stat-item"><div class="stat-num">15</div><div class="stat-label">Baseline</div></div>
-      <div class="stat-item assess-stat has-tip" data-tip="Controls you have self-assessed in Assess mode. Click ⊕ Assess to start." style="cursor:pointer" id="assessStatItem">
+      <div class="stat-item"><div class="stat-num" id="statControls">54</div><div class="stat-label" id="statControlsLabel">of 54 shown</div></div>
+      <div class="stat-item"><div class="stat-num" id="statFrameworks">8</div><div class="stat-label">frameworks</div></div>
+      <div class="stat-item" id="statProfileItem" style="max-width:120px;overflow:hidden"><div class="stat-num stat-profile-name" id="statProfile" style="font-size:0.72rem;font-weight:700;letter-spacing:0;color:var(--muted)">—</div><div class="stat-label">profile</div></div>
+      <div class="stat-item assess-stat" id="assessStatItem" style="cursor:pointer" title="Switch to Assess mode to rate your maturity level for each control">
         <div class="stat-num" id="statAssessed">0</div>
-        <div class="stat-label">Assessed</div>
+        <div class="stat-label">assessed</div>
       </div>
     </div>
     <div class="scope-banner" id="scopeBanner">
@@ -815,7 +812,60 @@
   </div>
 </div>
 
+<div id="mvTip"></div>
+
 <script>
+// ── Fixed-position tooltip engine ──────────────────────────────────────────────
+(function() {
+  const tip = document.getElementById('mvTip');
+  let hideTimer = null;
+
+  function show(el) {
+    const text = el.dataset.tip;
+    if (!text) return;
+    clearTimeout(hideTimer);
+    tip.textContent = text;
+    tip.style.display = 'block';
+
+    const r = el.getBoundingClientRect();
+    const tipH = tip.offsetHeight;
+    const tipW = tip.offsetWidth;
+    const cx = r.left + r.width / 2;
+    const MARGIN = 8;
+
+    // Flip above/below based on available space
+    if (r.top - tipH - MARGIN - 10 < 0) {
+      // Not enough room above — show below
+      tip.style.top  = (r.bottom + MARGIN) + 'px';
+      tip.classList.remove('tip-arrow-down');
+      tip.classList.add('tip-arrow-up');
+    } else {
+      tip.style.top  = (r.top - tipH - MARGIN) + 'px';
+      tip.classList.remove('tip-arrow-up');
+      tip.classList.add('tip-arrow-down');
+    }
+
+    // Clamp left so tip never bleeds off-screen
+    const raw = cx - tipW / 2;
+    const left = Math.max(6, Math.min(raw, window.innerWidth - tipW - 6));
+    tip.style.left = (left + tipW / 2) + 'px'; // transform: translateX(-50%) centers it
+    tip.style.transform = `translateX(calc(-50% + ${left - raw}px))`;
+  }
+
+  function hide() {
+    hideTimer = setTimeout(() => { tip.style.display = 'none'; }, 80);
+  }
+
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-tip]');
+    if (el) show(el); else hide();
+  }, true);
+  document.addEventListener('mouseout', e => {
+    if (!e.relatedTarget?.closest('[data-tip]')) hide();
+  }, true);
+  document.addEventListener('scroll', hide, true);
+})();
+
 // ── Config ─────────────────────────────────────────────────────────────────────
 const DATA_URL = '/integration/model-controls-full.json';
 
@@ -846,7 +896,7 @@ const FW_NAMES = {
   sr262:     'SR 26-2',
   aisvs:     'OWASP AISVS v1.0',
   llm10:     'OWASP LLM Top 10',
-  aicm:      'CSA AICM v1.0.3',
+  aicm:      'CSA AICM v1.1',
   mitre:     'MITRE ATLAS v5.6',
 };
 
@@ -996,9 +1046,42 @@ function filtered() {
 }
 
 // ── Render list ────────────────────────────────────────────────────────────────
+const PROFILE_SHORT = {
+  'general-predictive-ml': 'Predictive ML',
+  'generative-ai':         'Generative AI',
+  'multimodal':            'Multimodal',
+  'hosted-api':            'Hosted API',
+  'continuously-learning': 'Continuous',
+  'high-impact-decision':  'High Impact',
+  'us-regulated-banking':  'US Banking',
+  'eu-high-risk':          'EU High-Risk',
+  'gpai-provider':         'GPAI Provider',
+  'gpai-systemic-risk':    'GPAI Systemic',
+  'frontier-capability':   'Frontier',
+};
+
+function updateStats(vis) {
+  const total = controls.length || 54;
+  const showing = vis.length;
+  document.getElementById('statControls').textContent = showing;
+  document.getElementById('statControlsLabel').textContent =
+    showing === total ? `of ${total} shown` : `of ${total} visible`;
+
+  // Profile stat
+  const profEl = document.getElementById('statProfile');
+  if (filters.profile) {
+    profEl.textContent = PROFILE_SHORT[filters.profile] ?? filters.profile;
+    profEl.style.color = 'var(--accent)';
+  } else {
+    profEl.textContent = '—';
+    profEl.style.color = 'var(--muted)';
+  }
+}
+
 function render() {
   const vis = filtered();
   document.getElementById('resultCount').innerHTML = `<strong>${vis.length}</strong> controls`;
+  updateStats(vis);
 
   if (!vis.length) {
     document.getElementById('controlList').innerHTML =

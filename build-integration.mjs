@@ -185,18 +185,21 @@ const FRAMEWORK_DISPLAY = {
   sr262:     { name: 'SR 26-2 — Model Risk Management',            authority: 'Federal Reserve Board' },
   aisvs:     { name: 'OWASP AI Security Verification Standard v1.0', authority: 'OWASP' },
   llm10:     { name: 'OWASP LLM Top 10 2025',                      authority: 'OWASP' },
-  aicm:      { name: 'CSA AI Controls Matrix v1.0.3',              authority: 'Cloud Security Alliance' },
+  aicm:      { name: 'CSA AI Controls Matrix v1.1',                authority: 'Cloud Security Alliance' },
   mitre:     { name: 'MITRE ATLAS v5.6.0',                         authority: 'MITRE Corporation' },
 };
 
 const PROFILE_IDS = [
   'general-predictive-ml',
   'generative-ai',
+  'multimodal',
   'hosted-api',
   'continuously-learning',
   'high-impact-decision',
   'us-regulated-banking',
   'eu-high-risk',
+  'gpai-provider',
+  'gpai-systemic-risk',
   'frontier-capability',
 ];
 
