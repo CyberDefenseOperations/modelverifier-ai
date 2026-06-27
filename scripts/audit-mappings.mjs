@@ -183,7 +183,7 @@ const FRAMEWORK_PATTERNS = {
   sr262:         /^(S-\d+(\.\d+)?|App-[A-Z](\.\d+)?)$/,
   aisvs:         /^C(10|[1-9])\.\d+$/,
   llm10:         /^LLM(0[1-9]|10):2025$/,
-  aicm:          /^[A-Z]{2,6}-\d{2,3}$/,
+  aicm:          /^[A-Z&]{2,6}-\d{2,3}$/,
   mitre:         /^AML\.(T|M|DS)\d{4}(\.\d{3})?$/,
   owasp_aitg:    /^AITG-(DG|ME|RT|GV|IR)-\d{2}$/,
 };
