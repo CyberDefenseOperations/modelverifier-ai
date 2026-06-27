@@ -321,6 +321,25 @@
         "evidence_status": "no-evidence"
       },
       {
+        "framework": "aicm",
+        "requirement_id": "MON-06",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-01 aggregates all runtime risk signals — performance, drift, fairness, safety, cost, and incident flags — into a unified composite risk dashboard with documented P1/P2 alerting thresholds calibrated at ±2σ from baseline, providing the continuous assurance posture view that MON-06's aggregated AI risk monitoring dashboard requirement specifies. The quarterly synthetic anomaly injection test and read-only GRC dashboard access ensure the risk aggregation function remains demonstrably operational and accessible to decision-makers throughout the model's production lifetime.",
+        "source_locator": {
+          "section": "Monitoring and Alerting"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-02",
         "fit": "direct",
@@ -489,7 +508,7 @@
           "type": "safety",
           "threshold": {
             "op": "gt",
-            "value": 0.0
+            "value": 0
           },
           "alert_level": "P1",
           "metric_id": "rekor_anchoring_failure_rate",
@@ -498,7 +517,7 @@
           "population": "all-production-models",
           "comparison": {
             "operator": "greater-than",
-            "value": 0.0,
+            "value": 0,
             "window": "rolling-7d",
             "evaluation_mode": "batch"
           },
@@ -588,6 +607,25 @@
         "rationale": "CR-02 creates and maintains documented information for every AI system lifecycle event — evaluation manifests, monitoring snapshots, incident records, and regulatory submissions — in an immutable, content-addressed archive with SHA-256 hash verification and defined retention schedules of 3-year default and 10-year banking, directly satisfying ISO 42001 Clause 7.5's requirements for documented information necessary for the effectiveness of the AI management system. The Sigstore Rekor transparency-log anchoring provides the integrity assurance that Clause 7.5 requires for retained documented information.",
         "uncovered_portion": "Clause 7.5 encompasses the full documented information lifecycle including creation, update, distribution, and disposal of management system documentation; CR-02 covers only the evidence retention and tamper-evident archival dimension and does not address creation and update governance for management system documents such as policies and procedures.",
         "source_version": "2023",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "GOV-07",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-02 maintains an immutable, content-addressed archive anchored to the Sigstore Rekor transparency log with S3 Object Lock COMPLIANCE mode storage — covering all evaluation manifests, monitoring snapshots, incident records, and regulatory submissions with retention schedules of 3 years (default) and 10 years (regulated banking) — directly implementing GOV-07's model evidence archival, audit trail, and records management requirement. The evidence retrieval API with auditor read-only access and annual retrieval testing fulfill GOV-07's expectation that archived evidence is verifiably accessible and tamper-evident throughout the retention period.",
+        "source_locator": {
+          "section": "Governance and Organizational Accountability"
+        },
+        "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",
@@ -854,6 +892,25 @@
         "evidence_status": "no-evidence"
       },
       {
+        "framework": "aicm",
+        "requirement_id": "EVA-06",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-03 runs the full benchmark, bias, and safety evaluation suite on a defined schedule — quarterly for Tier-1 models, semi-annually for Tier-2, annually for Tier-3 — with delta reports comparing current performance against the pre-deployment baseline and archived in CR-02, directly implementing EVA-06's scheduled post-deployment model re-validation and periodic evaluation requirement. The trigger mechanism for unscheduled re-validation on CR-01 P1 alerts, PSI exceeding 0.25, or provider-announced model updates ensures that re-validation occurs whenever material risk signals emerge rather than only on the calendar schedule.",
+        "source_locator": {
+          "section": "Evaluation and Validation"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-03",
         "fit": "direct",
@@ -1030,7 +1087,7 @@
           "population": "all-assessed-deployments",
           "comparison": {
             "operator": "lt",
-            "value": 1.0,
+            "value": 1,
             "window": "30d",
             "evaluation_mode": "batch"
           },
@@ -1069,6 +1126,25 @@
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "IR-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-04 defines and maintains an AI-specific Incident Response Plan covering four severity levels with model-specific containment playbooks for rollback, output-filter enforcement, traffic shaping, and full shutdown with fallback — mapping P1 events to EU AI Act Art. 73 notification triggers in CR-05 and requiring 5-day post-incident reviews for P1/P2 events — directly implementing IR-02's AI-specific incident response plan requirement for detection, containment, remediation, and recovery. The quarterly MITRE ATLAS tabletop exercises with signed results archives provide the testing evidence that IR-02 requires to demonstrate the plan is operationally viable.",
+        "source_locator": {
+          "section": "Incident Response and Recovery"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
@@ -1240,7 +1316,7 @@
           "population": "all-assessed-deployments",
           "comparison": {
             "operator": "lt",
-            "value": 1.0,
+            "value": 1,
             "window": "30d",
             "evaluation_mode": "batch"
           },
@@ -1279,6 +1355,25 @@
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "CL-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-05 maintains a regulatory notification matrix mapping trigger events across jurisdictions to notification timelines, designated liaison contacts, and pre-approved templates — integrating automated countdown timer creation into the CR-04 P1 incident escalation path and archiving all notification submissions with delivery confirmations in CR-02 — directly implementing CL-02's regulatory notification obligations and statutory AI incident reporting requirement. Legal-counsel annual review of the notification matrix ensures that statutory reporting obligations remain current as the regulatory landscape evolves.",
+        "source_locator": {
+          "section": "Compliance and Legal Obligations"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
         "legal_status": "voluntary",
         "control_readiness": "approved",
         "implementation_maturity": "developing",
@@ -1543,6 +1638,25 @@
         "evidence_status": "no-evidence"
       },
       {
+        "framework": "aicm",
+        "requirement_id": "MON-07",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-06 establishes three structured post-market surveillance channels — in-product user harm reporting with structured fields, a coordinated vulnerability disclosure program with a monitored security alias, and quarterly AI research literature monitoring — aggregated into a monthly report reviewed by the AI risk function, directly implementing MON-07's post-deployment surveillance and external harm signal collection requirement. The annual surveillance summary included in EU high-risk AI technical documentation fulfills MON-07's expectation that surveillance findings are formally documented and incorporated into the model's assurance record.",
+        "source_locator": {
+          "section": "Monitoring and Alerting"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-IR-02",
         "fit": "supporting",
@@ -1708,7 +1822,7 @@
           "population": "all-assessed-deployments",
           "comparison": {
             "operator": "lt",
-            "value": 1.0,
+            "value": 1,
             "window": "30d",
             "evaluation_mode": "batch"
           },
@@ -1744,6 +1858,25 @@
         "rationale": "CR-07 implements operational planning and control for the AI system decommissioning phase — requiring a signed retirement decision record, minimum 30-day notice period, evidence archive completeness verification, and a final retirement record — directly satisfying ISO 42001 Clause 8.1's requirement that all AI system lifecycle phases be planned, implemented, controlled, and reviewed. Clause A.6.3 on AI system lifecycle decommissioning is additionally fulfilled because CR-07's retirement checklist ensures decommissioning is conducted in a documented and auditable manner with appropriate stakeholder notification.",
         "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases including development, deployment, and operation; CR-07 covers only the decommissioning and end-of-life phase and does not address operational controls for the active deployment phase covered by BH layer controls.",
         "source_version": "2023",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "GOV-08",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-07 executes a formal model retirement checklist encompassing retirement decision approval, minimum 30-day user notice, traffic drain verification, IAM credential revocation, complete infrastructure decommissioning, evidence archive completeness verification, GDPR Art. 17 right-to-erasure evaluation, and a final retirement record — directly implementing GOV-08's AI model retirement, lifecycle closure, and evidence archival obligations requirement. Marking the model as retired in the model registry and archiving all assurance evidence before infrastructure destruction ensures that regulatory obligations do not outlast the model's serving infrastructure.",
+        "source_locator": {
+          "section": "Governance and Organizational Accountability"
+        },
+        "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",
@@ -1906,7 +2039,7 @@
           "population": "all-assessed-deployments",
           "comparison": {
             "operator": "lt",
-            "value": 1.0,
+            "value": 1,
             "window": "30d",
             "evaluation_mode": "batch"
           },
@@ -1942,6 +2075,23 @@
         "rationale": "CR-08 implements governance for cross-domain evidence references through the audit:cross-domain build check, namespace-registry.json resolver validation, and quarterly cross-domain sync reviews — supporting ISO 42001 Clause 8.3's requirement for processes that govern AI system design activities including coordination across organizational and domain boundaries. Annex A.4.2 on organizational context for AI risk management is additionally addressed because CR-08 explicitly compensates the gap3 cross-domain federation finding through structured inter-domain accountability and documented open findings.",
         "uncovered_portion": "Clause 8.3 addresses AI system design and development process governance across the full system scope; CR-08 covers only the cross-domain assurance coordination dimension and does not address intra-domain design and development governance covered by other controls.",
         "source_version": "2023",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "GOV-09",
+        "fit": "supporting",
+        "direction": "control-supports-requirement",
+        "rationale": "CR-08 resolves all apeiris:// cross-domain evidence references against the namespace-registry.json resolver_map at build time, maintains a cross-domain dependency map updated on each release, and coordinates quarterly sync reviews between model-domain and security-domain owners — providing the technical evidence synchronization and reference resolution mechanism that supports GOV-09's cross-domain AI assurance coordination and evidence synchronization requirement. GOV-09's broader organizational governance coordination scope extends beyond the technical inter-domain evidence linkage that this control directly implements.",
+        "uncovered_portion": "GOV-09 covers the full organizational AI governance coordination framework including policy alignment, reporting lines, and cross-functional accountability structures; CR-08 addresses only the technical evidence synchronization and reference resolution mechanism between Apeiris verifier domains — organizational governance coordination is addressed by OA-03 (governance committee) and OA-07 (escalation authority chain).",
+        "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",

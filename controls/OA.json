@@ -214,6 +214,25 @@
         "source_version": "SR 26-2"
       },
       {
+        "framework": "aicm",
+        "requirement_id": "GOV-05",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-01 mandates that every production AI model is assigned a named human owner with performance accountability, a team responsible for day-to-day operation, and an executive sponsor at director level or above for high-impact models — all recorded in the model register and reviewed at defined intervals. This directly satisfies GOV-05's requirement for AI system ownership and accountability role assignment by establishing the named, role-bound accountability structure that regulators and auditors require to answer who is accountable for a model's outcomes.",
+        "source_locator": {
+          "section": "Governance and Organizational Accountability"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-03",
         "fit": "direct",
@@ -658,6 +677,25 @@
         "source_version": "SR 26-2"
       },
       {
+        "framework": "aicm",
+        "requirement_id": "HO-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-02 operationalizes genuine human oversight through a five-factor adequacy framework that verifies reviewers have sufficient time, access to model reasoning, authority to override without penalty, domain competence, and a technically effective override mechanism — all of which HO-01 requires for consequential AI decisions. The control additionally mandates override rate monitoring and quarterly automation bias simulation exercises, producing measurable evidence that HO-01 uses to assess whether oversight is substantive rather than nominal.",
+        "source_locator": {
+          "section": "Human Oversight and Control"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-03",
         "fit": "supporting",
@@ -891,6 +929,25 @@
         "uncovered_portion": "Technical documentation requirements addressed in LI layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2024/1689"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "GOV-06",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-03 establishes a formally chartered cross-functional AI Model Governance Committee with documented membership spanning engineering, validation, legal, compliance, risk, and business lines — giving collective authority to approve high-risk deployments, set risk appetite, review incidents, and adjudicate threshold decisions. This directly implements GOV-06 by creating the institutional body and decision-making structure that a cross-functional AI governance review board requires, including quorum requirements, binding decision rights, and mandatory seven-year record retention.",
+        "source_locator": {
+          "section": "Governance and Organizational Accountability"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       },
       {
         "framework": "owasp_aitg",
@@ -1132,6 +1189,23 @@
         "uncovered_portion": "None significant for the governance aspect of tier management.",
         "reviewed_on": "2026-06-26",
         "source_version": "2023"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "RM-01",
+        "fit": "supporting",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-04 implements the governance process for assigning AI models to autonomy tiers that define the permissible scope of actions without human approval, with AIGC approval required for Tier 3 and above and formal change control for any tier escalation. By calibrating evaluation requirements to tier level and integrating tier assignment into the model registry, this control provides the classification and boundary definition component of RM-01's AI risk tier classification and autonomy scope management requirement.",
+        "uncovered_portion": "RM-01 covers the full risk classification and treatment lifecycle including ongoing risk monitoring and treatment adequacy assessment; OA-04 addresses only the model-side tier classification and boundary definition governance — enforcement of tier boundaries and authorization of specific actions within tiers is owned by the Security Verifier domain.",
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       },
       {
         "framework": "owasp_aitg",
@@ -1452,6 +1526,25 @@
         "source_version": "1.0"
       },
       {
+        "framework": "aicm",
+        "requirement_id": "CL-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-05 requires compliance counsel to review and sign off on all regulated-use AI model deployments before production promotion, documenting applicable regulations, compliance posture, and residual legal risks — functions that directly implement CL-01's requirement for regulatory applicability review and legal sign-off before AI deployment. For EU high-risk AI systems, the control additionally requires a completed conformity assessment and EU Declaration of Conformity, satisfying the formal pre-market authorization element of CL-01 for the most regulated AI contexts.",
+        "source_locator": {
+          "section": "Compliance and Legal Obligations"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-04",
         "fit": "partial",
@@ -1707,6 +1800,25 @@
         "rationale": "OA-06 implements operational planning and control for third-party AI model procurement — requiring risk-based due diligence before first use, contract terms covering model change notification and audit rights, annual vendor risk review, and substitutability planning — directly supporting ISO 42001 Clause 8.1's requirement that operational processes including the use of externally-provided AI components be planned, implemented, controlled, and reviewed. Annex B's AI system supply chain considerations are additionally addressed because OA-06's vendor governance framework governs the intake, monitoring, and exit of third-party AI components throughout their operational lifecycle.",
         "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases and components; OA-06 covers only the third-party vendor and model risk oversight dimension and does not address operational controls for internally-developed AI systems covered by other OA layer controls and the BH layer.",
         "source_version": "2023",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "SUP-02",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-06 applies systematic vendor governance to all third-party AI models and components — requiring risk-based due diligence before first use, contract terms mandating model change notification and audit rights, annual vendor risk reviews, and a documented substitution plan for critical vendors. This directly implements SUP-02's third-party AI model and vendor risk management program requirement by covering the full vendor lifecycle from intake due diligence through ongoing performance monitoring and exit planning.",
+        "source_locator": {
+          "section": "Supply Chain and Third-Party"
+        },
+        "source_version": "1.1",
         "reviewed_on": "2026-06-26",
         "source_status": "authoritative",
         "mapping_confidence": "high",
@@ -1989,6 +2101,23 @@
         "uncovered_portion": "None significant.",
         "reviewed_on": "2026-06-26",
         "source_version": "SR 26-2"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "IR-01",
+        "fit": "supporting",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-07 defines the governance structure of the incident escalation authority chain — specifying named individuals at four escalation levels with explicit decision rights, time bounds, board-level notification thresholds, and mapping to regulatory notification obligations — which IR-01 requires as the organizational authority prerequisite for AI incident response. This control enables the IR-01 process by establishing who has authority to escalate and halt deployments, while the full operational incident response procedures that IR-01 encompasses are implemented by CR-04.",
+        "uncovered_portion": "IR-01 covers the full AI incident response and recovery lifecycle including detection, containment, remediation, and recovery procedures; OA-07 addresses only the escalation authority chain governance structure — the operational incident detection, containment, and response procedures are covered by CR-04.",
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       },
       {
         "framework": "owasp_aitg",
@@ -2366,7 +2495,7 @@
           "description": "Rate of contestability requests per thousand decisions, used as a model quality and applicant experience proxy",
           "unit": "per-thousand",
           "alert_threshold": {
-            "spike_multiplier": 2.0,
+            "spike_multiplier": 2,
             "note": "2x baseline spike triggers model quality review"
           },
           "window_context": "30-day rolling",
@@ -2377,7 +2506,7 @@
           "population": "all-production-decisions",
           "comparison": {
             "operator": "greater-than",
-            "value": 2.0,
+            "value": 2,
             "window": "30d",
             "evaluation_mode": "batch"
           },
@@ -2497,6 +2626,25 @@
         "uncovered_portion": "Factual accuracy of model outputs is a separate concern addressed in EV layer.",
         "reviewed_on": "2026-06-26",
         "source_version": "2025"
+      },
+      {
+        "framework": "aicm",
+        "requirement_id": "TE-01",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-08 implements the notice, explanation, human review, and contestability obligations for individuals affected by consequential AI outputs — directly addressing TE-01's requirements for transparency, notice, and contestability by mandating per-use-case applicability determination, technically accurate explanation mechanisms validated against model attribution, genuine human review access, and a re-evaluation-capable contestability process. The control's phased applicability model and legal-counsel-reviewed determination log provide the structured compliance evidence that TE-01 requires across diverse jurisdictions and decision types.",
+        "source_locator": {
+          "section": "Transparency and Explainability"
+        },
+        "source_version": "1.1",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       },
       {
         "framework": "owasp_aitg",
