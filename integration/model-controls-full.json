@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T04:27:19.518Z",
+      "generated_at": "2026-06-27T04:30:28.244Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:e2c381a786e1c7ba90b8a47f3e073be0fc3ddcc2499e40beaa2dc6088b4a33ec"
+      "content_hash": "sha256:aa04e1738823826ca428b9cec93a127ba4a112ebecb66d18b9b4ba6d101fe963"
     },
     "controls": [
       {
