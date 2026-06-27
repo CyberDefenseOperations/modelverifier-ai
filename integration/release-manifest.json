@@ -2,14 +2,14 @@
   "manifest_version": "1.0.0",
   "domain": "model",
   "dataset_version": "1.0.0",
-  "generated_at": "2026-06-27T04:56:18.798Z",
+  "generated_at": "2026-06-27T05:27:32.330Z",
   "artifacts": [
     {
       "artifact_id": "model-controls-full.json",
       "filename": "model-controls-full.json",
       "url": "https://modelverifier.ai/integration/model-controls-full.json",
-      "content_hash": "sha256:7d95fa0da8f2fe0a31c59fd3a502e31071ed7c9d9c47fd6a3052c78d34320fbd",
-      "content_length_hint": 1330611,
+      "content_hash": "sha256:5d60139c979f1119e821071d413e3884c485bdf936ebc84ea95a510c583d08f7",
+      "content_length_hint": 1417786,
       "encoding": "utf-8",
       "media_type": "application/json"
     }
