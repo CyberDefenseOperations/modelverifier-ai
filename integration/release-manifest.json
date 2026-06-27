@@ -2,19 +2,23 @@
   "manifest_version": "1.0.0",
   "domain": "model",
   "dataset_version": "1.0.0",
-  "generated_at": "2026-06-27T02:41:27.355Z",
+  "generated_at": "2026-06-27T02:59:31.784Z",
   "artifacts": [
     {
       "filename": "model-controls-full.json",
       "url": "https://modelverifier.ai/integration/model-controls-full.json",
-      "content_hash": "sha256:db258f154a5931703ad1b931caf808e7b1cccc37771f62859476d1509fccb503",
-      "content_length_hint": 1132533,
+      "content_hash": "sha256:fdef4f1b90db01daa3e704aa0bfaebd20237d00ececb4e573b7d1a41e219ac98",
+      "content_length_hint": 1150239,
       "encoding": "utf-8",
       "media_type": "application/json"
     }
   ],
   "signing_note": "Production releases are signed with the Apeiris release key. Verify the signature at https://modelverifier.ai/integration/release-manifest.json.sig using the public key published at https://modelverifier.ai/.well-known/apeiris-release.pub",
   "warnings": [
-    "OA-06: no iso_42001 framework mapping"
+    "OA-06: no iso_42001 framework mapping",
+    "BH-04: no nist_rmf framework mapping",
+    "BH-04: no iso_42001 framework mapping",
+    "BH-09: no nist_rmf framework mapping",
+    "BH-09: no iso_42001 framework mapping"
   ]
 }

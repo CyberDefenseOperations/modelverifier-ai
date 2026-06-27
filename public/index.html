@@ -7,7 +7,7 @@
   <meta name="description" content="54 machine-readable model assurance controls across 6 layers. Citation-backed, profile-aware, obligation-linked. Feeds the Apeiris Model Assurance Verifier.">
   <link rel="canonical" href="https://modelverifier.ai/">
   <meta property="og:title" content="AI Model &amp; System Assurance Control Matrix">
-  <meta property="og:description" content="54 controls · 6 layers · 8 frameworks · 11 profiles. Zero runtime deps.">
+  <meta property="og:description" content="54 controls · 6 layers · 9 frameworks · 11 profiles. Zero runtime deps.">
   <meta property="og:url" content="https://modelverifier.ai/">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -896,7 +896,7 @@
     </div>
     <div class="stats-bar">
       <div class="stat-item"><div class="stat-num" id="statControls">54</div><div class="stat-label" id="statControlsLabel">of 54 shown</div></div>
-      <div class="stat-item"><div class="stat-num" id="statFrameworks">8</div><div class="stat-label">frameworks</div></div>
+      <div class="stat-item"><div class="stat-num" id="statFrameworks">9</div><div class="stat-label">frameworks</div></div>
       <div class="stat-item" id="statProfileItem" style="max-width:120px;overflow:hidden"><div class="stat-num stat-profile-name" id="statProfile" style="font-size:0.72rem;font-weight:700;letter-spacing:0;color:var(--muted)">—</div><div class="stat-label">profile</div></div>
       <div class="stat-item assess-stat" id="assessStatItem" style="cursor:pointer" title="Switch to Assess mode to rate your maturity level for each control">
         <div class="stat-num" id="statAssessed">0</div>
@@ -1111,14 +1111,15 @@ const LENS_LABELS = {
 };
 
 const FW_NAMES = {
-  nist_rmf:  'NIST AI RMF 1.0',
-  iso_42001: 'ISO/IEC 42001:2023',
-  eu_ai_act: 'EU AI Act',
-  sr262:     'SR 26-2',
-  aisvs:     'OWASP AISVS v1.0',
-  llm10:     'OWASP LLM Top 10',
-  aicm:      'CSA AICM v1.1',
-  mitre:     'MITRE ATLAS v5.6',
+  nist_rmf:       'NIST AI RMF 1.0',
+  nist_ai_600_1:  'NIST AI 600-1',
+  iso_42001:      'ISO/IEC 42001:2023',
+  eu_ai_act:      'EU AI Act',
+  sr262:          'SR 26-2',
+  aisvs:          'OWASP AISVS v1.0',
+  llm10:          'OWASP LLM Top 10',
+  aicm:           'CSA AICM v1.1',
+  mitre:          'MITRE ATLAS v5.6',
 };
 
 // Human-readable labels and tooltips for threat tags

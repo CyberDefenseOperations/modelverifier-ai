@@ -917,7 +917,20 @@
       ],
       "sampling_rate": "100%",
       "window_context": "rolling-7d"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "nist_ai_600_1",
+        "requirement_id": "INFO-SECURITY",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "BH-04 monitors for prompt injection attempts and runtime adversarial activity against model systems. NIST AI 600-1 INFO-SECURITY covers adversarial prompt injection as a primary GenAI threat. This control contributes to the production monitoring component of information security risk management for GenAI deployments.",
+        "uncovered_portion": "EV-04 (red-team evaluation) handles the pre-deployment adversarial testing component; BH-04 handles runtime detection only.",
+        "source_version": "1.0",
+        "reviewed_on": "2026-06-26",
+        "mapping_confidence": "high"
+      }
+    ]
   },
   {
     "id": "BH-05",
@@ -1906,7 +1919,20 @@
       ],
       "sampling_rate": "100%",
       "window_context": "rolling-30d"
-    }
+    },
+    "frameworks": [
+      {
+        "framework": "nist_ai_600_1",
+        "requirement_id": "INFO-INTEGRITY",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "NIST AI 600-1 identifies Information Integrity as a GenAI risk — AI-generated content used for disinformation, synthetic media, or misleading purposes at scale. BH-09 directly addresses this by requiring provenance marking, disclosure mechanisms, and traceability for all synthetic model outputs, enabling downstream verification and limiting information integrity harms.",
+        "source_locator": {"section": "INFO-INTEGRITY"},
+        "source_version": "1.0",
+        "reviewed_on": "2026-06-26",
+        "mapping_confidence": "high"
+      }
+    ]
   },
   {
     "id": "BH-10",

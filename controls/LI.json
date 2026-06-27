@@ -1211,7 +1211,12 @@
         "mapping_fit": "direct",
         "source_ref": "eu_ai_act",
         "reviewed_on": "2026-06-26",
-        "notes": "Art-11 requires providers of high-risk AI systems to draw up and maintain technical documentation before placing the system on the market. Annex IV specifies the minimum content of technical documentation, which substantially overlaps with the Mitchell et al. 9-section model card. Effective date is Dec 2, 2027 for standalone Annex III systems (Parliament-approved; Council adoption pending as of 2026-06-26). Product-embedded systems: Aug 2, 2028."
+        "notes": "Art-11 requires providers of high-risk AI systems to draw up and maintain technical documentation before placing the system on the market. Annex IV specifies the minimum content of technical documentation, which substantially overlaps with the Mitchell et al. 9-section model card. Effective date is Dec 2, 2027 for standalone Annex III systems (Parliament-approved; Council adoption pending as of 2026-06-26). Product-embedded systems: Aug 2, 2028.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "capability_risk": {
@@ -2103,7 +2108,12 @@
         "mapping_fit": "partial",
         "source_ref": "eu_ai_act",
         "reviewed_on": "2026-06-26",
-        "notes": "Art-12 requires providers of high-risk AI systems to design systems to automatically record events ('logs') including periods of use, reference databases against which the system has been checked, input data, and information to identify the persons responsible. Minimum 6-month log retention unless Union or national law specifies otherwise. Effective Dec 2, 2027 for standalone Annex III systems (Parliament-approved; Council adoption pending as of 2026-06-26). Product-embedded: Aug 2, 2028."
+        "notes": "Art-12 requires providers of high-risk AI systems to design systems to automatically record events ('logs') including periods of use, reference databases against which the system has been checked, input data, and information to identify the persons responsible. Minimum 6-month log retention unless Union or national law specifies otherwise. Effective Dec 2, 2027 for standalone Annex III systems (Parliament-approved; Council adoption pending as of 2026-06-26). Product-embedded: Aug 2, 2028.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -2443,7 +2453,12 @@
         "mapping_fit": "direct",
         "source_ref": "eu_ai_act",
         "reviewed_on": "2026-06-26",
-        "notes": "Art-13 requires providers of high-risk AI systems to design and develop systems to be sufficiently transparent that deployers can understand the system's capabilities and limitations and can implement appropriate human oversight. Annex VII details minimum content for instructions for use, which substantially overlaps with a structured capability-limitation declaration. Effective Dec 2, 2027 for standalone Annex III systems. Product-embedded: Aug 2, 2028."
+        "notes": "Art-13 requires providers of high-risk AI systems to design and develop systems to be sufficiently transparent that deployers can understand the system's capabilities and limitations and can implement appropriate human oversight. Annex VII details minimum content for instructions for use, which substantially overlaps with a structured capability-limitation declaration. Effective Dec 2, 2027 for standalone Annex III systems. Product-embedded: Aug 2, 2028.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -3031,7 +3046,12 @@
         "mapping_fit": "partial",
         "source_ref": "eu_ai_act",
         "reviewed_on": "2026-06-26",
-        "notes": "EU AI Act Art-9 requires providers to implement a risk management system covering the full AI system lifecycle, including changes during the operational phase. LI-09's material-change determination process is the operational mechanism through which Art-9's lifecycle risk management requirement is implemented. Art-9(9) specifically requires risk management to address AI system modifications. Effective Dec 2, 2027 for standalone Annex III (Parliament-approved; Council adoption pending)."
+        "notes": "EU AI Act Art-9 requires providers to implement a risk management system covering the full AI system lifecycle, including changes during the operational phase. LI-09's material-change determination process is the operational mechanism through which Art-9's lifecycle risk management requirement is implemented. Art-9(9) specifically requires risk management to address AI system modifications. Effective Dec 2, 2027 for standalone Annex III (Parliament-approved; Council adoption pending).",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "maturity": {
@@ -3491,7 +3511,12 @@
         "mapping_fit": "partial",
         "source_ref": "eu_ai_act",
         "reviewed_on": "2026-06-26",
-        "notes": "Art-12 requires providers of high-risk AI systems to design systems to automatically record events ('logs') including periods of use, reference databases against which the system has been checked, input data, and information to identify the persons responsible. Minimum 6-month log retention unless Union or national law specifies otherwise. Effective Dec 2, 2027 for standalone Annex III systems (Parliament-approved; Council adoption pending as of 2026-06-26). Product-embedded: Aug 2, 2028."
+        "notes": "Art-12 requires providers of high-risk AI systems to design systems to automatically record events ('logs') including periods of use, reference databases against which the system has been checked, input data, and information to identify the persons responsible. Minimum 6-month log retention unless Union or national law specifies otherwise. Effective Dec 2, 2027 for standalone Annex III systems (Parliament-approved; Council adoption pending as of 2026-06-26). Product-embedded: Aug 2, 2028.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   }

@@ -250,7 +250,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-10",
         "mapping_fit": "partial",
-        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections."
+        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "frameworks": [
@@ -626,7 +631,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-10",
         "mapping_fit": "partial",
-        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections."
+        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "frameworks": [
@@ -989,7 +999,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-10",
         "mapping_fit": "partial",
-        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections."
+        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "frameworks": [
@@ -1093,6 +1108,17 @@
         "uncovered_portion": "Active supply chain integrity checks are in TG-04 and TG-07",
         "reviewed_on": "2026-06-26",
         "source_version": "5.6.0"
+      },
+      {
+        "framework": "nist_ai_600_1",
+        "requirement_id": "DATA-PRIVACY",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "NIST AI 600-1 DATA-PRIVACY covers risks from models trained on personal data — including memorization, membership inference attacks, and unintended output of personal information. TG-03 addresses the training-time component by governing how sensitive and protected-attribute data is handled during dataset assembly and preprocessing.",
+        "uncovered_portion": "DATA-PRIVACY in NIST AI 600-1 also covers inference-time privacy risks (model outputs revealing training data) — those are addressed by EV-04 red-teaming and BH-05 audit logging, not TG-03.",
+        "source_version": "1.0",
+        "reviewed_on": "2026-06-26",
+        "mapping_confidence": "high"
       }
     ],
     "profiles": [
@@ -1329,7 +1355,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-10",
         "mapping_fit": "partial",
-        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections."
+        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "frameworks": [
@@ -1753,7 +1784,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-9",
         "mapping_fit": "partial",
-        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system."
+        "notes": "Art-9 requires providers to establish, implement, document and maintain a risk management system throughout the lifecycle of a high-risk AI system.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -1947,7 +1983,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-10",
         "mapping_fit": "partial",
-        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections."
+        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "frameworks": [
@@ -2423,7 +2464,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-10",
         "mapping_fit": "partial",
-        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections."
+        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -2643,7 +2689,12 @@
         "reviewed_on": "2026-06-26",
         "provision": "Art-10",
         "mapping_fit": "partial",
-        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections."
+        "notes": "Art-10 requires that training, validation and testing data for high-risk AI systems meet quality criteria including relevance, representativeness, freedom from errors and appropriate privacy protections.",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "frameworks": [
