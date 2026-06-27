@@ -262,7 +262,8 @@ async function loadControls(controlsDir) {
   if (existsSync(canonical)) {
     console.log(`[load] Reading canonical source: ${canonical}`);
     const raw = await readFile(canonical, 'utf8');
-    const parsed = JSON.parse(raw);
+    let parsed;
+    try { parsed = JSON.parse(raw); } catch (e) { throw new Error(`Failed to parse ${canonical}: ${e.message}`); }
     const controls = Array.isArray(parsed) ? parsed : parsed.controls ?? parsed.dataset?.controls;
     if (!Array.isArray(controls)) {
       throw new Error(`model-controls.json must export an array of controls or {controls: [...]}. Got: ${typeof controls}`);
@@ -281,7 +282,8 @@ async function loadControls(controlsDir) {
       continue;
     }
     const raw = await readFile(layerFile, 'utf8');
-    const parsed = JSON.parse(raw);
+    let parsed;
+    try { parsed = JSON.parse(raw); } catch (e) { throw new Error(`Failed to parse ${layerFile}: ${e.message}`); }
     const layerControls = Array.isArray(parsed) ? parsed : [];
     console.log(`[load]   ${layer}.json — ${layerControls.length} controls`);
     allControls.push(...layerControls);
@@ -306,7 +308,7 @@ async function loadProfiles(schemaDir) {
     return { profiles: [], profile_matrix: null };
   }
   const raw = await readFile(profilesFile, 'utf8');
-  return JSON.parse(raw);
+  try { return JSON.parse(raw); } catch (e) { throw new Error(`Failed to parse ${profilesFile}: ${e.message}`); }
 }
 
 /**
@@ -319,7 +321,7 @@ async function loadFrameworkCatalog(schemaDir) {
     return { frameworks: {} };
   }
   const raw = await readFile(catalogFile, 'utf8');
-  return JSON.parse(raw);
+  try { return JSON.parse(raw); } catch (e) { throw new Error(`Failed to parse ${catalogFile}: ${e.message}`); }
 }
 
 // ---------------------------------------------------------------------------
