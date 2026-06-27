@@ -2197,17 +2197,22 @@ function loadFromHash() {
   if (!match) return;
   try {
     const decoded = JSON.parse(decodeURIComponent(escape(atob(match[1]))));
-    if (decoded && typeof decoded === 'object') {
-      Object.assign(assessState, decoded);
-      localStorage.setItem(LS_KEY, JSON.stringify(assessState));
-      updateAssessCount();
-      updateAssessBar();
-      // Auto-enter assess mode
-      if (!assessMode) {
-        assessMode = true;
-        document.body.classList.add('assess-mode');
-        document.getElementById('assessToggle').textContent = '✓ Assessing';
-      }
+    if (!decoded || typeof decoded !== 'object' || Array.isArray(decoded)) return;
+    const VALID_LEVELS = new Set(MATURITY);
+    const VALID_ID = /^[A-Z]{2}-\d{2}$/;
+    let imported = 0;
+    for (const [k, v] of Object.entries(decoded)) {
+      if (VALID_ID.test(k) && VALID_LEVELS.has(v)) { assessState[k] = v; imported++; }
+    }
+    if (!imported) return;
+    localStorage.setItem(LS_KEY, JSON.stringify(assessState));
+    updateAssessCount();
+    updateAssessBar();
+    // Auto-enter assess mode
+    if (!assessMode) {
+      assessMode = true;
+      document.body.classList.add('assess-mode');
+      document.getElementById('assessToggle').textContent = '✓ Assessing';
     }
   } catch (e) {}
 }
@@ -2313,22 +2318,34 @@ document.getElementById('asmExportCsv').addEventListener('click', exportCsv);
 document.getElementById('asmImportFile').addEventListener('change', e => {
   const file = e.target.files[0];
   if (!file) return;
+  if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+    alert('Only .json files are supported.'); e.target.value = ''; return;
+  }
+  if (file.size > 512 * 1024) {
+    alert('File too large (max 512 KB). Assessment exports are typically under 50 KB.'); e.target.value = ''; return;
+  }
   const reader = new FileReader();
   reader.onload = ev => {
     try {
       const data = JSON.parse(ev.target.result);
-      // Support both: raw {id: level} map or exported payload with controls[]
+      const VALID_LEVELS = new Set(MATURITY);
+      const VALID_ID = /^[A-Z]{2}-\d{2}$/;
       let newState = {};
-      if (data.schema?.startsWith('apeiris://')) {
-        // Exported payload format
+      if (data && data.schema?.startsWith('apeiris://')) {
+        // Exported payload format — validate each entry
         for (const c of (data.controls ?? [])) {
-          if (c.id && c.self_assessed) newState[c.id] = c.self_assessed;
+          if (c.id && VALID_ID.test(c.id) && c.self_assessed && VALID_LEVELS.has(c.self_assessed)) {
+            newState[c.id] = c.self_assessed;
+          }
         }
-      } else if (typeof data === 'object' && !Array.isArray(data)) {
-        newState = data; // raw map
+      } else if (data && typeof data === 'object' && !Array.isArray(data)) {
+        // Raw {id: level} map — validate each entry
+        for (const [k, v] of Object.entries(data)) {
+          if (VALID_ID.test(k) && VALID_LEVELS.has(v)) newState[k] = v;
+        }
       }
       const count = Object.keys(newState).length;
-      if (!count) { alert('No ratings found in this file.'); return; }
+      if (!count) { alert('No valid ratings found in this file.'); return; }
       if (!confirm(`Import ${count} rating${count > 1 ? 's' : ''}? This will merge with your current assessment.`)) return;
       Object.assign(assessState, newState);
       localStorage.setItem(LS_KEY, JSON.stringify(assessState));

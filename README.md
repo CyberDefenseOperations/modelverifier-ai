@@ -22,6 +22,53 @@ This is not a compliance checklist. It is a structured knowledge corpus for the 
 
 ---
 
+## Using the Web Interface
+
+The matrix at [modelverifier.ai](https://modelverifier.ai) is a zero-dependency static web application. No account, no installation, no data leaves your browser.
+
+### Dark / Light Mode
+
+Click **◑ Dark** in the header to toggle light mode. The preference is persisted in `localStorage`.
+
+### Filtering and Search
+
+- **Profile** — filter to controls required by a specific deployment profile (e.g. `eu-high-risk`, `frontier-capability`)
+- **Framework** — show only controls mapped to a specific standard (NIST AI RMF, ISO 42001, EU AI Act, SR 26-2, AISVS, LLM Top 10, AICM, MITRE ATLAS)
+- **Layer** — jump to a specific layer (LI, TG, EV, OA, BH, CR)
+- **Search** — full-text search across control names, descriptions, and framework IDs
+
+Click any control card to open the detail drawer with full implementation guidance, framework mappings, obligation tables, and stakeholder lenses.
+
+### Self-Assessment Mode
+
+Click **✓ Assess** in the header to enter assessment mode. Every control card shows a maturity dropdown:
+
+| Level | Description |
+|---|---|
+| `none` | Not started |
+| `initial` | Ad-hoc, reactive |
+| `developing` | Documented intent; inconsistent execution |
+| `defined` | Consistent, documented process |
+| `managed` | Measured; metrics tracked |
+| `optimizing` | Continuously improving; automated |
+
+As you rate controls, the progress bar at the top shows how many of 54 controls are rated, your weighted maturity score (0.0–5.0), and how many controls are at or above their target maturity level.
+
+Click **⊞ Summary** to open the full assessment dashboard with per-layer breakdown, maturity distribution, priority gap list, and multi-format export. Assessment data is stored in `localStorage` only — never transmitted. Use **⛓ Share** to generate a URL encoding your assessment state in the URL hash fragment.
+
+---
+
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | How the system works: file layout, data flow, UI architecture, build pipeline, deployment |
+| [SECURITY.md](SECURITY.md) | Security posture, vulnerability reporting, data privacy policy |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to add or update controls, sources, and framework mappings |
+| [docs/TEMPLATE-GUIDE.md](docs/TEMPLATE-GUIDE.md) | How to create a new Apeiris verifier domain using this codebase as a template |
+
+---
+
 ## Relationship to securitycontrols.ai and the Apeiris Platform
 
 **securitycontrols.ai** covers the security domain: identity and authority, environment and containment, inter-agent tool protocols, agentic runtime governance, runtime supervision, and continuous security assurance. Its controls address the question: "Is this AI agent authorized to take this action and can it be proven?"
@@ -330,6 +377,22 @@ npm run ci
 ```
 
 This is the command the Cloudflare Pages deployment runs on every push to `main`.
+
+### Run locally
+
+After `npm run build`, serve the `public/` directory from any static file server:
+
+```bash
+# Python (no install required)
+cd public && python3 -m http.server 8080
+
+# Node.js
+npx serve public
+
+# Or any other static server
+```
+
+Open `http://localhost:8080`. The site fetches `/integration/model-controls-full.json` at runtime, so the integration bundle must be built first.
 
 ---
 

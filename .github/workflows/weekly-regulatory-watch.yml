@@ -42,9 +42,18 @@ jobs:
 
       - name: Run regulatory watch
         id: watch
+        env:
+          DAYS_URGENT: ${{ inputs.days_urgent || '90' }}
+          CHECK_GITHUB: ${{ inputs.check_github || 'true' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ARGS="--out /tmp/watch-report.md --days-urgent ${{ inputs.days_urgent || '90' }}"
-          if [ "${{ inputs.check_github || 'true' }}" = "true" ]; then
+          # Validate DAYS_URGENT is a safe positive integer before shell expansion
+          if ! [[ "$DAYS_URGENT" =~ ^[0-9]+$ ]]; then
+            echo "Error: days_urgent must be a positive integer, got: '$DAYS_URGENT'" >&2
+            exit 2
+          fi
+          ARGS="--out /tmp/watch-report.md --days-urgent $DAYS_URGENT"
+          if [ "$CHECK_GITHUB" = "true" ]; then
             ARGS="$ARGS --check-github"
           fi
           # Exit code 1 = critical items found (not a script error); we capture it
@@ -57,8 +66,6 @@ jobs:
               exit $CODE
             fi
           }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Read report
         id: report
