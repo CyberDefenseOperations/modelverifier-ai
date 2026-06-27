@@ -553,7 +553,9 @@
         },
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
-        "mapping_confidence": "high"
+        "mapping_confidence": "medium",
+        "provisional": true,
+        "provisional_note": "NIST AI 600-1 GenAI Profile uses category-level identifiers (e.g., CONFABULATION, CBRN); action-level subcategory mapping was not possible from the category reference. Treat as category-level guidance only."
       },
       {
         "framework": "owasp_aitg",
@@ -900,7 +902,9 @@
         },
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
-        "mapping_confidence": "high"
+        "mapping_confidence": "medium",
+        "provisional": true,
+        "provisional_note": "NIST AI 600-1 GenAI Profile uses category-level identifiers (e.g., CONFABULATION, CBRN); action-level subcategory mapping was not possible from the category reference. Treat as category-level guidance only."
       },
       {
         "framework": "owasp_aitg",
@@ -1217,7 +1221,9 @@
         "uncovered_portion": "NIST AI 600-1 INFO-SECURITY also covers runtime detection and incident response to adversarial attacks — those aspects are owned by securitycontrols.ai runtime controls, not by this pre-deployment evaluation control.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
-        "mapping_confidence": "high"
+        "mapping_confidence": "medium",
+        "provisional": true,
+        "provisional_note": "NIST AI 600-1 GenAI Profile uses category-level identifiers (e.g., CONFABULATION, CBRN); action-level subcategory mapping was not possible from the category reference. Treat as category-level guidance only."
       },
       {
         "framework": "owasp_aitg",
@@ -1551,7 +1557,9 @@
         "uncovered_portion": "HUMAN-AI-CONFIG addresses the full human-oversight configuration problem beyond just measurement of bias; interface design, user calibration, and override mechanisms are not covered by EV-05.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
-        "mapping_confidence": "medium"
+        "mapping_confidence": "medium",
+        "provisional": true,
+        "provisional_note": "NIST AI 600-1 GenAI Profile uses category-level identifiers (e.g., CONFABULATION, CBRN); action-level subcategory mapping was not possible from the category reference. Treat as category-level guidance only."
       },
       {
         "framework": "owasp_aitg",

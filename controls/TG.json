@@ -1147,7 +1147,9 @@
         "uncovered_portion": "DATA-PRIVACY in NIST AI 600-1 also covers inference-time privacy risks (model outputs revealing training data) — those are addressed by EV-04 red-teaming and BH-05 audit logging, not TG-03.",
         "source_version": "1.0",
         "reviewed_on": "2026-06-26",
-        "mapping_confidence": "high"
+        "mapping_confidence": "medium",
+        "provisional": true,
+        "provisional_note": "NIST AI 600-1 GenAI Profile uses category-level identifiers (e.g., CONFABULATION, CBRN); action-level subcategory mapping was not possible from the category reference. Treat as category-level guidance only."
       },
       {
         "framework": "owasp_aitg",

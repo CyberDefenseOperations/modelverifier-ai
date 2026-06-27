@@ -2109,7 +2109,7 @@
         "direction": "control-supports-requirement",
         "rationale": "LI-06 requires that every material change to a deployed model or system configuration pass a formal authorization gate before reaching production, directly supporting AITG-RT-06 Runtime Testing which validates that change authorization controls prevent unauthorized model updates from entering the production serving environment.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-06"
         },
         "source_version": "1.0",
@@ -3574,14 +3574,14 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-RT-08",
-        "fit": "partial",
+        "fit": "adjacent",
         "direction": "control-supports-requirement",
-        "rationale": "LI-10 tracks system-level composition across heterogeneous model stacks and monitors for changes to any constituent component, partially aligning with AITG-RT-08 Runtime Testing which requires monitoring for changes to AI providers and upstream supply-chain components. LI-10 extends this scope to multi-model stacks and tool integrations beyond what the test prescribes.",
+        "rationale": "LI-10 governs model retirement at the registry level — requiring authorized retirement decisions, evidence archiving, and dependency impact assessment before decommissioning — addressing the same supply-chain governance domain as AITG-RT-08 Runtime Testing but focused on the lifecycle endpoint (retirement) rather than active upstream component change monitoring.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-08"
         },
-        "uncovered_portion": "AITG-RT-08 focuses on monitoring changes to AI providers and upstream supply chain components; system-level composition tracking across heterogeneous model stacks and tool integrations extends beyond the provider-change monitoring scope of the test.",
+        "uncovered_portion": "AITG-RT-08 requires active monitoring for changes to AI providers and upstream supply-chain components in the production runtime; LI-10 addresses model retirement governance and evidence archiving at end-of-life, which is a distinct lifecycle concern in the same supply-chain domain.",
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
