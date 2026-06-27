@@ -19,10 +19,13 @@ Each domain is an independent Git repository named after its public site (e.g., 
 | `schema/profiles.json` | Deployment profiles with trigger conditions and control sets |
 | `public/index.html` | Single-file SPA — the entire UI with inlined CSS and JS |
 | `public/_headers` | Cloudflare Pages security headers (copy verbatim) |
+| `public/.well-known/apeiris-release.pub` | Ed25519 public key for verifying the release manifest signature |
 | `build-integration.mjs` | Build pipeline — reads controls/, writes integration/ |
 | `package.json` | npm scripts for validate, build, audit, ci |
 | `.github/workflows/deploy.yml` | CI/CD pipeline to Cloudflare Pages |
 | `integration/` | Build output — the published JSON bundle consumed by the UI and external integrators |
+| `integration/claim.schema.json` | Evidence claim graph schema — defines the structure for linking evidence artifacts to controls |
+| `integration/model-claims-example.json` | Annotated worked examples of valid claim objects across all layers |
 
 The shared foundation lives in `apeiris-control-core/` (a sibling repository). Its schemas define the base control shape, and its `namespace-registry.json` is the single source of cross-domain truth for layer prefixes, framework keys, lens vocabularies, and profile names.
 
@@ -638,7 +641,16 @@ name: privacycontrols-site
 |---|---|
 | `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard → My Profile → API Tokens → Create Token (Pages edit permission) |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard → right sidebar of any page |
-| `MANIFEST_SIGNING_KEY` | Generate with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `MANIFEST_SIGNING_KEY` | Generate an Ed25519 keypair; store the private key here. For modelverifier.ai the equivalent secret is named `MODEL_VERIFIER_SIGNING_KEY` — use a domain-specific name to avoid collision in shared org secrets. |
+
+The private key is the Ed25519 signing key. Generate a keypair with:
+
+```bash
+openssl genpkey -algorithm ed25519 -out signing-key.pem
+openssl pkey -in signing-key.pem -pubout -out apeiris-release.pub
+```
+
+Store the private key (`signing-key.pem`) as the GitHub secret. Place the public key (`apeiris-release.pub`) at `public/.well-known/apeiris-release.pub` in the repository. **Never commit the private key.**
 
 **10e. Create the Cloudflare Pages project** — in the Cloudflare dashboard, create a new Pages project named `privacycontrols-ai` with:
 
@@ -765,6 +777,9 @@ Copy this checklist into the new domain repository's initial PR description.
 - [ ] Cloudflare Pages project created with correct name (Step 10)
 - [ ] `public/_headers` copied verbatim (Step 11)
 - [ ] `integration/_headers` copied verbatim (Step 11)
+- [ ] `integration/claim.schema.json` authored or copied and updated with domain-appropriate control ID patterns (Step 6 or 8)
+- [ ] `integration/model-claims-example.json` populated with at least one example claim per layer (Step 6 or 8)
+- [ ] `public/.well-known/apeiris-release.pub` populated with the domain's Ed25519 public key (Step 10)
 - [ ] `npm run validate` passes with zero errors (Step 12)
 - [ ] `npm run audit:mappings` passes with zero errors (Step 12)
 - [ ] `npm run build` produces a valid integration bundle (Step 12)

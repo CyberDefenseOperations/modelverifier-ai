@@ -1,6 +1,6 @@
 # modelverifier.ai — AI Model & System Assurance Control Matrix
 
-**Version:** 1.0.0 | **Status:** Public Beta | **Controls:** 54 across 6 layers | **Frameworks:** 9 | **Profiles:** 11
+**Version:** 1.0.0 | **Status:** Public Beta | **Controls:** 54 across 6 layers | **Frameworks:** 10 | **Profiles:** 11
 
 The AI Model & System Assurance Control Matrix is the second Apeiris public knowledge domain, complementing [securitycontrols.ai](https://securitycontrols.ai). It provides a machine-readable, citation-backed corpus of controls for assessing, evaluating, and governing AI models and AI systems across their full lifecycle — from lineage and training data governance through deployment, runtime assurance, and continuous evidence collection.
 
@@ -33,7 +33,7 @@ Click **◑ Dark** in the header to toggle light mode. The preference is persist
 ### Filtering and Search
 
 - **Profile** — filter to controls required by a specific deployment profile (e.g. `eu-high-risk`, `frontier-capability`)
-- **Framework** — show only controls mapped to a specific standard (NIST AI RMF, NIST AI 600-1, ISO 42001, EU AI Act, SR 26-2, AISVS, LLM Top 10, AICM, MITRE ATLAS)
+- **Framework** — show only controls mapped to a specific standard (NIST AI RMF, NIST AI 600-1, ISO 42001, EU AI Act, SR 26-2, AISVS, LLM Top 10, AICM, MITRE ATLAS, OWASP AI Testing Guide)
 - **Layer** — jump to a specific layer (LI, TG, EV, OA, BH, CR)
 - **Search** — full-text search across control names, descriptions, and framework IDs
 
@@ -173,7 +173,7 @@ Provides ongoing risk assurance, incident response, and evidence collection acro
 
 ---
 
-## The 8 Deployment Profiles
+## The 11 Deployment Profiles
 
 Profiles allow the 54-control matrix to be filtered to the controls that apply to a specific deployment context. A deployment may belong to multiple profiles simultaneously. The 15-control baseline applies to all deployments regardless of profile.
 
@@ -190,7 +190,7 @@ Profile membership is determined by evaluating `trigger_conditions` against the 
 | **eu-high-risk** | EU AI Act Annex III system or product-embedded high-risk system in EU jurisdiction | LI-01, LI-04, LI-06, LI-07, TG-01, TG-03, TG-06, EV-01, EV-05, EV-06, EV-09, OA-01, OA-02, OA-07, OA-08, BH-05, CR-01, CR-02 |
 | **frontier-capability** | capability_level: frontier, or dangerous capability domains detected in EV-03 | Full set — 24 required controls; all 54 recommended |
 
-Profile trigger conditions are defined in `schema/profiles.json` as machine-executable JSON predicates. See that file for the full trigger logic and `required_controls` / `recommended_controls` lists.
+The table above shows 8 of the 11 deployment profiles. Profile trigger conditions are defined in `schema/profiles.json` as machine-executable JSON predicates. See that file for the full set of 11 profiles, their trigger logic, and `required_controls` / `recommended_controls` lists.
 
 ---
 
@@ -291,6 +291,40 @@ The `integration/_headers` file configures Cloudflare Pages to serve the integra
   Content-Type: application/json
 ```
 
+### Manifest signing and integrity verification
+
+Every integration bundle ships with a release manifest and an Ed25519 digital signature:
+
+```
+GET https://modelverifier.ai/integration/release-manifest.json
+GET https://modelverifier.ai/integration/release-manifest.sig
+```
+
+The signature is produced using the `MODEL_VERIFIER_SIGNING_KEY` CI secret (an Ed25519 private key that exists only as a GitHub Actions secret and is never committed to the repository). The corresponding public key is published at:
+
+```
+GET https://modelverifier.ai/.well-known/apeiris-release.pub
+```
+
+Verify the signature with any Ed25519-capable tool:
+
+```bash
+# Using OpenSSL (Ed25519 support requires OpenSSL 1.1.1 or later)
+openssl pkeyutl -verify -pubin -inkey apeiris-release.pub \
+  -sigfile release-manifest.sig -in release-manifest.json
+```
+
+### Evidence claim graph
+
+The integration endpoint also includes the schema and examples for the Apeiris evidence claim graph, enabling structured machine-readable evidence declarations linked to specific controls:
+
+```
+GET https://modelverifier.ai/integration/claim.schema.json
+GET https://modelverifier.ai/integration/model-claims-example.json
+```
+
+`claim.schema.json` defines the schema for a structured claim object that links an evidence artifact to one or more control IDs with a confidence assertion. `model-claims-example.json` provides annotated worked examples of valid claim objects across all six layers. Use these when building tools that produce or consume evidence against the matrix.
+
 ---
 
 ## Schema Differences from securitycontrols.ai
@@ -300,7 +334,7 @@ modelverifier.ai introduces the following schema extensions beyond the shared `a
 | Feature | securitycontrols.ai | modelverifier.ai |
 |---|---|---|
 | **Lenses** | engineering, detection, secops, grc, architect | engineering, evaluation, red_team, grc, mlops |
-| **Framework set** | nist_rmf, iso_42001, eu_ai_act, aisvs, llm10, aicm, mitre, imda_mgf, aws_agentic | nist_rmf, nist_ai_600_1, iso_42001, eu_ai_act, sr262, aisvs, llm10, aicm, mitre |
+| **Framework set** | nist_rmf, iso_42001, eu_ai_act, aisvs, llm10, aicm, mitre, imda_mgf, aws_agentic | nist_rmf, nist_ai_600_1, iso_42001, eu_ai_act, sr262, aisvs, llm10, aicm, mitre, owasp_aitg |
 | **Obligation model** | Not used | `obligations[]` array with `applicability` predicates; replaces `regulatory_scope` string |
 | **Capability classification** | `capability_tier` string | `capability_risk` object (capability_level, capability_domains, access_mode, autonomy, irreversibility, deployment_scale, affected_party_impact) |
 | **Monitoring spec** | `detection_schema` (log-centric) | `monitoring_schema` with structured `metric_object[]`, `sampling_rate`, `window_context` |

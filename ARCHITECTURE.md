@@ -1,7 +1,7 @@
 # modelverifier.ai — Architecture
 
 AI Model & System Assurance Control Matrix  
-54 controls · 6 layers · 8 frameworks · 11 profiles  
+54 controls · 6 layers · 10 frameworks · 11 profiles  
 Zero runtime dependencies · Static SPA on Cloudflare Pages
 
 ---
@@ -110,6 +110,8 @@ modelverifier.ai/
 │   ├── framework-index.json     # Per-framework requirement-ID → control-ID index
 │   ├── release-manifest.json    # Content hashes + artifact metadata
 │   ├── release-manifest.sig     # Ed25519 signature of release-manifest.json
+│   ├── claim.schema.json        # Evidence claim graph schema
+│   ├── model-claims-example.json # Annotated claim graph examples across all 6 layers
 │   ├── _headers                 # CORS headers for /integration/* (Access-Control-Allow-Origin: *)
 │   ├── README.md                # Integration endpoint documentation
 │   └── INTEGRATION-GUIDE.md    # Consumer guide (fetching, schema, license)
@@ -118,6 +120,8 @@ modelverifier.ai/
 │   ├── index.html               # Entire SPA (~2400 lines; HTML + CSS + JS)
 │   ├── _headers                 # Cloudflare security headers for all pages
 │   ├── integrate.html           # Integration documentation page
+│   ├── .well-known/             # Well-known URI namespace (RFC 8615)
+│   │   └── apeiris-release.pub  # Ed25519 public key for release manifest verification
 │   └── integration/             # Copied from integration/ by `npm run build`
 │
 ├── build-integration.mjs        # Main build script (Node.js ESM, zero deps)
@@ -212,6 +216,10 @@ index.html loads → JS executes:
 | `framework-index.json` | requirement_id → control_id index per framework | Framework cross-reference tools |
 | `release-manifest.json` | Content hashes, artifact metadata | Integrity verification |
 | `release-manifest.sig` | Ed25519 signature of the manifest | Cryptographic verification |
+| `claim.schema.json` | Evidence claim graph schema | Tools that produce or consume evidence claims |
+| `model-claims-example.json` | Annotated claim object examples across all 6 layers | Integrators building claim producers |
+
+The Ed25519 public key for verifying `release-manifest.sig` is served separately at `/.well-known/apeiris-release.pub` (outside the `/integration/` path). The signing private key is stored only as the `MODEL_VERIFIER_SIGNING_KEY` GitHub Actions secret and is never committed to the repository.
 
 All files under `public/integration/` are served with `Access-Control-Allow-Origin: *` (set in `integration/_headers`). They are safe to fetch from any origin.
 
@@ -243,7 +251,7 @@ Each control record in `controls/*.json` is a JSON object validated against `sch
 
 | Field | Description |
 |-------|-------------|
-| `frameworks[]` | Mappings to 8 external frameworks with fit, confidence, rationale, locator |
+| `frameworks[]` | Mappings to 10 external frameworks with fit, confidence, rationale, locator |
 | `obligations[]` | Regulatory obligations (EU AI Act, SR 26-2) with normative force and effective dates |
 | `monitoring_schema` | Structured monitoring metrics (required for BH and CR layer controls) |
 | `assurance_target` | Deployment context predicates used by profile trigger evaluation |
@@ -265,11 +273,12 @@ Each control record in `controls/*.json` is a JSON object validated against `sch
 
 ### Framework keys
 
-The 8 supported framework keys used in `frameworks[].framework`:
+The 10 supported framework keys used in `frameworks[].framework`:
 
 | Key | Framework |
 |-----|-----------|
 | `nist_rmf` | NIST AI RMF 1.0 |
+| `nist_ai_600_1` | NIST AI 600-1 (Generative AI Profile) |
 | `iso_42001` | ISO/IEC 42001:2023 |
 | `eu_ai_act` | EU AI Act (Regulation 2024/1689) |
 | `sr262` | SR 26-2 Model Risk Management |
@@ -277,6 +286,7 @@ The 8 supported framework keys used in `frameworks[].framework`:
 | `llm10` | OWASP LLM Top 10 2025 |
 | `aicm` | CSA AI Controls Matrix v1.1 |
 | `mitre` | MITRE ATLAS v5.6.0 |
+| `owasp_aitg` | OWASP AI Testing Guide v1 (pre-release; mapping_confidence: medium) |
 
 Every control must have at least one mapping to `nist_rmf` and one to `iso_42001`. The `audit:mappings` step validates all requirement IDs against `schema/framework-mapping-catalog.json`.
 
@@ -487,7 +497,7 @@ Triggers: push to `main`, pull requests targeting `main`.
 4. `npm run audit:mappings` — 6 framework mapping checks
 5. `npm run check:freshness` — stale source warning (non-fatal on PRs: `continue-on-error: true`)
 6. `npm run build` — integration bundle + copy to `public/`
-7. `npm run sign:release-manifest` — Ed25519 signature (requires `MANIFEST_SIGNING_KEY` secret)
+7. `npm run sign:release-manifest` — Ed25519 signature (requires `MODEL_VERIFIER_SIGNING_KEY` secret); public key published at `/.well-known/apeiris-release.pub`
 8. Upload `public/` as GitHub artifact (`modelverifier-site`, 7-day retention)
 
 **Job 2: deploy-production** (push to `main` only, depends on Job 1)
@@ -515,7 +525,7 @@ Concurrent runs for the same branch are cancelled, so rapid pushes do not queue 
 |--------|---------|
 | `CLOUDFLARE_API_TOKEN` | Cloudflare Pages deployment |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Pages account |
-| `MANIFEST_SIGNING_KEY` | Ed25519 private key for release manifest signing |
+| `MODEL_VERIFIER_SIGNING_KEY` | Ed25519 private key for release manifest signing |
 | `GITHUB_TOKEN` | Auto-provisioned; used by pages-action for PR status checks |
 
 ### Security headers

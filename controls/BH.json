@@ -244,7 +244,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-01 establishes runtime behavioral monitoring for model output quality and safety — continuously tracking outputs for policy violations, harmful content, and unexpected behavior patterns — directly implementing AITG-RT-01 Runtime Testing which requires that deployed model outputs be monitored in production to detect behavioral anomalies and safety violations as they occur.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-01"
         },
         "source_version": "1.0",
@@ -523,7 +523,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-02 implements input validation and sanitization at the model inference boundary — filtering inputs for malicious patterns, enforcing content policies, and rejecting inputs outside the validated distribution — directly implementing AITG-RT-02 Runtime Testing which requires that inference-time input controls be deployed to prevent malicious or out-of-scope inputs from reaching the model.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-02"
         },
         "source_version": "1.0",
@@ -781,7 +781,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-03 monitors the integrity of model weights and serving infrastructure at runtime — detecting unauthorized modifications to the serving artifact and alerting when the deployed model diverges from its registered hash — directly implementing AITG-RT-03 Runtime Testing which requires that the runtime integrity of the model serving environment be continuously verified.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-03"
         },
         "source_version": "1.0",
@@ -985,7 +985,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-04 implements output filtering and post-processing controls that enforce content policies on model outputs before they are returned to users — including harmful content detection, PII redaction, and policy compliance gates — directly implementing AITG-RT-04 Runtime Testing which requires that output-layer safety controls be deployed and validated in the production inference pipeline.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-04"
         },
         "source_version": "1.0",
@@ -1211,7 +1211,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-05 establishes production monitoring dashboards and alerting for behavioral drift — detecting when a model's statistical output distribution, error rates, or fairness metrics shift materially from baseline — directly implementing AITG-RT-05 Runtime Testing which requires that production behavioral drift be detected and surfaced through operational monitoring with defined alert thresholds.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-05"
         },
         "source_version": "1.0",
@@ -1828,7 +1828,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-08 monitors the upstream AI provider and supply-chain components for changes — detecting when a hosted API model, embedding service, or tool dependency is updated without organizational review — directly implementing AITG-RT-08 Runtime Testing which requires that changes to AI providers and upstream supply-chain components be detected and assessed in the operational environment.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-08"
         },
         "source_version": "1.0",
@@ -2052,7 +2052,7 @@
         "direction": "control-supports-requirement",
         "rationale": "BH-09 implements system prompt and configuration integrity controls — protecting the system prompt from unauthorized modification and alerting when the runtime configuration diverges from the approved baseline — directly implementing AITG-RT-07 Runtime Testing which requires that system prompt and runtime configuration integrity be maintained and verifiable in the production deployment.",
         "source_locator": {
-          "section": "Runtime Testing Testing",
+          "section": "Runtime Testing",
           "test_id": "AITG-RT-07"
         },
         "source_version": "1.0",

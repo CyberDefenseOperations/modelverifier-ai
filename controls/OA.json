@@ -164,7 +164,7 @@
       {
         "profile": "eu-high-risk",
         "applicability": "required",
-        "tailoring": "EU AI Act Art-16 requires provider to designate authorized representative; ownership register satisfies this for internal deployments."
+        "tailoring": "EU AI Act Art-16 imposes quality management, technical documentation, transparency, and human oversight obligations on high-risk AI system providers; a named accountable owner is a prerequisite for discharging these obligations. Non-EU providers must also designate an authorized representative under Art. 22."
       },
       {
         "profile": "frontier-capability",
