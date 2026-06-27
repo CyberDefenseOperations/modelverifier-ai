@@ -320,7 +320,7 @@
     {
       "profile_id": "us-regulated-banking",
       "name": "US Regulated Banking / Financial Institution",
-      "description": "Model deployments at US supervised financial institutions subject to SR 26-2 (Federal Reserve) and OCC Bulletin 2026-13 (interagency). SR 26-2 supersedes SR 11-7 and SR 21-8. Applies to all supervised institutions with heightened expectations for those with $30B+ in consolidated assets. Both SR 26-2 and OCC 2026-13 are supervisory guidance, not binding law — noncompliance alone does not trigger supervisory action, but patterns of unsafe practice do. Controls in this profile align to SR 26-2's model risk management framework: independent validation, ongoing monitoring, governance, and outcomes analysis.",
+      "description": "Model deployments at US supervised financial institutions subject to SR 26-2 (Federal Reserve) and OCC Bulletin 2026-13 (interagency). SR 26-2 supersedes SR 11-7 and SR 21-8. Applies to all supervised institutions with heightened expectations for those with $30B+ in consolidated assets. Both SR 26-2 and OCC 2026-13 are supervisory guidance, not binding law — noncompliance alone does not trigger supervisory action, but patterns of unsafe practice do. Controls in this profile align to SR 26-2's model risk management framework: independent validation, ongoing monitoring, governance, and outcomes analysis. Note: SR 26-2 explicitly excludes generative AI and agentic AI systems from scope; those deployments should reference the relevant GenAI or frontier-capability profiles instead.",
       "version": "1.0.0",
       "trigger_conditions": {
         "all": [
@@ -338,7 +338,7 @@
           {
             "field": "assurance_target.industry",
             "op": "contains-any",
-            "value": ["banking", "financial-services", "insurance", "investment-management"]
+            "value": ["banking"]
           }
         ]
       },
@@ -377,7 +377,9 @@
         "EV-08": "Independent validation is a cornerstone of SR 26-2. The validator must be organizationally independent from the model development team. For AI/ML models, independent validation must address conceptual soundness of the model approach, data inputs and processing, outputs and their use, and monitoring design.",
         "OA-03": "AI governance committee with model risk oversight is an SR 26-2 expectation for material models, particularly at larger institutions.",
         "LI-05": "Model inventory and tiering documentation (materiality classification) is required by SR 26-2. Models must be classified by materiality to determine validation depth and ongoing monitoring requirements.",
-        "legal_status_reminder": "All SR 26-2 and OCC 2026-13 mappings must carry legal_status: 'guidance'. These are supervisory guidance documents — not binding law. Represent this accurately in all obligations and mapping records."
+        "legal_status_reminder": "All SR 26-2 and OCC 2026-13 mappings must carry legal_status: 'guidance'. These are supervisory guidance documents — not binding law. Represent this accurately in all obligations and mapping records.",
+        "scope_exclusions": "SR 26-2 does not apply to insurance companies, investment managers, or general financial services firms. It explicitly excludes generative AI and agentic AI systems. For broader financial-services AI governance, treat SR 26-2 as a non-binding model risk management analog only.",
+        "sr262_genai_exclusion": "OCC Bulletin 2026-13 and SR 26-2 are not within scope for generative AI or agentic AI deployments. For those systems, reference the generative-ai or frontier-capability profiles."
       }
     },
     {

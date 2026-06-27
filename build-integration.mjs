@@ -661,7 +661,7 @@ function buildFrameworkCoverage(controls) {
       display_name: FRAMEWORK_DISPLAY[fk]?.name ?? fk,
       authority: FRAMEWORK_DISPLAY[fk]?.authority ?? null,
       total_mappings: 0,
-      by_fit: { direct: 0, partial: 0, adjacent: 0, supporting: 0, none: 0 },
+      fit_distribution: { direct: 0, partial: 0, adjacent: 0, supporting: 0, none: 0 },
       by_layer: Object.fromEntries(LAYER_ORDER.map(l => [l, 0])),
       by_confidence: { verified: 0, high: 0, medium: 0, low: 0, speculative: 0 },
       controls_mapped: [],
@@ -673,7 +673,7 @@ function buildFrameworkCoverage(controls) {
       const fk = mapping.framework;
       if (!stats[fk]) continue;
       stats[fk].total_mappings++;
-      stats[fk].by_fit[mapping.fit] = (stats[fk].by_fit[mapping.fit] ?? 0) + 1;
+      stats[fk].fit_distribution[mapping.fit] = (stats[fk].fit_distribution[mapping.fit] ?? 0) + 1;
       stats[fk].by_layer[ctrl.layer] = (stats[fk].by_layer[ctrl.layer] ?? 0) + 1;
       if (mapping.mapping_confidence) {
         stats[fk].by_confidence[mapping.mapping_confidence] =
@@ -699,25 +699,56 @@ function buildFrameworkCoverage(controls) {
  * obligations[] entries for each regulatory instrument.
  */
 function buildRegulatoryCoverage(controls) {
+  // Derive instrument from obligation.instrument (new format) or obligation.id (old format)
+  function deriveInstrument(obl) {
+    if (obl.instrument) return obl.instrument;
+    const id = (obl.id ?? '').toLowerCase();
+    if (id.startsWith('eu-aia-') || id.startsWith('eu-ai-act') || id.startsWith('eu_ai_act') || id.startsWith('eu_aia') || id === 'ob-cr-01-eu') {
+      return 'Regulation (EU) 2024/1689';
+    }
+    if (id.startsWith('sr262-') || id.startsWith('sr26-') || id === 'sr262-effective-challenge' || id === 'ob-cr-01-sr') {
+      return 'SR 26-2';
+    }
+    if (id.startsWith('gdpr')) return 'Regulation (EU) 2016/679';
+    if (id.startsWith('ccpa')) return 'California Consumer Privacy Act';
+    if (id.startsWith('us-fcra')) return 'Fair Credit Reporting Act';
+    if (id.startsWith('c2pa')) return 'C2PA Content Credentials';
+    if (id.startsWith('nist-ai-100-4')) return 'NIST AI 100-4';
+    return null; // skip unknown
+  }
+
+  // Map instrument → framework_key
+  const INSTRUMENT_TO_FRAMEWORK_KEY = {
+    'Regulation (EU) 2024/1689': 'eu_ai_act',
+    'SR 26-2': 'sr262',
+    'Regulation (EU) 2016/679': null, // GDPR — not in our framework_keys
+    'California Consumer Privacy Act': null,
+    'Fair Credit Reporting Act': null,
+    'C2PA Content Credentials': null,
+    'NIST AI 100-4': null,
+  };
+
   const instrumentMap = new Map();
 
   for (const ctrl of controls) {
     for (const obl of ctrl.obligations ?? []) {
-      const key = obl.instrument;
-      if (!instrumentMap.has(key)) {
-        instrumentMap.set(key, {
-          instrument: obl.instrument,
-          authority: obl.authority,
-          normative_force: obl.normative_force,
-          legal_status: obl.legal_status,
-          effective_from: obl.effective_from ?? null,
-          jurisdiction: obl.jurisdiction ?? [],
+      const instrument = deriveInstrument(obl);
+      if (!instrument) continue;
+      if (!instrumentMap.has(instrument)) {
+        instrumentMap.set(instrument, {
+          framework_key: INSTRUMENT_TO_FRAMEWORK_KEY[instrument] ?? null,
+          instrument,
+          authority: obl.authority ?? (instrument === 'Regulation (EU) 2024/1689' ? 'European Union' : obl.jurisdiction ?? null),
+          normative_force: obl.normative_force ?? (obl.binding ? 'binding-law' : 'supervisory-guidance'),
+          legal_status: obl.legal_status ?? 'enacted',
+          effective_from: obl.effective_from ?? obl.effective_date ?? null,
+          jurisdiction: Array.isArray(obl.jurisdiction) ? obl.jurisdiction : (obl.jurisdiction ? [obl.jurisdiction] : []),
           sector: obl.sector ?? [],
           controls: [],
           provision_count: 0,
         });
       }
-      const entry = instrumentMap.get(key);
+      const entry = instrumentMap.get(instrument);
       entry.provision_count++;
       if (!entry.controls.includes(ctrl.id)) {
         entry.controls.push(ctrl.id);
@@ -738,11 +769,15 @@ function buildRegulatoryCoverage(controls) {
  * levels to support filtering by capability tier.
  */
 function buildCapabilityCoverage(controls) {
-  const levels = ['none', 'low', 'elevated', 'frontier'];
+  const levels = ['universal', 'low', 'elevated', 'frontier'];
   const result = [];
 
   for (const level of levels) {
-    const matched = controls.filter(c => c.capability_risk?.capability_level === level);
+    const matched = controls.filter(c =>
+      (level === 'universal')
+        ? (!c.capability_risk || c.capability_risk.capability_level === 'none' || c.capability_risk.capability_level === 'universal')
+        : c.capability_risk?.capability_level === level
+    );
     result.push({
       capability_level: level,
       control_count: matched.length,
@@ -762,15 +797,9 @@ function buildCapabilityCoverage(controls) {
     }
   }
 
-  result.push({
-    capability_level: '_by_domain',
-    description: 'Controls relevant to specific capability domains',
-    domains: Object.fromEntries(
-      Array.from(domainMap.entries()).map(([domain, ids]) => [domain, { control_count: ids.length, controls: ids }])
-    ),
-  });
-
-  return result;
+  return { by_level: result, by_domain: Object.fromEntries(
+    Array.from(domainMap.entries()).map(([domain, ids]) => [domain, { control_count: ids.length, controls: ids }])
+  )};
 }
 
 /**
@@ -900,21 +929,19 @@ async function build(args) {
     threat_scenarios: threatScenarios,
     framework_coverage: frameworkCov,
     regulatory_coverage: regulatoryCov,
-    capability_coverage: capabilityCov,
+    capability_coverage: capabilityCov.by_level,
+    capability_coverage_by_domain: capabilityCov.by_domain,
     lifecycle,
   };
 
   // 6. Serialize — wrap in {dataset: ...} for consumer destructuring
   const root = { dataset };
 
-  const json = JSON.stringify(root, null, 2);
-  const contentHash = sha256(json);
-
-  // Attach the content hash to meta after serialization
+  // Compute hash of the JSON WITHOUT content_hash embedded, then embed it.
+  // Verification: parse file → delete dataset.meta.content_hash → JSON.stringify(parsed, null, 2) → sha256 → compare to meta.content_hash
+  const jsonWithoutHash = JSON.stringify(root, null, 2);
+  const contentHash = sha256(jsonWithoutHash);
   root.dataset.meta.content_hash = contentHash;
-  const jsonWithHash = JSON.stringify(root, null, 2);
-  const finalHash = sha256(jsonWithHash);
-  root.dataset.meta.content_hash = finalHash;
   const finalJson = JSON.stringify(root, null, 2);
 
   console.log(`[build] Dataset assembled.`);
@@ -923,11 +950,11 @@ async function build(args) {
   console.log(`[build]   Framework gaps:   ${gaps.length} controls with partial/adjacent mappings`);
   console.log(`[build]   Profiles:         ${profiles.length}`);
   console.log(`[build]   Threat tags:      ${threatScenarios.length}`);
-  console.log(`[build]   Content hash:     ${finalHash}`);
+  console.log(`[build]   Content hash:     ${contentHash}`);
 
   if (args.dryRun) {
     console.log('[build-integration] Dry run — no files written.');
-    return { warnings, contentHash: finalHash };
+    return { warnings, contentHash };
   }
 
   // 7. Write output
@@ -942,7 +969,7 @@ async function build(args) {
   const privKeyPem = process.env.MODEL_VERIFIER_SIGNING_KEY;
   if (privKeyPem) {
     try {
-      const sigBuffer = cryptoSign(null, Buffer.from(finalHash, 'utf8'), privKeyPem.trim());
+      const sigBuffer = cryptoSign(null, Buffer.from(contentHash, 'utf8'), privKeyPem.trim());
       signature = sigBuffer.toString('base64');
       console.log(`[sign] Manifest signed with Ed25519. Sig: ${signature.substring(0, 20)}...`);
     } catch (e) {
@@ -963,7 +990,7 @@ async function build(args) {
         artifact_id: 'model-controls-full.json',
         filename: 'model-controls-full.json',
         url: 'https://modelverifier.ai/integration/model-controls-full.json',
-        content_hash: finalHash,
+        content_hash: contentHash,
         content_length_hint: finalJson.length,
         encoding: 'utf-8',
         media_type: 'application/json',
@@ -982,7 +1009,7 @@ async function build(args) {
   await writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
   console.log(`[build-integration] Written: ${manifestPath}`);
 
-  return { warnings, contentHash: finalHash };
+  return { warnings, contentHash };
 }
 
 // ---------------------------------------------------------------------------

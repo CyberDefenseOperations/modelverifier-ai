@@ -1279,15 +1279,14 @@
           "provider"
         ],
         "subject_types": [
-          "high-risk-ai-system"
+          "gpai_model_systemic_risk"
         ],
         "classification": [
-          "high-risk-annex-iii",
-          "high-risk-product-embedded"
+          "gpai-systemic-risk"
         ],
         "normative_force": "binding-law",
         "legal_status": "enacted",
-        "effective_from": "2027-12-02",
+        "effective_from": "2025-08-02",
         "applicability": {
           "all": [
             {

@@ -445,7 +445,7 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
     <div class="profile-card"><div class="profile-id">hosted-api</div><div class="profile-name">Hosted / Third-Party API</div><div class="profile-trigger">Third-party model or open-weight provider; black-box assurance pattern applies</div></div>
     <div class="profile-card"><div class="profile-id">continuously-learning</div><div class="profile-name">Continuously Learning</div><div class="profile-trigger">RLHF, online-learning, continual-learning — separate lifecycle from static models</div></div>
     <div class="profile-card"><div class="profile-id">high-impact-decision</div><div class="profile-name">High-Impact Decision</div><div class="profile-trigger">Credit, hiring, healthcare, judicial — materially affects individuals</div></div>
-    <div class="profile-card"><div class="profile-id">us-regulated-banking</div><div class="profile-name">US Regulated Banking / Financial Institution</div><div class="profile-trigger">Supervised banking organizations; heightened expectations scaled by size, complexity, and model risk profile</div></div>
+    <div class="profile-card"><div class="profile-id">us-regulated-banking</div><div class="profile-name">US Regulated Banking / Financial Institution</div><div class="profile-trigger">Supervised banking organizations only (banks, bank holding companies, affiliates); SR 26-2 does not apply to generative AI or agentic AI systems — use the generative-ai or frontier-capability profiles for those</div></div>
     <div class="profile-card"><div class="profile-id">eu-high-risk</div><div class="profile-name">EU High-Risk AI System</div><div class="profile-trigger">EU AI Act Annex III or product-embedded (Ch. III/IV obligations; deployer and provider duties differ)</div></div>
     <div class="profile-card"><div class="profile-id">gpai-provider</div><div class="profile-name">GPAI Model Provider</div><div class="profile-trigger">EU AI Act Ch. V — providers of general-purpose AI models; technical documentation, copyright compliance, training data summary, downstream provider access</div></div>
     <div class="profile-card"><div class="profile-id">gpai-systemic-risk</div><div class="profile-name">GPAI with Systemic Risk</div><div class="profile-trigger">EU AI Act Ch. V, Section 3, Art. 55 — ≥10²⁵ FLOPs or AI Office designation; adversarial testing, incident reporting to AI Office, systemic-risk assessment and mitigation</div></div>
@@ -516,7 +516,7 @@ dataset.controls.<span class="hlf">filter</span>(c => c.layer === <span class="h
     <strong>NIST AI 600-1 (live as of 2026-06-26):</strong> Now a first-class framework key. Controls in the EV, BH, and TG layers carry <code>nist_ai_600_1</code> mappings referencing the eight GenAI risk categories (CONFABULATION, CBRN, DATA-PRIVACY, INFO-INTEGRITY, INFO-SECURITY, IP, HUMAN-AI-CONFIG, OBSCENE-DEGRADING). All <code>nist_ai_600_1</code> mappings are <strong>provisional</strong> — category-level only; action-level IDs within each category have not been published by NIST. Each entry carries <code>provisional: true</code> and a <code>provisional_note</code>. Action-level granularity is planned for the next authoring cycle once NIST publishes sub-category identifiers.<br><br>
     <strong>AICM v1.1 (June 22, 2026):</strong> CSA AI Controls Matrix v1.1 (247 control objectives, 18 domains). All mappings are authored against v1.1. AICM coverage: 46 mappings across all 6 layers — full layer coverage achieved in v1.0. The 7 new v1.1 domain prefixes (MON, IR, HO, TE, CL, RM, DP) carry <code>mapping_confidence: medium</code> pending full verification against the published AICM v1.1 document; the 6 confirmed prefixes (GOV, DM, EVA, SEC, PRV, SUP) carry <code>mapping_confidence: high</code>.<br><br>
     <strong>EU AI Act Omnibus:</strong> Obligation objects now carry <code>enforcement_gating</code> metadata indicating the date basis (AI Act 2024/1689 as proposed to be amended by Digital Omnibus, provisional agreement May 2026, Council adoption pending) and legal status. The Dec 2, 2027 date for standalone Annex III systems is provisional pending final adoption.<br><br>
-    <strong>SR 26-2 scope:</strong> Supervisory guidance, not binding law. Non-compliance will not result in supervisory criticism on its own. Applies to supervised banking organizations with heightened expectations based on size, complexity, and model risk profile.
+    <strong>SR 26-2 scope:</strong> Supervisory guidance, not binding law. Non-compliance will not result in supervisory criticism on its own. Applies to supervised banking organizations (banks, bank holding companies, and their affiliates) with heightened expectations based on size, complexity, and model risk profile. SR 26-2 explicitly excludes insurance companies, investment managers, and general financial services firms, and does not apply to generative AI or agentic AI systems — those deployments should use the generative-ai or frontier-capability profiles.
   </div>
 
   <pre><code><span class="hlc">// Controls with direct EU AI Act Art. 9 mapping</span>
@@ -787,6 +787,27 @@ refs.<span class="hlf">forEach</span>(uri => {
 
   <div class="section-divider"></div>
 
+  <!-- §10 License -->
+  <h2 id="s10"><span class="section-num">10</span> License</h2>
+
+  <p>
+    <strong>CC BY-NC 4.0</strong> — non-commercial use, attribution required.
+    Commercial licensing: <a href="https://apeiris.ai" style="color:var(--accent)">apeiris.ai</a>.
+  </p>
+
+  <div class="notice">
+    <strong>AISVS note:</strong> OWASP AISVS content is distributed under CC BY-SA 4.0.
+    AISVS requirement IDs are used as locators only; requirement text is paraphrased,
+    never reproduced verbatim. The matrix's CC BY-NC 4.0 license applies to the control
+    content, not to AISVS text.
+  </div>
+
+  <div class="notice">
+    <strong>Claim graph note:</strong> The claim schema (<code>apeiris://model/claims/v1</code>) is an open format for AI assurance attestation. Claim objects produced using this schema are owned by the producing organization and not subject to this dataset's CC BY-NC 4.0 license.
+  </div>
+
+  <div class="section-divider"></div>
+
   <!-- §11 Evidence claim graph -->
   <h2 id="s11"><span class="section-num">11</span> Evidence claim graph</h2>
 
@@ -919,26 +940,6 @@ refs.<span class="hlf">forEach</span>(uri => {
   <span class="hlp">"produced_by"</span>:        <span class="hlk">"modelverifier.ai"</span>
 }</code></pre>
 
-  <div class="section-divider"></div>
-
-  <!-- §10 License -->
-  <h2 id="s10"><span class="section-num">10</span> License</h2>
-
-  <p>
-    <strong>CC BY-NC 4.0</strong> — non-commercial use, attribution required.
-    Commercial licensing: <a href="https://apeiris.ai" style="color:var(--accent)">apeiris.ai</a>.
-  </p>
-
-  <div class="notice">
-    <strong>AISVS note:</strong> OWASP AISVS content is distributed under CC BY-SA 4.0.
-    AISVS requirement IDs are used as locators only; requirement text is paraphrased,
-    never reproduced verbatim. The matrix's CC BY-NC 4.0 license applies to the control
-    content, not to AISVS text.
-  </div>
-
-  <div class="notice">
-    <strong>Claim graph note:</strong> The claim schema (<code>apeiris://model/claims/v1</code>) is an open format for AI assurance attestation. Claim objects produced using this schema are owned by the producing organization and not subject to this dataset's CC BY-NC 4.0 license.
-  </div>
 
 </div>
 

@@ -272,6 +272,55 @@
           }
         ],
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-72",
+        "mapping_fit": "partial",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "capability_risk": {
@@ -352,6 +401,40 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-72",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to establish, document, and implement a post-market monitoring plan; CR-01's continuous risk aggregation dashboard — collecting signals from BH-01 through BH-10 layers and applying tiered alerting calibrated at ±2σ from baseline — operationalizes the systematic performance collection and anomaly identification components of a post-market monitoring plan.",
+        "uncovered_portion": "Art. 72 requires the post-market monitoring plan to be documented and submitted as part of conformity assessment, and to include systematic collection from market feedback channels; CR-01 addresses the technical monitoring aggregation layer only and does not cover documentation of the monitoring plan or feedback collection from external users.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-5.1",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §III.C requires ongoing model monitoring that aggregates performance signals and escalates material deterioration to appropriate stakeholders; CR-01's P1/P2/P3 tiered alert structure directly implements this requirement by routing critical threshold breaches to model owners and risk management.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. CR-01 does not address SR 26-2's back-testing requirements or qualitative model review components.",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       }
     ]
   },
@@ -568,6 +651,55 @@
           }
         ],
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-11",
+        "mapping_fit": "partial",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "capability_risk": {
@@ -648,6 +780,40 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-11",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 11 requires providers of high-risk AI systems to draw up technical documentation that includes records of evaluation results and post-market monitoring findings; CR-02's immutable content-addressed evidence archive — anchored to Sigstore Rekor and locked with S3 Object Lock COMPLIANCE mode — provides the tamper-evident records infrastructure required to produce and maintain the Art. 11 technical documentation over the required retention period.",
+        "uncovered_portion": "Art. 11 requires a structured technical documentation package covering model description, general information, capability and limitations, training data, design specifications, and post-market monitoring results; CR-02 addresses archival and integrity of evidence artifacts but does not generate the technical documentation package itself.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-4.2",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §IV.D requires banking organizations to maintain comprehensive model documentation and records that support ongoing monitoring, audit, and supervisory examination; CR-02's immutable evidence archive with read-only audit API provides the records infrastructure required for examiner access to model validation and performance documentation.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §IV.D also requires documentation of model development theory and validation methodology, which is covered by LI-04 and EV-06, not CR-02.",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       }
     ]
   },
@@ -923,6 +1089,91 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-72",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 72 requires high-risk AI system providers to establish post-market monitoring systems that systematically collect and analyse data about model performance; CR-03's scheduled re-evaluation cadence and event-driven re-evaluation triggers directly implement the continuous monitoring and periodic review requirements that underpin Art. 72 compliance.",
+        "uncovered_portion": "Art. 72 specifies that the post-market monitoring plan must be part of the quality management system and documented in technical documentation; CR-03 governs the scheduling and triggering logic but does not produce the plan documentation or integrate with the formal conformity assessment record.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-3.2",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §III.C.2 requires periodic re-validation triggered by material changes, performance deterioration, or the passage of time; CR-03's material-change detection triggers and scheduled re-evaluation cadence directly operationalize this SR 26-2 requirement for banking models.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §III.C.2 also requires qualitative re-assessment of conceptual soundness, which is not addressed by CR-03's quantitative trigger mechanisms.",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      }
+    ],
+    "obligations": [
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-72",
+        "mapping_fit": "partial",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -1164,6 +1415,91 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-73",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 73 requires providers of high-risk AI systems to report serious incidents to national market surveillance authorities without undue delay; CR-04's model-specific incident response management — including P1/P2/P3 severity classification, mean-time-to-respond SLAs, and structured incident post-mortems — supports the incident triage and escalation processes required upstream of regulatory notification.",
+        "uncovered_portion": "Art. 73 specifies notification must go to national competent authorities within defined timeframes and include prescribed content; CR-04 addresses internal incident management and does not implement the regulatory notification workflow, which is addressed by CR-06.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-5.1",
+        "fit": "adjacent",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §III.C requires escalation procedures for material model performance issues; CR-04's incident management framework provides adjacent coverage of the escalation and remediation requirements in the SR 26-2 ongoing monitoring section.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 does not specifically address AI model-specific incident response; this is an interpretive analog.",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      }
+    ],
+    "obligations": [
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-73",
+        "mapping_fit": "partial",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -1294,6 +1630,55 @@
           }
         ],
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-72",
+        "mapping_fit": "partial",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "canonical_id": "apeiris://model/controls/CR-05",
@@ -1394,6 +1779,40 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-72",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 72 requires post-market monitoring to cover systematic collection and analysis of user feedback and actual model performance outcomes; CR-05's outcomes and disparate impact analysis — comparing actual decisions against predicted outcomes and testing for differential impact across demographic cohorts — directly implements the outcome analysis component of post-market monitoring.",
+        "uncovered_portion": "Art. 72 addresses the full post-market monitoring plan; CR-05 covers outcomes and disparate impact analysis only and does not address the documentation of monitoring results in technical documentation or their submission to conformity assessment bodies.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-5.1",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §III.C requires ongoing monitoring including outcomes analysis to compare model predictions against realized results; CR-05's systematic outcomes analysis and back-testing framework directly implements this SR 26-2 requirement for banking models.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §III.C outcomes analysis is focused on model accuracy rather than demographic disparate impact, which is addressed by CR-05 as a supplementary dimension.",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       }
     ]
   },
@@ -1589,6 +2008,55 @@
           }
         ],
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-73",
+        "mapping_fit": "direct",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ],
     "canonical_id": "apeiris://model/controls/CR-06",
@@ -1669,6 +2137,43 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-73",
+        "fit": "direct",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 73 requires providers of high-risk AI systems and GPAI models with systemic risk to notify national competent authorities of serious incidents without undue delay; CR-06 directly implements this obligation by defining the incident severity thresholds that trigger regulatory notification, the 72-hour notification SLA, and the structured notification content including affected parties, root cause, and corrective actions.",
+        "uncovered_portion": "Art. 73 specifies detailed content requirements for the notification and follow-up reporting; CR-06 addresses the notification workflow but the specific Art. 73(4) detailed reporting content requirements depend on the incident type and may require supplementary documentation.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence",
+        "source_locator": {
+          "section": "Art. 73 — Reporting of serious incidents and malfunctioning"
+        }
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-5.1",
+        "fit": "adjacent",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §III.C escalation procedures include notifying senior management and relevant risk functions; CR-06's regulatory notification procedures provide adjacent coverage of the formal escalation requirements in SR 26-2, though they are oriented toward regulatory authorities rather than internal escalation.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 focuses on internal escalation and supervisory examination support, not formal regulatory notification; CR-06's primary driver is EU AI Act Art. 73 and Art. 55(c).",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       }
     ]
   },
@@ -1899,6 +2404,91 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-16",
+        "fit": "adjacent",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 16 specifies obligations of providers of high-risk AI systems throughout the system's lifecycle, including maintaining technical documentation and post-market monitoring; CR-07's structured decommissioning process — including traffic drain, data retention, dependency notification, and evidence archival — implements the lifecycle-end obligations implied by Art. 16's scope.",
+        "uncovered_portion": "Art. 16 does not explicitly address decommissioning procedures; CR-07's coverage is an interpretive extension of the lifecycle scope to include end-of-life governance. Explicit decommissioning requirements may be imposed by sectoral law or by the deployer's own governance obligations.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-4.1",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §IV.A requires model governance to cover the full model lifecycle including retirement; CR-07's decommissioning checklist — covering traffic drain, evidence archival, dependent-system notification, and 7-year post-retirement evidence retention — directly supports the lifecycle governance requirement.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2 §IV.A is general governance rather than a detailed decommissioning procedure; the specific decommissioning process is organizationally defined.",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      }
+    ],
+    "obligations": [
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-16",
+        "mapping_fit": "adjacent",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   },
@@ -2115,6 +2705,91 @@
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
+      },
+      {
+        "framework": "eu_ai_act",
+        "requirement_id": "Art-11",
+        "fit": "adjacent",
+        "direction": "control-supports-requirement",
+        "rationale": "EU AI Act Art. 11 requires technical documentation that references all applicable regulatory obligations and the evidence that supports compliance; CR-08's cross-domain evidence collection and correlation provides adjacent coverage of the multi-obligation evidence assembly requirement in Art. 11.",
+        "uncovered_portion": "Art. 11 requires a specific structured technical documentation package; CR-08 is an evidence coordination mechanism and does not produce the formal technical documentation or register it with conformity assessment bodies.",
+        "source_version": "2024/1689",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "binding",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      },
+      {
+        "framework": "sr262",
+        "requirement_id": "S-4.2",
+        "fit": "adjacent",
+        "direction": "control-supports-requirement",
+        "rationale": "SR 26-2 §IV.D requires comprehensive records that support supervisory examination; CR-08's cross-domain compliance evidence collection provides adjacent coverage of the records management requirement by assembling evidence from multiple control domains.",
+        "uncovered_portion": "SR 26-2 applies to supervised banking organizations with $30B+ in assets. SR 26-2's records requirement is focused on model-specific documentation rather than cross-domain compliance evidence aggregation.",
+        "source_version": "SR 26-2",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "medium",
+        "legal_status": "guidance",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
+      }
+    ],
+    "obligations": [
+      {
+        "authority": "European Union — European Parliament and Council",
+        "instrument": "Regulation (EU) 2024/1689",
+        "jurisdiction": [
+          "eu"
+        ],
+        "sector": [
+          "cross-sector"
+        ],
+        "actor_roles": [
+          "provider"
+        ],
+        "subject_types": [
+          "high-risk-ai-system"
+        ],
+        "classification": [
+          "high-risk-annex-iii",
+          "high-risk-product-embedded"
+        ],
+        "normative_force": "binding-law",
+        "legal_status": "enacted",
+        "effective_from": "2027-12-02",
+        "applicability": {
+          "all": [
+            {
+              "field": "assurance_target.jurisdiction",
+              "op": "contains",
+              "value": "eu"
+            },
+            {
+              "field": "assurance_target.eu_ai_act_classification",
+              "op": "in",
+              "value": [
+                "high-risk-annex-iii",
+                "high-risk-product-embedded"
+              ]
+            }
+          ]
+        },
+        "source_ref": "eu_ai_act",
+        "reviewed_on": "2026-06-26",
+        "provision": "Art-11",
+        "mapping_fit": "adjacent",
+        "enforcement_gating": {
+          "date_basis": "EU AI Act 2024/1689 as amended by proposed Digital Omnibus (provisional agreement May 2026, Council adoption pending)",
+          "legal_status": "enacted-with-pending-amendments",
+          "last_verified_on": "2026-06-26"
+        }
       }
     ]
   }
