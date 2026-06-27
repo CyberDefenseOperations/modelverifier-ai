@@ -206,6 +206,7 @@ The `requirement_id_pattern` is validated by `audit:mappings` for every `framewo
 
 - **`nist_ai_600_1`** — Always set `provisional: true` and `mapping_confidence: "medium"` on every mapping. Only category-level IDs (CONFABULATION, CBRN, etc.) are available; action-level IDs have not been published. See `CONTRIBUTING.md` section 4.5.
 - **`owasp_aitg`** — Use `fit: direct`, `fit: supporting`, or `fit: adjacent` only. Do not use `fit: partial`. Set `mapping_confidence: medium` on all entries. See `CONTRIBUTING.md` section 4.6 for fit value criteria.
+- **`aicm`** — All 6 layers are fully mapped in modelverifier.ai (46 total mappings) against AICM v1.1. Domain prefix conventions are established: GOV, DM, EVA, SEC, PRV, SUP use `mapping_confidence: high`; MON, IR, HO, TE, CL, RM, DP use `mapping_confidence: medium`. `source_locator.section` is required for `fit: "direct"` mappings. See `CONTRIBUTING.md` section 4.7 for the full domain prefix table. If your domain retains AICM mappings from this catalog, apply the same conventions.
 
 For domains that define their own framework catalog (not inherited from modelverifier.ai), these conventions do not apply — define fit semantics appropriate to your frameworks.
 

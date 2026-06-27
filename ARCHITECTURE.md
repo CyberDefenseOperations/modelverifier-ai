@@ -284,7 +284,7 @@ The 10 supported framework keys used in `frameworks[].framework`:
 | `sr262` | SR 26-2 Model Risk Management |
 | `aisvs` | OWASP AI Security Verification Standard v1.0 |
 | `llm10` | OWASP LLM Top 10 2025 |
-| `aicm` | CSA AI Controls Matrix v1.1 |
+| `aicm` | CSA AI Controls Matrix v1.1 (46 mappings across all 6 layers; GOV/DM/EVA/SEC/PRV/SUP: high confidence; MON/IR/HO/TE/CL/RM/DP: medium confidence) |
 | `mitre` | MITRE ATLAS v5.6.0 |
 | `owasp_aitg` | OWASP AI Testing Guide v1 (pre-release; mapping_confidence: medium) |
 
@@ -294,6 +294,7 @@ Every control must have at least one mapping to `nist_rmf` and one to `iso_42001
 
 - **`nist_ai_600_1`** — All mappings use category-level IDs only (CONFABULATION, CBRN, DATA-PRIVACY, INFO-INTEGRITY, INFO-SECURITY, IP, HUMAN-AI-CONFIG, OBSCENE-DEGRADING). Every `nist_ai_600_1` entry carries `provisional: true` and a `provisional_note` field. Action-level granularity within each category is not yet published by NIST. Do not set `mapping_confidence: high` or `verified` for any `nist_ai_600_1` entry.
 - **`owasp_aitg`** — Mappings use three `fit` values: `direct` (the AITG requirement directly names what the control tests), `supporting` (the control enables the test condition), or `adjacent` (same threat domain, different concern). The `partial` fit value is not used for AITG entries. All AITG mappings carry `mapping_confidence: medium` because the OWASP AI Testing Guide remains a pre-release document.
+- **`aicm`** — Covers all 6 layers with 46 total mappings against AICM v1.1. Domain prefixes GOV, DM, EVA, SEC, PRV, SUP have `mapping_confidence: high` (confirmed against the published v1.1 document). The 7 new v1.1 domain prefixes — MON, IR, HO, TE, CL, RM, DP — have `mapping_confidence: medium` pending full verification. `source_locator.section` is required for `fit: "direct"` AICM mappings.
 
 ### Baseline controls (15)
 
