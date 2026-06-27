@@ -341,9 +341,10 @@
     "cross_domain": {
       "references": [
         {
-          "uri": "apeiris://security/controls/CM-02",
+          "uri": "apeiris://security/controls/AS-08",
           "relationship": "related",
-          "note": "Security domain configuration management enforces access controls on the model registry and artifact storage that LI-01 depends on for tamper-evidence."
+          "name": "Harden and assure the security control plane as tier-zero infrastructure",
+          "note": "AS-08 hardens the security control plane (model registry, artifact stores, brokers) as tier-zero infrastructure, access-controlled and tamper-evident, which LI-01 depends on for model-identity tamper-evidence."
         }
       ],
       "evidence_artifacts": [
@@ -2160,9 +2161,10 @@
     "cross_domain": {
       "references": [
         {
-          "uri": "apeiris://security/controls/CM-03",
+          "uri": "apeiris://security/controls/AS-08",
           "relationship": "related",
-          "note": "Security domain change management controls enforce access restrictions on model registry writes that LI-06 immutability semantics depend on."
+          "name": "Harden and assure the security control plane as tier-zero infrastructure",
+          "note": "AS-08 hardens the control plane as tier-zero infrastructure with access-controlled, tamper-evident change control over model-registry writes, which LI-06 immutability semantics depend on."
         }
       ],
       "evidence_artifacts": [

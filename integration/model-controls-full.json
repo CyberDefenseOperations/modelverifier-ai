@@ -9,7 +9,7 @@
       "corpus_url": "https://modelverifier.ai/integration/model-controls-full.json",
       "version": "1.0.0",
       "schema_version": "1.0.0",
-      "generated_at": "2026-06-27T19:09:37.216Z",
+      "generated_at": "2026-06-27T19:44:19.150Z",
       "generated_by": "build-integration.mjs",
       "source_schema": "https://schema.apeiris.ai/model-assurance/v1/model-controls.schema.json",
       "license": "CC BY-NC 4.0",
@@ -72,7 +72,7 @@
       ],
       "has_warnings": false,
       "warning_count": 0,
-      "content_hash": "sha256:a7919972358c9e4a59cd61536b181b503a1f2609d246fe24fa426edd15456f05"
+      "content_hash": "sha256:e3491732cc36842d5bfd7d4d6e3c1d9ee61b208c7b1845bec0b4405521fd9f42"
     },
     "controls": [
       {
@@ -416,9 +416,10 @@
         "cross_domain": {
           "references": [
             {
-              "uri": "apeiris://security/controls/CM-02",
+              "uri": "apeiris://security/controls/AS-08",
               "relationship": "related",
-              "note": "Security domain configuration management enforces access controls on the model registry and artifact storage that LI-01 depends on for tamper-evidence."
+              "name": "Harden and assure the security control plane as tier-zero infrastructure",
+              "note": "AS-08 hardens the security control plane (model registry, artifact stores, brokers) as tier-zero infrastructure, access-controlled and tamper-evident, which LI-01 depends on for model-identity tamper-evidence."
             }
           ],
           "evidence_artifacts": [
@@ -2230,9 +2231,10 @@
         "cross_domain": {
           "references": [
             {
-              "uri": "apeiris://security/controls/CM-03",
+              "uri": "apeiris://security/controls/AS-08",
               "relationship": "related",
-              "note": "Security domain change management controls enforce access restrictions on model registry writes that LI-06 immutability semantics depend on."
+              "name": "Harden and assure the security control plane as tier-zero infrastructure",
+              "note": "AS-08 hardens the control plane as tier-zero infrastructure with access-controlled, tamper-evident change control over model-registry writes, which LI-06 immutability semantics depend on."
             }
           ],
           "evidence_artifacts": [
