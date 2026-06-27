@@ -658,14 +658,13 @@
       {
         "framework": "owasp_aitg",
         "requirement_id": "AITG-GV-03",
-        "fit": "partial",
+        "fit": "supporting",
         "direction": "control-supports-requirement",
-        "rationale": "OA-02 assesses whether the level of human oversight is adequate relative to the model's capability tier and deployment risk profile, partially aligning with AITG-GV-03 Governance Testing which addresses accountability assignment and human oversight mechanisms. Adequacy assessment of oversight levels relative to capability and context extends beyond the accountability designation scope of the test.",
+        "rationale": "OA-02 establishes a structured human oversight adequacy assessment using five documented factors — oversight frequency, reviewer competence, decision reversibility, impact scope, and technical override capability — providing the governance evidence foundation that supports AITG-GV-03 Governance Testing by enabling testers to verify that meaningful human oversight exists and that oversight levels are appropriate to the model's capability tier and deployment risk profile.",
         "source_locator": {
           "section": "Governance Testing",
           "test_id": "AITG-GV-03"
         },
-        "uncovered_portion": "AITG-GV-03 addresses accountability assignment and human oversight mechanisms; adequacy assessment of oversight levels relative to capability tiers and deployment contexts extends beyond the accountability designation scope of the test.",
         "source_version": "1.0",
         "mapping_confidence": "medium",
         "reviewed_on": "2026-06-26"
@@ -1694,6 +1693,23 @@
         "uncovered_portion": "None significant.",
         "reviewed_on": "2026-06-26",
         "source_version": "1.0"
+      },
+      {
+        "framework": "iso_42001",
+        "requirement_id": "Clause 8.1",
+        "fit": "partial",
+        "direction": "control-supports-requirement",
+        "rationale": "OA-06 implements operational planning and control for third-party AI model procurement — requiring risk-based due diligence before first use, contract terms covering model change notification and audit rights, annual vendor risk review, and substitutability planning — directly supporting ISO 42001 Clause 8.1's requirement that operational processes including the use of externally-provided AI components be planned, implemented, controlled, and reviewed. Annex B's AI system supply chain considerations are additionally addressed because OA-06's vendor governance framework governs the intake, monitoring, and exit of third-party AI components throughout their operational lifecycle.",
+        "uncovered_portion": "Clause 8.1 addresses operational planning and control across all AI system lifecycle phases and components; OA-06 covers only the third-party vendor and model risk oversight dimension and does not address operational controls for internally-developed AI systems covered by other OA layer controls and the BH layer.",
+        "source_version": "2023",
+        "reviewed_on": "2026-06-26",
+        "source_status": "authoritative",
+        "mapping_confidence": "high",
+        "legal_status": "voluntary",
+        "control_readiness": "approved",
+        "implementation_maturity": "developing",
+        "assurance_result": "not-assessed",
+        "evidence_status": "no-evidence"
       },
       {
         "framework": "owasp_aitg",
